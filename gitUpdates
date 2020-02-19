@@ -1,0 +1,10 @@
+#!/bin/bash
+
+function gitUpdate() {
+        #find "$HOME" -name \\.git | sed 's/\.git//' > "$HOME"/gits.list
+	gitList=$( find "$HOME" -name \\.git | sed 's/\.git//' )
+	for i in $gitList; do cd "$i" && git pull; done
+}
+
+
+gitUpdate

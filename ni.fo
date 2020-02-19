@@ -1,0 +1,11 @@
+#!/bin/bash
+
+## Nuke It From Orbit
+## Basic shell to remove a dir, no matter what is in it.  
+## It will also ask if you are sure.
+read -p "Are you sure you want to nuke $1??? " sure
+##only = "It's the only way to be sure"
+if [[ "$sure" = "nuke" ]]; then
+	#echo pwd
+	rm -rf $1
+fi

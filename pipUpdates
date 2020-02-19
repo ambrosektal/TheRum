@@ -1,0 +1,9 @@
+#!/bin/bash
+
+
+function pipUpdate() {
+        read -p "Where are the pip files saved? :> " pipFiles
+        ls "$pipFiles" | awk -F"-" '{print $1}' > ~/pipFiles
+        for i in $(cat ~/pipFiles); do cd "$pipFiles" && pip download "$i" && echo "Downloading $i to $pipFiles"; done
+}
+pipUpdate
