@@ -22,11 +22,11 @@ function findingDeps() {
 #        fileExists /root/remi/otherrepo/depsdeps
 #        fileExists /root/remi/otherrepo/deps_u
         echo "deps_u has these files:::  "
-        cat /root/remi/otherrepo/deps_u
 #        echo "Removing /root/remi/otherrepo/depdeps"
 #        echo "Removing /root/remi/otherrepo/deps_u"
 #        rm -rf /root/remi/otherrepo/depdeps /root/remi/otherrepo/deps_u;
         mv -f /root/remi/otherrepo/depdeps_u /root/remi/otherrepo/deps_u;
+        cat /root/remi/otherrepo/deps_u
 }
 
 function downloadDeps(){
@@ -69,13 +69,16 @@ function downloadDeps(){
                 done;
 #       fileExists /root/remi/otherrepo/deps
 
+        k=0
+
         echo "recursion is equal to::  $2"
-
-        i="$2"
-
-        while [ $i -gt 0 ]
+        while [ "$k" -lt "$2" ]
                 do
                         findingDeps
-                        i=$(( $i-1 ))
+                        k=$[$k+1]
+                        echo "recursion is equal to::  $k"
+                        echo "Levels to go::  $[$2-$k]"
         done
 }
+
+downloadDeps "$1" "$2"
