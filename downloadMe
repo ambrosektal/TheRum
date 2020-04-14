@@ -30,22 +30,48 @@ function findingDeps() {
 }
 
 function downloadDeps(){
+        if [ -z $1 ]
+        then
+                echo "You Must enter write the command like this:  "
+                echo "downloadMe.sh <Package_to_Download> <Number_of_recursive_dependency_levels>"
+                echo "downloadMe.sh httpd 5"
+                break
+        fi
+
+        if [ -z $2 ]
+        then
+                echo "You didn't enter the recursion level!!!"
+                echo "You Must enter write the command like this:  "
+                echo "downloadMe.sh <Package_to_Download> <Number_of_recursive_dependency_levels>"
+                echo "downloadMe.sh httpd 5"
+                break
+        fi
+
         echo "" > /root/remi/otherrepo/deps
         echo "" > /root/remi/otherrepo/depdeps
         echo "" > /root/remi/otherrepo/deps_u
         echo "" > /root/remi/otherrepo/depdeps_u
+
         rpm -q --whatprovides $(echo "$1") | sort | uniq | grep -v "no package provides" | sort -u >> /root/remi/otherrepo/deps;
+
         awk -F "-[0-9]" '{print $1}' /root/remi/otherrepo/deps | sort -u > /root/remi/otherrepo/deps_u;
 #       sort -u /root/remi/otherrepo/deps > /root/remi/otherrepo/deps_u;
 #       fileExists /root/remi/otherrepo/deps_u
+
         for i in $(cat /root/remi/otherrepo/deps_u);
                 do yumdownloader -y --resolve "$i" --downloadonly;
                 done;
 #       fileExists /root/remi/otherrepo/deps
 
-        findingDeps
-        findingDeps
-        findingDeps
-        findingDeps
+        echo "recursion is equal to::  $2"
 
+        i="$2"
+
+        while [ $i -gt 0 ]
+                do
+                        findingDeps
+                        i=$(( $i-1 ))
+        done
 }
+
+downloadDeps "$1" "$2"
