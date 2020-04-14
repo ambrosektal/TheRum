@@ -1,0 +1,51 @@
+#!/bin/bash
+
+function fileExists() {
+        if [[ -f "$1" ]]
+        then
+            echo "$1 exists on your filesystem."
+        fi
+}
+
+function findingDeps() {
+        for i in $(cat /root/remi/otherrepo/deps_u);
+                do ( for j in $(rpm -qR "$i");
+                        do rpm -q --whatprovides "$j";
+                        done | sort | uniq | grep -v "no package provides") | sort -u >> /root/remi/otherrepo/depdeps ;
+                done;
+        echo
+        awk -F "-[0-9]" '{print $1}' /root/remi/otherrepo/depdeps | sort -u > /root/remi/otherrepo/depdeps_u;
+#       sort -u /root/remi/otherrepo/depdeps > /root/remi/otherrepo/depdeps_u;
+        for i in $(cat /root/remi/otherrepo/depdeps_u);
+                do yumdownloader -y --resolve "$i" --downloadonly;
+                done;
+#        fileExists /root/remi/otherrepo/depsdeps
+#        fileExists /root/remi/otherrepo/deps_u
+        echo "deps_u has these files:::  "
+        cat /root/remi/otherrepo/deps_u
+#        echo "Removing /root/remi/otherrepo/depdeps"
+#        echo "Removing /root/remi/otherrepo/deps_u"
+#        rm -rf /root/remi/otherrepo/depdeps /root/remi/otherrepo/deps_u;
+        mv -f /root/remi/otherrepo/depdeps_u /root/remi/otherrepo/deps_u;
+}
+
+function downloadDeps(){
+        echo "" > /root/remi/otherrepo/deps
+        echo "" > /root/remi/otherrepo/depdeps
+        echo "" > /root/remi/otherrepo/deps_u
+        echo "" > /root/remi/otherrepo/depdeps_u
+        rpm -q --whatprovides $(echo "$1") | sort | uniq | grep -v "no package provides" | sort -u >> /root/remi/otherrepo/deps;
+        awk -F "-[0-9]" '{print $1}' /root/remi/otherrepo/deps | sort -u > /root/remi/otherrepo/deps_u;
+#       sort -u /root/remi/otherrepo/deps > /root/remi/otherrepo/deps_u;
+#       fileExists /root/remi/otherrepo/deps_u
+        for i in $(cat /root/remi/otherrepo/deps_u);
+                do yumdownloader -y --resolve "$i" --downloadonly;
+                done;
+#       fileExists /root/remi/otherrepo/deps
+
+        findingDeps
+        findingDeps
+        findingDeps
+        findingDeps
+
+}
