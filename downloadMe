@@ -35,7 +35,10 @@ function downloadDeps(){
                 echo "You Must enter write the command like this:  "
                 echo "downloadMe.sh <Package_to_Download> <Number_of_recursive_dependency_levels>"
                 echo "downloadMe.sh httpd 5"
-                break
+                echo
+                echo
+                echo
+                exit
         fi
 
         if [ -z $2 ]
@@ -44,7 +47,10 @@ function downloadDeps(){
                 echo "You Must enter write the command like this:  "
                 echo "downloadMe.sh <Package_to_Download> <Number_of_recursive_dependency_levels>"
                 echo "downloadMe.sh httpd 5"
-                break
+                echo
+                echo
+                echo
+                exit
         fi
 
         echo "" > /root/remi/otherrepo/deps
@@ -73,5 +79,3 @@ function downloadDeps(){
                         i=$(( $i-1 ))
         done
 }
-
-downloadDeps "$1" "$2"
