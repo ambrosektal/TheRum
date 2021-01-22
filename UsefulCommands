@@ -1,0 +1,19 @@
+ # How many packages and modules are there?
+ watch ' echo "---------------------------------------------------" && echo "Total Modules:::" && find /etc/verdaccio/storage -maxdepth 1 -type d | wc -l && echo "---------------------------------------------------" && echo "Total Packages:::" && find /etc/verdaccio/storage -iname "*.tgz" | wc -l && echo "---------------------------------------------------" '
+
+
+# Another good one
+
+watch -d ' echo "---------------------------------------------------" && echo "Total Modules:::" && find /etc/verdaccio/storage -maxdepth 1 -type d | wc -l && echo "---------------------------------------------------" && echo "Total Packages:::" && find /etc/verdaccio/storage -iname "*.tgz" | wc -l && echo "---------------------------------------------------" && echo "Total Size:::" && du -cksh /etc/verdaccio/storage && echo "---------------------------------------------------" '
+
+#  One More
+watch -d ' echo "---------------------------------------------------" && echo "Total Modules:::" && find /etc/verdaccio/storage -maxdepth 1 -type d | wc -l && echo "---------------------------------------------------" && echo "Total Packages:::" && find /etc/verdaccio/storage -iname "*.tgz" | wc -l && echo "---------------------------------------------------" && echo "Total Size:::" && du -cksh /etc/verdaccio/storage && echo "---------------------------------------------------" && echo "---------------------------------------------------" && echo "Total Files in REMI:::" && find /opt/repo/remi* -type f | wc -l && echo "Total Size of REMI:::" && du -cksh /opt/repo/otherrepo && echo "---------------------------------------------------" '
+
+
+
+# reposyncing
+ in $(cat repolist ); do reposync --repoid="$i" --download-metadata --download_path=/root/remi/"$i" ; done
+
+
+# getting all the javascript modules
+for i in $(ls); do cd /home/javascript/node_modules/"$i" && npm i && npm audit fix --force && cd ../ && rm -rf /home/javascript/javascript/node_modules/"$i"/node_modules ; done  
