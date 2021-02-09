@@ -1,0 +1,24 @@
+#!/bin/bash
+echo Update script started at $(date) >> /var/log/update-repository.log
+#reposync --gpgcheck -l --download_path=/opt/repo/ --downloadcomps --download-metadata
+reposync --download_path=/opt/repo/ --downloadcomps --download-metadata
+ 
+# rm -rf /opt/repo/rhel7/server/repodata/*updateinfo*
+# cp /var/cache/yum/x86_64/7Server/rhel-7-server-optional-rpms/*-updateinfo.xml.gz /opt/repo/rhel7/server/repodata/
+# gzip -d /opt/repo/rhel7/server/repodata/*-updateinfo.xml.gz
+# mv /opt/repo/rhel7/server/repodata/*-updateinfo.xml /opt/repo/rhel7/server/repodata/updateinfo.xml
+# modifyrepo /opt/repo/rhel7/server/repodata/updateinfo.xml /opt/repo/rhel7/server/repodata/
+  
+#  rm -rf /opt/repo/rhel7/main/repodata/*updateinfo*
+#  cp /var/cache/yum/x86_64/7Server/rhel-7-server-rpms/*-updateinfo.xml.gz /opt/repo/rhel7/main/repodata/
+#  gzip -d /opt/repo/rhel7/main/repodata/*-updateinfo.xml.gz
+#  mv /opt/repo/rhel7/main/repodata/*-updateinfo.xml /opt/repo/rhel7/main/repodata/updateinfo.xml
+#  modifyrepo /opt/repo/rhel7/main/repodata/updateinfo.xml /opt/repo/rhel7/main/repodata/
+   
+#   rm -rf /opt/repo/rhel7/rhsc/repodata/*updateinfo*
+#   cp /var/cache/yum/x86_64/7Server/rhel-server-rhscl-7-rpms/*-updateinfo.xml.gz /opt/repo/rhel7/rhscl/repodata/
+#   gzip -d /opt/repo/rhel7/rhscl/repodata/*-updateinfo.xml.gz
+#   mv /opt/repo/rhel7/rhscl/repodata/*-updateinfo.xml /opt/repo/rhel7/rhscl/repodata/updateinfo.xml
+#   modifyrepo /opt/repo/rhel7/rhscl/repodata/updateinfo.xml /opt/repo/rhel7/rhscl/repodata/
+    
+    echo Update script ended at $(date) >> /var/log/update-repository.log

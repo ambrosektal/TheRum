@@ -1,0 +1,13 @@
+npm set registry http://localhost:4873/
+npm install --registry http://localhost:4873
+
+npm set registry http://10.13.0.171:4873/
+npm install --registry http://10.13.0.171:4873
+
+yarn config set registry http://localhost:4873
+yarn config set registry http://10.13.0.171:4873
+
+yarn config set unsafeHttpWhitelist localhost
+yarn config set unsafeHttpWhitelist 10.13.0.171
+
+# Default storage is located ~/.config/verdaccio/storage/

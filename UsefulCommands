@@ -11,9 +11,59 @@ watch -d ' echo "---------------------------------------------------" && echo "T
 
 
 
+###########################
 # reposyncing
- in $(cat repolist ); do reposync --repoid="$i" --download-metadata --download_path=/root/remi/"$i" ; done
+for i in $(cat repolist ); do reposync --repoid="$i" --download-metadata --download_path=/root/remi/"$i" ; done
+for i in $(cat repolist ); do reposync --repoid="$i" --download-metadata --download_path=/root/remi/"$i" ; done
 
 
+###########################
 # getting all the javascript modules
-for i in $(ls); do cd /home/javascript/node_modules/"$i" && npm i && npm audit fix --force && cd ../ && rm -rf /home/javascript/javascript/node_modules/"$i"/node_modules ; done  
+#for i in $(ls); do cd /home/javascript/node_modules/"$i" && npm i --force && npm audit fix --force && cd ../ && rm -rf /home/javascript/node_modules/"$i"/node_modules ; done  
+for i in $(ls); do cd /opt/repo/javascript/gits/"$i" && npm install --force && cd /opt/repo/javascript/gits/ ;  done
+
+for i in $(ls $(pwd)/*); do cd "$i" && npm i --force && npm audit fix --force && cd ../ && rm -rf "$i"/node_modules ; done  
+
+# getting all the javascript modules using pack???
+for i in $(ls); do cd /opt/repo/javascript/node_modules/"$i" && npm pack --force && npm audit fix --force && cd ../ && rm -rf /opt/repo/javascript/node_modules/"$i"/node_modules ; done  
+
+for i in $(ls $(pwd)/*); do cd "$i" && npm pack --force && npm audit fix --force && cd ../ && rm -rf "$i"/node_modules ; done  
+
+for i in $(find $(pwd) -maxdepth 1 -type d); do cd "$i" && npm pack --force && npm audit fix --force && cd "$i"/.. && rm -rf "$i"/node_modules ; done  
+
+###########################
+# brings back absolute path
+for i in $(find $(pwd) -maxdepth 1 -type d); do echo "$i"; done
+
+# brings back absolute path
+for i in $(find $(pwd) -maxdepth 1 -type d); do echo "$i"; done
+
+for i in $(find $(pwd) -maxdepth 1 -type d); do cd "$i" && npm i --force && npm audit fix --force && cd "$i"/.. && rm -rf "$i"/node_modules ; done  
+
+###########################
+#Grepping out a regex
+for i in {a..z}; do grep "^$i" filesToDownload > "$i"ToDownload; done
+
+###########################
+# This dumb.  Just use fdupes
+## diff directories
+###diff -r --suppress-common-lines etc/verdaccio/storage/ /etc/verdaccio/storage/ >> verdaccio_diff_2021Jan25
+#
+
+# fdupes
+fdupes -R <dir1> <dir2> >> duplicates
+
+
+# Getting lings from git configs
+for i in $(find $(pwd) -maxdepth 1 -type d); do cd "$i" && git config -l >> /opt/repo/javascript/gits/gitLinks ; done
+grep url gitLinks >> gitLinks_clean
+cut -d "=" -f2  gitLinks_clean >> gitLinksClean
+sort -u gitLinksClean > gitLinks_clean
+mv gitLinks_clean gitLinks
+
+#sed -i 's/https\:\/\/github.com\//git@github.com:/g' gitLinks
+sed -i 's/git@github.com:/https\:\/\/github.com\//g' gitLinks
+
+for i in $(cat gitLinks ); do npm pack git+"$i" ; done
+
+

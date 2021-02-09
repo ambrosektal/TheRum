@@ -1,0 +1,16 @@
+#!/bin/bash
+#for i in $(cat /opt/repo/javascript/filesToDownload); 
+#    do npm install "$i" --prefix /opt/repo/javascript/ ; 
+#done
+
+echo Update script started at $(date) >> /var/log/update-node-repository.log
+
+## "npm install --force" skips cache when requesting from the registry.
+
+for i in $(ls /opt/repo/javascript/node_modules/); 
+    do npm install --force /opt/repo/javascript/node_modules/"$i" --prefix /opt/repo/javascript/node_modules/"$i" && cd /opt/repo/javascript/node_modules/"$i"  && npm audit fix --force && cd /opt/repo/javascript/node_modules/ && rm -rf /opt/repo/javascript/node_modules/"$i"/node_modules ; 
+    done
+
+#    do npm install /opt/repo/javascript/node_modules/"$i" --prefix /opt/repo/javascript/node_modules/"$i" && npm audit fix --force /opt/repo/javascript/node_modules/"$i" && rm -rf /opt/repo/javascript/node_modules/"$i"/node_modules ; 
+
+echo Update script ended at $(date) >> /var/log/update-node-repository.log
