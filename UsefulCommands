@@ -54,16 +54,42 @@ for i in {a..z}; do grep "^$i" filesToDownload > "$i"ToDownload; done
 fdupes -R <dir1> <dir2> >> duplicates
 
 
-# Getting lings from git configs
-for i in $(find $(pwd) -maxdepth 1 -type d); do cd "$i" && git config -l >> /opt/repo/javascript/gits/gitLinks ; done
-grep url gitLinks >> gitLinks_clean
-cut -d "=" -f2  gitLinks_clean >> gitLinksClean
-sort -u gitLinksClean > gitLinks_clean
-mv gitLinks_clean gitLinks
+# Getting links from git configs
+directory=$(pwd)
+for i in $(find $(pwd) -maxdepth 1 -type d); do cd "$i" && git config -l >> $directory/gitLinks ; done
+grep url $directory/gitLinks >> $directory/gitLinks_clean
+cut -d "=" -f2  $directory/gitLinks_clean >> $directory/gitLinksClean
+sort -u $directory/gitLinksClean > $directory/gitLinks_clean
+mv -f $directory/gitLinks_clean $directory/gitLinks
+rm -f $directory/gitLinksClean
 
 #sed -i 's/https\:\/\/github.com\//git@github.com:/g' gitLinks
 sed -i 's/git@github.com:/https\:\/\/github.com\//g' gitLinks
 
 for i in $(cat gitLinks ); do npm pack git+"$i" ; done
 
+# Get all of one type of module's modules
+for i in verdaccio*; do cd "$i" && npm i --force && npm audi fix --force && cd /opt/repo/javascript/node_modules/ ; done
 
+# Useful to start a command from a directory.
+directory=$(pwd)
+for i in $directory/* ; do cd "$i" && npm i --force && npm audi fix --force && cd $directory/"$i" ; done
+
+# Backing up files modified in last X days
+# EXAMPLES
+find $(pwd) -name "*.php" -mtime -14 -print | xargs tar cvf backup.tar
+
+# only gets the files and not the parent directories.
+# Causes problems with multi directories
+find $(pwd) -mtime -14 -type f -exec tar cvf backup.tar {} \;
+
+# find with a NOT
+# not tested yet
+find $(pwd) -name "*.7z"  ! -name '_.7z' -type f -mtime -10 -exec tar cvf backup.tar {} \;
+
+# Backup all folders changed in the last X days
+for i in * ; do find -type d -mtime -10 -exec tar cvf $directory/backup.tar {} \; ; done
+
+# Backup all folders changed in the last X days
+#for i in ` ls $directory | grep -v javascript | grep -v transfer | grep -v shares ` ; do find $directory/"$i" -type d -mtime -10 -exec tar cvf $directory/backup.tar {} \; ; done
+for i in ` ls  | grep -v javascript | grep -v transfer | grep -v shares ` ; do find "$i" -type d -mtime -10 -exec tar cvf $directory/backup.tar {} \; ; done
