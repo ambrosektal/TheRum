@@ -1,13 +1,19 @@
  # How many packages and modules are there?
- watch ' echo "---------------------------------------------------" && echo "Total Modules:::" && find /etc/verdaccio/storage -maxdepth 1 -type d | wc -l && echo "---------------------------------------------------" && echo "Total Packages:::" && find /etc/verdaccio/storage -iname "*.tgz" | wc -l && echo "---------------------------------------------------" '
+#directory=$(pwd)
+directory="/etc/verdaccio/storage"
+
+#watch ' echo "---------------------------------------------------" && echo "Total Modules:::" && find /etc/verdaccio/storage -maxdepth 1 -type d | wc -l && echo "---------------------------------------------------" && echo "Total Packages:::" && find /etc/verdaccio/storage -iname "*.tgz" | wc -l && echo "---------------------------------------------------" '
+watch ' echo "---------------------------------------------------" && echo "Total Modules:::" && find $directory -maxdepth 1 -type d | wc -l && echo "---------------------------------------------------" && echo "Total Packages:::" && find $directory -iname "*.tgz" | wc -l && echo "---------------------------------------------------" '
 
 
 # Another good one
 
-watch -d ' echo "---------------------------------------------------" && echo "Total Modules:::" && find /etc/verdaccio/storage -maxdepth 1 -type d | wc -l && echo "---------------------------------------------------" && echo "Total Packages:::" && find /etc/verdaccio/storage -iname "*.tgz" | wc -l && echo "---------------------------------------------------" && echo "Total Size:::" && du -cksh /etc/verdaccio/storage && echo "---------------------------------------------------" '
+#watch -d ' echo "---------------------------------------------------" && echo "Total Modules:::" && find /etc/verdaccio/storage -maxdepth 1 -type d | wc -l && echo "---------------------------------------------------" && echo "Total Packages:::" && find /etc/verdaccio/storage -iname "*.tgz" | wc -l && echo "---------------------------------------------------" && echo "Total Size:::" && du -cksh /etc/verdaccio/storage && echo "---------------------------------------------------" '
+watch -d ' echo "---------------------------------------------------" && echo "Total Modules:::" && find $directory -maxdepth 1 -type d | wc -l && echo "---------------------------------------------------" && echo "Total Packages:::" && find $directory -iname "*.tgz" | wc -l && echo "---------------------------------------------------" && echo "Total Size:::" && du -cksh $directory && echo "---------------------------------------------------" '
 
 #  One More
-watch -d ' echo "---------------------------------------------------" && echo "Total Modules:::" && find /etc/verdaccio/storage -maxdepth 1 -type d | wc -l && echo "---------------------------------------------------" && echo "Total Packages:::" && find /etc/verdaccio/storage -iname "*.tgz" | wc -l && echo "---------------------------------------------------" && echo "Total Size:::" && du -cksh /etc/verdaccio/storage && echo "---------------------------------------------------" && echo "---------------------------------------------------" && echo "Total Files in REMI:::" && find /opt/repo/remi* -type f | wc -l && echo "Total Size of REMI:::" && du -cksh /opt/repo/otherrepo && echo "---------------------------------------------------" '
+#watch -d ' echo "---------------------------------------------------" && echo "Total Modules:::" && find /etc/verdaccio/storage -maxdepth 1 -type d | wc -l && echo "---------------------------------------------------" && echo "Total Packages:::" && find /etc/verdaccio/storage -iname "*.tgz" | wc -l && echo "---------------------------------------------------" && echo "Total Size:::" && du -cksh /etc/verdaccio/storage && echo "---------------------------------------------------" && echo "---------------------------------------------------" && echo "Total Files in REMI:::" && find /opt/repo/remi* -type f | wc -l && echo "Total Size of REMI:::" && du -cksh /opt/repo/otherrepo && echo "---------------------------------------------------" '
+watch -d ' echo "---------------------------------------------------" && echo "Total Modules:::" && find $directory -maxdepth 1 -type d | wc -l && echo "---------------------------------------------------" && echo "Total Packages:::" && find $directory -iname "*.tgz" | wc -l && echo "---------------------------------------------------" && echo "Total Size:::" && du -cksh $directory && echo "---------------------------------------------------" && echo "---------------------------------------------------" && echo "Total Files in REMI:::" && find /opt/repo/remi* -type f | wc -l && echo "Total Size of REMI:::" && du -cksh /opt/repo/otherrepo && echo "---------------------------------------------------" '
 
 
 
@@ -19,17 +25,17 @@ for i in $(cat repolist ); do reposync --repoid="$i" --download-metadata --downl
 
 ###########################
 # getting all the javascript modules
-#for i in $(ls); do cd /home/javascript/node_modules/"$i" && npm i --force && npm audit fix --force && cd ../ && rm -rf /home/javascript/node_modules/"$i"/node_modules ; done  
+#for i in $(ls); do cd /home/javascript/node_modules/"$i" && npm i --force && npm audit fix --force && cd ../ && rm -rf /home/javascript/node_modules/"$i"/node_modules ; done
 for i in $(ls); do cd /opt/repo/javascript/gits/"$i" && npm install --force && cd /opt/repo/javascript/gits/ ;  done
 
-for i in $(ls $(pwd)/*); do cd "$i" && npm i --force && npm audit fix --force && cd ../ && rm -rf "$i"/node_modules ; done  
+for i in $(ls $(pwd)/*); do cd "$i" && npm i --force && npm audit fix --force && cd ../ && rm -rf "$i"/node_modules ; done
 
 # getting all the javascript modules using pack???
-for i in $(ls); do cd /opt/repo/javascript/node_modules/"$i" && npm pack --force && npm audit fix --force && cd ../ && rm -rf /opt/repo/javascript/node_modules/"$i"/node_modules ; done  
+for i in $(ls); do cd /opt/repo/javascript/node_modules/"$i" && npm pack --force && npm audit fix --force && cd ../ && rm -rf /opt/repo/javascript/node_modules/"$i"/node_modules ; done
 
-for i in $(ls $(pwd)/*); do cd "$i" && npm pack --force && npm audit fix --force && cd ../ && rm -rf "$i"/node_modules ; done  
+for i in $(ls $(pwd)/*); do cd "$i" && npm pack --force && npm audit fix --force && cd ../ && rm -rf "$i"/node_modules ; done
 
-for i in $(find $(pwd) -maxdepth 1 -type d); do cd "$i" && npm pack --force && npm audit fix --force && cd "$i"/.. && rm -rf "$i"/node_modules ; done  
+for i in $(find $(pwd) -maxdepth 1 -type d); do cd "$i" && npm pack --force && npm audit fix --force && cd "$i"/.. && rm -rf "$i"/node_modules ; done
 
 ###########################
 # brings back absolute path
@@ -38,7 +44,7 @@ for i in $(find $(pwd) -maxdepth 1 -type d); do echo "$i"; done
 # brings back absolute path
 for i in $(find $(pwd) -maxdepth 1 -type d); do echo "$i"; done
 
-for i in $(find $(pwd) -maxdepth 1 -type d); do cd "$i" && npm i --force && npm audit fix --force && cd "$i"/.. && rm -rf "$i"/node_modules ; done  
+for i in $(find $(pwd) -maxdepth 1 -type d); do cd "$i" && npm i --force && npm audit fix --force && cd "$i"/.. && rm -rf "$i"/node_modules ; done
 
 ###########################
 #Grepping out a regex
@@ -70,6 +76,7 @@ for i in $(cat gitLinks ); do npm pack git+"$i" ; done
 
 # Get all of one type of module's modules
 for i in verdaccio*; do cd "$i" && npm i --force && npm audi fix --force && cd /opt/repo/javascript/node_modules/ ; done
+<<<<<<< HEAD
 
 # Useful to start a command from a directory.
 directory=$(pwd)
@@ -90,6 +97,28 @@ find $(pwd) -name "*.7z"  ! -name '_.7z' -type f -mtime -10 -exec tar cvf backup
 # Backup all folders changed in the last X days
 for i in * ; do find -type d -mtime -10 -exec tar cvf $directory/backup.tar {} \; ; done
 
+=======
+
+# Useful to start a command from a directory.
+directory=$(pwd)
+for i in $directory/* ; do cd "$i" && npm i --force && npm audi fix --force && cd $directory/"$i" ; done
+
+# Backing up files modified in last X days
+# EXAMPLES
+find $(pwd) -name "*.php" -mtime -14 -print | xargs tar cvf backup.tar
+
+# only gets the files and not the parent directories.
+# Causes problems with multi directories
+find $(pwd) -mtime -14 -type f -exec tar cvf backup.tar {} \;
+
+# find with a NOT
+# not tested yet
+find $(pwd) -name "*.7z"  ! -name '_.7z' -type f -mtime -10 -exec tar cvf backup.tar {} \;
+
+# Backup all folders changed in the last X days
+for i in * ; do find -type d -mtime -10 -exec tar cvf $directory/backup.tar {} \; ; done
+
+>>>>>>> 01e03fb0919898d5e9221dffc816ffbfe9a09fe7
 # Backup all folders changed in the last X days
 #for i in ` ls $directory | grep -v javascript | grep -v transfer | grep -v shares ` ; do find $directory/"$i" -type d -mtime -10 -exec tar cvf $directory/backup.tar {} \; ; done
 for i in ` ls  | grep -v javascript | grep -v transfer | grep -v shares ` ; do find "$i" -type d -mtime -10 -exec tar cvf $directory/backup.tar {} \; ; done
