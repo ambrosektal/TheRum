@@ -11,6 +11,7 @@ then
     for i in ` '/usr/bin/ls' $directory | '/usr/bin/grep' -v javascript | '/usr/bin/grep' -v transfer | '/usr/bin/grep' -v shares | '/usr/bin/grep' -v php_src ` ; 
         do '/usr/bin/find' "$directory/$i" -type f -mtime -14 -exec '/usr/bin/tar' rvf $directory/backup_remi.tar {} \; ; 
     done
+    '/usr/bin/tar' rvf $directory/backup_remi.tar 
 else
 #    echo "doesn't exist"
     # Backup all folders changed in the last X days
@@ -18,5 +19,6 @@ else
     for i in ` '/usr/bin/ls' $directory | '/usr/bin/grep' -v javascript | '/usr/bin/grep' -v transfer | '/usr/bin/grep' -v shares  | '/usr/bin/grep' -v php_src ` ; 
         do '/usr/bin/find' "$directory/$i" -type f -mtime -14 -exec '/usr/bin/tar' rvf $directory/backup_remi.tar {} \; ; 
     done
+    '/usr/bin/tar' rvf $directory/backup_remi.tar 
 fi
 
