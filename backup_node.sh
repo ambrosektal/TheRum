@@ -2,6 +2,7 @@
 # -Acdtrux
 repo="/opt/repo/"
 directory="/etc/verdaccio/storage/"
+share='/opt/repo/shares/'
 
 if [[ -e "/opt/repo/backup_node.tar" ]] ;
 then
@@ -19,3 +20,4 @@ else
     '/usr/bin/gzip' $repo/backup_node.tar 
 fi
 
+cp $repo/backup_node.tar.gz $share/

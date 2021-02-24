@@ -1,6 +1,7 @@
 #/bin/bash
 
 directory="/opt/repo"
+share="/opt/repo/shares/"
 
 if [[ -e "/opt/repo/backup_remi.tar" ]] ;
 then
@@ -22,3 +23,6 @@ else
     '/usr/bin/tar' rvf $directory/backup_remi.tar 
 fi
 
+'/usr/bin/gzip' $directory/backup_remi.tar
+
+cp $directory/backup_remi.tar.gz $share
