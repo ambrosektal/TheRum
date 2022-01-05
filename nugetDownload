@@ -52,14 +52,15 @@ $($files.split("> ").foreach({$_.split(" ")[0]}) | sort | unique).foreach({& sav
 
 # ----------------------------------------------------------------------------
 
-$SearchFiles = "RestSharp","Json.NET","Serilog","NUnit","Insight.Database","FluentValidation","Noda Time","FluentEmail","Hangfire","LazyCache","wsl","aspnetcore","microsoft.entityframeworkcore","System.componentModel"
+$SearchFiles = "RestSharp*","Json.NET*","Serilog*","NUnit*","Insight.Database*","FluentValidation*","Noda Time*","FluentEmail*","Hangfire*","LazyCache*","*wsl*","aspnet*","microsoft.entityframework*","System.componentModel*"
 
 Remove-Variable files
 $files = New-Object System.Collections.ArrayList
 
 $files.add($SearchFiles.foreach({ $(find-package $_ ).name }))
 
+$uniqueFiles = $files | sort | unique
 # $files = $(find-package "*dotnet*" ).name
 
-$files.foreach({ & save-package $_ -path "C:\Users\$env:USERNAME\Downloads\ToMove\" })
+$uniqueFiles.foreach({ & save-package $_ -path "C:\Users\$env:USERNAME\Downloads\ToMove\" })
 
