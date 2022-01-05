@@ -4,13 +4,13 @@ $files = "RestSharp","Json.NET","Serilog","NUnit","Insight.Database","FluentVali
 
 foreach($file in $files){nuget install $file -OutputDirectory .}
 
-----------------------------------------------------------------------------
+# ----------------------------------------------------------------------------
 $NuGetBinary = "C:\Users\$env:USERNAME\Downloads\nuget.exe"
 
 $files = & $NuGetBinary search powershell
 
 $($files.split("> ").foreach({$_.split(" ")[0]}) | sort | unique).foreach({& $NuGetBinary  install $_ -OutputDirectory "C:\Users\$env:USERNAME\Downloads\ToMove\"})
-----------------------------------------------------------------------------
+# ----------------------------------------------------------------------------
 
 $(gci -recurse . -Filter "*.nupkg").foreach({move-item $_ -destination "C:\Users\$env:USERNAME\Downloads\offlineNuget\nupkg\nupkg\"})
 
@@ -48,11 +48,11 @@ $files.add($SearchFiles.foreach({ & $NuGetBinary search $_ }))
 
 $($files.split("> ").foreach({$_.split(" ")[0]}) | sort | unique).foreach({& $NuGetBinary  install $_ -OutputDirectory "C:\Users\$env:USERNAME\Downloads\ToMove\"})
 
-$($files.split("> ").foreach({$_.split(" ")[0]}) | sort | unique).foreach({& save-package $_ -path "C:\Users\$env:USERNAME\Downloads\ToMove\"})
+$($files.split("> ").foreach({$_.split(" ")[0]}) | sort | unique).foreach({& save-package "$_" -path "C:\Users\$env:USERNAME\Downloads\ToMove\"})
 
 # ----------------------------------------------------------------------------
 
-$SearchFiles = "RestSharp*","Json.NET*","Serilog*","NUnit*","Insight.Database*","FluentValidation*","Noda Time*","FluentEmail*","Hangfire*","LazyCache*","*wsl*","aspnet*","microsoft.entityframework*","System.componentModel*"
+$SearchFiles = "RestSharp*","Json.NET*","Serilog*","NUnit*","Insight.Database*","FluentValidation*","Noda Time*","FluentEmail*","Hangfire*","LazyCache*","*wsl*","aspnet*","microsoft.entityframework*","System.componentModel*","microsoft.net*","microsoft.dotnet*"
 
 Remove-Variable files
 $files = New-Object System.Collections.ArrayList
@@ -60,7 +60,6 @@ $files = New-Object System.Collections.ArrayList
 $files.add($SearchFiles.foreach({ $(find-package $_ ).name }))
 
 $uniqueFiles = $files | sort | unique
-# $files = $(find-package "*dotnet*" ).name
 
-$uniqueFiles.foreach({ & save-package $_ -path "C:\Users\$env:USERNAME\Downloads\ToMove\" })
+$uniqueFiles.foreach({ & save-package "$_" -path "C:\Users\$env:USERNAME\Downloads\ToMove\" })
 
