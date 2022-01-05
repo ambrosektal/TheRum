@@ -137,6 +137,10 @@ npm search typescript --registry https://registry.npmjs.org/  -l --parseable | c
 
 
 #### NPM for Windows
+$npmFiles = "searchkit","verdaccio"
+$npmFiles.foreach({$(npm search $_).foreach({npm pack $($_.split(" ")[0])})})
+
+# ------------------------------------------------------------
 $(npm search searchkit).foreach({npm pack $($_.split(" ")[0])})
 
 $(gci -recurse . -Filter package.json).foreach({cd $_.directory && npm pack })
