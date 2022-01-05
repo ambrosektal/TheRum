@@ -1,0 +1,49 @@
+$files = "MongoDB.Bson","MongoDB.Driver.Core","MongoDB.Driver","MongoDB.Libmongocrypt","mongocsharpdriver","MongoDB.Driver.GridFS"
+
+$files = "RestSharp","Json.NET","Serilog","NUnit","Insight.Database","FluentValidation","Noda Time","FluentEmail","Hangfire","LazyCache"
+
+foreach($file in $files){nuget install $file -OutputDirectory .}
+
+----------------------------------------------------------------------------
+$NuGetBinary = "C:\Users\$env:USERNAME\Downloads\nuget.exe"
+
+$files = & $NuGetBinary search powershell
+
+$($files.split("> ").foreach({$_.split(" ")[0]}) | sort | unique).foreach({& $NuGetBinary  install $_ -OutputDirectory "C:\Users\$env:USERNAME\Downloads\ToMove\"})
+----------------------------------------------------------------------------
+
+$(gci -recurse . -Filter "*.nupkg").foreach({move-item $_ -destination "C:\Users\$env:USERNAME\Downloads\offlineNuget\nupkg\nupkg\"})
+
+# DeDupe
+$moved = gci "*.nupkg" -Recurse -Path "C:\Users\$env:USERNAME\Downloads\Moved\"
+$toMove = gci -recurse "*.nupkg" -Path "C:\Users\$env:USERNAME\Downloads\ToMove\"
+# mkdir C:\Users\$env:USERNAME\Downloads\Staging
+$staging = "C:\Users\$env:USERNAME\Downloads\Staging"
+$count = 0
+$leavingCount = 0
+$toMove.foreach({if($_.name -notin $moved.Name){$count++ }})
+$toMove.foreach({if($_.name -in $moved.Name){$leavingCount++ }})
+write-host "Going to move $count packages"
+write-host "$leavingCount duplicate packages"
+
+$toMove.foreach({if($_.name -notin $moved.Name){move-item $_ $staging}})
+
+
+get-filehash * | format-list | Out-File "..\PRE_DTA_HASH_$(Get-Date -Format "yyyyMMdd")_nupkg.txt"
+
+get-filehash * | format-list | Out-File "..\PRE_DTA_HASH_$(Get-Date -Format "yyyyMMdd")_node.txt"
+
+----------------------------------------------------------------------------
+
+$SearchFiles = "RestSharp","Json.NET","Serilog","NUnit","Insight.Database","FluentValidation","Noda Time","FluentEmail","Hangfire","LazyCache","wsl","aspnetcore","microsoft.entityframeworkcore","System.componentModel"
+
+$NuGetBinary = "C:\\Users\\$env:USERNAME\\Downloads\\nuget.exe"
+
+Remove-Variable files
+$files = New-Object System.Collections.ArrayList
+
+$files.add($SearchFiles.foreach({ & $NuGetBinary search $_ }))
+
+#$files = & $NuGetBinary search powershell
+
+$($files.split("> ").foreach({$_.split(" ")[0]}) | sort | unique).foreach({& $NuGetBinary  install $_ -OutputDirectory "C:\Users\$env:USERNAME\Downloads\ToMove\"})
