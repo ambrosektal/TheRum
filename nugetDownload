@@ -10,28 +10,6 @@ $NuGetBinary = "C:\Users\$env:USERNAME\Downloads\nuget.exe"
 $files = & $NuGetBinary search powershell
 
 $($files.split("> ").foreach({$_.split(" ")[0]}) | sort | unique).foreach({& $NuGetBinary  install $_ -OutputDirectory "C:\Users\$env:USERNAME\Downloads\ToMove\"})
-# ----------------------------------------------------------------------------
-
-$(gci -recurse . -Filter "*.nupkg").foreach({move-item $_ -destination "C:\Users\$env:USERNAME\Downloads\offlineNuget\nupkg\nupkg\"})
-
-# DeDupe
-$moved = gci "*.nupkg" -Recurse -Path "C:\Users\$env:USERNAME\Downloads\Moved\"
-$toMove = gci -recurse "*.nupkg" -Path "C:\Users\$env:USERNAME\Downloads\ToMove\"
-# mkdir C:\Users\$env:USERNAME\Downloads\Staging
-$staging = "C:\Users\$env:USERNAME\Downloads\Staging"
-$count = 0
-$leavingCount = 0
-$toMove.foreach({if($_.name -notin $moved.Name){$count++ }})
-$toMove.foreach({if($_.name -in $moved.Name){$leavingCount++ }})
-write-host "Going to move $count packages"
-write-host "$leavingCount duplicate packages"
-
-$toMove.foreach({if($_.name -notin $moved.Name){move-item $_ $staging}})
-
-
-get-filehash * | format-list | Out-File "..\PRE_DTA_HASH_$(Get-Date -Format "yyyyMMdd")_nupkg.txt"
-
-get-filehash * | format-list | Out-File "..\PRE_DTA_HASH_$(Get-Date -Format "yyyyMMdd")_node.txt"
 
 # ----------------------------------------------------------------------------
 
@@ -46,13 +24,13 @@ $files.add($SearchFiles.foreach({ & $NuGetBinary search $_ }))
 
 # $files.foreach({ & save-package winget -path "C:\Users\$env:USERNAME\Downloads\ToMove\" })
 
-$($files.split("> ").foreach({$_.split(" ")[0]}) | sort | unique).foreach({& $NuGetBinary  install $_ -OutputDirectory "C:\Users\$env:USERNAME\Downloads\ToMove\"})
+$($files.split("> ").foreach({$_.split(" ")[0]}) | sort | unique).foreach({& $NuGetBinary  install $_ -OutputDirectory "C:\Users\$env:USERNAME\Downloads\ToMove\" -Force})
 
-$($files.split("> ").foreach({$_.split(" ")[0]}) | sort | unique).foreach({& save-package "$_" -path "C:\Users\$env:USERNAME\Downloads\ToMove\"})
+$($files.split("> ").foreach({$_.split(" ")[0]}) | sort | unique).foreach({& save-package "$_" -path "C:\Users\$env:USERNAME\Downloads\ToMove\" -Force})
 
 # ----------------------------------------------------------------------------
 
-$SearchFiles = "RestSharp*","Json.NET*","Serilog*","NUnit*","Insight.Database*","FluentValidation*","Noda Time*","FluentEmail*","Hangfire*","LazyCache*","*wsl*","aspnet*","microsoft.entityframework*","System.componentModel*","microsoft.net*","microsoft.dotnet*"
+$SearchFiles = "RestSharp*","Json.NET*","Serilog*","NUnit*","Insight.Database*","FluentValidation*","Noda Time*","FluentEmail*","Hangfire*","LazyCache*","*wsl*","aspnet*","microsoft.entityframework*","System.componentModel*","microsoft.net*","microsoft.dotnet*","MongoDB.Bson","MongoDB.Driver.Core","MongoDB.Driver","MongoDB.Libmongocrypt","mongocsharpdriver","MongoDB.Driver.GridFS","MongoDB*"
 
 Remove-Variable files
 $files = New-Object System.Collections.ArrayList
@@ -61,5 +39,27 @@ $files.add($SearchFiles.foreach({ $(find-package $_ ).name }))
 
 $uniqueFiles = $files | sort | unique
 
-$uniqueFiles.foreach({ & save-package "$_" -path "C:\Users\$env:USERNAME\Downloads\ToMove\" })
+$uniqueFiles.foreach({ & save-package "$_" -path "C:\Users\$env:USERNAME\Downloads\ToMove\" -Force})
 
+# ----------------------------------------------------------------------------
+
+# $(gci -recurse . -Filter "*.nupkg").foreach({move-item $_ -destination "C:\Users\$env:USERNAME\Downloads\Staging\"})
+
+# DeDupe
+$moved = gci "*.nupkg" -Recurse -Path "C:\Users\$env:USERNAME\Downloads\Moved\"
+$toMove = gci -recurse "*.nupkg" -Path "C:\Users\$env:USERNAME\Downloads\ToMove\"
+# mkdir C:\Users\$env:USERNAME\Downloads\Staging
+$staging = "C:\Users\$env:USERNAME\Downloads\Staging"
+$count = 0
+$leavingCount = 0
+$toMove.foreach({if($_.name -notin $moved.Name){$count++ }})
+$toMove.foreach({if($_.name -in $moved.Name){$leavingCount++ }})
+write-host "Going to move $count packages"
+write-host "$leavingCount duplicate packages"
+
+# Move Files
+$toMove.foreach({if($_.name -notin $moved.Name){move-item $_ $staging}})
+
+get-filehash * | format-list | Out-File "..\PRE_DTA_HASH_$(Get-Date -Format "yyyyMMdd")_nupkg.txt"
+
+get-filehash * | format-list | Out-File "..\PRE_DTA_HASH_$(Get-Date -Format "yyyyMMdd")_node.txt"
