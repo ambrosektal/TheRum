@@ -134,3 +134,16 @@ for i in ` ls  | grep -v javascript | grep -v transfer | grep -v shares ` ; do f
 
 # NPM search
 npm search typescript --registry https://registry.npmjs.org/  -l --parseable | cut -f1 | sort -u
+
+
+#### NPM for Windows
+$(npm search searchkit).foreach({npm pack $($_.split(" ")[0])})
+
+$(gci -recurse . -Filter package.json).foreach({cd $_.directory && npm pack })
+
+$(gci -recurse . -Filter package.json).foreach({cd $_.directory && npm pack . })
+
+$(gci -recurse . -Filter "*.tgz").foreach({copy-item $_ -destination ..\nodePack\})
+
+$packageFiles = gci -recurse . -Filter package.json
+$packageFiles.foreach({cd $_.directory && npm pack . })
