@@ -33,7 +33,7 @@ get-filehash * | format-list | Out-File "..\PRE_DTA_HASH_$(Get-Date -Format "yyy
 
 get-filehash * | format-list | Out-File "..\PRE_DTA_HASH_$(Get-Date -Format "yyyyMMdd")_node.txt"
 
-----------------------------------------------------------------------------
+# ----------------------------------------------------------------------------
 
 $SearchFiles = "RestSharp","Json.NET","Serilog","NUnit","Insight.Database","FluentValidation","Noda Time","FluentEmail","Hangfire","LazyCache","wsl","aspnetcore","microsoft.entityframeworkcore","System.componentModel"
 
@@ -44,6 +44,22 @@ $files = New-Object System.Collections.ArrayList
 
 $files.add($SearchFiles.foreach({ & $NuGetBinary search $_ }))
 
-#$files = & $NuGetBinary search powershell
+# $files.foreach({ & save-package winget -path "C:\Users\$env:USERNAME\Downloads\ToMove\" })
 
 $($files.split("> ").foreach({$_.split(" ")[0]}) | sort | unique).foreach({& $NuGetBinary  install $_ -OutputDirectory "C:\Users\$env:USERNAME\Downloads\ToMove\"})
+
+$($files.split("> ").foreach({$_.split(" ")[0]}) | sort | unique).foreach({& save-package $_ -path "C:\Users\$env:USERNAME\Downloads\ToMove\"})
+
+# ----------------------------------------------------------------------------
+
+$SearchFiles = "RestSharp","Json.NET","Serilog","NUnit","Insight.Database","FluentValidation","Noda Time","FluentEmail","Hangfire","LazyCache","wsl","aspnetcore","microsoft.entityframeworkcore","System.componentModel"
+
+Remove-Variable files
+$files = New-Object System.Collections.ArrayList
+
+$files.add($SearchFiles.foreach({ $(find-package $_ ).name }))
+
+# $files = $(find-package "*dotnet*" ).name
+
+$files.foreach({ & save-package $_ -path "C:\Users\$env:USERNAME\Downloads\ToMove\" })
+
