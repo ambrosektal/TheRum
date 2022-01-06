@@ -31,7 +31,7 @@ $($files.split("> ").foreach({$_.split(" ")[0]}) | sort | unique).foreach({& sav
 
 # ----------------------------------------------------------------------------
 
-# $SearchFiles = "RestSharp*","Json.NET*","Serilog*","NUnit*","Insight.Database*","FluentValidation*","Noda Time*","FluentEmail*","Hangfire*","LazyCache*","*wsl*","aspnet*","microsoft.entityframework*","System.componentModel*","microsoft.net*","microsoft.dotnet*","MongoDB.Bson","MongoDB.Driver.Core","MongoDB.Driver","MongoDB.Libmongocrypt","mongocsharpdriver","MongoDB.Driver.GridFS","MongoDB*","System.Text*","System.Windows.Extensions*","Humanizer.Core*"
+# $SearchFiles = "RestSharp*","Json.NET*","Serilog*","NUnit*","Insight.Database*","FluentValidation*","Noda Time*","FluentEmail*","Hangfire*","LazyCache*","*wsl*","aspnet*","microsoft.entityframework*","System.componentModel*","microsoft.net*","microsoft.dotnet*","MongoDB.Bson","MongoDB.Driver.Core","MongoDB.Driver","MongoDB.Libmongocrypt","mongocsharpdriver","MongoDB.Driver.GridFS","MongoDB*","System.Text*","System.Windows.Extensions*","Humanizer.Core*", "redis*"
 
 $SearchFiles = "Serilog*","NUnit*","Insight.Database*","FluentValidation*","Noda Time*","FluentEmail*","Hangfire*","LazyCache*","*wsl*","aspnet*","microsoft.entityframework*","System.componentModel*","microsoft.net*","microsoft.dotnet*","MongoDB.Bson","MongoDB.Driver.Core","MongoDB.Driver","MongoDB.Libmongocrypt","mongocsharpdriver","MongoDB.Driver.GridFS","MongoDB*","System.Text*","System.Windows.Extensions*","Humanizer.Core*"
 
@@ -46,11 +46,11 @@ $uniqueFiles = $files | sort | unique
 
 # $uniqueFiles.foreach({ & save-package "$_" -path "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\"})
 
-$uniqueFiles.foreach({ & $NuGetBinary install $_ -OutputDirectory "C:\\Users\\$env:USERNAME\\Downloads\\ToMove\\" })
+$uniqueFiles.foreach({ & $NuGetBinary install $_ -OutputDirectory "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\" })
 
 # ----------------------------------------------------------------------------
 
-# $(gci -recurse . -Filter "*.nupkg").foreach({move-item $_ -destination "C:\\Users\\$env:USERNAME\\Downloads\\Staging\\"})
+# $(gci -recurse . -Filter "*.nupkg").foreach({move-item $_ -destination "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\Staging\\"})
 
 # DeDupe
 $moved = gci "*.nupkg" -Recurse -Path "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\Moved\\"
