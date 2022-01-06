@@ -9,7 +9,7 @@ $NuGetBinary = "C:\\Users\\$env:USERNAME\\Downloads\\nuget.exe"
 
 $files = & $NuGetBinary search powershell
 
-$($files.split("> ").foreach({$_.split(" ")[0]}) | sort | unique).foreach({& $NuGetBinary  install $_ -OutputDirectory "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\"})
+$($files.split("> ").foreach({$_.split(" ")[0]}) | sort | unique).foreach({& $NuGetBinary  install $_ -OutputDirectory "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\nupkg\\"})
 
 # ----------------------------------------------------------------------------
 
@@ -23,11 +23,11 @@ $files = New-Object System.Collections.ArrayList
 # $files.add($SearchFiles.foreach({ & $NuGetBinary search $_ }))
 $files = & $NuGetBinary search verdaccio
 
-# $files.foreach({ & save-package winget -path "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\" })
+# $files.foreach({ & save-package winget -path "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\nupkg\\" })
 
-$($files.split("> ").foreach({$_.split(" ")[0]}) | sort | unique).foreach({& $NuGetBinary install $_ -OutputDirectory "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\" })
+$($files.split("> ").foreach({$_.split(" ")[0]}) | sort | unique).foreach({& $NuGetBinary install $_ -OutputDirectory "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\nupkg\\" })
 
-$($files.split("> ").foreach({$_.split(" ")[0]}) | sort | unique).foreach({& save-package "$_" -path "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\" })
+$($files.split("> ").foreach({$_.split(" ")[0]}) | sort | unique).foreach({& save-package "$_" -path "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\nupkg\\" })
 
 # ----------------------------------------------------------------------------
 
@@ -44,9 +44,9 @@ $files.add($SearchFiles.foreach({ $(find-package $_ ).name }))
 
 $uniqueFiles = $files | sort | unique
 
-# $uniqueFiles.foreach({ & save-package "$_" -path "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\"})
+# $uniqueFiles.foreach({ & save-package "$_" -path "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\nupkg\\"})
 
-$uniqueFiles.foreach({ & $NuGetBinary install $_ -OutputDirectory "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\" })
+$uniqueFiles.foreach({ & $NuGetBinary install $_ -OutputDirectory "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\nupkg\\" })
 
 # ----------------------------------------------------------------------------
 
@@ -56,7 +56,7 @@ $uniqueFiles.foreach({ & $NuGetBinary install $_ -OutputDirectory "C:\\Users\\$e
 $moved = gci "*.nupkg" -Recurse -Path "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\Moved\\"
 $toMove = gci -recurse "*.nupkg" -Path "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\"
 # mkdir C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\Staging
-$staging = "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\Staging"
+$staging = "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\Staging\\nupkg\\"
 $count = 0
 $leavingCount = 0
 $toMove.foreach({if($_.name -notin $moved.Name){$count++ }})
