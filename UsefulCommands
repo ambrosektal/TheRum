@@ -153,7 +153,8 @@ $(gci -recurse . -Filter "*.tgz").foreach({copy-item $_ -destination ..\nodePack
 
 $packageFiles = gci -recurse . -Filter package.json
 $packageFiles.foreach({cd $_.directory && npm pack . })
-$(gci -recurse "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\node_modules\\" -Filter "*.tgz").foreach({copy-item $_ -destination "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\nodePack\\"})
+
+$(gci -recurse "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\" -Filter "*.tgz").foreach({Move-Item $_ -destination "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\nodePack\\"})
 
 
 # DeDupe
