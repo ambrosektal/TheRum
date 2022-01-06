@@ -16,6 +16,10 @@ watch -d ' echo "---------------------------------------------------" && echo "T
 watch -d ' echo "---------------------------------------------------" && echo "Total Modules:::" && find $directory -maxdepth 1 -type d | wc -l && echo "---------------------------------------------------" && echo "Total Packages:::" && find $directory -iname "*.tgz" | wc -l && echo "---------------------------------------------------" && echo "Total Size:::" && du -cksh $directory && echo "---------------------------------------------------" && echo "---------------------------------------------------" && echo "Total Files in REMI:::" && find /opt/repo/remi* -type f | wc -l && echo "Total Size of REMI:::" && du -cksh /opt/repo/otherrepo && echo "---------------------------------------------------" '
 
 
+directory="/home/ambrose/Downloads/verdaccio/storage"
+watch -d ' echo "---------------------------------------------------" && echo "Total Modules:::" && find $directory -maxdepth 1 -type d | wc -l && echo "---------------------------------------------------" && echo "Total Packages:::" && find $directory -iname "*.tgz" | wc -l && echo "---------------------------------------------------" && echo "Total Size:::" && du -cksh $directory && echo "---------------------------------------------------" '
+
+
 
 ###########################
 # reposyncing
@@ -138,7 +142,7 @@ npm search typescript --registry https://registry.npmjs.org/  -l --parseable | c
 
 #### NPM for Windows
 $npmFiles = "searchkit","verdaccio","react","ruby","gem","rails","npm","yarn"
-$npmFiles.foreach({$(npm search $_).foreach({npm pack -dd $($_.split(" ")[0])})})
+$npmFiles.foreach({$(npm search $_).foreach({npm install $($_.split(" ")[0])})})
 
 # ------------------------------------------------------------
 $(npm search searchkit).foreach({npm pack $($_.split(" ")[0])})
@@ -171,3 +175,9 @@ write-host "$leavingCount duplicate packages"
 
 # Move Files
 $toMove.foreach({if($_.name -notin $moved.Name){move-item $_ $staging}})
+
+
+# ------------------------------------------------------------
+# tar Commands
+tar --strip-components 1 -xzvf <filename> -C /usr/
+tar --strip-components 1 -xzvf node-v16* -C /usr/

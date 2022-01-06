@@ -14,3 +14,9 @@ for i in $(ls /opt/repo/javascript/node_modules/);
 #    do npm install /opt/repo/javascript/node_modules/"$i" --prefix /opt/repo/javascript/node_modules/"$i" && npm audit fix --force /opt/repo/javascript/node_modules/"$i" && rm -rf /opt/repo/javascript/node_modules/"$i"/node_modules ; 
 
 echo Update script ended at $(date) >> /var/log/update-node-repository.log
+
+
+# Windows
+$Directory = "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\node\\node_modules"
+
+$(gci -recurse $Directory -Filter "package.json").foreach({npm install --force $($_.directory) --prefix $($_.directory).Parent && npm audit fix --force && cd $($_.directory)..\ && rm -r $($_.directory)\\node_modules ; })
