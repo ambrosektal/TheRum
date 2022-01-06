@@ -137,7 +137,7 @@ npm search typescript --registry https://registry.npmjs.org/  -l --parseable | c
 
 
 #### NPM for Windows
-$npmFiles = "searchkit","verdaccio","react","ruby","gem","rails"
+$npmFiles = "searchkit","verdaccio","react","ruby","gem","rails","npm","yarn"
 $npmFiles.foreach({$(npm search $_).foreach({npm pack -dd $($_.split(" ")[0])})})
 
 # ------------------------------------------------------------
@@ -153,14 +153,14 @@ $(gci -recurse . -Filter "*.tgz").foreach({copy-item $_ -destination ..\nodePack
 
 $packageFiles = gci -recurse . -Filter package.json
 $packageFiles.foreach({cd $_.directory && npm pack . })
-$(gci -recurse "C:\\Users\\$env:USERNAME\\Downloads\\ToMove\\node_modules\\" -Filter "*.tgz").foreach({copy-item $_ -destination "C:\\Users\\$env:USERNAME\\Downloads\\ToMove\\nodePack\\"})
+$(gci -recurse "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\node_modules\\" -Filter "*.tgz").foreach({copy-item $_ -destination "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\nodePack\\"})
 
 
 # DeDupe
-$moved = gci "*.tgz" -Recurse -Path "C:\\Users\\$env:USERNAME\\Downloads\\Moved\\"
-$toMove = gci -recurse "*.tgz" -Path "C:\\Users\\$env:USERNAME\\Downloads\\ToMove\\"
+$moved = gci "*.tgz" -Recurse -Path "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\Moved\\"
+$toMove = gci -recurse "*.tgz" -Path "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\"
 # mkdir C:\Users\$env:USERNAME\Downloads\Staging
-$staging = "C:\\Users\\$env:USERNAME\\Downloads\\Staging\\Node\\"
+$staging = "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\Staging\\Node\\"
 $count = 0
 $leavingCount = 0
 $toMove.foreach({if($_.name -notin $moved.Name){$count++ }})
