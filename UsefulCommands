@@ -137,8 +137,8 @@ npm search typescript --registry https://registry.npmjs.org/  -l --parseable | c
 
 
 #### NPM for Windows
-$npmFiles = "searchkit","verdaccio"
-$npmFiles.foreach({$(npm search $_).foreach({npm pack $($_.split(" ")[0])})})
+$npmFiles = "searchkit","verdaccio","react","ruby","gem","rails"
+$npmFiles.foreach({$(npm search $_).foreach({npm pack -dd $($_.split(" ")[0])})})
 
 # ------------------------------------------------------------
 $(npm search searchkit).foreach({npm pack $($_.split(" ")[0])})
@@ -149,5 +149,24 @@ $(gci -recurse . -Filter package.json).foreach({cd $_.directory && npm pack . })
 
 $(gci -recurse . -Filter "*.tgz").foreach({copy-item $_ -destination ..\nodePack\})
 
+# ------------------------------------------------------------
+
 $packageFiles = gci -recurse . -Filter package.json
 $packageFiles.foreach({cd $_.directory && npm pack . })
+$(gci -recurse "C:\\Users\\$env:USERNAME\\Downloads\\ToMove\\node_modules\\" -Filter "*.tgz").foreach({copy-item $_ -destination "C:\\Users\\$env:USERNAME\\Downloads\\ToMove\\nodePack\\"})
+
+
+# DeDupe
+$moved = gci "*.tgz" -Recurse -Path "C:\\Users\\$env:USERNAME\\Downloads\\Moved\\"
+$toMove = gci -recurse "*.tgz" -Path "C:\\Users\\$env:USERNAME\\Downloads\\ToMove\\"
+# mkdir C:\Users\$env:USERNAME\Downloads\Staging
+$staging = "C:\\Users\\$env:USERNAME\\Downloads\\Staging\\Node\\"
+$count = 0
+$leavingCount = 0
+$toMove.foreach({if($_.name -notin $moved.Name){$count++ }})
+$toMove.foreach({if($_.name -in $moved.Name){$leavingCount++ }})
+write-host "Going to move $count packages"
+write-host "$leavingCount duplicate packages"
+
+# Move Files
+$toMove.foreach({if($_.name -notin $moved.Name){move-item $_ $staging}})

@@ -42,7 +42,9 @@ $files.add($SearchFiles.foreach({ $(find-package $_ ).name }))
 
 $uniqueFiles = $files | sort | unique
 
-$uniqueFiles.foreach({ & save-package "$_" -path "C:\Users\$env:USERNAME\Downloads\ToMove\"})
+# $uniqueFiles.foreach({ & save-package "$_" -path "C:\Users\$env:USERNAME\Downloads\ToMove\"})
+
+$uniqueFiles.foreach({ & $NuGetBinary install $_ -OutputDirectory "C:\Users\$env:USERNAME\Downloads\ToMove\" })
 
 # ----------------------------------------------------------------------------
 
