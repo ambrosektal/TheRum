@@ -176,6 +176,9 @@ write-host "$leavingCount duplicate packages"
 # Move Files
 $toMove.foreach({if($_.name -notin $moved.Name){move-item $_ $staging}})
 
+# Hashing Files
+get-filehash * | format-list | Out-File "..\\PRE_DTA_HASH_$(Get-Date -Format "yyyyMMdd")_node.txt"
+
 
 # ------------------------------------------------------------
 # tar Commands

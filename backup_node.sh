@@ -1,7 +1,7 @@
 #/bin/bash
 # -Acdtrux
 repo="/opt/repo/"
-directory="/etc/verdaccio/storage/"
+directory="/home/ambrose/Downloads/verdaccio/storage/"
 share='/opt/repo/shares/'
 
 if [[ -e "/opt/repo/backup_node.tar" ]] ;
