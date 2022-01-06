@@ -151,14 +151,14 @@ $(gci -recurse . -Filter package.json).foreach({cd $_.directory && npm pack })
 
 $(gci -recurse . -Filter package.json).foreach({cd $_.directory && npm pack . })
 
-$(gci -recurse . -Filter "*.tgz").foreach({copy-item $_ -destination ..\nodePack\})
+$(gci -recurse . -Filter "*.tgz").foreach({copy-item $_ -destination ..\node\})
 
 # ------------------------------------------------------------
 
 $packageFiles = gci -recurse . -Filter package.json
 $packageFiles.foreach({cd $_.directory && npm pack . })
 
-$(gci -recurse "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\" -Filter "*.tgz").foreach({Move-Item $_ -destination "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\nodePack\\"})
+$(gci -recurse "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\" -Filter "*.tgz").foreach({Move-Item $_ -destination "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\node\\"})
 
 
 # DeDupe
@@ -177,7 +177,8 @@ write-host "$leavingCount duplicate packages"
 $toMove.foreach({if($_.name -notin $moved.Name){move-item $_ $staging}})
 
 # Hashing Files
-get-filehash * | format-list | Out-File "..\\PRE_DTA_HASH_$(Get-Date -Format "yyyyMMdd")_node.txt"
+$Directory = "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\Staging\\node"
+get-filehash "$Directory\\*" | format-list | Out-File "$Directory\\..\\PRE_DTA_HASH_$(Get-Date -Format "yyyyMMdd")_node.txt"
 
 
 # ------------------------------------------------------------
