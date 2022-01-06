@@ -19,4 +19,7 @@ echo Update script ended at $(date) >> /var/log/update-node-repository.log
 # Windows
 $Directory = "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\node\\node_modules"
 
-$(gci -recurse $Directory -Filter "package.json").foreach({npm install --force $($_.directory) --prefix $($_.directory).Parent && npm audit fix --force && cd $($_.directory)..\ && rm -r $($_.directory)\\node_modules ; })
+# $(gci -recurse $Directory -Filter "package.json").foreach({npm install --force $($_.directory) --prefix $($_.directory).Parent && npm audit fix --force && cd $($_.directory)..\ && rm -r $($_.directory)\\node_modules ; })
+
+$(gci -recurse $Directory -Filter "package.json").foreach({npm install --force $($_.directory) --prefix $($_.directory).Parent && npm audit fix --force && cd $($_.directory)..\  ; })
+
