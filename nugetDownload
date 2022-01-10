@@ -61,6 +61,16 @@ $uniqueFiles.foreach({
 # DeDupe
 $moved = gci "*.nupkg" -Recurse -Path "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\Moved\\"
 $toMove = gci -recurse "*.nupkg" -Path "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\nupkg"
+
+$moved | ConvertTo-Json | Out-File -FilePath "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ExternalMovedFileCheck.json"
+$toMove | ConvertTo-Json |  Out-File -FilePath "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ExternalToMoveFileCheck.json"
+
+# Testing methods of reading this json
+if (Test-Path "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ExternalMovedFileCheck.json") {
+    $ImportedMoved = Get-Content -Raw -Path "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ExternalMovedFileCheck.json" | ConvertFrom-Json    
+}
+# $($ImportedMoved).Name
+
 # mkdir C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\Staging
 $staging = "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\Staging\\nupkg\\"
 $count = 0
@@ -71,7 +81,13 @@ write-host "Going to move $count packages"
 write-host "$leavingCount duplicate packages"
 
 # Move Files
-$toMove.foreach({if($_.name -notin $moved.Name){move-item $_ $staging}})
+# $toMove.foreach({if($_.name -notin $moved.Name){move-item $_ $staging}})
+if($ImportedMoved){
+    $toMove.foreach({if($_.name -notin $moved.Name -or $_.name -notin $($ImportedMoved).Name){move-item $_ $staging}})
+} else {
+    $toMove.foreach({if($_.name -notin $moved.Name){move-item $_ $staging}})
+}
+
 
 # get-filehash * | format-list | Out-File "..\\PRE_DTA_HASH_$(Get-Date -Format "yyyyMMdd")_nupkg.txt"
 
