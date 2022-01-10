@@ -31,11 +31,8 @@ $($files.split("> ").foreach({$_.split(" ")[0]}) | sort | unique).foreach({& sav
 
 # ----------------------------------------------------------------------------
 $NuGetBinary = "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\nuget.exe"
-# $SearchFiles = "RestSharp*","Json.NET*","Serilog*","NUnit*","Insight.Database*","FluentValidation*","Noda Time*","FluentEmail*","Hangfire*","LazyCache*","*wsl*","aspnet*","microsoft.entityframework*","System.componentModel*","microsoft.net*","microsoft.dotnet*","MongoDB.Bson","MongoDB.Driver.Core","MongoDB.Driver","MongoDB.Libmongocrypt","mongocsharpdriver","MongoDB.Driver.GridFS","MongoDB*","System.Text*","System.Windows.Extensions*","Humanizer.Core*", "redis*"
 
-$SearchFiles = "Serilog*","NUnit*","Insight.Database*","FluentValidation*","Noda Time*","FluentEmail*","Hangfire*","LazyCache*","*wsl*","aspnet*","microsoft.entityframework*","System.componentModel*","microsoft.net*","microsoft.dotnet*","MongoDB.Bson","MongoDB.Driver.Core","MongoDB.Driver","MongoDB.Libmongocrypt","mongocsharpdriver","MongoDB.Driver.GridFS","MongoDB*","System.Text*","System.Windows.Extensions*","Humanizer.Core*"
-
-$SearchFiles = "microsoft.entityframework*","System.componentModel*","System.Text*","System.Windows.Extensions*","redis*"
+$SearchFiles = "RestSharp*","Json.NET*","Serilog*","NUnit*","Insight.Database*","FluentValidation*","Noda Time*","FluentEmail*","Hangfire*","LazyCache*","*wsl*","aspnet*","microsoft.entityframework*","System.componentModel*","microsoft.net*","microsoft.dotnet*","MongoDB.Bson","MongoDB.Driver.Core","MongoDB.Driver","MongoDB.Libmongocrypt","mongocsharpdriver","MongoDB.Driver.GridFS","MongoDB*","System.Text*","System.Windows.Extensions*","Humanizer.Core*", "redis*","*dotnet*","*cake*","*Node*","*database*","*sqlserver*","*nosql*","*sql*","*docker*","*kubernetes*","*helm*","*mattermost*","*gitlab*","*git*"
 
 Remove-Variable files
 $files = New-Object System.Collections.ArrayList
@@ -44,9 +41,9 @@ $files.add($SearchFiles.foreach({ $(find-package $_ ).name }))
 
 $uniqueFiles = $files | sort | unique
 
-$uniqueFiles.foreach({ & save-package "$_" -path "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\nupkg\\"})
-
 $uniqueFiles.foreach({ & $NuGetBinary install $_ -OutputDirectory "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\nupkg\\" })
+
+$uniqueFiles.foreach({ & save-package "$_" -path "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\nupkg\\"})
 
 # ----------------------------------------------------------------------------
 
@@ -54,7 +51,7 @@ $uniqueFiles.foreach({ & $NuGetBinary install $_ -OutputDirectory "C:\\Users\\$e
 
 # DeDupe
 $moved = gci "*.nupkg" -Recurse -Path "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\Moved\\"
-$toMove = gci -recurse "*.nupkg" -Path "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\"
+$toMove = gci -recurse "*.nupkg" -Path "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\nupkg"
 # mkdir C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\Staging
 $staging = "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\Staging\\nupkg\\"
 $count = 0

@@ -141,8 +141,10 @@ npm search typescript --registry https://registry.npmjs.org/  -l --parseable | c
 
 
 #### NPM for Windows
-$npmFiles = "searchkit","verdaccio","react","ruby","gem","rails","npm","yarn"
-$npmFiles.foreach({$(npm search $_).foreach({npm install $($_.split(" ")[0])})})
+$npmFiles = "searchkit","verdaccio","react","ruby","gem","rails","npm","yarn","materialui","bootstrap","fontawesome","fortawesome","aspnet","windows","kestrel"
+$npmFilesSearched = $npmFiles.foreach({$(npm search $_)})
+$npmFilesSearched.foreach({npm install $($_.split(" ")[0])})
+$npmFilesSearched.foreach({npm pack $($_.split(" ")[0])})
 
 # ------------------------------------------------------------
 $(npm search searchkit).foreach({npm pack $($_.split(" ")[0])})
@@ -151,7 +153,7 @@ $(gci -recurse . -Filter package.json).foreach({cd $_.directory && npm pack })
 
 $(gci -recurse . -Filter package.json).foreach({cd $_.directory && npm pack . })
 
-$(gci -recurse . -Filter "*.tgz").foreach({copy-item $_ -destination ..\node\})
+$(gci -recurse . -Filter "*.tgz").foreach({copy-item $_ -destination "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\node\\"})
 
 # ------------------------------------------------------------
 
