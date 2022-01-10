@@ -39,7 +39,7 @@ $files = New-Object System.Collections.ArrayList
 
 $files.add($SearchFiles.foreach({ $(find-package $_ ).name }))
 
-$uniqueFiles = $files | sort | unique
+$uniqueFiles = $files | Sort-Object | Get-unique
 
 Write-Host "$uniqueFiles.Count packages to be installed. This does not include dependencies."
 
