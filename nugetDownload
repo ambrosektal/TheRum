@@ -41,7 +41,7 @@ $files.add($SearchFiles.foreach({ $(find-package $_ ).name }))
 
 $uniqueFiles = $files | Sort-Object | Get-unique
 
-Write-Host "$uniqueFiles.Count packages to be installed. This does not include dependencies."
+Write-Host "$($uniqueFiles.Count) packages to be installed. This does not include dependencies." -ForegroundColor Green
 
 $uniqueFiles.foreach({ & $NuGetBinary install $_ -OutputDirectory "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\nupkg\\" })
 
