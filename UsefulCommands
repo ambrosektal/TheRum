@@ -139,7 +139,6 @@ for i in ` ls  | grep -v javascript | grep -v transfer | grep -v shares ` ; do f
 # NPM search
 npm search typescript --registry https://registry.npmjs.org/  -l --parseable | cut -f1 | sort -u
 
-
 #### NPM for Windows
 # $npmFiles = "searchkit","verdaccio","react","ruby","gem","rails","npm","yarn","materialui","bootstrap","fontawesome","fortawesome","aspnet","windows","kestrel","skiasharp","skia"
 $npmFiles = "skiasharp","skia","faker"
