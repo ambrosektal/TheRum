@@ -43,9 +43,16 @@ $uniqueFiles = $files | Sort-Object | Get-unique
 
 Write-Host "$($uniqueFiles.Count) packages to be installed. This does not include dependencies." -ForegroundColor Green
 
-$uniqueFiles.foreach({ & $NuGetBinary install $_ -OutputDirectory "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\nupkg\\" })
+$uniqueFiles.foreach({ 
+    try {
+        & $NuGetBinary install $_ -OutputDirectory "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\nupkg\\" 
+    }
+    catch {
+        & save-package "$_" -path "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\nupkg\\"
+    }
+})
 
-$uniqueFiles.foreach({ & save-package "$_" -path "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\nupkg\\"})
+# $uniqueFiles.foreach({ & save-package "$_" -path "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\nupkg\\"})
 
 # ----------------------------------------------------------------------------
 
