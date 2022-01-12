@@ -140,8 +140,8 @@ for i in ` ls  | grep -v javascript | grep -v transfer | grep -v shares ` ; do f
 npm search typescript --registry https://registry.npmjs.org/  -l --parseable | cut -f1 | sort -u
 
 #### NPM for Windows
-# $npmFiles = "searchkit","verdaccio","react","ruby","gem","rails","npm","yarn","materialui","bootstrap","fontawesome","fortawesome","aspnet","windows","kestrel","skiasharp","skia"
-$npmFiles = "skiasharp","skia","faker"
+# $npmFiles = "searchkit","verdaccio","react","ruby","gem","rails","npm","yarn","materialui","bootstrap","fontawesome","fortawesome","aspnet","windows","kestrel","skiasharp","skia","*undefsafe*"
+$npmFiles = "create-react-app"
 $npmFilesSearched = $npmFiles.foreach({$(npm search $_)})
 $npmFilesSearched.foreach({npm install $($_.split(" ")[0])})
 $npmFilesSearched.foreach({npm pack $($_.split(" ")[0])})
@@ -155,6 +155,9 @@ $(gci -recurse . -Filter package.json).foreach({cd $_.directory && npm pack . })
 
 $(gci -recurse . -Filter "*.tgz").foreach({copy-item $_ -destination "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\node\\"})
 
+# npm audit fix --force 
+# $(gci -recurse . -Filter package.json).foreach({cd $_.directory && npm pack . })
+
 # ------------------------------------------------------------
 
 $packageFiles = gci -recurse . -Filter package.json
@@ -164,8 +167,8 @@ $(gci -recurse "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\" -Filter
 
 
 # DeDupe
-$moved = gci "*.tgz" -Recurse -Path "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\Moved\\"
-$toMove = gci -recurse "*.tgz" -Path "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\"
+$moved = gci "*.tgz" -Recurse -Path "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\Moved\\Node\\"
+$toMove = gci -recurse "*.tgz" -Path "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\Node\\"
 # mkdir C:\Users\$env:USERNAME\Downloads\Staging
 $staging = "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\Staging\\Node\\"
 $count = 0
@@ -182,6 +185,8 @@ $toMove.foreach({if($_.name -notin $moved.Name){move-item $_ $staging}})
 $Directory = "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\Staging\\node"
 get-filehash "$Directory\\*" | format-list | Out-File "$Directory\\..\\PRE_DTA_HASH_$(Get-Date -Format "yyyyMMdd")_node.txt"
 
+# $toHash = gci -recurse "*.tgz" -Path .
+# $toHash.foreach({Get-FileHash $_ | format-list | Out-File -Append "$Directory\\..\\PRE_DTA_HASH_$(Get-Date -Format "yyyyMMdd")_node.txt"})
 
 # ------------------------------------------------------------
 # tar Commands

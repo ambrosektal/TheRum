@@ -32,9 +32,9 @@ $($files.split("> ").foreach({$_.split(" ")[0]}) | sort | unique).foreach({& sav
 # ----------------------------------------------------------------------------
 $NuGetBinary = "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\nuget.exe"
 
-$SearchFiles = "RestSharp*","Json.NET*","Serilog*","NUnit*","Insight.Database*","FluentValidation*","Noda Time*","FluentEmail*","Hangfire*","LazyCache*","*wsl*","aspnet*","microsoft.entityframework*","System.componentModel*","microsoft.net*","microsoft.dotnet*","MongoDB.Bson","MongoDB.Driver.Core","MongoDB.Driver","MongoDB.Libmongocrypt","mongocsharpdriver","MongoDB.Driver.GridFS","MongoDB*","System.Text*","System.Windows.Extensions*","Humanizer.Core*", "redis*","*dotnet*","*cake*","*Node*","*database*","*sqlserver*","*nosql*","*sql*","*docker*","*kubernetes*","*helm*","*mattermost*","*gitlab*","*git*","*typescript*","*skiasharp*","*skia*"
+$SearchFiles = "RestSharp*","Json.NET*","Serilog*","NUnit*","Insight.Database*","FluentValidation*","Noda Time*","FluentEmail*","Hangfire*","LazyCache*","*wsl*","aspnet*","microsoft.entityframework*","System.componentModel*","microsoft.net*","microsoft.dotnet*","MongoDB.Bson","MongoDB.Driver.Core","MongoDB.Driver","MongoDB.Libmongocrypt","mongocsharpdriver","MongoDB.Driver.GridFS","MongoDB*","System.Text*","System.Windows.Extensions*","Humanizer.Core*", "redis*","*dotnet*","*cake*","*Node*","*database*","*sqlserver*","*nosql*","*sql*","*docker*","*kubernetes*","*helm*","*mattermost*","*gitlab*","*git*","*typescript*","*skiasharp*","*skia*","*vscode*"
 # $SearchFiles = "*helm*","*mattermost*","*gitlab*","*skiasharp*","*skia*"
-# $SearchFiles = "*skiasharp*","*skia*"
+# $SearchFiles = "*skiasharp*","*skia*","*vscode*"
 
 Remove-Variable files
 $files = New-Object System.Collections.ArrayList
@@ -61,8 +61,8 @@ $uniqueFiles.foreach({
 # $(gci -recurse . -Filter "*.nupkg").foreach({move-item $_ -destination "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\Staging\\"})
 
 # DeDupe
-$moved = gci "*.nupkg" -Recurse -Path "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\Moved\\"
-$toMove = gci -recurse "*.nupkg" -Path "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\nupkg"
+$moved = gci "*.nupkg" -Recurse -Path "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\Moved\\nupkg\\"
+$toMove = gci -recurse "*.nupkg" -Path "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\nupkg\\"
 
 # # Testing methods of reading this json
 # $moved | ConvertTo-Json | Out-File -FilePath "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ExternalMovedFileCheck.json"
@@ -94,4 +94,6 @@ if(!$ImportedMoved){
 
 $Directory = "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\Staging\\nupkg"
 get-filehash "$Directory\\*" | format-list | Out-File "$Directory\\..\\PRE_DTA_HASH_$(Get-Date -Format "yyyyMMdd")_nupkg.txt"
+
+
 
