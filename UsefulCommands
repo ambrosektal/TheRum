@@ -185,8 +185,10 @@ $toMove.foreach({if($_.name -notin $moved.Name){move-item $_ $staging}})
 $Directory = "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\Staging\\node"
 get-filehash "$Directory\\*" | format-list | Out-File "$Directory\\..\\PRE_DTA_HASH_$(Get-Date -Format "yyyyMMdd")_node.txt"
 
-# $toHash = gci -recurse "*.tgz" -Path .
-# $toHash.foreach({Get-FileHash $_ | format-list | Out-File -Append "$Directory\\..\\PRE_DTA_HASH_$(Get-Date -Format "yyyyMMdd")_node.txt"})
+
+# $Directory = "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\Staging\\Software"
+# $toHash = gci -recurse -Path $Directory
+# $toHash.foreach({Get-FileHash $_ | format-list | Out-File -Append "$Directory\\..\\PRE_DTA_HASH_$(Get-Date -Format "yyyyMMdd")_Software.txt"})
 
 # ------------------------------------------------------------
 # tar Commands

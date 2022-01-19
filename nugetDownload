@@ -35,6 +35,9 @@ $NuGetBinary = "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\nuget.exe"
 $SearchFiles = "RestSharp*","Json.NET*","Serilog*","NUnit*","Insight.Database*","FluentValidation*","Noda Time*","FluentEmail*","Hangfire*","LazyCache*","*wsl*","aspnet*","microsoft.entityframework*","System.componentModel*","microsoft.net*","microsoft.dotnet*","MongoDB.Bson","MongoDB.Driver.Core","MongoDB.Driver","MongoDB.Libmongocrypt","mongocsharpdriver","MongoDB.Driver.GridFS","MongoDB*","System.Text*","System.Windows.Extensions*","Humanizer.Core*", "redis*","*dotnet*","*cake*","*Node*","*database*","*sqlserver*","*nosql*","*sql*","*docker*","*kubernetes*","*helm*","*mattermost*","*gitlab*","*git*","*typescript*","*skiasharp*","*skia*","*vscode*"
 # $SearchFiles = "*helm*","*mattermost*","*gitlab*","*skiasharp*","*skia*"
 # $SearchFiles = "*skiasharp*","*skia*","*vscode*"
+$SearchFiles = "Microsoft.AspNetCore.Spa*","*Skote*","*backbone*","*Breeze*","*emberjs*","*towel*","*Veltrix*","*SmartAdmin*","*metrica*","*AspStudio*","*appwork*","*homer*","*mono*","*argon*","*knockout*","*template*"
+
+$NuGetBinary = "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\nuget.exe"
 
 Remove-Variable files
 $files = New-Object System.Collections.ArrayList
@@ -50,8 +53,12 @@ $uniqueFiles.foreach({
         & $NuGetBinary install $_ -OutputDirectory "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\nupkg\\" 
     }
     catch {
-        & save-package "$_" -path "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\nupkg\\"
+        save-package "$_" -path "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\nupkg\\"
     }
+    finally {
+        dotnet tool install --tool-path "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\nupkg\\"
+    }
+
 })
 
 # $uniqueFiles.foreach({ & save-package "$_" -path "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\nupkg\\"})
