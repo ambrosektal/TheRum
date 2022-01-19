@@ -58,8 +58,12 @@ $uniqueFiles.foreach({
     finally {
         dotnet tool install $_ --tool-path "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\nupkg\\"
     }
-
 })
+
+# $uniqueFiles.foreach({ 
+#         dotnet tool install $_ --tool-path "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\nupkg\\"
+# })
+
 
 # $uniqueFiles.foreach({ & save-package "$_" -path "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\nupkg\\"})
 
