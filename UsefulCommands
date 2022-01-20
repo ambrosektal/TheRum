@@ -141,10 +141,11 @@ npm search typescript --registry https://registry.npmjs.org/  -l --parseable | c
 
 #### NPM for Windows
 # $npmFiles = "searchkit","verdaccio","react","ruby","gem","rails","npm","yarn","materialui","bootstrap","fontawesome","fortawesome","aspnet","windows","kestrel","skiasharp","skia","*undefsafe*"
-$npmFiles = "create-react-app"
+$npmFiles = "create-react-*","cra-template*","*searchkit*"
 $npmFilesSearched = $npmFiles.foreach({$(npm search $_)})
-$npmFilesSearched.foreach({npm install $($_.split(" ")[0])})
-$npmFilesSearched.foreach({npm pack $($_.split(" ")[0])})
+$npmFilesSearchedUnique = $($npmFilesSearched | sort | unique)
+$npmFilesSearchedUnique.foreach({npm install $($_.split(" ")[0])})
+$npmFilesSearchedUnique.foreach({npm pack $($_.split(" ")[0])})
 
 # ------------------------------------------------------------
 $(npm search searchkit).foreach({npm pack $($_.split(" ")[0])})
