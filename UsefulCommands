@@ -150,11 +150,15 @@ $npmFilesSearchedUnique.foreach({npm pack $($_.split(" ")[0])})
 # ------------------------------------------------------------
 $(npm search searchkit).foreach({npm pack $($_.split(" ")[0])})
 
-$(gci -recurse . -Filter package.json).foreach({cd $_.directory && npm pack })
+$Directory = "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\node\\"
 
-$(gci -recurse . -Filter package.json).foreach({cd $_.directory && npm pack . })
+$npmFiles = $(gci -recurse . -Filter package.json)
 
-$(gci -recurse . -Filter "*.tgz").foreach({copy-item $_ -destination "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\node\\"})
+# $npmFiles.foreach({cd $_.directory && npm pack })
+$npmFiles.foreach({cd $_.directory && npm pack . })
+
+$tgzFiles = $(gci -recurse . -Filter "*.tgz")
+$tgzFiles.foreach({copy-item $_ -destination $Directory})
 
 # npm audit fix --force 
 # $(gci -recurse . -Filter package.json).foreach({cd $_.directory && npm pack . })
