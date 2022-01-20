@@ -141,7 +141,8 @@ npm search typescript --registry https://registry.npmjs.org/  -l --parseable | c
 
 #### NPM for Windows
 # $npmFiles = "searchkit","verdaccio","react","ruby","gem","rails","npm","yarn","materialui","bootstrap","fontawesome","fortawesome","aspnet","windows","kestrel","skiasharp","skia","*undefsafe*"
-$npmFiles = "create-react-*","cra-template*","*searchkit*"
+# $npmFiles = "create-react-*","cra-template*","*searchkit*"
+$npmFiles = "*mongo*"
 $npmFilesSearched = $npmFiles.foreach({$(npm search $_)})
 $npmFilesSearchedUnique = $($npmFilesSearched | sort | unique)
 $npmFilesSearchedUnique.foreach({npm install $($_.split(" ")[0])})
