@@ -77,6 +77,7 @@ $uniqueFiles.foreach({
 # DeDupe
 $moved = gci "*.nupkg" -Recurse -Path "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\Moved\\nupkg\\"
 $toMove = gci -recurse "*.nupkg" -Path "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\nupkg\\"
+# $toMove = gci -recurse "*.nupkg"
 # $toMove = $moved
 # # Testing methods of reading this json
 # $moved | ConvertTo-Json | Out-File -FilePath "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ExternalMovedFileCheck.json"
