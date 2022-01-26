@@ -107,8 +107,10 @@ if(!$ImportedMoved){
 
 # get-filehash * | format-list | Out-File "..\\PRE_DTA_HASH_$(Get-Date -Format "yyyyMMdd")_nupkg.txt"
 
-$Directory = "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\Staging\\nupkg"
-get-filehash "$Directory\\*" | format-list | Out-File "$Directory\\..\\PRE_DTA_HASH_$(Get-Date -Format "yyyyMMdd")_nupkg.txt"
+# $Directory = "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\Staging\\nupkg"
+$Directory = "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\Staging"
+# get-filehash "$Directory\\*" | format-list | Out-File "$Directory\\..\\PRE_DTA_HASH_$(Get-Date -Format "yyyyMMdd")_nupkg.txt"
+get-filehash "$Directory\\Staging.7z.*" | format-list | Out-File "$Directory\\..\\PRE_DTA_HASH_$(Get-Date -Format "yyyyMMdd")_sjspann.txt"
 
 
 
