@@ -140,11 +140,23 @@ for i in ` ls  | grep -v javascript | grep -v transfer | grep -v shares ` ; do f
 npm search typescript --registry https://registry.npmjs.org/  -l --parseable | cut -f1 | sort -u
 
 #### NPM for Windows
- $npmFiles = "searchkit","verdaccio","react","ruby","gem","rails","npm","yarn","materialui","bootstrap","fontawesome","fortawesome","aspnet","windows","kestrel","skiasharp","skia","*undefsafe*","create-react-*","cra-template*","*searchkit*","*mongo*","*apollo*","typescript"
-$npmFilesSearched = $npmFiles.foreach({$(npm search $_)})
+$npmFiles = "searchkit","verdaccio","react","ruby","gem","rails","npm","yarn","materialui","mui","bootstrap","fontawesome","fortawesome","aspnet","windows","kestrel","skiasharp","skia","undefsafe","create-react-","cra-template","searchkit","mongo","mongodb","apollo","typescript","@elastic","@searchkit","@logstash","@kibana","@mongodb","docker","@docker"
+# $npmFiles = "@react","@mui","mongo","mongodb""@elastic","@searchkit","@logstash","@kibana","@mongodb","docker","@docker","@microsoft"
+$npmFilesSearched = $npmFiles.foreach({$(npm search -p "$_")})
 $npmFilesSearchedUnique = $($npmFilesSearched | sort | unique)
-$npmFilesSearchedUnique.foreach({npm install $($_.split(" ")[0])})
-$npmFilesSearchedUnique.foreach({npm pack $($_.split(" ")[0])})
+# $npmFilesSearchedUnique.foreach({npm install $($_.split(" ")[0])})
+# When using a -p in the search:::
+$npmFilesSearchedUnique.foreach({npm install $($_.split("`t")[0])})
+#` When using a -p in the search
+# $npmFilesSearchedUnique.foreach({npm pack $($_.split(" ")[0])})
+$npmFilesSearchedUnique.foreach({npm pack $($_.split("`t")[0])})
+#` 
+
+cd node_modules
+$directory=$(pwd)
+$folders = gci
+$folders.foreach({cd $_.directory && npm i --force && npm audit fix --force })
+
 
 # ------------------------------------------------------------
 $(npm search searchkit).foreach({npm pack $($_.split(" ")[0])})
@@ -198,3 +210,7 @@ get-filehash "$Directory\\*" | format-list | Out-File "$Directory\\..\\PRE_DTA_H
 # tar Commands
 tar --strip-components 1 -xzvf <filename> -C /usr/
 tar --strip-components 1 -xzvf node-v16* -C /usr/
+
+
+yarn config set registry http://10.245.42.25:4873/
+yarn config set unsafeHTTPWhiteList 10.245.42.25
