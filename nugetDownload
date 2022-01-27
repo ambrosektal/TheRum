@@ -38,7 +38,7 @@ $NuGetBinary = "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\nuget.exe"
 # $SearchFiles = "Microsoft.AspNetCore.Spa*","*Skote*","*backbone*","*Breeze*","*emberjs*","*towel*","*Veltrix*","*SmartAdmin*","*metrica*","*AspStudio*","*appwork*","*homer*","*mono*","*argon*","*knockout*","*template*"
 
 $SearchFiles = "*Microsoft.CrmSdk.Workflow*","*CouchbaseNetClient*","*OpenTelemetry*","*Auth0.Core*","*CloudNative.CloudEvents*","*itext7*","*Microsoft.VisualStudio.Utilities*","*Microsoft.Net.Compilers.Toolset*","*Auth0.AuthenticationApi*","*Microsoft.VisualStudio.OLE.Interop*","*Minio*","*Microsoft.VisualStudio.TextManager.Interop*","*Microsoft.VisualStudio.SDK.EmbedInteropTypes*","*Microsoft.VisualStudio.Imaging*","*LaunchDarkly.ServerSdk*","*stdole*","*envdte*","*Hl7.FhirPath*","*LaunchDarkly.CommonSdk*","*AuthorizeNet*","*Microsoft.VisualStudio.Shell.Framework*","*Microsoft.VisualStudio.Imaging.Interop.14.0.DesignTime*","*MSBuild.Sdk.Extras*","*Microsoft.Extensions.Logging.Abstractions*","*Atlassian.SDK*","*Microsoft.VisualStudio.Shell**","*Microsoft.VisualStudio.SDK.Analyzers*","*Microsoft.VisualStudio.ImageCatalog*","*Microsoft.Bot.Builder.Integration.AspNet.Core*","*Microsoft.Bot.Streaming*","*mongo*","*certificate*"
-$SearchFiles = "*certificate*"
+$SearchFiles = "*mongodb*","*connector*","*jdbc*","*odbc*"
 
 $NuGetBinary = "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\nuget.exe"
 
