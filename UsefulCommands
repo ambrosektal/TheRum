@@ -141,15 +141,19 @@ npm search typescript --registry https://registry.npmjs.org/  -l --parseable | c
 
 #### NPM for Windows
 $npmFiles = "searchkit","verdaccio","react","ruby","gem","rails","npm","yarn","materialui","mui","bootstrap","fontawesome","fortawesome","aspnet","windows","kestrel","skiasharp","skia","undefsafe","create-react-","cra-template","searchkit","mongo","mongodb","apollo","typescript","@elastic","@searchkit","@logstash","@kibana","@mongodb","docker","@docker"
-# $npmFiles = "@nextjs","nextjs","@next","next-js","next","@react","@mui","mongo","mongodb""@elastic","@searchkit","@logstash","@kibana","@mongodb","docker","@docker","@microsoft"
+# $npmFiles = "@nextjs","nextjs","@next","next-js","next","@react","@mui","mongo","mongodb","@elastic","@searchkit","@logstash","@kibana","@mongodb","docker","@docker","@microsoft"
+# $npmFiles = "@nextjs","nextjs","@next","next-js","next","@react","@mui","mongo","mongodb"
 $npmFilesSearched = $npmFiles.foreach({$(npm search -p "$_")})
 $npmFilesSearchedUnique = $($npmFilesSearched | sort | unique)
 # $npmFilesSearchedUnique.foreach({npm install $($_.split(" ")[0])})
 # When using a -p in the search:::
 Write-Host "-------------------------------------------------------------------------------"
-Write-Host "Downloading $npmFilesSearchedUnique.count packages. Not Including deps."
+Write-Host "Downloading $($npmFilesSearchedUnique.count) packages. Not Including deps."
 Write-Host "-------------------------------------------------------------------------------"
-$npmFilesSearchedUnique.foreach({npm install $($_.split("`t")[0])})
+$npmFilesSearchedUnique.foreach({npm install --use-legacy-deps $($_.split("`t")[0])})
+
+npm audit fix -f
+
 #` When using a -p in the search
 # $npmFilesSearchedUnique.foreach({npm pack $($_.split(" ")[0])})
 $npmFilesSearchedUnique.foreach({npm pack $($_.split("`t")[0])})
