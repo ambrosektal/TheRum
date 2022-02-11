@@ -149,7 +149,14 @@ $npmFilesSearchedUnique = $($npmFilesSearched | sort | unique)
 Write-Host "-------------------------------------------------------------------------------"
 Write-Host "Downloading $($npmFilesSearchedUnique.count) packages. Not Including deps."
 Write-Host "-------------------------------------------------------------------------------"
-$npmFilesSearchedUnique.foreach({npm install --use-legacy-deps $($_.split("`t")[0])})
+# $npmFilesSearchedUnique.foreach({npm install --legacy-peer-deps $($_.split("`t")[0])})
+
+$npmFilesClean = $npmFilesSearchedUnique.foreach({$($_.split("`t")[0])})
+
+npm install --legacy-peer-deps $npmFilesClean
+
+
+npm i 
 
 npm audit fix
 
