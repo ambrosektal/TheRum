@@ -179,27 +179,27 @@ $folders.foreach({cd $_.directory && npm i --legacy-peer-deps && npm audit fix -
 
 
 # ------------------------------------------------------------
-$(npm search searchkit).foreach({npm pack $($_.split(" ")[0])})
+# $(npm search searchkit).foreach({npm pack $($_.split(" ")[0])})
 
-$Directory = "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\node\\"
+# $Directory = "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\node\\"
 
-$npmFiles = $(gci -recurse . -Filter package.json)
+# $npmFiles = $(gci -recurse . -Filter package.json)
 
-# $npmFiles.foreach({cd $_.directory && npm pack })
-$npmFiles.foreach({cd $_.directory && npm pack . })
+# # $npmFiles.foreach({cd $_.directory && npm pack })
+# $npmFiles.foreach({cd $_.directory && npm pack . })
 
-$tgzFiles = $(gci -recurse . -Filter "*.tgz")
-$tgzFiles.foreach({copy-item $_ -destination $Directory})
+# $tgzFiles = $(gci -recurse . -Filter "*.tgz")
+# $tgzFiles.foreach({copy-item $_ -destination $Directory})
 
-# npm audit fix --force 
-# $(gci -recurse . -Filter package.json).foreach({cd $_.directory && npm pack . })
+# # npm audit fix --force 
+# # $(gci -recurse . -Filter package.json).foreach({cd $_.directory && npm pack . })
 
 # ------------------------------------------------------------
 
-$packageFiles = gci -recurse . -Filter package.json
-$packageFiles.foreach({cd $_.directory && npm pack . })
+# $packageFiles = gci -recurse . -Filter package.json
+# $packageFiles.foreach({cd $_.directory && npm pack . })
 
-$(gci -recurse "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\" -Filter "*.tgz").foreach({Move-Item $_ -destination "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\node\\"})
+# $(gci -recurse "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\" -Filter "*.tgz").foreach({Move-Item $_ -destination "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\node\\"})
 
 
 # DeDupe
