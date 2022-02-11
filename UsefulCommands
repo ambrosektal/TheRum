@@ -153,10 +153,15 @@ Write-Host "--------------------------------------------------------------------
 
 $npmFilesClean = $npmFilesSearchedUnique.foreach({$($_.split("`t")[0])})
 
-npm install --legacy-peer-deps $npmFilesClean
+npm install --legacy-peer-deps $npmFilesClean[0..200]
+npm install --legacy-peer-deps $npmFilesClean[201..400]
+npm install --legacy-peer-deps $npmFilesClean[401..600]
+npm install --legacy-peer-deps $npmFilesClean[601..800]
+npm install --legacy-peer-deps $npmFilesClean[801..1000]
+npm install --legacy-peer-deps $npmFilesClean[1001..1200]
+npm install --legacy-peer-deps $npmFilesClean[1201..1400]
 
-
-npm i 
+# ------------------------------------------------------------
 
 npm audit fix
 
