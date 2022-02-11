@@ -175,7 +175,7 @@ $npmFilesSearchedUnique.foreach({npm pack $($_.split("`t")[0])})
 cd node_modules
 $directory=$(pwd)
 $folders = gci
-$folders.foreach({cd $_.directory && npm i --force && npm audit fix --force })
+$folders.foreach({cd $_.directory && npm i --legacy-peer-deps && npm audit fix --force })
 
 
 # ------------------------------------------------------------
