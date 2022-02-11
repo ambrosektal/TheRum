@@ -140,9 +140,8 @@ for i in ` ls  | grep -v javascript | grep -v transfer | grep -v shares ` ; do f
 npm search typescript --registry https://registry.npmjs.org/  -l --parseable | cut -f1 | sort -u
 
 #### NPM for Windows
-$npmFiles = "searchkit","verdaccio","@verdaccio","react","ruby","gem","rails","npm","@npm","yarn","@yarn","materialui","mui","bootstrap","fontawesome","fortawesome","aspnet","windows","kestrel","skiasharp","skia","undefsafe","create-react-","create-next-","cra-template","searchkit","mongo","mongodb","apollo","typescript","@elastic","@searchkit","@logstash","@kibana","@mongodb","docker","@docker","@microsoft","@types","@typescript","typescript","lerna","@lerna","node-gyp","gyp"
-# $npmFiles = "@nextjs","nextjs","@next","next-js","@next-js","next","@react","@mui","mongo","mongodb","@elastic","@searchkit","@logstash","@kibana","@mongodb","docker","@docker","@microsoft","@types","@typescript","typescript"
-$npmFiles = "@graphql","graphql","@graphql-tools","apollo-server","@apollo-server","apollo","@apollo"
+$npmFiles = "@apollo","@apollo-server","@apollo-micro-server","@babel","@docker","@elastic","@ember","@gatsby","@graphql","@graphql-tools","@gulp","@jetbrains","@kibana","@lerna","@logstash","@microsoft","@mongodb","@mui","@next","@next-js","@nextjs","@npm","@parcel","@razzle","@react","@searchkit","@types","@typescript","@verdaccio","@vscode","@webpack","@yarn","apollo","apollo-server","apollo-micro-server","aspnet","babel","bootstrap","code-server","cra-template","create-next-","create-react-","docker","ember","ember-cli","fontawesome","fortawesome","gatsby","gem","graphql","gulp","gyp","jetbrains","kestrel","lerna","materialui","mongo","mongodb","mui","next","next-js","nextjs","node-gyp","npm","parcel","rails","razzle","react","ruby","searchkit","skia","skiasharp","typescript","undefsafe","verdaccio","vscode","webpack","windows","yarn"
+
 $npmFilesSearched = $npmFiles.foreach({$(npm search -p "$_")})
 $npmFilesSearchedUnique = $($npmFilesSearched | sort | unique)
 # $npmFilesSearchedUnique.foreach({npm install $($_.split(" ")[0])})
