@@ -1,6 +1,8 @@
 
 #### NPM for Windows
-$npmFiles = "@apollo","@apollo-server","@apollo-micro-server","@babel","@docker","@elastic","@ember","@gatsby","@graphql","@graphql-tools","@gulp","@jetbrains","@kibana","@lerna","@logstash","@microsoft","@mongodb","@mui","@next","@next-js","@nextjs","@npm","@parcel","@razzle","@react","@searchkit","@types","@typescript","@verdaccio","@vscode","@webpack","@yarn","apollo","apollo-server","apollo-micro-server","aspnet","babel","bootstrap","code-server","cra-template","create-next-","create-react-","docker","ember","ember-cli","fontawesome","fortawesome","gatsby","gem","graphql","gulp","gyp","jetbrains","kestrel","lerna","materialui","mongo","mongodb","mui","next","next-js","nextjs","node-gyp","npm","parcel","rails","razzle","react","ruby","searchkit","skia","skiasharp","typescript","undefsafe","verdaccio","vscode","webpack","windows","yarn","pnpm","@pnpm","powershell","tty","pty","express","@express","quire","@quire","bootstrap","@bootstrap","dotnet","aspnet","@dotnet","@aspnet","axios","@axios","next-connect","fs-extra","@grpc","grpc","algolia","@algolia","algoliasearch","@algoliasearch","eslint","babel","@babel","@eslint","eslint-config-react-app","@babel/eslint","eslint-config","eslint-config-react","@babel/eslint-parser","rush","@rush","react-chartjs","react-chart","react-chartjs-2","helm","search","dom","server","3ds","unity","game","react-","threejs","@threejs","3d","threejs-","react-use","react-hook-form","react-hook","swr","css","websocket","template","hook","component","form","react-form"
+$npmFiles = "@apollo","@apollo-server","@apollo-micro-server","@babel","@docker","@elastic","@ember","@gatsby","@graphql","@graphql-tools","@gulp","@jetbrains","@kibana","@lerna","@logstash","@microsoft","@mongodb","@mui","@next","@next-js","@nextjs","@npm","@parcel","@razzle","@react","@searchkit","@types","@typescript","@verdaccio","@vscode","@webpack","@yarn","apollo","apollo-server","apollo-micro-server","aspnet","babel","bootstrap","code-server","cra-template","create-next-","create-react-","docker","ember","ember-cli","fontawesome","fortawesome","gatsby","gem","graphql","gulp","gyp","jetbrains","kestrel","lerna","materialui","mongo","mongodb","mui","next","next-js","nextjs","node-gyp","npm","parcel","rails","razzle","react","ruby","searchkit","skia","skiasharp","typescript","undefsafe","verdaccio","vscode","webpack","windows","yarn","pnpm","@pnpm","powershell","tty","pty","express","@express","quire","@quire","bootstrap","@bootstrap","dotnet","aspnet","@dotnet","@aspnet","axios","@axios","next-connect","fs-extra","@grpc","grpc","algolia","@algolia","algoliasearch","@algoliasearch","eslint","babel","@babel","@eslint","eslint-config-react-app","@babel/eslint","eslint-config","eslint-config-react","@babel/eslint-parser","rush","@rush","react-chartjs","react-chart","react-chartjs-2","helm","search","dom","server","3ds","unity","game","react-","threejs","@threejs","3d","threejs-","react-use","react-hook-form","react-hook","swr","css","websocket","template","hook","component","form","react-form","@solid.js","solidjs","solid","@solid"
+
+$npmFiles = "@solid.js","solidjs","solid","@solid"
 
 $npmFilesSearched = $npmFiles.foreach({$(npm search -p "$_")})
 $npmFilesSearchedUnique = $($npmFilesSearched | sort | unique)
@@ -38,9 +40,10 @@ npm audit fix -f
 # #
 
 cd node_modules
+# cd C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\node\\node_modules\\"
 $directory=$(pwd)
-$folders = gci 
-$folders.foreach({cd $_ && npm i --legacy-peer-deps && npm audit fix --force })
+$folders = gci $directory
+$folders.foreach({cd $directory\$_ && npm i --legacy-peer-deps && npm audit fix --force })
 
 
 # ------------------------------------------------------------
