@@ -49,6 +49,8 @@ npm audit fix --legacy-peer-deps
 
 npm audit fix -f --legacy-peer-deps
 
+yarn audit
+
 # # When using a -p in the search
 # # $npmFilesSearchedUnique.foreach({npm pack $($_.split(" ")[0])})
 # $npmFilesSearchedUnique.foreach({npm pack $($_.split("`t")[0])})
