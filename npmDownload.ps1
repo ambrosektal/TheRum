@@ -1,6 +1,12 @@
 
 #### NPM for Windows
-$npmFiles = "@apollo","@apollo-server","@apollo-micro-server","@babel","@docker","@elastic","@ember","@gatsby","@graphql","@graphql-tools","@gulp","@jetbrains","@kibana","@lerna","@logstash","@microsoft","@mongodb","@mui","@next","@next-js","@nextjs","@npm","@parcel","@razzle","@react","@searchkit","@types","@typescript","@verdaccio","@vscode","@webpack","@yarn","apollo","apollo-server","apollo-micro-server","aspnet","babel","bootstrap","code-server","cra-template","create-next-","create-react-","docker","ember","ember-cli","fontawesome","fortawesome","gatsby","gem","graphql","gulp","gyp","jetbrains","kestrel","lerna","materialui","mongo","mongodb","mui","next","next-js","nextjs","node-gyp","npm","parcel","rails","razzle","react","ruby","searchkit","skia","skiasharp","typescript","undefsafe","verdaccio","vscode","webpack","windows","yarn","pnpm","@pnpm","powershell","tty","pty","express","@express","quire","@quire","bootstrap","@bootstrap","dotnet","aspnet","@dotnet","@aspnet","axios","@axios","next-connect","fs-extra","@grpc","grpc","algolia","@algolia","algoliasearch","@algoliasearch","eslint","babel","@babel","@eslint","eslint-config-react-app","@babel/eslint","eslint-config","eslint-config-react","@babel/eslint-parser","rush","@rush","react-chartjs","react-chart","react-chartjs-2","helm","search","dom","server","3ds","unity","game","react-","threejs","@threejs","3d","threejs-","react-use","react-hook-form","react-hook","swr","css","websocket","template","hook","component","form","react-form","@solid.js","solidjs","solid","@solid"
+$npmFiles = "@apollo","@apollo-server","@apollo-micro-server","@babel","@docker","@elastic","@ember","@gatsby","@graphql","@graphql-tools","@gulp","@jetbrains","@kibana","@lerna","@logstash","@microsoft","@mongodb","@mui","@next","@next-js","@nextjs","@npm","@parcel","@razzle","@react","@searchkit","@types","@typescript","@verdaccio","@vscode","@webpack","@yarn","apollo","apollo-server","apollo-micro-server","aspnet","babel","bootstrap","code-server","cra-template","create-next-","create-react-","docker","ember","ember-cli","fontawesome","fortawesome","gatsby","gem","graphql","gulp","gyp","jetbrains","kestrel","lerna","materialui","mongo","mongodb","mui","next","next-js","nextjs","node-gyp","npm","parcel","rails","razzle","react","ruby","searchkit","skia","skiasharp","typescript","undefsafe","verdaccio","vscode","webpack","windows","yarn","pnpm","@pnpm","powershell","tty","pty","express","@express","quire","@quire","bootstrap","@bootstrap","dotnet","aspnet","@dotnet","@aspnet","axios","@axios","next-connect","fs-extra","@grpc","grpc","eslint","babel","@babel","@eslint","eslint-config-react-app","@babel/eslint","eslint-config","eslint-config-react","@babel/eslint-parser","rush","@rush","react-chartjs","react-chart","react-chartjs-2","helm","search","dom","server","3ds","unity","game","react-","threejs","@threejs","3d","threejs-","react-use","react-hook-form","react-hook","swr","css","websocket","template","hook","component","form","react-form","@solid.js","solidjs","solid","@solid","react-virtual","react-window","@npm-","npm-","@vscode","vscode-jsonrpc","vscode-uri","vscode-languageserver-types","vscode-languageserver","env-editor","vscode-textmate","@types/vscode","@vscode-logging/types","@vscode-logging","vscode-chrome-debug-core","@vscode/sqlite3","vscode-xterm","websocket","@websocket","@grpc","canvas","@canvas","canvas-","@canvas-","gyp","node-pre-gyp","@mapbox","ansi-color","@gitbeaker/node","gitbeaker","@gitbeaker"
+
+$npmFiles = "fs-extra","@grpc","grpc","eslint","babel","@babel","@eslint","eslint-config-react-app","@babel/eslint","eslint-config","eslint-config-react","@babel/eslint-parser"
+
+# Neat little addition to searching over all the alphabet
+# $(65..90).foreach({npm search "@mapbox/$([char]$_)"})
+# $npmFilesSearched += $(97..122).foreach({npm search -p "@mapbox/$([char]$_)"})
 
 $npmFilesSearched = $npmFiles.foreach({$(npm search -p "$_")})
 $npmFilesSearchedUnique = $($npmFilesSearched | sort | unique)
@@ -13,18 +19,31 @@ Write-Host "--------------------------------------------------------------------
 
 $npmFilesClean = $npmFilesSearchedUnique.foreach({$($_.split("`t")[0])})
 
-npm install --legacy-peer-deps $npmFilesClean[0..200]
-npm install --legacy-peer-deps $npmFilesClean[201..400]
-npm install --legacy-peer-deps $npmFilesClean[401..600]
-npm install --legacy-peer-deps $npmFilesClean[601..800]
-npm install --legacy-peer-deps $npmFilesClean[801..1000]
-npm install --legacy-peer-deps $npmFilesClean[1001..1200]
-npm install --legacy-peer-deps $npmFilesClean[1201..1400]
-npm install --legacy-peer-deps $npmFilesClean[1401..1600]
-npm install --legacy-peer-deps $npmFilesClean[1601..1800]
-npm install --legacy-peer-deps $npmFilesClean[1801..2000]
-npm install --legacy-peer-deps $npmFilesClean[2001..2200]
-npm install --legacy-peer-deps $npmFilesClean[2201..2400]
+# Yes I know it is dumb, but I am still testing and don't trust it.
+$npmFilesCleanYarn = $npmFilesClean
+$npmFilesCleanNpm = $npmFilesClean
+
+while ($npmFilesCleanNpm.count -gt 0) {
+    npm install --legacy-peer-deps $npmFilesCleanNpm[0..199]
+    $npmFilesCleanNpm = ($npmFilesCleanNpm[199..($npmFilesCleanNpm.Count)])
+}
+
+while ($npmFilesCleanYarn.count -gt 0) {
+    yarn add $npmFilesCleanYarn[0] --non-interactive
+    $npmFilesCleanYarn = ($npmFilesCleanYarn[1..($npmFilesCleanYarn.Count)])
+}
+
+# npm install --legacy-peer-deps $npmFilesClean[201..400]
+# npm install --legacy-peer-deps $npmFilesClean[401..600]
+# npm install --legacy-peer-deps $npmFilesClean[601..800]
+# npm install --legacy-peer-deps $npmFilesClean[801..1000]
+# npm install --legacy-peer-deps $npmFilesClean[1001..1200]
+# npm install --legacy-peer-deps $npmFilesClean[1201..1400]
+# npm install --legacy-peer-deps $npmFilesClean[1401..1600]
+# npm install --legacy-peer-deps $npmFilesClean[1601..1800]
+# npm install --legacy-peer-deps $npmFilesClean[1801..2000]
+# npm install --legacy-peer-deps $npmFilesClean[2001..2200]
+# npm install --legacy-peer-deps $npmFilesClean[2201..2400]
 
 # ------------------------------------------------------------
 
