@@ -31,18 +31,6 @@ while ($npmFilesCleanYarn.count -gt 0) {
     $npmFilesCleanYarn = ($npmFilesCleanYarn[1..($npmFilesCleanYarn.Count)])
 }
 
-# npm install --legacy-peer-deps $npmFilesClean[201..400]
-# npm install --legacy-peer-deps $npmFilesClean[401..600]
-# npm install --legacy-peer-deps $npmFilesClean[601..800]
-# npm install --legacy-peer-deps $npmFilesClean[801..1000]
-# npm install --legacy-peer-deps $npmFilesClean[1001..1200]
-# npm install --legacy-peer-deps $npmFilesClean[1201..1400]
-# npm install --legacy-peer-deps $npmFilesClean[1401..1600]
-# npm install --legacy-peer-deps $npmFilesClean[1601..1800]
-# npm install --legacy-peer-deps $npmFilesClean[1801..2000]
-# npm install --legacy-peer-deps $npmFilesClean[2001..2200]
-# npm install --legacy-peer-deps $npmFilesClean[2201..2400]
-
 # ------------------------------------------------------------
 
 npm audit fix --legacy-peer-deps
