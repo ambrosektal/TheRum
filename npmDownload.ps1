@@ -2,6 +2,7 @@
 #### NPM for Windows
 $npmFiles = "@apollo","@apollo-server","@apollo-micro-server","@babel","@docker","@elastic","@ember","@gatsby","@graphql","@graphql-tools","@gulp","@jetbrains","@kibana","@lerna","@logstash","@microsoft","@mongodb","@mui","@next","@next-js","@nextjs","@npm","@parcel","@razzle","@react","@searchkit","@types","@typescript","@verdaccio","@vscode","@webpack","@yarn","apollo","apollo-server","apollo-micro-server","aspnet","babel","bootstrap","code-server","cra-template","create-next-","create-react-","docker","ember","ember-cli","fontawesome","fortawesome","gatsby","gem","graphql","gulp","gyp","jetbrains","kestrel","lerna","materialui","mongo","mongodb","mui","next","next-js","nextjs","node-gyp","npm","parcel","rails","razzle","react","ruby","searchkit","skia","skiasharp","typescript","undefsafe","verdaccio","vscode","webpack","windows","yarn","pnpm","@pnpm","powershell","tty","pty","express","@express","quire","@quire","bootstrap","@bootstrap","dotnet","aspnet","@dotnet","@aspnet","axios","@axios","next-connect","fs-extra","@grpc","grpc","eslint","babel","@babel","@eslint","eslint-config-react-app","@babel/eslint","eslint-config","eslint-config-react","@babel/eslint-parser","rush","@rush","react-chartjs","react-chart","react-chartjs-2","helm","search","dom","server","3ds","unity","game","react-","threejs","@threejs","3d","threejs-","react-use","react-hook-form","react-hook","swr","css","websocket","template","hook","component","form","react-form","@solid.js","solidjs","solid","@solid","react-virtual","react-window","@npm-","npm-","@vscode","vscode-jsonrpc","vscode-uri","vscode-languageserver-types","vscode-languageserver","env-editor","vscode-textmate","@types/vscode","@vscode-logging/types","@vscode-logging","vscode-chrome-debug-core","@vscode/sqlite3","vscode-xterm","websocket","@websocket","@grpc","canvas","@canvas","canvas-","@canvas-","gyp","node-pre-gyp","@mapbox","ansi-color","@gitbeaker/node","gitbeaker","@gitbeaker"
 
+$npmFiles = "prometheus","prom","exporter","docker","@docker","rancher","kube","kubernetes"
 # Neat little addition to searching over all the alphabet
 # $(65..90).foreach({npm search "@mapbox/$([char]$_)"})
 # $npmFilesSearched += $(97..122).foreach({npm search -p "@mapbox/$([char]$_)"})
@@ -39,6 +40,23 @@ npm audit fix -f --legacy-peer-deps
 
 yarn audit
 
+# ------------------------------------------------------------
+
+# foreach( $num in $(1..20) ){ npm i --legacy-peer-deps npm@~"$num" }
+
+# comm -3 \
+# <(find . -iname "*.tgz" -printf '%h\n' | sort -u) \
+# <(find . -type d | sort) \
+# | sed 's/^.tgz\///'
+
+# find . -type d '!' -exec test -e "{}/*.tgz" ';' -print
+
+
+
+
+
+
+
 # # When using a -p in the search
 # # $npmFilesSearchedUnique.foreach({npm pack $($_.split(" ")[0])})
 # $npmFilesSearchedUnique.foreach({npm pack $($_.split("`t")[0])})
@@ -49,6 +67,21 @@ yarn audit
 # $directory=$(pwd)
 $folders = gci -Recurse -Directory
 $folders.foreach({cd "$_" && npm i --legacy-peer-deps && npm audit fix --force })
+
+# # HISTORY
+
+# rm -rf /opt/verdaccio/backup/storage/*
+
+# find /verdaccio/storage/data/* -mtime -3 -type d -exec cp -r -p {} ~/backup/storage/ \;
+# find ~/backup/storage/ -type f -iname "*.tgz" -mtime +5 -exec rm -f {} \;
+
+# find /verdaccio/storage/data/* -type f -iname "*.tgz" -mtime -3 | wc -l
+# find /verdaccio/storage/data/* -mtime -3 -type d -exec cp -r -p {} ~/backup/storage/ \;
+# find ~/backup/storage/ -type f -iname "*.tgz" -mtime +5 -exec rm -f {} \;
+
+# find /verdaccio/storage/data/* -mtime -3 -type d -exec cp -r -p {} ~/backup/storage/ \;
+# find ~/backup/storage/ -type f -iname "*.tgz" -mtime +5 -exec rm -f {} \;
+
 
 
 # ------------------------------------------------------------
