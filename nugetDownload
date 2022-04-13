@@ -11,9 +11,15 @@ $NuGetBinary = "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\nuget.exe"
 Remove-Variable files
 $files = New-Object System.Collections.ArrayList
 
-$files.add($SearchFiles.foreach({ $(find-package $_ ).name }))
+# $files.add($SearchFiles.foreach({ $(find-package $_ ).name }))
+$files.add($SearchFiles.foreach({ $((find-package "*net.runtime*") | where-object {$_.Name -notlike "*arm64*"}).name }))
+
+# ((find-package "*net.runtime*") | where-object {$_.Name -notlike "*arm64*"}).name
 
 $uniqueFiles = $files | Sort-Object | Get-unique
+$uniqueFiles = $uniqueFiles | Sort-Object | Get-unique
+$uniqueFiles = $uniqueFiles | Sort-Object | Get-unique
+$uniqueFiles = $uniqueFiles | Sort-Object | Get-unique
 
 Write-Host "$($uniqueFiles.Count) packages to be installed. This does not include dependencies." -ForegroundColor Green
 
