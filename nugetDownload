@@ -28,16 +28,17 @@ Write-Host "$($uniqueFiles.Count) packages to be installed. This does not includ
 
 $uniqueFiles.foreach({ 
     try {
+        # ((find-package "runtime.*").name).foreach({nuget install -outputdirectory C:\Users\joesp\Downloads\Transfer\ToMove\nupkg\ $_ -source "Baget"})
         # & $NuGetBinary install $_ -OutputDirectory "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\nupkg\\"
-        & $NuGetBinary install $_ -OutputDirectory "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\nupkg\\" -Source "BaGet"
+        & $NuGetBinary install -OutputDirectory "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\nupkg\\" $_ -Source "BaGet"
     }
     catch {
         # save-package "$_" -path "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\nupkg\\" 
         save-package "$_" -path "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\nupkg\\" -Source "BaGet"
     }
-    finally {
-        dotnet tool install $_ --tool-path "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\nupkg\\" --add-source "BaGet"
-    }
+    # finally {
+    #     dotnet tool install --tool-path "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\nupkg\\" --add-source "BaGet" $_
+    # }
 })
 
 # $uniqueFiles.foreach({ 
