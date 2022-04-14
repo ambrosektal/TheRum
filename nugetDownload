@@ -29,6 +29,8 @@ Write-Host "$($uniqueFiles.Count) packages to be installed. This does not includ
 $uniqueFiles.foreach({ 
     try {
         # ((find-package "runtime.*").name).foreach({nuget install -outputdirectory C:\Users\joesp\Downloads\Transfer\ToMove\nupkg\ $_ -source "Baget"})
+        # ((find-package "runtime.*runtime*").name).foreach({nuget install -outputdirectory C:\Users\joesp\Downloads\Transfer\ToMove\nupkg\ $_ -source "Baget"})
+        # ((find-package "runtime.*Microsoft*").name).foreach({nuget install -outputdirectory C:\Users\joesp\Downloads\Transfer\ToMove\nupkg\ $_ -source "Baget"})
         # & $NuGetBinary install $_ -OutputDirectory "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\nupkg\\"
         & $NuGetBinary install -OutputDirectory "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\nupkg\\" $_ -Source "BaGet"
     }
