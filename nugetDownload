@@ -7,7 +7,7 @@
 
 $SearchFiles = "*appwork*","*argon*","*AspStudio*","*Atlassian.SDK*","*Auth0.AuthenticationApi*","*Auth0.Core*","*AuthorizeNet*","*backbone*","*Breeze*","*cake*","*certificate*","*CloudNative.CloudEvents*","*connector*","*CouchbaseNetClient*","*database*","*docker*","*dotnet*","*emberjs*","*envdte*","*git*","*gitlab*","*helm*","*Hl7.FhirPath*","*homer*","*itext7*","*jdbc*","*knockout*","*kubernetes*","*LaunchDarkly.CommonSdk*","*LaunchDarkly.ServerSdk*","*mattermost*","*metrica*","*Microsoft.Bot.Builder.Integration.AspNet.Core*","*Microsoft.Bot.Streaming*","*Microsoft.CrmSdk.Workflow*","*Microsoft.Extensions.Logging.Abstractions*","*Microsoft.Net.Compilers.Toolset*","*Microsoft.VisualStudio.ImageCatalog*","*Microsoft.VisualStudio.Imaging.Interop.14.0.DesignTime*","*Microsoft.VisualStudio.Imaging*","*Microsoft.VisualStudio.OLE.Interop*","*Microsoft.VisualStudio.SDK.Analyzers*","*Microsoft.VisualStudio.SDK.EmbedInteropTypes*","*Microsoft.VisualStudio.Shell.Framework*","*Microsoft.VisualStudio.Shell**","*Microsoft.VisualStudio.TextManager.Interop*","*Microsoft.VisualStudio.Utilities*","*Minio*","*mongo*","*mongodb*","*mono*","*MSBuild.Sdk.Extras*","*Node*","*nosql*","*odbc*","*OpenTelemetry*","*skia*","*skiasharp*","*Skote*","*SmartAdmin*","*sql*","*sqlserver*","*stdole*","*template*","*terminal*","*towel*","*typescript*","*Veltrix*","*vscode*","*vswhere*","*windows*terminal*","*wsl*","aspnet*","FluentEmail*","FluentValidation*","Hangfire*","Humanizer.Core*","Insight.Database*","Json.NET*","LazyCache*","Microsoft.AspNetCore.Spa*","Microsoft.AspNetCore.SpaTemplates","microsoft.dotnet*","microsoft.entityframework*","microsoft.net*","Microsoft.NETCore.App.Runtime.Mono.browser-wasm","Microsoft.NETCore.App.Runtime.Mono*","mongocsharpdriver","MongoDB.Bson","MongoDB.Driver","MongoDB.Driver.Core","MongoDB.Driver.GridFS","MongoDB.Libmongocrypt","MongoDB*","MonoGame.Framework.Redpoint","MonoGame.Templates.CSharp","Noda Time*","NUnit*","redis*","RestSharp*","Serilog*","System.componentModel*","System.Text*","System.Windows.Extensions*","UncommonSense.CBreeze.Automation","*bootstrap*","*prometheus*","*apm*","*elastic*apm*","*logstash*apm*","*kibana*apm*","*beat*","runtime.*.native*","runtime.*.Netcore*","runtime.*.runtime*"
 
-$SearchFiles = "runtime.*.native*","runtime.*.Netcore*","runtime.*.runtime*"
+$SearchFiles = "*kube*","runtime.*.native*","runtime.*.Netcore*","runtime.*.runtime*"
 
 $NuGetBinary = "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\nuget.exe"
 
@@ -15,7 +15,7 @@ Remove-Variable files
 $files = New-Object System.Collections.ArrayList
 
 # $files.add($SearchFiles.foreach({ $(find-package $_ ).name }))
-$files.add($SearchFiles.foreach({ $((find-package "*net.runtime*") | where-object {$_.Name -notlike "*arm64*"}).name }))
+$files.add($SearchFiles.foreach({ $((find-package $_) | where-object {$_.Name -notlike "*arm64*"}).name }))
 
 # ((find-package "*net.runtime*") | where-object {$_.Name -notlike "*arm64*"}).name
 
