@@ -45,6 +45,7 @@ while ($npmFilesCleanYarn.count -gt 0) {
     yarn audit
     rm -r -force package*
     rm -r -force node_modules/
+    rm -force yarn.lock
     $npmFilesCleanYarn = ($npmFilesCleanYarn[1..($npmFilesCleanYarn.Count)])
 }
 
