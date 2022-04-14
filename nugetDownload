@@ -31,6 +31,8 @@ $uniqueFiles.foreach({
         # ((find-package "runtime.*").name).foreach({nuget install -outputdirectory C:\Users\joesp\Downloads\Transfer\ToMove\nupkg\ $_ -source "Baget"})
         # ((find-package "runtime.*runtime*").name).foreach({nuget install -outputdirectory C:\Users\joesp\Downloads\Transfer\ToMove\nupkg\ $_ -source "Baget"})
         # ((find-package "runtime.*Microsoft*").name).foreach({nuget install -outputdirectory C:\Users\joesp\Downloads\Transfer\ToMove\nupkg\ $_ -source "Baget"})
+        # ((find-package "*kube*"  ).name | Sort-Object | Get-Unique).foreach({nuget install -outputdirectory C:\Users\joesp\Downloads\Transfer\ToMove\nupkg\ $_ -source "Baget"})
+        # ((find-package "*kube*"  ).name | Sort-Object | Get-Unique).foreach({save-package "$_" -path "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\nupkg\\" -Source "BaGet"})
         # & $NuGetBinary install $_ -OutputDirectory "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\nupkg\\"
         & $NuGetBinary install -OutputDirectory "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\nupkg\\" $_ -Source "BaGet"
     }
@@ -41,6 +43,10 @@ $uniqueFiles.foreach({
     # finally {
     #     dotnet tool install --tool-path "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\nupkg\\" --add-source "BaGet" $_
     # }
+    finally {
+        # save-package "$_" -path "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\nupkg\\" 
+        save-package "$_" -path "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\nupkg_offline\\" 
+    }
 })
 
 # $uniqueFiles.foreach({ 
