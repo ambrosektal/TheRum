@@ -3,7 +3,7 @@
 
 $npmFiles = New-Object System.Collections.Generic.HashSet[string]
 $npmFilesArray = New-Object System.Collections.ArrayList
-# $npmFiles =@{}
+
 $npmFiles.Add($(Get-Content "C:\\Users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackages.txt"))
 $npmFiles.foreach({$_.split(" ")}).foreach({$npmFilesArray.add($_)}) 
 # Neat little addition to searching over all the alphabet
