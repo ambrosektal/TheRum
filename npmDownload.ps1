@@ -15,6 +15,8 @@ $npmFiles.foreach({$_.split(" ")}).foreach({$npmFilesArray.add($_)})
 # Get all the versions of something
 # $(0..20).foreach({npm i "vue@~3.2.$_"})
 
+# $npmFilesSearched += $(97..122).foreach({npm search -p "@smui/$([char]$_)"})
+# foreach($file in $npmFilesSearched){$(0..15).foreach({npm i "$file@~$_"})}
 
 while ($npmFilesArray.count -gt 0) {
     $npmFilesLimit = $npmFilesArray[0..24]
