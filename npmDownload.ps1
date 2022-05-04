@@ -5,13 +5,15 @@ $npmFiles = New-Object System.Collections.Generic.HashSet[string]
 $npmFilesArray = New-Object System.Collections.ArrayList
 
 $npmFiles.Add($(Get-Content "C:\\Users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackages.txt"))
+# $npmFiles.Add($(Get-Content "C:\\Users\\$env:USERNAME\\Downloads\\gits\\TheRum\\Top1000npmPackages.txt"))
+
 $npmFiles.foreach({$_.split(" ")}).foreach({$npmFilesArray.add($_)}) 
 # Neat little addition to searching over all the alphabet
 # $(65..90).foreach({npm search "@mapbox/$([char]$_)"})
 # $npmFilesSearched += $(97..122).foreach({npm search -p "@mapbox/$([char]$_)"})
 
 # Get all the versions of something
-# $(0..20).foreach({npm i "vue@3.2.$_"})
+# $(0..20).foreach({npm i "vue@~3.2.$_"})
 
 
 while ($npmFilesArray.count -gt 0) {
