@@ -14,9 +14,24 @@ $npmFiles.foreach({$_.split(" ")}).foreach({$npmFilesArray.add($_)})
 
 # Get all the versions of something
 # $(0..20).foreach({npm i "vue@~3.2.$_"})
-
+# cra-template
+# @sveltejs
+## $npmFilesSearched += $files.foreach({npm search -p "$_"})
 # $npmFilesSearched += $(97..122).foreach({npm search -p "@smui/$([char]$_)"})
-# foreach($file in $npmFilesSearched){$(0..15).foreach({npm i "$file@~$_"})}
+# $npmFilesSearchedUnique = $($npmFilesSearched | sort | unique)
+# $npmFilesSearchedUnique = $($npmFilesSearchedUnique | sort | unique)
+# $npmFilesSearchedUnique = $($npmFilesSearchedUnique | sort | unique)
+# $npmFilesClean = $npmFilesSearchedUnique.foreach({ $($_.split("`t")[0]) })
+# foreach($file in $npmFilesClean){$(0..10).foreach({npm i "$file@~$_" --legacy-peer-deps})}
+# npm audit fix --legacy-peer-deps
+# npm audit fix -f --legacy-peer-deps
+# rm -r -force package*
+# rm -r -force node_modules
+## foreach($file in $npmFilesClean){npm i "$file@latest" --legacy-peer-deps}
+## foreach($file in $npmFilesClean){$(0..10).foreach({npm i "$file@^$_" --legacy-peer-deps})}
+
+# Get the newest / latest versions
+# foreach($file in $files){npm i "$file@latest" --legacy-peer-deps}
 
 while ($npmFilesArray.count -gt 0) {
     $npmFilesLimit = $npmFilesArray[0..24]
