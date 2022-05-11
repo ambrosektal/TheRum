@@ -78,11 +78,31 @@ $files = "@smui/common",
 "@smui-extra/",
 "@material/elevation",
 "@material",
-"@smui-extra/autocomplete"
-
+"@smui-extra/autocomplete",
+"thiccclient-svelte",
+"svelte-kit",
+"svelte-kit",
+"svelte-check",
+"@sveltejs/adapter-auto",
+"@sveltejs/kit",
+"autoprefixer",
+"backendless",
+"postcss",
+"prettier",
+"prettier-plugin-svelte",
+"smui-theme",
+"svelte",
+"svelte-check",
+"svelte-preprocess",
+"tailwindcss",
+"tslib",
+"typescript",
+"@sveltejs/adapter-node",
+"daisyui"
 
 
 $npmFilesSearched += $(97..122).foreach({npm search -p "@smui-extra/$([char]$_)"})
+$npmFilesSearched += $(97..122).foreach({npm search -p "daisyui/$([char]$_)"})
 
 $npmFilesSearched += $files.foreach({npm search -p "$_"})
 
