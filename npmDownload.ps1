@@ -7,7 +7,7 @@ $npmFilesArray = New-Object System.Collections.ArrayList
 $npmFiles.Add($(Get-Content "C:\\Users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackages.txt"))
 # $npmFiles.Add($(Get-Content "C:\\Users\\$env:USERNAME\\Downloads\\gits\\TheRum\\Top1000npmPackages.txt"))
 
-$npmFiles.foreach({$_.split(" ")}).foreach({$npmFilesArray.add($_)}) 
+$npmFiles.foreach({ $_.split(" ") }).foreach({ $npmFilesArray.add($_) }) 
 # Neat little addition to searching over all the alphabet
 # $(65..90).foreach({npm search "@mapbox/$([char]$_)"})
 # $npmFilesSearched += $(97..122).foreach({npm search -p "@mapbox/$([char]$_)"})
@@ -82,7 +82,7 @@ function Find-SimilarNpmNames {
         [string]$PackageName,
         [int]$Iterations
     )
-    $npmFilesSearched += $PackageName.foreach({npm search -p "$_"})
+    $npmFilesSearched += $PackageName.foreach({ npm search -p "$_" })
     $npmFilesSearchedUnique = $($npmFilesSearched | Sort-Object | Get-Unique)
     $npmFilesSearchedUnique = $($npmFilesSearchedUnique | Sort-Object | Get-Unique)
     $npmFilesSearchedUnique = $($npmFilesSearchedUnique | Sort-Object | Get-Unique)
@@ -91,7 +91,7 @@ function Find-SimilarNpmNames {
         while ($Iterations -gt 1) {
             $Iterations -= 1
             # Search based on files found in previous search - expands on the limited results from the default npm search.
-            $npmFilesSearched += $npmFilesClean.foreach({npm search -p "$_"})
+            $npmFilesSearched += $npmFilesClean.foreach({ npm search -p "$_" })
             $npmFilesSearchedUnique = $($npmFilesSearched | Sort-Object | Get-Unique)
             $npmFilesSearchedUnique = $($npmFilesSearchedUnique | Sort-Object | Get-Unique)
             $npmFilesSearchedUnique = $($npmFilesSearchedUnique | Sort-Object | Get-Unique)
@@ -124,34 +124,39 @@ function Install-NpmPackages {
     }
 
     if ($AllScoped) {
-        $PackageArray += $(97..122).foreach({npm search -p "$PackageName/$([char]$_)"})
+        $PackageArray += $(97..122).foreach({ npm search -p "$PackageName/$([char]$_)" })
     }
     if ($AllLatest) {
         if ($PackageArray) {
-            foreach($PackageName in $PackageArray){npm i "$PackageName@latest" --legacy-peer-deps}
-        } elseif ($PackageName) {
+            foreach ($PackageName in $PackageArray) { npm i "$PackageName@latest" --legacy-peer-deps }
+        }
+        elseif ($PackageName) {
             npm i "$PackageName@latest" --legacy-peer-deps
-        }else {
+        }
+        else {
             Write-Host "PackageName OR PackageArray required with the AllLatest option."
         }
     }
     if ($AllNext) {
         if ($PackageArray) {
-            foreach($PackageName in $PackageArray){npm i "$PackageName@next" --legacy-peer-deps}
-        } elseif ($PackageName) {
+            foreach ($PackageName in $PackageArray) { npm i "$PackageName@next" --legacy-peer-deps }
+        }
+        elseif ($PackageName) {
             npm i "$PackageName@next" --legacy-peer-deps
-        }else {
+        }
+        else {
             Write-Host "PackageName OR PackageArray required with the AllNext option."
         }
     }
     if ($AllMajorVersions) {
         if ($PackageArray) {
-            foreach($PackageName in $PackageArray){$($LowerVersionRange..$UpperVersionRange).foreach({npm i "$PackageName@^$_" --legacy-peer-deps})}    
-        } elseif ($PackageName) {
-            $($LowerVersionRange..$UpperVersionRange).foreach({npm i "$PackageName@^$_" --legacy-peer-deps})
-        }else {
+            foreach ($PackageName in $PackageArray) { $($LowerVersionRange..$UpperVersionRange).foreach({ npm i "$PackageName@^$_" --legacy-peer-deps }) }    
+        }
+        elseif ($PackageName) {
+            $($LowerVersionRange..$UpperVersionRange).foreach({ npm i "$PackageName@^$_" --legacy-peer-deps })
+        }
+        else {
             Write-Host "PackageName OR PackageArray required with the AllMajorVersions option."
         }
-        
     }
 }
