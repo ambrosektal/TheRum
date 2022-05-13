@@ -284,6 +284,7 @@ apm
 apollo
 apollo-micro-server
 apollo-server
+asar
 aspnet
 async.js
 at-ui

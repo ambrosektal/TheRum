@@ -81,7 +81,6 @@ $files = "@smui/common",
 "@smui-extra/autocomplete",
 "thiccclient-svelte",
 "svelte-kit",
-"svelte-kit",
 "svelte-check",
 "@sveltejs/adapter-auto",
 "@sveltejs/kit",
@@ -102,7 +101,7 @@ $files = "@smui/common",
 
 
 $npmFilesSearched += $(97..122).foreach({npm search -p "@smui-extra/$([char]$_)"})
-$npmFilesSearched += $(97..122).foreach({npm search -p "daisyui/$([char]$_)"})
+$npmFilesSearched += $(97..122).foreach({npm search -p "@daisyui/$([char]$_)"})
 
 $npmFilesSearched += $files.foreach({npm search -p "$_"})
 
@@ -111,6 +110,9 @@ $npmFilesSearchedUnique = $($npmFilesSearched | sort | unique)
 $npmFilesSearchedUnique = $($npmFilesSearchedUnique | sort | unique)
 $npmFilesSearchedUnique = $($npmFilesSearchedUnique | sort | unique)
 $npmFilesClean = $npmFilesSearchedUnique.foreach({ $($_.split("`t")[0]) })
+# Search based on files found in previous search - expands on the limited results from the default npm search.
+# $npmFilesSearched += $npmFilesClean.foreach({npm search -p "$_"})
+
 foreach($file in $npmFilesClean){npm i "$file@latest" --legacy-peer-deps}
 foreach($file in $npmFilesClean){npm i "$file@next" --legacy-peer-deps}
 foreach($file in $npmFilesClean){$(0..10).foreach({npm i "$file@^$_" --legacy-peer-deps})}
@@ -118,3 +120,83 @@ foreach($file in $npmFilesClean){$(0..10).foreach({npm i "$file@~$_" --legacy-pe
 
 
 
+
+
+function Find-SimilarNpmNames {
+    param (
+        [string]$PackageName,
+        [int]$Iterations
+    )
+    $npmFilesSearched += $PackageName.foreach({npm search -p "$_"})
+    $npmFilesSearchedUnique = $($npmFilesSearched | Sort-Object | Get-Unique)
+    $npmFilesSearchedUnique = $($npmFilesSearchedUnique | Sort-Object | Get-Unique)
+    $npmFilesSearchedUnique = $($npmFilesSearchedUnique | Sort-Object | Get-Unique)
+    $npmFilesClean = $npmFilesSearchedUnique.foreach({ $($_.split("`t")[0]) })
+    if ($Iterations) {
+        while ($Iterations -gt 1) {
+            $Iterations -= 1
+            # Search based on files found in previous search - expands on the limited results from the default npm search.
+            $npmFilesSearched += $npmFilesClean.foreach({npm search -p "$_"})
+            $npmFilesSearchedUnique = $($npmFilesSearched | Sort-Object | Get-Unique)
+            $npmFilesSearchedUnique = $($npmFilesSearchedUnique | Sort-Object | Get-Unique)
+            $npmFilesSearchedUnique = $($npmFilesSearchedUnique | Sort-Object | Get-Unique)
+            $npmFilesClean = $npmFilesSearchedUnique.foreach({ $($_.split("`t")[0]) })
+        }
+    }
+    return $npmFilesClean
+}
+
+function Install-NpmPackages {
+    param (
+        [string]$PackageName,
+        [System.Collections.ArrayList]$PackageArray,
+        [switch]$AllScoped,
+        [switch]$AllLatest,
+        [switch]$AllNext,
+        [switch]$AllMajorVersions,
+        [int]$UpperVersionRange,
+        [int]$LowerVersionRange
+    )
+    # NOTES
+    # If you see ~1.0.2 it means to install version 1.0.2 or the latest patch version such as 1.0.4. 
+    # If you see ^1.0.2 it means to install version 1.0.2 or the latest minor or patch version such as 1.1.0.
+
+    if (!$LowerVersionRange) {
+        $LowerVersionRange = 0
+    }
+    if (!$UpperVersionRange) {
+        $UpperVersionRange = 10
+    }
+
+    if ($AllScoped) {
+        $PackageArray += $(97..122).foreach({npm search -p "$PackageName/$([char]$_)"})
+    }
+    if ($AllLatest) {
+        if ($PackageArray) {
+            foreach($PackageName in $PackageArray){npm i "$PackageName@latest" --legacy-peer-deps}
+        } elseif ($PackageName) {
+            npm i "$PackageName@latest" --legacy-peer-deps
+        }else {
+            Write-Host "PackageName OR PackageArray required with the AllLatest option."
+        }
+    }
+    if ($AllNext) {
+        if ($PackageArray) {
+            foreach($PackageName in $PackageArray){npm i "$PackageName@next" --legacy-peer-deps}
+        } elseif ($PackageName) {
+            npm i "$PackageName@next" --legacy-peer-deps
+        }else {
+            Write-Host "PackageName OR PackageArray required with the AllNext option."
+        }
+    }
+    if ($AllMajorVersions) {
+        if ($PackageArray) {
+            foreach($PackageName in $PackageArray){$($LowerVersionRange..$UpperVersionRange).foreach({npm i "$PackageName@^$_" --legacy-peer-deps})}    
+        } elseif ($PackageName) {
+            $($LowerVersionRange..$UpperVersionRange).foreach({npm i "$PackageName@^$_" --legacy-peer-deps})
+        }else {
+            Write-Host "PackageName OR PackageArray required with the AllMajorVersions option."
+        }
+        
+    }
+}
