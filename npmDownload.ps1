@@ -125,6 +125,10 @@ function Install-NpmPackages {
 
     if ($AllScoped) {
         $PackageArray += $(97..122).foreach({ npm search -p "$PackageName/$([char]$_)" })
+        $npmFilesSearchedUnique = $($PackageArray | Sort-Object | Get-Unique)
+        $npmFilesSearchedUnique = $($npmFilesSearchedUnique | Sort-Object | Get-Unique)
+        $npmFilesSearchedUnique = $($npmFilesSearchedUnique | Sort-Object | Get-Unique)
+        $PackageArray = $npmFilesSearchedUnique.foreach({ $($_.split("`t")[0]) })
     }
     if ($AllLatest) {
         if ($PackageArray) {
