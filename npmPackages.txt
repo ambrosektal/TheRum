@@ -363,6 +363,7 @@ daisyui
 date-fns
 day.js
 debug
+degit
 devghost/svelte
 docker
 dom
