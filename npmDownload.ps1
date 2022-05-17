@@ -125,7 +125,10 @@ function Find-AllScopedPackages {
     # NOTES
     # If you see ~1.0.2 it means to install version 1.0.2 or the latest patch version such as 1.0.4. 
     # If you see ^1.0.2 it means to install version 1.0.2 or the latest minor or patch version such as 1.1.0.
-
+    if ($PackageArray) {
+        Remove-Variable PackageArray
+    }
+    
     if ($PackageName) {
         $PackageArray += $(97..122).foreach({ npm search -p "$PackageName/$([char]$_)" })
         $npmFilesSearchedUnique = $($PackageArray | Sort-Object | Get-Unique)
