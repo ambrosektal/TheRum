@@ -105,6 +105,7 @@ function Find-SimilarNpmNames {
     $npmFilesClean = $npmFilesSearchedUnique.foreach({ $($_.split("`t")[0]) })
     if ($Iterations) {
         while ($Iterations -gt 1) {
+            Write-Host "Iteration $Iterations"
             $Iterations -= 1
             # Search based on files found in previous search - expands on the limited results from the default npm search.
             $npmFilesSearched += $npmFilesClean.foreach({ npm search -p "$_" })
@@ -130,6 +131,9 @@ function Find-AllScopedPackages {
     }
     
     if ($PackageName) {
+        if ($PackageName.EndsWith("/")) {
+            $PackageName = $PackageName.Trim("/")
+        }
         $PackageArray += $(97..122).foreach({ npm search -p "$PackageName/$([char]$_)" })
         $npmFilesSearchedUnique = $($PackageArray | Sort-Object | Get-Unique)
         $npmFilesSearchedUnique = $($npmFilesSearchedUnique | Sort-Object | Get-Unique)
