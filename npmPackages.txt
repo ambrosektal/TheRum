@@ -800,6 +800,13 @@ yarn
 YogliB/svelte-component-template
 yup
 Yuyutsu
+@mui/types
+@mui/utils
+@mui/x-data-grid
+@mui/x-data-grid-generator
+@mui/x-data-grid-premium
+@mui/x-data-grid-pro
+@mirowsky/mui-stylesheet
 @mui/base
 @mui/codemod
 @mui/core
@@ -814,9 +821,6 @@ Yuyutsu
 @mui/styled-engine-sc
 @mui/styles
 @mui/system
-@mui/types
-@mui/utils
-@mui/x-data-grid
-@mui/x-data-grid-generator
-@mui/x-data-grid-premium
-@mui/x-data-grid-pro
+@mui/x-date-pickers
+@mui/x-date-pickers-pro
+@mui/x-license-pro
