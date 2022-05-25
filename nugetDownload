@@ -2,13 +2,11 @@
 
 
 # ----------------------------------------------------------------------------
-# $SearchFiles = "RestSharp*","Json.NET*","Serilog*","NUnit*","Insight.Database*","FluentValidation*","Noda Time*","FluentEmail*","Hangfire*","LazyCache*","*wsl*","aspnet*","microsoft.entityframework*","System.componentModel*","microsoft.net*","microsoft.dotnet*","MongoDB.Bson","MongoDB.Driver.Core","MongoDB.Driver","MongoDB.Libmongocrypt","mongocsharpdriver","MongoDB.Driver.GridFS","MongoDB*","System.Text*","System.Windows.Extensions*","Humanizer.Core*", "redis*","*dotnet*","*cake*","*Node*","*database*","*sqlserver*","*nosql*","*sql*","*docker*","*kubernetes*","*helm*","*mattermost*","*gitlab*","*git*","*typescript*","*skiasharp*","*skia*","*vscode*"
-# $SearchFiles = "*helm*","*mattermost*","*gitlab*","*skiasharp*","*skia*"
-# $SearchFiles = "MonoGame.Framework.Redpoint","Microsoft.AspNetCore.SpaTemplates","UncommonSense.CBreeze.Automation","Microsoft.NETCore.App.Runtime.Mono.browser-wasm","MonoGame.Templates.CSharp","Microsoft.AspNetCore.SpaTemplates","Microsoft.NETCore.App.Runtime.Mono*"
-# $SearchFiles = "Microsoft.AspNetCore.Spa*","*Skote*","*backbone*","*Breeze*","*emberjs*","*towel*","*Veltrix*","*SmartAdmin*","*metrica*","*AspStudio*","*appwork*","*homer*","*mono*","*argon*","*knockout*","*template*"
-# $SearchFiles = "Microsoft.powershell*","*kube*","*kubectl*","*kubernetes*","*powershell*","*helm*","*vscode*"
+# $SearchFiles = "microsoft.aspnetcore*","microsoft.aspnet*","microsoft.powershell*","microsoft.net*","microsoft.dotnet*","powershell*","microsoft.entityframework*","microsoft*csharp*"
+# $SearchFiles = "*csharp*","*omnisharp*","*roslyn*","*omnisharp*roslyn*","*roslyn*omnisharp*","*docker*","*helm*","*kube*","*vscode*","dotnet-symbol"
+# $SearchFiles = "*csharp*","*database*","*docker*","*dotnet*","*git*","*gitlab*","*helm*","*kube*","*kubectl*","*kubernetes*","*mongo*","*mongodb*","*Node*","*powershell*","*prometheus*","*skia*","*skiasharp*","*template*","*terminal*","*vscode*","*windows*terminal*","*wsl*","*aspnet*","Humanizer.Core*","Microsoft.AspNetCore.Spa*","Microsoft.AspNetCore.SpaTemplates","microsoft.dotnet*","microsoft.entityframework*","microsoft.net*","Microsoft.powershell*","mongocsharpdriver","MongoDB.Bson","MongoDB.Driver","MongoDB.Driver.Core","MongoDB.Driver.GridFS","MongoDB.Libmongocrypt","MongoDB*","redis*","RestSharp*","runtime.*.Netcore*","runtime.*.runtime*","*omnisharp*"
 
-$SearchFiles = "*AspStudio*","*Auth0.AuthenticationApi*","*Auth0.Core*","*AuthorizeNet*","*backbone*","*Breeze*","*cake*","*certificate*","*CloudNative.CloudEvents*","*connector*","*csharp*","*database*","*docker*","*dotnet*","*git*","*gitlab*","*helm*","*jdbc*","*knockout*","*kube*","*kubectl*","*kubernetes*","*mattermost*","*Microsoft.Net.Compilers.Toolset*","*Microsoft.VisualStudio.ImageCatalog*","*Microsoft.VisualStudio.Imaging.Interop.14.0.DesignTime*","*Microsoft.VisualStudio.Imaging*","*Microsoft.VisualStudio.OLE.Interop*","*Microsoft.VisualStudio.SDK.Analyzers*","*Microsoft.VisualStudio.SDK.EmbedInteropTypes*","*Microsoft.VisualStudio.Shell.Framework*","*Microsoft.VisualStudio.Shell**","*Microsoft.VisualStudio.TextManager.Interop*","*Microsoft.VisualStudio.Utilities*","*mongo*","*mongodb*","*MSBuild.Sdk.Extras*","*Node*","*nosql*","*odbc*","*OpenTelemetry*","*powershell*","*skia*","*skiasharp*","*sql*","*sqlserver*","*template*","*terminal*","*vscode*","*windows*terminal*","*wsl*","aspnet*","Humanizer.Core*","Json.NET*","LazyCache*","Microsoft.AspNetCore.Spa*","Microsoft.AspNetCore.SpaTemplates","microsoft.dotnet*","microsoft.entityframework*","microsoft.net*","Microsoft.NETCore.App.Runtime.Mono.browser-wasm","Microsoft.NETCore.App.Runtime.Mono*","mongocsharpdriver","MongoDB.Bson","MongoDB.Driver","MongoDB.Driver.Core","MongoDB.Driver.GridFS","MongoDB.Libmongocrypt","MongoDB*","NUnit*","redis*","RestSharp*","Serilog*","System.componentModel*","System.Text*","System.Windows.Extensions*","*bootstrap*","*prometheus*","*apm*","*elastic*apm*","*logstash*apm*","*kibana*apm*","*beat*","runtime.*.Netcore*","runtime.*.runtime*","microsoft.netcore.app.runtime*","Microsoft.powershell*"
+$SearchFiles = "*apm*","*appwork*","*argon*","*AspStudio*","*Auth0.AuthenticationApi*","*Auth0.Core*","*AuthorizeNet*","*backbone*","*beat*","*bootstrap*","*Breeze*","*cake*","*certificate*","*CloudNative.CloudEvents*","*connector*","*csharp*","*database*","*docker*","*dotnet*","*elastic*apm*","*emberjs*","*git*","*gitlab*","*helm*","*homer*","*jdbc*","*kibana*apm*","*knockout*","*kube*","*kubectl*","*kubernetes*","*logstash*apm*","*mattermost*","*metrica*","*Microsoft.Net.Compilers.Toolset*","*Microsoft.VisualStudio.mageCatalog*","*Microsoft.VisualStudio.Imaging.Interop.14.0.DesignTime*","*Microsoft.VisualStudio.Imaging*","*Microsoft.VisualStudio.OLE.Interop*","*Microsoft.VisualStudio.SDK.Analyzers*","*Microsoft.VisualStudio.SDK.EmbedInteropTypes*","*Microsoft.VisualStudio.Shell.Framework*","*Microsoft.VisualStudio.Shell**","*Microsoft.VisualStudio.TextManager.Interop*","*Microsoft.VisualStudio.Utilities*","*mongo*","*mongodb*","*mono*","*MSBuild.Sdk.Extras*","*Node*","*nosql*","*odbc*","*OpenTelemetry*","*powershell*","*prometheus*","*skia*","*skiasharp*","*Skote*","*SmartAdmin*","*sql*","*sqlserver*","*template*","*terminal*","*towel*","*typescript*","*Veltrix*","*vscode*","*windows*terminal*","*wsl*","aspnet*","FluentEmail*","FluentValidation*","Hangfire*","Humanizer.Core*","Insight.Database*","Json.NET*","LazyCache*","Microsoft.AspNetCore.Spa*","Microsoft.AspNetCore.SpaTemplates","microsoft.dotnet*","microsoft.entityframework*","microsoft.net*","Microsoft.NETCore.App.Runtime.Mono.browser-wasm","Microsoft.NETCore.App.Runtime.Mono*","microsoft.netcore.app.untime*","Microsoft.powershell*","mongocsharpdriver","MongoDB.Bson","MongoDB.Driver","MongoDB.Driver.Core","MongoDB.Driver.GridFS","MongoDB.Libmongocrypt","MongoDB*","NUnit*","redis*","RestSharp*","runtime.*.Netcore*","runtime.*.runtime*","Serilog*","System.componentModel*","System.ext*","System.Windows.Extensions*","dotnet-symbol"
 
 $NuGetBinary = "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\nuget.exe"
 
@@ -28,31 +26,60 @@ $uniqueFiles = $uniqueFiles | Sort-Object | Get-unique
 Write-Host "$($uniqueFiles.Count) packages to be installed. This does not include dependencies." -ForegroundColor Green
 
 $uniqueFiles.foreach({ 
-    # try {
-    #     # ((find-package "runtime.*").name).foreach({nuget install -outputdirectory C:\Users\joesp\Downloads\Transfer\ToMove\nupkg\ $_ -source "Baget"})
-    #     # ((find-package "runtime.*runtime*").name).foreach({nuget install -outputdirectory C:\Users\joesp\Downloads\Transfer\ToMove\nupkg\ $_ -source "Baget"})
-    #     # ((find-package "runtime.*Microsoft*").name).foreach({nuget install -outputdirectory C:\Users\joesp\Downloads\Transfer\ToMove\nupkg\ $_ -source "Baget"})
-    #     # ((find-package "*kube*"  ).name | Sort-Object | Get-Unique).foreach({nuget install -outputdirectory C:\Users\joesp\Downloads\Transfer\ToMove\nupkg\ $_ -source "Baget"})
-    #     # ((find-package "*kube*"  ).name | Sort-Object | Get-Unique).foreach({save-package "$_" -path "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\nupkg\\" -Source "BaGet"})
-    #     # & $NuGetBinary install $_ -OutputDirectory "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\nupkg\\"
-    #     & $NuGetBinary install -OutputDirectory "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\nupkg\\" $_ -Source "BaGet"
-    # }
-    # catch {
-    #     # save-package "$_" -path "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\nupkg\\" 
-    #     save-package "$_" -path "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\nupkg\\" -Source "BaGet"
-    # }
-    # # finally {
-    # #     dotnet tool install --tool-path "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\nupkg\\" --add-source "BaGet" $_
-    # # }
+    try {
+        # ((find-package "runtime.*").name).foreach({nuget install -outputdirectory C:\Users\joesp\Downloads\Transfer\ToMove\nupkg\ $_ -source "Baget"})
+        # ((find-package "runtime.*runtime*").name).foreach({nuget install -outputdirectory C:\Users\joesp\Downloads\Transfer\ToMove\nupkg\ $_ -source "Baget"})
+        # ((find-package "runtime.*Microsoft*").name).foreach({nuget install -outputdirectory C:\Users\joesp\Downloads\Transfer\ToMove\nupkg\ $_ -source "Baget"})
+        # ((find-package "*kube*"  ).name | Sort-Object | Get-Unique).foreach({nuget install -outputdirectory C:\Users\joesp\Downloads\Transfer\ToMove\nupkg\ $_ -source "Baget"})
+        # ((find-package "*kube*"  ).name | Sort-Object | Get-Unique).foreach({save-package "$_" -path "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\nupkg\\" -Source "BaGet"})
+        # & $NuGetBinary install $_ -OutputDirectory "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\nupkg\\"
+        & $NuGetBinary install -OutputDirectory "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\nupkg\\" $_ -Source "BaGet"
+    }
+    catch {
+        # save-package "$_" -path "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\nupkg\\" 
+        save-package "$_" -path "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\nupkg\\" -Source "BaGet"
+    }
+    finally {
+        dotnet tool install --tool-path "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\nupkg\\" --add-source "BaGet" $_
+    }
     # finally {
     #     # save-package "$_" -path "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\nupkg\\" 
     #     & $NuGetBinary install -OutputDirectory "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\nupkg\\" $_ 
     # }
-    & $NuGetBinary install -OutputDirectory "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\nupkg\\" $_ -Source "BaGet"
+    # & $NuGetBinary install -OutputDirectory "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\nupkg\\" $_ -Source "BaGet"
     
-    save-package "$_" -path "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\nupkg\\" -Source "BaGet"
+    # save-package "$_" -path "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\nupkg\\" -Source "BaGet"
     
-    dotnet tool install --tool-path "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\nupkg\\" --add-source "BaGet" $_
+    # dotnet tool install --tool-path "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\nupkg\\" --add-source "BaGet" $_
+})
+
+
+$uniqueFiles.foreach({ 
+    try {
+        # ((find-package "runtime.*").name).foreach({nuget install -outputdirectory C:\Users\joesp\Downloads\Transfer\ToMove\nupkg\ $_ -source "Baget"})
+        # ((find-package "runtime.*runtime*").name).foreach({nuget install -outputdirectory C:\Users\joesp\Downloads\Transfer\ToMove\nupkg\ $_ -source "Baget"})
+        # ((find-package "runtime.*Microsoft*").name).foreach({nuget install -outputdirectory C:\Users\joesp\Downloads\Transfer\ToMove\nupkg\ $_ -source "Baget"})
+        # ((find-package "*kube*"  ).name | Sort-Object | Get-Unique).foreach({nuget install -outputdirectory C:\Users\joesp\Downloads\Transfer\ToMove\nupkg\ $_ -source "Baget"})
+        # ((find-package "*kube*"  ).name | Sort-Object | Get-Unique).foreach({save-package "$_" -path "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\nupkg\\" -Source "BaGet"})
+        # & $NuGetBinary install $_ -OutputDirectory "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\nupkg\\"
+        & $NuGetBinary install -OutputDirectory "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\nupkg\\" $_ -Source "BaGet_Posh"
+    }
+    catch {
+        # save-package "$_" -path "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\nupkg\\" 
+        save-package "$_" -path "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\nupkg\\" -Source "BaGet_Posh" -MaximumVersion 100
+    }
+    finally {
+        dotnet tool install --tool-path "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\nupkg\\" --add-source "BaGet_Posh" $_
+    }
+    # finally {
+    #     # save-package "$_" -path "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\nupkg\\" 
+    #     & $NuGetBinary install -OutputDirectory "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\nupkg\\" $_ 
+    # }
+    # & $NuGetBinary install -OutputDirectory "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\nupkg\\" $_ -Source "BaGet_Posh"
+    
+    # save-package "$_" -path "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\nupkg\\" -Source "BaGet_Posh"
+    
+    # dotnet tool install --tool-path "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\nupkg\\" --add-source "BaGet_Posh" $_
 })
 
 # $uniqueFiles.foreach({ 
