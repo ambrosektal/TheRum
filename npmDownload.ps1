@@ -1,11 +1,20 @@
 
 #### NPM for Windows
 
+# # Splitting up the packages in 3rds
+# $files = get-content "C:\\Users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\npmPackages.txt"
+# $totalFiles = $files.count
+# $split3rdFiles = $totalFiles / 3
+# $1splitFiles = $($files[1..$($totalFiles - ($split3rdFiles*2))])
+# $2splitFiles = $($files[$split3rdFiles..($totalFiles - $split3rdFiles)])
+# $3splitFiles = $($files[($split3rdFiles * 2)..$totalFiles])
+
 function Invoke-DownloadNpmPackages {
     param (
         [string]$npmPackageList,
         [switch]$Top1000NpmPackages,
-        [int]$Iterations
+        [int]$Iterations,
+        [switch]$yarn
     )
     $npmFiles = New-Object System.Collections.Generic.HashSet[string]
     $npmFilesArray = New-Object System.Collections.ArrayList
@@ -15,11 +24,15 @@ function Invoke-DownloadNpmPackages {
         write-host "NOT BOTH." -ForegroundColor Red
     }
     if ($npmPackageList) {
-        $npmFiles.Add($(Get-Content "$npmPackageList"))    
+        if ($(get-member -InputObject $npmPackageList).GetType().BaseType.Name -eq "Array") {
+            $npmFiles = $npmPackageList
+        }else {
+            $npmFiles.Add($(Get-Content "$npmPackageList"))
+        }
     } elseif ($Top1000NpmPackages) {
-        $npmFiles.Add($(Get-Content "C:\\Users\\$env:USERNAME\\Downloads\\gits\\TheRum\\Top1000npmPackages.txt"))
+        $npmFiles.Add($(Get-Content "C:\\Users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\Top1000npmPackages.txt"))
     } else {
-        $npmFiles.Add($(Get-Content "C:\\Users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackages.txt"))
+        $npmFiles.Add($(Get-Content "C:\\Users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\npmPackages.txt"))
     }
 
     # $npmFiles.Add($(Get-Content "C:\\Users\\$env:USERNAME\\Downloads\\gits\\TheRum\\Top1000npmPackages.txt"))
@@ -79,16 +92,16 @@ function Invoke-DownloadNpmPackages {
             rm -r -force node_modules/
             $npmFilesCleanNpm = ($npmFilesCleanNpm[25..($npmFilesCleanNpm.Count)])
         }
-
-        while ($npmFilesCleanYarn.count -gt 0) {
-            yarn add $npmFilesCleanYarn[0] --non-interactive
-            yarn audit
-            rm -r -force package*
-            rm -r -force node_modules/
-            rm -force yarn.lock
-            $npmFilesCleanYarn = ($npmFilesCleanYarn[1..($npmFilesCleanYarn.Count)])
+        if($yarn){
+            while ($npmFilesCleanYarn.count -gt 0) {
+                yarn add $npmFilesCleanYarn[0] --non-interactive
+                yarn audit
+                rm -r -force package*
+                rm -r -force node_modules/
+                rm -force yarn.lock
+                $npmFilesCleanYarn = ($npmFilesCleanYarn[1..($npmFilesCleanYarn.Count)])
+            }
         }
-
         $npmFilesArray = ($npmFilesArray[25..($npmFilesArray.Count)])
     }
 }
