@@ -60,7 +60,8 @@ $uniqueFiles.foreach({
     }
     catch {
         # save-package "$_" -path "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\nupkg\\" 
-        save-package "$_" -path "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\nupkg\\" -Source "BaGet_Posh" -MaximumVersion 100
+        # save-package "$_" -path "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\nupkg\\" -Source "BaGet_Posh" -MaximumVersion 100
+        save-package "$_" -path "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\nupkg\\" -Source "BaGet_Posh"
     }
     finally {
         dotnet tool install --tool-path "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\nupkg\\" --add-source "BaGet_Posh" $_
@@ -99,7 +100,13 @@ function Find-AllPackages {
 
 
 # DeDupe
+$toDeDupeCopy = gci "*.nupkg" -Recurse -Path "C:\\Users\\$env:USERNAME\\Documents\\BaGet_Shared\\packages\\packages"
+$toDeDupeCopy.foreach({Copy-Item $_ -Destination "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\nupkg\\"})
 $moved = gci "*.nupkg" -Recurse -Path "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\Moved\\nupkg\\"
+$moved | where-object {$_.Length -le 0} | rm -force
+$moved = gci "*.nupkg" -Recurse -Path "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\Moved\\nupkg\\"
+$toMove = gci -recurse "*.nupkg" -Path "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\nupkg\\"
+$toMove | where-object {$_.Length -le 0} | rm -force
 $toMove = gci -recurse "*.nupkg" -Path "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\nupkg\\"
 # $toMove = gci -recurse "*.nupkg"
 # $toMove = $moved
