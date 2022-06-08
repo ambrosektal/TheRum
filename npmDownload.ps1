@@ -14,6 +14,7 @@ function Invoke-DownloadNpmPackages {
         [string]$npmPackageList,
         [switch]$Top1000NpmPackages,
         [int]$Iterations,
+        [array]$npmPackageArray,
         [switch]$yarn
     )
     $npmFiles = New-Object System.Collections.Generic.HashSet[string]
@@ -22,16 +23,23 @@ function Invoke-DownloadNpmPackages {
     if ($npmPackageList -and $Top1000NpmPackages) {
         write-host "Set the npmPackageList OR Top1000NpmPackages." -ForegroundColor Red
         write-host "NOT BOTH." -ForegroundColor Red
+        break
     }
-    if ($npmPackageList) {
-        if ($(get-member -InputObject $npmPackageList).GetType().BaseType.Name -eq "Array") {
-            $npmFiles = $npmPackageList
-        }else {
-            $npmFiles.Add($(Get-Content "$npmPackageList"))
+    if ($npmPackageArray) {
+        if ($(get-member -InputObject $npmPackageArray).GetType().BaseType.Name -eq "Array") {
+            $npmFiles = $npmPackageArray
         }
-    } elseif ($Top1000NpmPackages) {
+        else {
+            $npmFiles.Add($(Get-Content $npmPackageArray))
+        }
+    }
+    elseif ($Top1000NpmPackages) {
         $npmFiles.Add($(Get-Content "C:\\Users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\Top1000npmPackages.txt"))
-    } else {
+    }
+    elseif ($npmPackageList) {
+        $npmFiles.Add($(Get-Content $npmPackageList))
+    }
+    else {
         $npmFiles.Add($(Get-Content "C:\\Users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\npmPackages.txt"))
     }
 
@@ -92,7 +100,7 @@ function Invoke-DownloadNpmPackages {
             rm -r -force node_modules/
             $npmFilesCleanNpm = ($npmFilesCleanNpm[25..($npmFilesCleanNpm.Count)])
         }
-        if($yarn){
+        if ($yarn) {
             while ($npmFilesCleanYarn.count -gt 0) {
                 yarn add $npmFilesCleanYarn[0] --non-interactive
                 yarn audit
@@ -152,12 +160,12 @@ function Find-AllScopedPackages {
         $npmFilesSearchedUnique = $($npmFilesSearchedUnique | Sort-Object | Get-Unique)
         $npmFilesSearchedUnique = $($npmFilesSearchedUnique | Sort-Object | Get-Unique)
         $PackageArray = $npmFilesSearchedUnique.foreach({ $($_.split("`t")[0]) })
-    } else {
+    }
+    else {
         Write-Host "Must provide a PackageName."
     }
     return $PackageArray
 }
-
 
 function Install-NpmPackages {
     param (
@@ -183,27 +191,33 @@ function Install-NpmPackages {
     if ($AllLatest) {
         if ($PackageArray) {
             foreach ($PackageName in $PackageArray) { npm i "$PackageName@latest" --legacy-peer-deps }
-        } elseif ($PackageName) {
+        }
+        elseif ($PackageName) {
             npm i "$PackageName@latest" --legacy-peer-deps
-        } else {
+        }
+        else {
             Write-Host "PackageName OR PackageArray required with the AllLatest option."
         }
     }
     if ($AllNext) {
         if ($PackageArray) {
             foreach ($PackageName in $PackageArray) { npm i "$PackageName@next" --legacy-peer-deps }
-        } elseif ($PackageName) {
+        }
+        elseif ($PackageName) {
             npm i "$PackageName@next" --legacy-peer-deps
-        } else {
+        }
+        else {
             Write-Host "PackageName OR PackageArray required with the AllNext option."
         }
     }
     if ($AllMajorVersions) {
         if ($PackageArray) {
             foreach ($PackageName in $PackageArray) { $($LowerVersionRange..$UpperVersionRange).foreach({ npm i "$PackageName@^$_" --legacy-peer-deps }) }    
-        } elseif ($PackageName) {
+        }
+        elseif ($PackageName) {
             $($LowerVersionRange..$UpperVersionRange).foreach({ npm i "$PackageName@^$_" --legacy-peer-deps })
-        } else {
+        }
+        else {
             Write-Host "PackageName OR PackageArray required with the AllMajorVersions option."
         }
     }
