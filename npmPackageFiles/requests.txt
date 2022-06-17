@@ -1,0 +1,11 @@
+@mantine
+@mantine/core
+@mantine/dropzone
+@mantine/eslint-config
+@mantine/hooks
+@mantine/next
+@mantine/notifications
+@mantine/prism
+@mantine/rte
+@mantine/ssr
+@mantine/styles

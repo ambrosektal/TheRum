@@ -1,0 +1,4 @@
+powershell
+powershell.*
+microsoft.powershell
+microsoft.powershell.*

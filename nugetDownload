@@ -6,29 +6,26 @@
 
 # $SearchFiles += "microsoft.aspnetcore.*","microsoft.aspnetcore.mvc*","mvcnet6.models*","mvcnet6.controllers*","mvcnet6.*"
 
-# $SearchFiles += "*csharp*","*omnisharp*","*roslyn*","*omnisharp*roslyn*","*roslyn*omnisharp*","*docker*","*helm*","*kube*","*vscode*","dotnet-symbol"
+# $SearchFiles += "*lucene*","*lucene.net*","*index*","*indexer*","*ifilescan*","*filesystem*","Microsoft.Extensions.file*","powershell","microsoft.powershell.*","powershell.*"
 
-# $SearchFiles += "*csharp*","*database*","*docker*","*dotnet*","*git*","*gitlab*","*helm*","*kube*","*kubectl*","*kubernetes*","*mongo*","*mongodb*","*Node*","*powershell*","*prometheus*","*skia*","*skiasharp*","*template*","*terminal*","*vscode*","*windows*terminal*","*wsl*","*aspnet*","Humanizer.Core*","Microsoft.AspNetCore.Spa*","Microsoft.AspNetCore.SpaTemplates","microsoft.dotnet*","microsoft.entityframework*","microsoft.net*","Microsoft.powershell*","mongocsharpdriver","MongoDB.Bson","MongoDB.Driver","MongoDB.Driver.Core","MongoDB.Driver.GridFS","MongoDB.Libmongocrypt","MongoDB*","redis*","RestSharp*","runtime.*.Netcore*","runtime.*.runtime*","*omnisharp*"
+# $SearchFiles += "*csharp*","*omnisharp*","*roslyn*","*omnisharp*roslyn*","*roslyn*omnisharp*","*docker*","*helm*","*kube*","*vscode*","dotnet-symbol"
 
 # $SearchFiles += "mongocsharpdriver","MongoDB.Bson","MongoDB.Driver","MongoDB.Driver.Core","MongoDB.Driver.GridFS","MongoDB.Libmongocrypt","MongoDB*","Microsoft.AspNetCore.Spa*","Microsoft.AspNetCore.SpaTemplates","*helm*","runtime.*.Netcore*","runtime.*.runtime*","Microsoft.NETCore.App.Runtime.Mono.browser-wasm","Microsoft.NETCore.App.Runtime.Mono*","microsoft.netcore.app.runtime*"
 
-# $SearchFiles += "Microsoft.VisualStudio.Imaging.Interop.14.0.DesignTime*","Microsoft.VisualStudio.Imaging*","Microsoft.VisualStudio*","*Microsoft.VisualStudio.OLE.Interop*","*Microsoft.VisualStudio.SDK.Analyzers*","*Microsoft.VisualStudio.SDK.EmbedInteropTypes*","*Microsoft.VisualStudio.Shell.Framework*","*Microsoft.VisualStudio.Shell**","*Microsoft.VisualStudio.TextManager.Interop*","*Microsoft.VisualStudio.Utilities*","*Microsoft.VisualStudio*"
-
-# $SearchFiles = "*apm*","*appwork*","*argon*","*aspnet*","*AspStudio*","*Auth0.AuthenticationApi*","*Auth0.Core*","*AuthorizeNet*","*backbone*","*beat*","*blazor*radzen*","*bootstrap*","*Breeze*","*cake*","*certificate*","*CloudNative.CloudEvents*","*connector*","*csharp*","*database*","*docker*","*dotnet*","*elastic*apm*","*emberjs*","*git*","*gitlab*","*helm*","*homer*","*jdbc*","*kibana*apm*","*knockout*","*kube*","*kubectl*","*kubernetes*","*logstash*apm*","*mattermost*","*metrica*","*Microsoft.Net.Compilers.Toolset*","*Microsoft.VisualStudio.Imaging.Interop.14.0.DesignTime*","*Microsoft.VisualStudio.Imaging*","*Microsoft.VisualStudio.mageCatalog*","*Microsoft.VisualStudio.OLE.Interop*","*Microsoft.VisualStudio.SDK.Analyzers*","*Microsoft.VisualStudio.SDK.EmbedInteropTypes*","*Microsoft.VisualStudio.Shell.Framework*","*Microsoft.VisualStudio.Shell**","*Microsoft.VisualStudio.TextManager.Interop*","*Microsoft.VisualStudio.Utilities*","*mongo*","*mongodb*","*mono*","*MSBuild.Sdk.Extras*","*Node*","*nosql*","*odbc*","*omnisharp*","*omnisharp*roslyn*","*OpenTelemetry*","*powershell*","*prometheus*","*radzen*","*radzen*blazor*","*radzen*razor*","*razor*","*roslyn*","*roslyn*omnisharp*","*skia*","*skiasharp*","*Skote*","*SmartAdmin*","*sql*","*sqlserver*","*template*","*terminal*","*towel*","*typescript*","*Veltrix*","*vscode*","*windows*terminal*","*wsl*","aspnet*","dotnet-symbol","FluentEmail*","FluentValidation*","Hangfire*","Humanizer.Core*","Insight.Database*","Json.NET*","LazyCache*","microsoft.aspnet*","microsoft.aspnetcore.builder*","microsoft.aspnetcore.hosting*","microsoft.aspnetcore.identity.*","microsoft.aspnetcore.identity.ui*","Microsoft.AspNetCore.Spa*","Microsoft.AspNetCore.SpaTemplates","microsoft.aspnetcore*","microsoft.dotnet*","microsoft.entityframework*","microsoft.extensions.configuration*","microsoft.extensions.hosting*","microsoft.extensions.logging*","microsoft.extensions.dependencyinjection*","microsoft.extensions*","microsoft.net*","Microsoft.NETCore.App.Runtime.Mono.browser-wasm","Microsoft.NETCore.App.Runtime.Mono*","microsoft.netcore.app.runtime*","Microsoft.powershell*","Microsoft.VisualStudio.Imaging.Interop.14.0.DesignTime*","Microsoft.VisualStudio.Imaging*","Microsoft.VisualStudio*","microsoft*csharp*","mongocsharpdriver","MongoDB.Bson","MongoDB.Driver","MongoDB.Driver.Core","MongoDB.Driver.GridFS","MongoDB.Libmongocrypt","MongoDB*","NUnit*","powershell*","redis*","RestSharp*","runtime.*.Netcore*","runtime.*.runtime*","Serilog*","System.Collections.Generic*","System.Collections*","System.componentModel*","System.ext*","System.Linq*","System.Threading.tasks*","System.Threading*","System.Windows.Extensions*"
-
 # $SearchFiles = get-content "C:\\Users\\$env:USERNAME\\Downloads\\gits\\TheRum\\nugetPackageFiles\\mlnetPackages.txt"
 # $SearchFiles = get-content "C:\\Users\\$env:USERNAME\\Downloads\\gits\\TheRum\\nugetPackageFiles\\RandomNuget.txt"
+# $SearchFiles = get-content "C:\\Users\\$env:USERNAME\\Downloads\\gits\\TheRum\\nugetPackageFiles\\powershell.txt"
 $SearchFiles = get-content "C:\\Users\\$env:USERNAME\\Downloads\\gits\\TheRum\\nugetPackageFiles\\nugetPackages.txt"
 
 $NuGetBinary = "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\nuget.exe"
 
+# Fast method of searching and downloading files bsaed off of a single term.
+# $((find-package "microsoft.aspnet*" -Source nuget.org).name).foreach({nuget install -OutputDirectory "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\nupkg\\" $_ -Source "BaGet"})
+
 Remove-Variable files
 $files = New-Object System.Collections.ArrayList
 
-# $files.add($SearchFiles.foreach({ $(find-package $_ ).name }))
-$files.add($SearchFiles.foreach({ $((find-package $_) | where-object {$_.Name -notlike "*arm64*"}).name }))
-
-# ((find-package "*net.runtime*") | where-object {$_.Name -notlike "*arm64*"}).name
+$files.add($SearchFiles.foreach({ $((find-package $_ Source "nuget.org") | where-object {$_.Name -notlike "*arm64*"}).name }))
 
 $uniqueFiles = $files | Sort-Object | Get-unique
 $uniqueFiles = $uniqueFiles | Sort-Object | Get-unique
@@ -40,7 +37,8 @@ Write-Host "$($uniqueFiles.Count) packages to be installed. This does not includ
 $uniqueFiles.foreach({ 
     try {
         # & $NuGetBinary install $_ -OutputDirectory "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\nupkg\\"
-        & $NuGetBinary install -OutputDirectory "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\nupkg\\" $_ -Source "BaGet"
+        # & $NuGetBinary install -OutputDirectory "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\nupkg\\" $_ -Source "BaGet"
+        nuget install -OutputDirectory "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\nupkg\\" $_ -Source "BaGet"
     }
     catch {
         # save-package "$_" -path "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\nupkg\\" 
@@ -52,21 +50,22 @@ $uniqueFiles.foreach({
 
 })
 
-
-$uniqueFiles.foreach({ 
-    try {
-        # & $NuGetBinary install $_ -OutputDirectory "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\nupkg\\"
-        & $NuGetBinary install -OutputDirectory "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\nupkg\\" $_ -Source "BaGet_Posh"
-    }
-    catch {
-        # save-package "$_" -path "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\nupkg\\" 
-        save-package "$_" -path "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\nupkg\\" -Source "BaGet_Posh" -MaximumVersion 100
-        # save-package "$_" -path "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\nupkg\\" -Source "BaGet_Posh"
-    }
-    finally {
-        dotnet tool install --tool-path "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\nupkg\\" --add-source "http://localhost:7777/v3/index.json" $_
-    }
-})
+# # I don't think this is needed...
+# $uniqueFiles.foreach({ 
+#     try {
+#         # & $NuGetBinary install $_ -OutputDirectory "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\nupkg\\"
+#         # & $NuGetBinary install -OutputDirectory "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\nupkg\\" $_ -Source "BaGet_Posh"
+#         nuget install -OutputDirectory "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\nupkg\\" $_ -Source "BaGet_Posh"
+#     }
+#     catch {
+#         # save-package "$_" -path "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\nupkg\\" 
+#         save-package "$_" -path "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\nupkg\\" -Source "BaGet_Posh" -MaximumVersion 100
+#         # save-package "$_" -path "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\nupkg\\" -Source "BaGet_Posh"
+#     }
+#     finally {
+#         dotnet tool install --tool-path "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\nupkg\\" --add-source "http://localhost:7777/v3/index.json" $_
+#     }
+# })
 
 
 function Find-AllPackages {
@@ -84,12 +83,10 @@ function Find-AllPackages {
         if ($PackageName.EndsWith(".")) {
             $PackageName = $PackageName.Trim(".")
         }
-        # $files.add($SearchFiles.foreach({ $((find-package $_) | where-object {$_.Name -notlike "*arm64*"}).name }))
         $PackageArray += $(97..122).foreach({ $(find-package "$PackageName.$([char]$_)*").name })
         $nupkgFilesSearchedUnique = $($PackageArray | Sort-Object | Get-Unique)
         $nupkgFilesSearchedUnique = $($nupkgFilesSearchedUnique | Sort-Object | Get-Unique)
         $nupkgFilesSearchedUnique = $($nupkgFilesSearchedUnique | Sort-Object | Get-Unique)
-        # $PackageArray = $nupkgFilesSearchedUnique.foreach({ $($_.split("`t")[0]) })
         $PackageArray = $nupkgFilesSearchedUnique
     } else {
         Write-Host "Must provide a PackageName."
@@ -108,30 +105,16 @@ $moved = gci "*.nupkg" -Recurse -Path "C:\\Users\\$env:USERNAME\\Downloads\\Tran
 $toMove = gci -recurse "*.nupkg" -Path "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\nupkg\\"
 $toMove | where-object {$_.Length -le 0} | rm -force
 $toMove = gci -recurse "*.nupkg" -Path "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\nupkg\\"
-# $toMove = gci -recurse "*.nupkg"
-# $toMove = $moved
-# # Testing methods of reading this json
-# $moved | ConvertTo-Json -Depth 5 | Out-File -Append -FilePath "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ExternalMovedFileCheck.json"
-# $toMove | ConvertTo-Json  -Depth 5 |  Out-File -FilePath "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ExternalToMoveFileCheck.json"
-# $moved.name > "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\nupkg.moved.txt"
 
-# if (Test-Path "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\nupkg.moved.txt") {
-#     $ImportedMoved = Get-Content -Raw -Path "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\nupkg.moved.txt" 
-# }
-
-# mkdir C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\Staging
 $staging = "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\Staging\\nupkg\\"
 $count = 0
 $leavingCount = 0
-# $toMove.foreach({if($_.name -notin $moved.Name){$count++ }})
 $toMove.foreach({if($_.name -notin $ImportedMoved){$count++ }})
-# $toMove.foreach({if($_.name -in $moved.Name){$leavingCount++ }})
 $toMove.foreach({if($_.name -in $ImportedMoved){$leavingCount++ }})
 write-host "Going to move $count packages"
 write-host "$leavingCount duplicate packages"
 
 # Move Files
-# $toMove.foreach({if($_.name -notin $moved.Name){move-item $_ $staging}})
 if(!$ImportedMoved){
     $toMove.foreach({if($_.name -notin $moved.Name){move-item $_ $staging}})    
 } else {
@@ -140,10 +123,8 @@ if(!$ImportedMoved){
 }
 
 
-# get-filehash * | format-list | Out-File "..\\PRE_HASH_$(Get-Date -Format "yyyyMMdd")_nupkg.txt"
-
-$Directory = "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\Staging\\nupkg"
-get-filehash "$Directory\\*" | format-list | Out-File "$Directory\\..\\PRE_HASH_$(Get-Date -Format "yyyyMMdd")_nupkg.txt"
+# $Directory = "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\Staging\\nupkg"
+# get-filehash "$Directory\\*" | format-list | Out-File "$Directory\\..\\PRE_HASH_$(Get-Date -Format "yyyyMMdd")_nupkg.txt"
 
 
 
