@@ -14,6 +14,8 @@
 
 # $SearchFiles = get-content "C:\\Users\\$env:USERNAME\\Downloads\\gits\\TheRum\\nugetPackageFiles\\mlnetPackages.txt"
 # $SearchFiles = get-content "C:\\Users\\$env:USERNAME\\Downloads\\gits\\TheRum\\nugetPackageFiles\\RandomNuget.txt"
+# $SearchFiles = get-content "C:\\Users\\$env:USERNAME\\Downloads\\gits\\TheRum\\nugetPackageFiles\\aspnetcore.txt"
+# $SearchFiles = get-content "C:\\Users\\$env:USERNAME\\Downloads\\gits\\TheRum\\nugetPackageFiles\\dotnet.txt"
 # $SearchFiles = get-content "C:\\Users\\$env:USERNAME\\Downloads\\gits\\TheRum\\nugetPackageFiles\\powershell.txt"
 $SearchFiles = get-content "C:\\Users\\$env:USERNAME\\Downloads\\gits\\TheRum\\nugetPackageFiles\\nugetPackages.txt"
 
@@ -25,7 +27,7 @@ $NuGetBinary = "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\nuget.exe"
 Remove-Variable files
 $files = New-Object System.Collections.ArrayList
 
-$files.add($SearchFiles.foreach({ $((find-package $_ Source "nuget.org") | where-object {$_.Name -notlike "*arm64*"}).name }))
+$files.add($SearchFiles.foreach({ $((find-package $_ -Source "nuget.org") | where-object {$_.Name -notlike "*arm64*"}).name }))
 
 $uniqueFiles = $files | Sort-Object | Get-unique
 $uniqueFiles = $uniqueFiles | Sort-Object | Get-unique
@@ -47,7 +49,6 @@ $uniqueFiles.foreach({
     finally {
         dotnet tool install --tool-path "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\nupkg\\" --add-source "http://localhost:5555/v3/index.json" $_
     }
-
 })
 
 # # I don't think this is needed...

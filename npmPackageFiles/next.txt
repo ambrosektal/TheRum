@@ -1,0 +1,10 @@
+next-js
+nextjs
+create-next
+create-next-
+@next
+@next-js
+@next/svelte
+@nextjs
+next
+next-connect

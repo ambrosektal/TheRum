@@ -9,6 +9,9 @@
 # $2splitFiles = $($files[$split3rdFiles..($totalFiles - $split3rdFiles)])
 # $3splitFiles = $($files[($split3rdFiles * 2)..$totalFiles])
 
+# Invoke-DownloadNpmPackages -npmPackageList "C:\\Users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\react.txt"
+
+
 function Invoke-DownloadNpmPackages {
     param (
         [string]$npmPackageList,

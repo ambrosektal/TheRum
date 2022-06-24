@@ -158,5 +158,14 @@ yarn config set unsafeHTTPWhiteList 10.245.42.25
 
 
 # Powershell dos2Unix
-Get-ChildItem -File -Recurse | % { $x = get-content -raw -path $_.fullname; $x -replace "`r`n","`n" | set-content -path $_.fullname }
+# I think these need to be "" instead of ''
+Get-ChildItem -File -Recurse | % { $x = get-content -raw -path $_.fullname; $x -replace '`r`n','`n' | set-content -path $_.fullname }
 
+# grep -vi in powershell
+$file = "C:\\Users\\$env:USERNAME\\Downloads\\gits\\TheRum\\nugetPackageFiles\\dotnet.txt"
+$term = 'aspnet'
+# set-content -path $file -Value (get-content -Path $file | select-string -pattern $term -NotMatch)
+## Beter idea ... leaves the handle open so let's try a combination the two methods
+# get-content $file | where-object { $_ -notmatch $term} | set-content $file
+### Best idea
+set-content -path $file -Value (get-content $file | where-object { $_ -notmatch $term} )
