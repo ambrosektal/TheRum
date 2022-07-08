@@ -1,0 +1,6 @@
+*kube*
+*kubectl*
+*kubernetes*
+*docker*
+docker-watch
+devcontainer

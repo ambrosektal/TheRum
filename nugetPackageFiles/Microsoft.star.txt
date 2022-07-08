@@ -1,0 +1,5 @@
+Microsoft.*
+System.*
+dotnet.*
+aspnetcore.*
+aspnet.*

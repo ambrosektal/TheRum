@@ -1,0 +1,7 @@
+MongoDB.Bson
+MongoDB.Driver
+MongoDB.Driver.Core
+MongoDB.Driver.GridFS
+MongoDB.Libmongocrypt
+MongoDB*
+*mongodb*

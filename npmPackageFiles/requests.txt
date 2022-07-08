@@ -9,3 +9,4 @@
 @mantine/rte
 @mantine/ssr
 @mantine/styles
+boolean-parser
