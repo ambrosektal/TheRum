@@ -1,3 +1,8 @@
+prism
+prismjs
+prism.js
+highlightjs
+highlight.js
 blazor
 razor
 radzen

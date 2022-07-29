@@ -1,5 +1,6 @@
 react
 react-
+react-split
 react-chart
 react-chartjs
 react-chartjs-2

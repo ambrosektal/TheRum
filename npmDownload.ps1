@@ -56,7 +56,7 @@ function Invoke-DownloadNpmPackages {
         $npmFilesSearched = $npmFilesLimit.foreach({ $(npm search -p "$_") })
         $npmFilesSearchedUnique = $($npmFilesSearched | sort | unique)
         $npmFilesSearchedUnique = $($npmFilesSearchedUnique | sort | unique)
-        $npmFilesSearchedUnique = $($npmFilesSearchedUnique | sort | unique)
+        # $npmFilesSearchedUnique = $($npmFilesSearchedUnique | sort | unique)
 
         # $npmFilesSearchedUnique.foreach({npm install $($_.split(" ")[0])})
         # When using a -p in the search:::
@@ -94,6 +94,8 @@ function Invoke-DownloadNpmPackages {
 }
 
 function Find-SimilarNpmNames {
+    # Cycle through package name and search for similar names.
+    # Find-SimilarNpmNames -PackageName "svelte-" -Iterations 1
     param (
         [string]$PackageName,
         [int]$Iterations
@@ -101,17 +103,17 @@ function Find-SimilarNpmNames {
     $npmFilesSearched += $PackageName.foreach({ npm search -p "$_" })
     $npmFilesSearchedUnique = $($npmFilesSearched | Sort-Object | Get-Unique)
     $npmFilesSearchedUnique = $($npmFilesSearchedUnique | Sort-Object | Get-Unique)
-    $npmFilesSearchedUnique = $($npmFilesSearchedUnique | Sort-Object | Get-Unique)
+    # $npmFilesSearchedUnique = $($npmFilesSearchedUnique | Sort-Object | Get-Unique)
     $npmFilesClean = $npmFilesSearchedUnique.foreach({ $($_.split("`t")[0]) })
     if ($Iterations) {
-        while ($Iterations -gt 1) {
+        while ($Iterations -gt 0) {
             Write-Host "Iteration $Iterations"
             $Iterations -= 1
             # Search based on files found in previous search - expands on the limited results from the default npm search.
             $npmFilesSearched += $npmFilesClean.foreach({ npm search -p "$_" })
             $npmFilesSearchedUnique = $($npmFilesSearched | Sort-Object | Get-Unique)
             $npmFilesSearchedUnique = $($npmFilesSearchedUnique | Sort-Object | Get-Unique)
-            $npmFilesSearchedUnique = $($npmFilesSearchedUnique | Sort-Object | Get-Unique)
+            # $npmFilesSearchedUnique = $($npmFilesSearchedUnique | Sort-Object | Get-Unique)
             $npmFilesClean = $npmFilesSearchedUnique.foreach({ $($_.split("`t")[0]) })
         }
     }
@@ -119,9 +121,19 @@ function Find-SimilarNpmNames {
 }
 
 
-function Find-AllScopedPackages {
+function Find-AllPackages {
+    # Find all packages based on a name
+    # cycles through every letter in the alphabet after known package name
+    
+    # EXAMPLE:::
+    # Find-AllPackages -PackageName "svelte-"
+    ## cycles through svelte-[a-z]
+    # Find-AllPackages -Scoped -PackageName "@sveltejs" 
+    ## cycles through @sveltejs/[a-z]
+    
     param (
-        [string]$PackageName
+        [string]$PackageName,
+        [switch]$Scoped
     )
     # NOTES
     # If you see ~1.0.2 it means to install version 1.0.2 or the latest patch version such as 1.0.4. 
@@ -134,10 +146,14 @@ function Find-AllScopedPackages {
         if ($PackageName.EndsWith("/")) {
             $PackageName = $PackageName.Trim("/")
         }
-        $PackageArray += $(97..122).foreach({ npm search -p "$PackageName/$([char]$_)" })
+        if ($Scoped) {
+            $PackageArray += $(97..122).foreach({ npm search -p "$PackageName/$([char]$_)" })    
+        } else {
+            $PackageArray += $(97..122).foreach({ npm search -p "$PackageName$([char]$_)" })
+        }
         $npmFilesSearchedUnique = $($PackageArray | Sort-Object | Get-Unique)
         $npmFilesSearchedUnique = $($npmFilesSearchedUnique | Sort-Object | Get-Unique)
-        $npmFilesSearchedUnique = $($npmFilesSearchedUnique | Sort-Object | Get-Unique)
+        # $npmFilesSearchedUnique = $($npmFilesSearchedUnique | Sort-Object | Get-Unique)
         $PackageArray = $npmFilesSearchedUnique.foreach({ $($_.split("`t")[0]) })
     }
     else {

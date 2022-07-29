@@ -1,5 +1,5 @@
 
-$directories = (gci -Recurse -Filter "latest.json" | where-object {$_.Length -gt 8000}).Directory
+$directories = (gci -Recurse -Filter "latest.json" | where-object {$_.Length -gt 7000}).Directory
 
 foreach($directory in $directories){
 	# cd $directory
@@ -29,3 +29,4 @@ $removeNames = (((gci -Recurse -Filter "latest.json" | where-object {(gc $_ | co
 
 # Remove the folders from the cache, based on number of downloads.
 (((gci -Recurse -Filter "latest.json" | where-object {(gc $_ | convertfrom-json).statistics.GetValue(0).value -lt 5000 }).Directory) | Where-Object {($_.Name -notlike "ms-*") -and ($_.Name -notlike "*svelte*")}) | rm -r -Force
+
