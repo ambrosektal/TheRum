@@ -17,12 +17,14 @@ react-hook-form
 react-intersection
 react-intersection-observer
 react-native-svg
+react-overlays
 react-popper
 react-redux
 react-router
 react-router-dom
 react-scripts
 react-scripts-ts
+react-summertime
 react-table
 react-transition-group
 react-use
@@ -56,5 +58,6 @@ cra-template-simple-tailwindcss-typescript
 cra-template-tailwindcss-typescript
 cra-template-ts
 cra-template-typescript
+summertime
 @react
 @chakra-ui/cra-template

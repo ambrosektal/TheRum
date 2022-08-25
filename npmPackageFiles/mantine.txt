@@ -10,3 +10,14 @@
 @mantine/ssr
 @mantine/styles
 boolean-parser
+@mantine/dates
+@mantine/decorations
+@mantine/ds
+@mantine/form
+@mantine/labs
+@mantine/modals
+@mantine/nprogress
+@mantine/spotlight
+@mantine/tag-picker
+@mantine/theme
+@mantine/utils

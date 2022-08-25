@@ -9,10 +9,22 @@
 # $2splitFiles = $($files[$split3rdFiles..($totalFiles - $split3rdFiles)])
 # $3splitFiles = $($files[($split3rdFiles * 2)..$totalFiles])
 
-# Invoke-DownloadNpmPackages -npmPackageList "C:\\Users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\react.txt"
+# Clean list from git up
+# $topfiles = (gc C:\Users\joesp\Documents\npm.txt).foreach({$_.split('[').split(']')[1]})
+# $topfiles = $topfiles | sort-object -unique
+# $topfiles > C:\Users\joesp\Downloads\gits\TheRum\npmPackageFiles\TopPackages.txt
+
+# pull a bunch of github repos from a list
+# $gits = gc ..\..\..\gits\TheRum\npmPackageFiles\github\svelte.txt
+# $gits.foreach({git clone --recurse $_})
+
+# Git Repo cycle through:
+# $files = gci . -Recurse -Filter package.json
+# $files.foreach({cd $_.Directory && npm i --legacy-peer-deps && npm audit fix --force})
 
 
 function Invoke-DownloadNpmPackages {
+# Invoke-DownloadNpmPackages -npmPackageList "C:\\Users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\react.txt"
     param (
         [string]$npmPackageList,
         [switch]$Top1000NpmPackages,
@@ -72,9 +84,12 @@ function Invoke-DownloadNpmPackages {
         $npmFilesCleanNpm = $npmFilesClean
 
         while ($npmFilesCleanNpm.count -gt 0) {
-            npm install --legacy-peer-deps $npmFilesCleanNpm[0..25]
-            npm audit fix --legacy-peer-deps
-            npm audit fix -f --legacy-peer-deps
+            # npm install --legacy-peer-deps $npmFilesCleanNpm[0..25]
+            npm install --force $npmFilesCleanNpm[0..25]
+            # npm audit fix --legacy-peer-deps
+            npm audit fix --force
+            # npm audit fix -f --legacy-peer-deps
+            npm audit fix -f --force
             rm -r -force package*
             rm -r -force node_modules/
             $npmFilesCleanNpm = ($npmFilesCleanNpm[25..($npmFilesCleanNpm.Count)])
@@ -175,6 +190,9 @@ function Install-NpmPackages {
     # NOTES
     # If you see ~1.0.2 it means to install version 1.0.2 or the latest patch version such as 1.0.4. 
     # If you see ^1.0.2 it means to install version 1.0.2 or the latest minor or patch version such as 1.1.0.
+    # Install-NpmPackages -PackageName svelte -AllMajorVersions
+    # $packageArray = gc "C:\\Users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\newnet.txt"
+    # Install-NpmPackages -PackageArray $packageArray -AllMajorVersions -UpperVersionRange 0 -LowerVersionRange 20
 
     if (!$LowerVersionRange) {
         $LowerVersionRange = 0
@@ -185,10 +203,12 @@ function Install-NpmPackages {
 
     if ($AllLatest) {
         if ($PackageArray) {
-            foreach ($PackageName in $PackageArray) { npm i "$PackageName@latest" --legacy-peer-deps }
+            # foreach ($PackageName in $PackageArray) { npm i "$PackageName@latest" --legacy-peer-deps }
+            foreach ($PackageName in $PackageArray) { npm i "$PackageName@latest" --force }
         }
         elseif ($PackageName) {
-            npm i "$PackageName@latest" --legacy-peer-deps
+            # npm i "$PackageName@latest" --legacy-peer-deps
+            npm i "$PackageName@latest" --force
         }
         else {
             Write-Host "PackageName OR PackageArray required with the AllLatest option."
@@ -196,10 +216,12 @@ function Install-NpmPackages {
     }
     if ($AllNext) {
         if ($PackageArray) {
-            foreach ($PackageName in $PackageArray) { npm i "$PackageName@next" --legacy-peer-deps }
+            # foreach ($PackageName in $PackageArray) { npm i "$PackageName@next" --legacy-peer-deps }
+            foreach ($PackageName in $PackageArray) { npm i "$PackageName@next" --force }
         }
         elseif ($PackageName) {
-            npm i "$PackageName@next" --legacy-peer-deps
+            # npm i "$PackageName@next" --legacy-peer-deps
+            npm i "$PackageName@next" --force
         }
         else {
             Write-Host "PackageName OR PackageArray required with the AllNext option."
@@ -207,10 +229,12 @@ function Install-NpmPackages {
     }
     if ($AllMajorVersions) {
         if ($PackageArray) {
-            foreach ($PackageName in $PackageArray) { $($LowerVersionRange..$UpperVersionRange).foreach({ npm i "$PackageName@^$_" --legacy-peer-deps }) }    
+            # foreach ($PackageName in $PackageArray) { $($LowerVersionRange..$UpperVersionRange).foreach({ npm i $PackageName"@^"$_ --legacy-peer-deps }) }    
+            foreach ($PackageName in $PackageArray) { $($LowerVersionRange..$UpperVersionRange).foreach({ npm i $PackageName"@^"$_ --force }) }    
         }
         elseif ($PackageName) {
-            $($LowerVersionRange..$UpperVersionRange).foreach({ npm i "$PackageName@^$_" --legacy-peer-deps })
+            # $($LowerVersionRange..$UpperVersionRange).foreach({ npm i $PackageName"@^"$_ --legacy-peer-deps })
+            $($LowerVersionRange..$UpperVersionRange).foreach({ npm i $PackageName"@^"$_ --force })
         }
         else {
             Write-Host "PackageName OR PackageArray required with the AllMajorVersions option."

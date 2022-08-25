@@ -86,7 +86,7 @@ while ($uniqueFiles.count -gt 0) {
 
 ## DOES NOT get the newest version...  I think...
 # $((find-module "vmware*").Name | sort-object -unique).foreach({  save-module -Name "$_" -Path "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\nupkg\\" -Repository "BaGet_Posh"})
-# $((find-package "*vmware*").Name | sort-object -unique).foreach({  save-package -Name "$_" -Path "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\nupkg\\" -Source "BaGet_Posh"})
+# $((find-package "*vmware**").Name | sort-object -unique).foreach({  save-package -Name "$_" -Path "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\nupkg\\" -Source "BaGet_Posh"})
 # $((find-package "*dotnet*").Name | sort-object -unique).foreach({  Save-Module -Name "$_" -Path "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\nupkg\\" -Repository "BaGet_Posh"})
 # $((find-package "Microsoft.aspnetcore.*")).foreach({  Save-Module -Name "$($_.Name)" -Path "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\nupkg\\" -Repository "BaGet_Posh"})
 
@@ -94,10 +94,13 @@ while ($uniqueFiles.count -gt 0) {
 # $((find-package "powershell**") ).foreach({  save-package -Name "$($_.Name)" -Path "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\nupkg\\" -RequiredVersion $_.version})
 # $((find-package "microsoft.**") ).foreach({  save-package -Name "$($_.Name)" -Path "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\nupkg\\" -RequiredVersion $_.version})
 # $((find-package "microsoft.aspnetcore.**") ).foreach({  save-package -Name "$($_.Name)" -Path "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\nupkg\\" -RequiredVersion $_.version})
+# $((find-package "microsoft.Netcore.**") ).foreach({  save-package -Name "$($_.Name)" -Path "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\nupkg\\" -RequiredVersion $_.version})
 # $((find-package "system.**") ).foreach({  save-package -Name "$($_.Name)" -Path "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\nupkg\\" -RequiredVersion $_.version})
-# $((find-package "lucene**") ).foreach({  save-package -Name "$($_.Name)" -Path "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\nupkg\\" -RequiredVersion $_.version})
+# $((find-package "lucene**") ).foreach({  save-package -Name "$($_.Name)" -Path "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\nupkg\\" -RequiredVersion $_.version -AllowPrereleaseVersions})
 # $((find-package "System.Linq**") ).foreach({  nuget install -OutputDirectory "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\nupkg\\" $($_.Name) -Version $($_.Version) -Source "BaGet" })
-# $((find-package "lucene**") ).foreach({  nuget install -OutputDirectory "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\nupkg\\" $($_.Name) -Version $($_.Version) -Source "BaGet" })
+# $((find-package "lucene**") ).foreach({  nuget install -OutputDirectory "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\nupkg\\" $($_.Name) -Version $($_.Version) -Source "BaGet" -Prerelease})
+# $((find-package "microsoft.Netcore.**") ).foreach({  nuget install -OutputDirectory "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\nupkg\\" $($_.Name) -Version $($_.Version) -Source "BaGet" })
+### Does not always work.
 # $((find-package "microsoft.NETcore**") ).foreach({dotnet tool install --tool-path "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\nupkg\\" --add-source "http://localhost:7777/v3/index.json" $_ --arch x64})
 # $((find-package "microsoft.NETcore**") ).foreach({dotnet tool install --tool-path "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\nupkg\\" --add-source "http://localhost:5555/v3/index.json" $_ --arch x64})
 
@@ -117,6 +120,8 @@ while ($uniqueFiles.count -gt 0) {
 # (find-module "nuget.**").foreach({save-Module -name $_.Name -Path "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\nupkg\\" -repository "BaGet_Posh" -RequiredVersion $_.version})
 # (find-module "Microsoft.**").foreach({save-Module -name $_.Name -Path "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\nupkg\\" -repository "BaGet_Posh" -RequiredVersion $_.version})
 
+# FOR DOTNET TOOL
+# THIS WORKS!!!!
 # foreach($file in $(dotnet tool search "blazor" --take 500)) {dotnet tool install --tool-path "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\nupkg\\" --add-source "http://localhost:7777/v3/index.json" $file.split(" ")[0] --arch x64}
 
 # (find-package "microsoft*aspnetcore*").foreach({Save-Package -name $_.Name -Path "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\nupkg\\" -Source "BaGet_Posh" -RequiredVersion $_.version})
