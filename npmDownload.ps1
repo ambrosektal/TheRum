@@ -21,6 +21,7 @@
 # Git Repo cycle through:
 # $files = gci . -Recurse -Filter package.json
 # $files.foreach({cd $_.Directory && npm i --legacy-peer-deps && npm audit fix --force})
+# $files.foreach({cd $_.Directory && npm i --force && npm audit fix --force})
 
 
 function Invoke-DownloadNpmPackages {
@@ -63,7 +64,7 @@ function Invoke-DownloadNpmPackages {
     $npmFiles.foreach({ $_.split(" ") }).foreach({ $npmFilesArray.add($_) }) 
     
     while ($npmFilesArray.count -gt 0) {
-        $npmFilesLimit = $npmFilesArray[0..24]
+        $npmFilesLimit = $npmFilesArray[0..9]
 
         $npmFilesSearched = $npmFilesLimit.foreach({ $(npm search -p "$_") })
         $npmFilesSearchedUnique = $($npmFilesSearched | sort | unique)
@@ -85,14 +86,14 @@ function Invoke-DownloadNpmPackages {
 
         while ($npmFilesCleanNpm.count -gt 0) {
             # npm install --legacy-peer-deps $npmFilesCleanNpm[0..25]
-            npm install --force $npmFilesCleanNpm[0..25]
+            npm install --force $npmFilesCleanNpm[0..10]
             # npm audit fix --legacy-peer-deps
             npm audit fix --force
             # npm audit fix -f --legacy-peer-deps
             npm audit fix -f --force
             rm -r -force package*
             rm -r -force node_modules/
-            $npmFilesCleanNpm = ($npmFilesCleanNpm[25..($npmFilesCleanNpm.Count)])
+            $npmFilesCleanNpm = ($npmFilesCleanNpm[10..($npmFilesCleanNpm.Count)])
         }
         if ($yarn) {
             while ($npmFilesCleanYarn.count -gt 0) {
@@ -104,7 +105,7 @@ function Invoke-DownloadNpmPackages {
                 $npmFilesCleanYarn = ($npmFilesCleanYarn[1..($npmFilesCleanYarn.Count)])
             }
         }
-        $npmFilesArray = ($npmFilesArray[25..($npmFilesArray.Count)])
+        $npmFilesArray = ($npmFilesArray[10..($npmFilesArray.Count)])
     }
 }
 

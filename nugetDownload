@@ -12,18 +12,18 @@
 
 # $SearchFiles += "mongocsharpdriver","MongoDB.Bson","MongoDB.Driver","MongoDB.Driver.Core","MongoDB.Driver.GridFS","MongoDB.Libmongocrypt","MongoDB*","Microsoft.AspNetCore.Spa*","Microsoft.AspNetCore.SpaTemplates","*helm*","runtime.*.Netcore*","runtime.*.runtime*","Microsoft.NETCore.App.Runtime.Mono.browser-wasm","Microsoft.NETCore.App.Runtime.Mono*","microsoft.netcore.app.runtime*"
 
-# $SearchFiles = get-content "C:\\Users\\$env:USERNAME\\Downloads\\gits\\TheRum\\nugetPackageFiles\\mlnetPackages.txt"
-# $SearchFiles = get-content "C:\\Users\\$env:USERNAME\\Downloads\\gits\\TheRum\\nugetPackageFiles\\RandomNuget.txt"
-# $SearchFiles = get-content "C:\\Users\\$env:USERNAME\\Downloads\\gits\\TheRum\\nugetPackageFiles\\aspnetcore.txt"
-# $SearchFiles = get-content "C:\\Users\\$env:USERNAME\\Downloads\\gits\\TheRum\\nugetPackageFiles\\dotnet.txt"
-# $SearchFiles = get-content "C:\\Users\\$env:USERNAME\\Downloads\\gits\\TheRum\\nugetPackageFiles\\powershell.txt"
-# $SearchFiles = get-content "C:\\Users\\$env:USERNAME\\Downloads\\gits\\TheRum\\nugetPackageFiles\\vmware.txt"
-$SearchFiles = get-content "C:\\Users\\$env:USERNAME\\Downloads\\gits\\TheRum\\nugetPackageFiles\\nugetPackages.txt"
+# $SearchFiles = get-content "D:\\gits\\TheRum\\nugetPackageFiles\\mlnetPackages.txt"
+# $SearchFiles = get-content "D:\\gits\\TheRum\\nugetPackageFiles\\RandomNuget.txt"
+# $SearchFiles = get-content "D:\\gits\\TheRum\\nugetPackageFiles\\aspnetcore.txt"
+# $SearchFiles = get-content "D:\\gits\\TheRum\\nugetPackageFiles\\dotnet.txt"
+# $SearchFiles = get-content "D:\\gits\\TheRum\\nugetPackageFiles\\powershell.txt"
+# $SearchFiles = get-content "D:\\gits\\TheRum\\nugetPackageFiles\\vmware.txt"
+$SearchFiles = get-content "D:\\gits\\TheRum\\nugetPackageFiles\\nugetPackages.txt"
 
-$NuGetBinary = "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\nuget.exe"
+$NuGetBinary = "D:\\Transfer\\nuget.exe"
 
 # Fast method of searching and downloading files bsaed off of a single term.
-# $((find-package "microsoft.aspnet*" -Source nuget.org).name).foreach({nuget install -OutputDirectory "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\nupkg\\" $_ -Source "BaGet"})
+# $((find-package "microsoft.aspnet*" -Source nuget.org).name).foreach({nuget install -OutputDirectory "D:\\Transfer\\ToMove\\nupkg\\" $_ -Source "BaGet"})
 
 Remove-Variable files
 Remove-Variable uniqueFilesLimit
@@ -46,11 +46,11 @@ while ($uniqueFiles.count -gt 0) {
 
     $uniqueFilesLimit.foreach({ 
         try {
-            # nuget install -OutputDirectory "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\nupkg\\" $_ -Source "BaGet"
-            nuget install -OutputDirectory "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\nupkg\\" $($_.Name) -Version $($_.version) -Source "BaGet"
+            # nuget install -OutputDirectory "D:\\Transfer\\ToMove\\nupkg\\" $_ -Source "BaGet"
+            nuget install -OutputDirectory "D:\\Transfer\\ToMove\\nupkg\\" $($_.Name) -Version $($_.version) -Source "BaGet"
         }
         catch {
-            dotnet tool install $($_.Name) --tool-path "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\nupkg\\" --add-source "http://localhost:5555/v3/index.json" --version "$($_.version)"
+            dotnet tool install $($_.Name) --tool-path "D:\\Transfer\\ToMove\\nupkg\\" --add-source "http://localhost:5555/v3/index.json" --version "$($_.version)"
         }
     })
     $uniqueFiles = ($uniqueFiles[25..($uniqueFiles.Count)])
@@ -61,7 +61,7 @@ while ($uniqueFiles.count -gt 0) {
     $uniqueFilesLimit = $uniqueFiles[0..24]
 
     $uniqueFilesLimit.foreach({ 
-        dotnet tool install $($_.Name) --tool-path "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\nupkg\\" --add-source "http://localhost:5555/v3/index.json" --version "$($_.version)"
+        dotnet tool install $($_.Name) --tool-path "D:\\Transfer\\ToMove\\nupkg\\" --add-source "http://localhost:5555/v3/index.json" --version "$($_.version)"
     })
     $uniqueFiles = ($uniqueFiles[25..($uniqueFiles.Count)])
 }
@@ -69,83 +69,83 @@ while ($uniqueFiles.count -gt 0) {
 
 # $uniqueFiles.foreach({ 
 #     try {
-#         # nuget install -OutputDirectory "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\nupkg\\" $_ -Source "BaGet"
-#         nuget install -OutputDirectory "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\nupkg\\" $($_.Name) -Version $($_.version) -Source "BaGet"
+#         # nuget install -OutputDirectory "D:\\Transfer\\ToMove\\nupkg\\" $_ -Source "BaGet"
+#         nuget install -OutputDirectory "D:\\Transfer\\ToMove\\nupkg\\" $($_.Name) -Version $($_.version) -Source "BaGet"
 #     }
 #     catch {
-#         save-package "$_" -path "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\nupkg\\" -Source "BaGet"
+#         save-package "$_" -path "D:\\Transfer\\ToMove\\nupkg\\" -Source "BaGet"
 #     }
 #     finally {
-#         dotnet tool install --tool-path "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\nupkg\\" --add-source "http://localhost:5555/v3/index.json" $_
+#         dotnet tool install --tool-path "D:\\Transfer\\ToMove\\nupkg\\" --add-source "http://localhost:5555/v3/index.json" $_
 #     }
 # })
 
 # # I don't think this is needed...
 ## Had to use this to pull the vmware stuff off of powershellgallery
-# $(find-module "*vmware*").foreach({save-module $($_.name) -MaximumVersion "100.100.100" -Path "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\nupkg\\"})
+# $(find-module "*vmware*").foreach({save-module $($_.name) -MaximumVersion "100.100.100" -Path "D:\\Transfer\\ToMove\\nupkg\\"})
 
 ## DOES NOT get the newest version...  I think...
-# $((find-module "vmware*").Name | sort-object -unique).foreach({  save-module -Name "$_" -Path "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\nupkg\\" -Repository "BaGet_Posh"})
-# $((find-package "*vmware**").Name | sort-object -unique).foreach({  save-package -Name "$_" -Path "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\nupkg\\" -Source "BaGet_Posh"})
-# $((find-package "*dotnet*").Name | sort-object -unique).foreach({  Save-Module -Name "$_" -Path "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\nupkg\\" -Repository "BaGet_Posh"})
-# $((find-package "Microsoft.aspnetcore.*")).foreach({  Save-Module -Name "$($_.Name)" -Path "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\nupkg\\" -Repository "BaGet_Posh"})
+# $((find-module "vmware*").Name | sort-object -unique).foreach({  save-module -Name "$_" -Path "D:\\Transfer\\ToMove\\nupkg\\" -Repository "BaGet_Posh"})
+# $((find-package "*vmware**").Name | sort-object -unique).foreach({  save-package -Name "$_" -Path "D:\\Transfer\\ToMove\\nupkg\\" -Source "BaGet_Posh"})
+# $((find-package "*dotnet*").Name | sort-object -unique).foreach({  Save-Module -Name "$_" -Path "D:\\Transfer\\ToMove\\nupkg\\" -Repository "BaGet_Posh"})
+# $((find-package "Microsoft.aspnetcore.*")).foreach({  Save-Module -Name "$($_.Name)" -Path "D:\\Transfer\\ToMove\\nupkg\\" -Repository "BaGet_Posh"})
 
-# TESTING... Seems to be the best option???
-# $((find-package "powershell**") ).foreach({  save-package -Name "$($_.Name)" -Path "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\nupkg\\" -RequiredVersion $_.version})
-# $((find-package "microsoft.**") ).foreach({  save-package -Name "$($_.Name)" -Path "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\nupkg\\" -RequiredVersion $_.version})
-# $((find-package "microsoft.aspnetcore.**") ).foreach({  save-package -Name "$($_.Name)" -Path "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\nupkg\\" -RequiredVersion $_.version})
-# $((find-package "microsoft.Netcore.**") ).foreach({  save-package -Name "$($_.Name)" -Path "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\nupkg\\" -RequiredVersion $_.version})
-# $((find-package "system.**") ).foreach({  save-package -Name "$($_.Name)" -Path "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\nupkg\\" -RequiredVersion $_.version})
-# $((find-package "lucene**") ).foreach({  save-package -Name "$($_.Name)" -Path "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\nupkg\\" -RequiredVersion $_.version -AllowPrereleaseVersions})
-# $((find-package "System.Linq**") ).foreach({  nuget install -OutputDirectory "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\nupkg\\" $($_.Name) -Version $($_.Version) -Source "BaGet" })
-# $((find-package "lucene**") ).foreach({  nuget install -OutputDirectory "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\nupkg\\" $($_.Name) -Version $($_.Version) -Source "BaGet" -Prerelease})
-# $((find-package "microsoft.Netcore.**") ).foreach({  nuget install -OutputDirectory "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\nupkg\\" $($_.Name) -Version $($_.Version) -Source "BaGet" })
+# # TESTING... Seems to be the best option???
+# $((find-package "powershell**") ).foreach({  save-package -Name "$($_.Name)" -Path "D:\\Transfer\\ToMove\\nupkg\\" -RequiredVersion $_.version})
+# $((find-package "microsoft.**") ).foreach({  save-package -Name "$($_.Name)" -Path "D:\\Transfer\\ToMove\\nupkg\\" -RequiredVersion $_.version})
+# $((find-package "microsoft.aspnetcore.**") ).foreach({  save-package -Name "$($_.Name)" -Path "D:\\Transfer\\ToMove\\nupkg\\" -RequiredVersion $_.version})
+# $((find-package "microsoft.Netcore.**") ).foreach({  save-package -Name "$($_.Name)" -Path "D:\\Transfer\\ToMove\\nupkg\\" -RequiredVersion $_.version})
+# $((find-package "system.**") ).foreach({  save-package -Name "$($_.Name)" -Path "D:\\Transfer\\ToMove\\nupkg\\" -RequiredVersion $_.version})
+# # $((find-package "lucene**") ).foreach({  save-package -Name "$($_.Name)" -Path "D:\\Transfer\\ToMove\\nupkg\\" -RequiredVersion $_.version -AllowPrereleaseVersions})
+# $((find-package "System.Linq**") ).foreach({  nuget install -OutputDirectory "D:\\Transfer\\ToMove\\nupkg\\" $($_.Name) -Version $($_.Version) -Source "BaGet" })
+# $((find-package "lucene**") ).foreach({  nuget install -OutputDirectory "D:\\Transfer\\ToMove\\nupkg\\" $($_.Name) -Version $($_.Version) -Source "BaGet" -Prerelease})
+# $((find-package "microsoft.Netcore.**") ).foreach({  nuget install -OutputDirectory "D:\\Transfer\\ToMove\\nupkg\\" $($_.Name) -Version $($_.Version) -Source "BaGet" })
 ### Does not always work.
-# $((find-package "microsoft.NETcore**") ).foreach({dotnet tool install --tool-path "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\nupkg\\" --add-source "http://localhost:7777/v3/index.json" $_ --arch x64})
-# $((find-package "microsoft.NETcore**") ).foreach({dotnet tool install --tool-path "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\nupkg\\" --add-source "http://localhost:5555/v3/index.json" $_ --arch x64})
+# $((find-package "microsoft.NETcore**") ).foreach({dotnet tool install --tool-path "D:\\Transfer\\ToMove\\nupkg\\" --add-source "http://localhost:7777/v3/index.json" $_ --arch x64})
+# $((find-package "microsoft.NETcore**") ).foreach({dotnet tool install --tool-path "D:\\Transfer\\ToMove\\nupkg\\" --add-source "http://localhost:5555/v3/index.json" $_ --arch x64})
 
 # $toDownload = find-package "microsoft.aspnetcore**"
 # $toDownload = find-package "Microsoft**AspNetCore**"
 # $toDownload = find-package "Microsoft**blazor**"
 # $toDownload = find-package "vmware**" -source "psgallery"
-# $toDownload.foreach({  save-package -Name "$($_.Name)" -Path "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\nupkg\\" -RequiredVersion $_.version})
-# $toDownload.foreach({  nuget install -OutputDirectory "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\nupkg\\" $($_.Name) -Version $($_.version) -Source "BaGet" })
+# $toDownload.foreach({  save-package -Name "$($_.Name)" -Path "D:\\Transfer\\ToMove\\nupkg\\" -RequiredVersion $_.version})
+# $toDownload.foreach({  nuget install -OutputDirectory "D:\\Transfer\\ToMove\\nupkg\\" $($_.Name) -Version $($_.version) -Source "BaGet" })
 # OR
-# $toDownload | Save-Package -Path "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\nupkg\\" -Source "BaGet"
-# $toDownload | Save-Module -Path "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\nupkg\\" -Repository "BaGet_Posh"
+# $toDownload | Save-Package -Path "D:\\Transfer\\ToMove\\nupkg\\" -Source "BaGet"
+# $toDownload | Save-Module -Path "D:\\Transfer\\ToMove\\nupkg\\" -Repository "BaGet_Posh"
 
-## This one works.
-# (find-module "vmware.**").foreach({save-Module -name $_.Name -Path "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\nupkg\\" -repository "BaGet_Posh" -RequiredVersion $_.version})
-# (find-module "powershell**").foreach({save-Module -name $_.Name -Path "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\nupkg\\" -repository "BaGet_Posh" -RequiredVersion $_.version})
-# (find-module "nuget.**").foreach({save-Module -name $_.Name -Path "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\nupkg\\" -repository "BaGet_Posh" -RequiredVersion $_.version})
-# (find-module "Microsoft.**").foreach({save-Module -name $_.Name -Path "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\nupkg\\" -repository "BaGet_Posh" -RequiredVersion $_.version})
+# ## This one works.
+# (find-module "vmware.**").foreach({save-Module -name $_.Name -Path "D:\\Transfer\\ToMove\\nupkg\\" -repository "BaGet_Posh" -RequiredVersion $_.version})
+# (find-module "powershell**").foreach({save-Module -name $_.Name -Path "D:\\Transfer\\ToMove\\nupkg\\" -repository "BaGet_Posh" -RequiredVersion $_.version})
+# (find-module "nuget.**").foreach({save-Module -name $_.Name -Path "D:\\Transfer\\ToMove\\nupkg\\" -repository "BaGet_Posh" -RequiredVersion $_.version})
+# (find-module "Microsoft.**").foreach({save-Module -name $_.Name -Path "D:\\Transfer\\ToMove\\nupkg\\" -repository "BaGet_Posh" -RequiredVersion $_.version})
 
 # FOR DOTNET TOOL
 # THIS WORKS!!!!
-# foreach($file in $(dotnet tool search "blazor" --take 500)) {dotnet tool install --tool-path "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\nupkg\\" --add-source "http://localhost:7777/v3/index.json" $file.split(" ")[0] --arch x64}
+# foreach($file in $(dotnet tool search "blazor" --take 500)) {dotnet tool install --tool-path "D:\\Transfer\\ToMove\\nupkg\\" --add-source "http://localhost:7777/v3/index.json" $file.split(" ")[0] --arch x64}
 
-# (find-package "microsoft*aspnetcore*").foreach({Save-Package -name $_.Name -Path "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\nupkg\\" -Source "BaGet_Posh" -RequiredVersion $_.version})
+# (find-package "microsoft*aspnetcore*").foreach({Save-Package -name $_.Name -Path "D:\\Transfer\\ToMove\\nupkg\\" -Source "BaGet_Posh" -RequiredVersion $_.version})
 
 # This one pulls all versions of all the items searched.
-## Seems to be really slow???
-# $((find-package "lucene**" ) ).foreach({  find-package -Name "$($_.Name)" -AllVersions}).foreach({save-package -Name "$($_.Name)" -Path "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\nupkg\\" -RequiredVersion $($_.version)})
+## Is really, really slow, because it's running 2 searches. Increases time exponentially. 
+# $((find-package "lucene**" ) ).foreach({  find-package -Name "$($_.Name)" -AllVersions}).foreach({save-package -Name "$($_.Name)" -Path "D:\\Transfer\\ToMove\\nupkg\\" -RequiredVersion $($_.version)})
 ## Trying the same thing, but with nuget...
-# $((find-package "lucene**" ) ).foreach({  find-package -Name "$($_.Name)" -AllVersions}).foreach({nuget install -OutputDirectory "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\nupkg\\" $($_.Name) -Version $($_.version) -Source "BaGet" })
+# $((find-package "lucene**" ) ).foreach({  find-package -Name "$($_.Name)" -AllVersions}).foreach({nuget install -OutputDirectory "D:\\Transfer\\ToMove\\nupkg\\" $($_.Name) -Version $($_.version) -Source "BaGet" })
 
 # $uniqueFiles.foreach({ 
     # try {
-    #     # & $NuGetBinary install $_ -OutputDirectory "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\nupkg\\"
-    #     # & $NuGetBinary install -OutputDirectory "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\nupkg\\" $_ -Source "BaGet_Posh"
-    #     nuget install -OutputDirectory "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\nupkg\\" $_ -Source "BaGet_Posh"
+    #     # & $NuGetBinary install $_ -OutputDirectory "D:\\Transfer\\ToMove\\nupkg\\"
+    #     # & $NuGetBinary install -OutputDirectory "D:\\Transfer\\ToMove\\nupkg\\" $_ -Source "BaGet_Posh"
+    #     nuget install -OutputDirectory "D:\\Transfer\\ToMove\\nupkg\\" $_ -Source "BaGet_Posh"
     # }
     # catch {
-    #     # save-package "$_" -path "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\nupkg\\" 
-    #     save-package "$_" -path "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\nupkg\\" -Source "BaGet_Posh" -MaximumVersion "100.100.100"
-        # save-module "$_" -path "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\nupkg\\" -Repository "BaGet_Posh" 
-    #     # save-package "$_" -path "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\nupkg\\" -Source "BaGet_Posh"
+    #     # save-package "$_" -path "D:\\Transfer\\ToMove\\nupkg\\" 
+    #     save-package "$_" -path "D:\\Transfer\\ToMove\\nupkg\\" -Source "BaGet_Posh" -MaximumVersion "100.100.100"
+        # save-module "$_" -path "D:\\Transfer\\ToMove\\nupkg\\" -Repository "BaGet_Posh" 
+    #     # save-package "$_" -path "D:\\Transfer\\ToMove\\nupkg\\" -Source "BaGet_Posh"
     # }
     # finally {
-        # dotnet tool install --tool-path "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\nupkg\\" --add-source "http://localhost:7777/v3/index.json" $_ 
+        # dotnet tool install --tool-path "D:\\Transfer\\ToMove\\nupkg\\" --add-source "http://localhost:7777/v3/index.json" $_ 
     # }
 # })
 
@@ -177,36 +177,48 @@ function Find-AllPackages {
 }
 
 
-
+$allFiles = "C:\Program Files (x86)\Microsoft SDKs", "C:\Users\$env:USERNAME\.nuget\packages","C:\\Users\\$env:USERNAME\\Documents\\BaGet_Shared"
+# Remove-Variable allFiles
 # DeDupe
 # $toDeDupeCopy = gci "*.nupkg" -Recurse -Path "C:\\Users\\$env:USERNAME\\Documents\\BaGet_Shared\\packages\\packages"
-$toDeDupeCopy = gci "*.nupkg" -Recurse -Path "C:\\Users\\$env:USERNAME\\Documents\\BaGet_Shared"
-$toDeDupeCopy.foreach({Copy-Item $_ -Destination "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\nupkg\\"})
-$moved = gci "*.nupkg" -Recurse -Path "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\Moved\\nupkg\\"
-$moved | where-object {$_.Length -le 0} | rm -force
-$moved = gci "*.nupkg" -Recurse -Path "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\Moved\\nupkg\\"
-$toMove = gci -recurse "*.nupkg" -Path "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\nupkg\\"
-$toMove | where-object {$_.Length -le 0} | rm -force
-$toMove = gci -recurse "*.nupkg" -Path "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\ToMove\\nupkg\\"
 
-$staging = "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\Staging\\nupkg\\"
-$count = 0
-$leavingCount = 0
-$toMove.foreach({if($_.name -notin $ImportedMoved){$count++ }})
-$toMove.foreach({if($_.name -in $ImportedMoved){$leavingCount++ }})
-write-host "Going to move $count packages"
-write-host "$leavingCount duplicate packages"
+function DeDupe-Nupkg(){
+    param(
+        [System.Collections.Arraylist]$allFiles
+    )
 
-# Move Files
-if(!$ImportedMoved){
-    $toMove.foreach({if($_.name -notin $moved.Name){move-item $_ $staging}})    
-} else {
-    # $toMove.foreach({if($_.name -notin $moved.Name -or $_.name -notin $($ImportedMoved).Name){move-item $_ $staging}})
-    $toMove.foreach({if($_.name -notin $ImportedMoved -or $_.name -notin $($ImportedMoved).Name){move-item $_ $staging}})
+    if(!$allFiles){
+        $toDeDupeCopy = Get-ChildItem "*.nupkg" -Recurse -Path "C:\\Users\\$env:USERNAME\\Documents\\BaGet_Shared"    
+    } else {
+        $toDeDupeCopy = $allFiles.foreach({Get-ChildItem "*.nupkg" -Recurse -Path $_})
+    }
+    # $toDeDupeCopy = gci "*.nupkg" -Recurse -Path "C:\\Users\\$env:USERNAME\\Documents\\BaGet_Shared"
+    $toDeDupeCopy.foreach({Copy-Item $_ -Destination "D:\\Transfer\\ToMove\\nupkg\\"})
+    $moved = Get-ChildItem "*.nupkg" -Recurse -Path "D:\\Transfer\\Moved\\nupkg\\"
+    $moved | Where-Object {$_.Length -le 0} | Remove-Item -force
+    $moved = Get-ChildItem "*.nupkg" -Recurse -Path "D:\\Transfer\\Moved\\nupkg\\"
+    $toMove = Get-ChildItem -recurse "*.nupkg" -Path "D:\\Transfer\\ToMove\\nupkg\\"
+    $toMove | Where-Object {$_.Length -le 0} | Remove-Item -force
+    $toMove = Get-ChildItem -recurse "*.nupkg" -Path "D:\\Transfer\\ToMove\\nupkg\\"
+
+    $staging = "D:\\Transfer\\Staging\\nupkg\\"
+    $count = 0
+    $leavingCount = 0
+    $toMove.foreach({if($_.name -notin $ImportedMoved){$count++ }})
+    $toMove.foreach({if($_.name -in $ImportedMoved){$leavingCount++ }})
+    write-host "Going to move $count packages"
+    write-host "$leavingCount duplicate packages"
+
+    # Move Files
+    if(!$ImportedMoved){
+        $toMove.foreach({if($_.name -notin $moved.Name){move-item $_ $staging}})    
+    } else {
+        # $toMove.foreach({if($_.name -notin $moved.Name -or $_.name -notin $($ImportedMoved).Name){move-item $_ $staging}})
+        $toMove.foreach({if($_.name -notin $ImportedMoved -or $_.name -notin $($ImportedMoved).Name){move-item $_ $staging}})
+    }
 }
 
-
-# $Directory = "C:\\Users\\$env:USERNAME\\Downloads\\Transfer\\Staging\\nupkg"
+# $Directory = "D:\\Transfer\\Staging\\nupkg"
 # get-filehash "$Directory\\*" | format-list | Out-File "$Directory\\..\\PRE_HASH_$(Get-Date -Format "yyyyMMdd")_nupkg.txt"
 
 
