@@ -23,6 +23,11 @@
 # $files.foreach({cd $_.Directory && npm i --legacy-peer-deps && npm audit fix --force})
 # $files.foreach({cd $_.Directory && npm i --force && npm audit fix --force})
 
+# $reactFiles = $(97..122).foreach({ npm search -p "react-$([char]$_)" })
+# $reactFiles.foreach({npm install --force $($_.split("`t")[0])})
+
+# $(npm search react ).foreach({npm install --force $($_.split("`t")[0])})
+
 
 function Invoke-DownloadNpmPackages {
 # Invoke-DownloadNpmPackages -npmPackageList "C:\\Users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\react.txt"

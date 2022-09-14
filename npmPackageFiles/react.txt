@@ -38,15 +38,12 @@ cra-template-simple-tailwindcss-typescript
 cra-template-tailwindcss-typescript
 cra-template-ts
 cra-template-typescript
-create-react
-create-react-
 create-react-app-ts
 create-react-class
 create-react-styleguide
 create-react-ts-template
 create-simple-react
 cross-fetch
-css-to-react-native
 cypress
 dom-helpers
 draft-js
@@ -126,7 +123,6 @@ react-loader-spinner
 react-markdown
 react-modal
 react-motion
-react-native-svg
 react-overlays
 react-player
 react-popper
