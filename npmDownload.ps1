@@ -28,6 +28,19 @@
 
 # $(npm search react ).foreach({npm install --force $($_.split("`t")[0])})
 
+# # Basic Download
+# $files = gc "C:\\Users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\react.txt"
+# $files = $files | Sort-Object | Get-unique
+# $files.foreach({npm i $_ --force && rm -r -Force "D:\Transfer\Moved\node\*"})
+
+# # crazy way of getting all listed packages
+# ## really think this will be stupid....
+# $txtfiles = (gci -recurse C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\*.txt)
+# $unclean = $txtfiles.foreach({gc $_ })
+# $clean = $unclean | Sort-Object -Unique
+# $clean.foreach({npm i $_ --force && rm -r -Force "D:\Transfer\ToMove\node\*"})
+
+
 
 function Invoke-DownloadNpmPackages {
 # Invoke-DownloadNpmPackages -npmPackageList "C:\\Users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\react.txt"

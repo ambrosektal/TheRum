@@ -1,0 +1,10 @@
+https://github.com/google/boringssl.git
+https://github.com/libarchive/libarchive.git
+https://github.com/ianlancetaylor/libbacktrace.git
+https://github.com/cloudflare/lol-html.git
+https://github.com/Jarred-Sumner/mimalloc.git
+https://github.com/h2o/picohttpparser.git
+https://github.com/h2o/picotest.git
+https://github.com/Jarred-Sumner/tinycc.git
+https://github.com/Jarred-Sumner/uWebSockets.git
+https://github.com/cloudflare/zlib.git

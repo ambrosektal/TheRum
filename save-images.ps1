@@ -74,6 +74,7 @@ foreach ($image in $list) {
 }
 
 foreach($currentItemName in $pulled) {
-    $currentName = $currentItemName.Replace("/","_").Replace(":","_")
-    docker save $currentItemName -o "$currentName.tar" #| Compress-Archive -DestinationPath $images
+    $currentName = $currentItemName.Replace("/","_").Replace(":","--")
+    docker save $currentItemName -o "$currentName.tar" # | Compress-Archive -DestinationPath $images
 }
+

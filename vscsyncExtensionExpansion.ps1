@@ -30,3 +30,15 @@ $removeNames = (((gci -Recurse -Filter "latest.json" | where-object {(gc $_ | co
 # Remove the folders from the cache, based on number of downloads.
 (((gci -Recurse -Filter "latest.json" | where-object {(gc $_ | convertfrom-json).statistics.GetValue(0).value -lt 5000 }).Directory) | Where-Object {($_.Name -notlike "ms-*") -and ($_.Name -notlike "*svelte*")}) | rm -r -Force
 
+
+# Finding folders modified only in the last X days
+gci -Recurse | Where{$($_.GetType().Name -eq "DirectoryInfo") -and $($_.LastWriteTime -ge (Get-Date).AddDays(-7))}
+
+# Finding files modified only in the last X days
+gci -Recurse | Where{$($_.GetType().Name -eq "FileInfo") -and $($_.LastWriteTime -ge (Get-Date).AddDays(-7))}
+
+# finding files that are older than X days:
+gci -Recurse | Where{$($_.GetType().Name -eq "FileInfo") -and $($_.LastWriteTime -le (Get-Date).AddDays(-2))} 
+
+# tgz files modified in the last 12 hours
+$bunFiles = gci -Recurse -Filter "*.tgz" | Where-Object {$_.LastWriteTime -ge (Get-Date).AddHours(-12) }
