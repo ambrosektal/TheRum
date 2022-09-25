@@ -1,2 +1,1 @@
-ambrosektal/bun_vscode:20220915
-bitnami/minideb
+ambrosektal/bun_vscode:20220920

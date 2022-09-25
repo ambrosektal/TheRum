@@ -10,3 +10,12 @@
 @mantine/ssr
 @mantine/styles
 boolean-parser
+@koakh/nestjs-surrealdb
+@theopensource-company/surrealdb-cloudflare
+mathe42.surrealdb.js
+nestjs-surrealdb
+surrealdb
+surrealdb.js
+surrealdb.js2
+surrealdb.ts
+surrealdb.vue

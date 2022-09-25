@@ -10,9 +10,9 @@
 # $3splitFiles = $($files[($split3rdFiles * 2)..$totalFiles])
 
 # Clean list from git up
-# $topfiles = (gc C:\Users\joesp\Documents\npm.txt).foreach({$_.split('[').split(']')[1]})
+# $topfiles = (gc C:\Users\$env:USERNAME\Documents\npm.txt).foreach({$_.split('[').split(']')[1]})
 # $topfiles = $topfiles | sort-object -unique
-# $topfiles > C:\Users\joesp\Downloads\gits\TheRum\npmPackageFiles\TopPackages.txt
+# $topfiles > C:\Users\$env:USERNAME\Downloads\gits\TheRum\npmPackageFiles\TopPackages.txt
 
 # pull a bunch of github repos from a list
 # $gits = gc ..\..\..\gits\TheRum\npmPackageFiles\github\svelte.txt
@@ -31,14 +31,14 @@
 # # Basic Download
 # $files = gc "C:\\Users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\react.txt"
 # $files = $files | Sort-Object | Get-unique
-# $files.foreach({npm i $_ --force && rm -r -Force "D:\Transfer\Moved\node\*"})
+# $files.foreach({npm i $_ --force ; npm audit fix ; npm audit fix --force ;  rm -r -Force "D:\Transfer\Moved\node\*"})
 
 # # crazy way of getting all listed packages
 # ## really think this will be stupid....
 # $txtfiles = (gci -recurse C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\*.txt)
 # $unclean = $txtfiles.foreach({gc $_ })
 # $clean = $unclean | Sort-Object -Unique
-# $clean.foreach({npm i $_ --force && rm -r -Force "D:\Transfer\ToMove\node\*"})
+# $clean.foreach({npm i $_ --force ; npm audit fix ; npm audit fix --force ; rm -r -Force "D:\Transfer\ToMove\node\*"})
 
 
 
