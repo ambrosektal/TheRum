@@ -35,10 +35,25 @@
 
 # # crazy way of getting all listed packages
 # ## really think this will be stupid....
+# ## Seems to work, but need to test out garbage collection.
+# cd "D:\Transfer\ToMove\node\"
+# $txtfiles = (gci -recurse C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\*.txt)
+# foreach($file in $txtfiles){$(gc $file | Sort-Object -Unique ).Foreach({
+#     npm i $_ --force ; npm audit fix ; npm audit fix --force ; rm -r -Force "D:\Transfer\ToMove\node\*"
+#     [System.GC]::Collect()
+#     })
+# }
+### Alternative method
 # $txtfiles = (gci -recurse C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\*.txt)
 # $unclean = $txtfiles.foreach({gc $_ })
 # $clean = $unclean | Sort-Object -Unique
-# $clean.foreach({npm i $_ --force ; npm audit fix ; npm audit fix --force ; rm -r -Force "D:\Transfer\ToMove\node\*"})
+# $clean.foreach({
+#     npm i $_ --force ; 
+#     npm audit fix ; 
+#     npm audit fix --force ; 
+#     rm -r -Force "D:\Transfer\ToMove\node\*"
+#     [System.GC]::Collect()
+# })
 
 
 

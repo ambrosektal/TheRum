@@ -35,8 +35,9 @@ if (!$(Test-NetConnection -ComputerName 127.0.0.1 -Port 4873).TcpTestSucceeded )
             npm i $_ --force ; 
             npm audit fix ; 
             npm audit fix --force ; 
-            Remove-Item -r -Force "$fullpath\*"}
-            )
+            Remove-Item -r -Force "$fullpath\*"
+            [System.GC]::Collect()
+        })
     }
 } else {
     Write-Host "Unable to connect to the container."
