@@ -1,0 +1,12 @@
+@beyond-js/counter-react-widget
+@beyond-js/react-widgets
+@beyond-js/bee
+beyond-js
+@beyond-js/create-project
+@beyond-js/widgets
+@beyond-js/kernel
+@beyond-js/backend
+@beyond-js/svelte-widgets
+@beyond-js/vue-widgets
+@beyond-js/ssr
+

@@ -9,11 +9,13 @@
 @purplet/rest
 @shumai/shumai
 @skarab/detect-package-manager
+@uranashel/youtubesearch
 @y0x54a/bunda
 action-setup-bun
 Appetit
 Bagel.js
 Bao.js
+bkg-cli
 blipgloss
 bnx
 bun
@@ -49,15 +51,19 @@ create-bun
 duckdb
 fable-bun
 fastify-edge
+gcy
 great.db
 hattip
+hono
 Hono
 hw-perf-counters
 hyperbun
 kingworld
+kronosapi
 kysely-bun-sqlite
 loggerbun
 Lyra
+melonpan
 Melonpan
 native_math
 native-math
@@ -66,6 +72,7 @@ nodun
 oily
 Oily.js
 pinetto
+random-bunny
 rustybun
 serve-static-bun
 setup-bun
@@ -80,3 +87,4 @@ test-package-bun-types-2
 uni-js-router
 urpm
 whatsapp-api-js
+youtube-sr

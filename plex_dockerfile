@@ -1,0 +1,16 @@
+FROM ambrosektal/plex:20221111
+
+WORKDIR /
+
+COPY ./entrypoint.sh /opt/
+
+RUN chmod 0755 /opt/entrypoint.sh
+
+# ARG CARGO_BUILD_EXTRA
+RUN apt update 
+
+# RUN mount -a
+
+# ENTRYPOINT [ "/opt/entrypoint.sh" ]
+# CMD mount -a
+

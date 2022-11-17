@@ -1,0 +1,14 @@
+generator-eslint
+espree
+doctrine
+eslint
+eslint-config-eslint
+typescript-eslint-parser
+eslint-plugin-markdown
+eslint-release
+eslint-transforms
+eslint-scope
+eslint-visitor-keys
+@eslint/github-action
+@eslint/eslintrc
+@eslint/create-config

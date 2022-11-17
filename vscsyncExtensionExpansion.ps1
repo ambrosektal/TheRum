@@ -42,3 +42,16 @@ gci -Recurse | Where{$($_.GetType().Name -eq "FileInfo") -and $($_.LastWriteTime
 
 # tgz files modified in the last 12 hours
 $bunFiles = gci -Recurse -Filter "*.tgz" | Where-Object {$_.LastWriteTime -ge (Get-Date).AddHours(-12) }
+
+# Clean up extra extension version folders
+## Return the first 3 folders in each extension folder
+(gci ).foreach({Get-ChildItem $_ -Directory|Sort-Object Fullname -Desc|Select-Object -First 3})
+
+## Skip the first 3 folders(versions) in the extensions folders and return the rest.
+(gci ).foreach({Get-ChildItem $_ -Directory|Sort-Object FullName -Desc|Select-Object -Skip 3})
+
+## Skip the first 3 folders(versions) in the extensions folders and remove the rest.
+(gci ).foreach({Get-ChildItem $_ -Directory|Sort-Object FullName -Desc|Select-Object -Skip 3|Remove-Item -Confirm:$false -Force -Recurse})
+
+
+

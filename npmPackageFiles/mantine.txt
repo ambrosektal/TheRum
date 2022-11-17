@@ -23,3 +23,7 @@
 @mantine/theme
 @mantine/utils
 boolean-parser
+mantine-datatable
+mantine-test
+storybook-addon-mantine
+withub-mantine

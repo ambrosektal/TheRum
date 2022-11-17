@@ -94,6 +94,10 @@
 @types/ember__template
 @types/ember__test
 @types/ember-resolver
+@types/eslint
+@types/eslint-scope
+@types/express
+@types/express-serve-static-core
 @types/fabric
 @types/fancy-log
 @types/find-up
@@ -102,7 +106,11 @@
 @types/format-util
 @types/formidable
 @types/fs-capacitor
+@types/fs-ext
 @types/fs-extra
+@types/fs-extra-promise
+@types/fs-extra-promise-es6
+@types/fs-readdir-recursive
 @types/gapi.client.appsactivity
 @types/geojson
 @types/get-port
@@ -174,6 +182,7 @@
 @types/koa__router
 @types/koa-bodyparser
 @types/koa-compose
+@types/kube-probe
 @types/ldapjs
 @types/less
 @types/linkify-it
@@ -214,6 +223,8 @@
 @types/minimist
 @types/minipass
 @types/mkdirp
+@types/mui-datatables
+@types/mui-image
 @types/n-readlines
 @types/n3
 @types/next
@@ -279,6 +290,13 @@
 @types/react-dates
 @types/react-dom
 @types/react-helmet
+@types/react-redux
+@types/react-router
+@types/react-router-dom
+@types/react-transition-group
+@types/redis-errors
+@types/redis-server
+@types/request
 @types/sade
 @types/sass
 @types/sax

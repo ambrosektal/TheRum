@@ -35,7 +35,6 @@ aspnet-webpack
 aspnet-webpack-5
 aspnet-webpack-5-react
 aspnet-webpack-react
-aspnet-webpack-react-progressive-async-mobile-first-responsive-bootstrap-parallel-non-blocking-offline-ready-multi-package-drifting
 aspnet-webpack-utils
 aspnetcore
 aspnetcore-identity-password-hasher

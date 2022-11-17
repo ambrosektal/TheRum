@@ -3,8 +3,10 @@
 @mui/base
 @mui/codemod
 @mui/core
+@mui/core-downloads-tracker
 @mui/docs
 @mui/icons-material
+@mui/joy
 @mui/lab
 @mui/material
 @mui/material-next
@@ -23,6 +25,14 @@
 @mui/x-date-pickers
 @mui/x-date-pickers-pro
 @mui/x-license-pro
+@smui
+@smui-extra
+@smui-extra/
+@smui-extra/accordion
+@smui-extra/autocomplete
+@smui-extra/badge
+@smui-extra/bottom-app-bar
+@smui-extra/site
 @smui/banner
 @smui/button
 @smui/card
@@ -58,6 +68,7 @@
 @smui/tab-indicator
 @smui/tab-scroller
 @smui/textfield
+@smui/textfieldSvelte
 @smui/tooltip
 @smui/top-app-bar
 @smui/touch-target

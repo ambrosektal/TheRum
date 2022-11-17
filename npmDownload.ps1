@@ -1,6 +1,35 @@
 
 #### NPM for Windows
 
+# $outfile = "C:\\Users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\npmPackages.txt"
+# $searchterm = "svelte"
+# (npm search -p $searchterm).foreach({ ($_.split(" ")[0]).split("`t")[0] })
+
+# # Pulling all previously downloaded packages
+# ## Yes I know I am doing more operations than needed. Leave me alone. I'm sick of these things failing and starting the process over.
+# (gci -recurse -Directory "D:\Transfer\ToMove\software\verdaccio\storage\data\").FullName.Trim('D:\Transfer\ToMove\software\verdaccio\storage\data\').TrimEnd("-").TrimStart("-").Replace("\","/") > D:\Transfer\packagenames.txt
+# $checkfiles = gc D:\Transfer\packagenames.txt | Sort-Object -Unique
+# Install-NpmPackages -PackageArray $checkfiles -AllLatest
+# Install-NpmPackages -PackageArray $($files | Select-String mui) -AllLatest
+#
+## Another window:::
+# while($true){ 
+# rm -Force D:\Transfer\ToMove\node\package* ; 
+# rm -Force D:\Transfer\Staging\node\package* ; 
+# rm -Force D:\Transfer\Moved\node\package* ; 
+# Start-Sleep 120
+# }
+
+# Finding files modified only in the last X days
+# gci -Recurse -Filter "*.tgz" | Where{$($_.GetType().Name -eq "FileInfo") -and $($_.LastWriteTime -ge (Get-Date).AddDays(-4))}
+
+# Powershell backup new and cleanup
+# UNTESTED!!!
+# $dirs = (gci -Recurse | Where{$($_.GetType().Name -eq "DirectoryInfo") -and $($_.LastWriteTime -ge (Get-Date).AddDays(-1))})
+# $dirs.foreach({cp -recurse $_ D:\Transfer\ToMove\software\verdaccio\backup\ })
+# gci -Recurse -Filter "*.tgz" | Where{$($_.GetType().Name -eq "FileInfo") -and $($_.LastWriteTime -ge (Get-Date).AddDays(+4))} | remove-item -force
+
+
 # # Splitting up the packages in 3rds
 # $files = get-content "C:\\Users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\npmPackages.txt"
 # $totalFiles = $files.count
@@ -20,7 +49,7 @@
 
 # Git Repo cycle through:
 # $files = gci . -Recurse -Filter package.json
-# $files.foreach({cd $_.Directory && npm i --legacy-peer-deps && npm audit fix --force})
+# # $files.foreach({cd $_.Directory && npm i --legacy-peer-deps && npm audit fix --force})
 # $files.foreach({cd $_.Directory && npm i --force && npm audit fix --force})
 
 # $reactFiles = $(97..122).foreach({ npm search -p "react-$([char]$_)" })
@@ -36,6 +65,9 @@
 # # crazy way of getting all listed packages
 # ## really think this will be stupid....
 # ## Seems to work, but need to test out garbage collection.
+####TODO Breaks at some point. Need to look into this.
+# //?
+# //!
 # cd "D:\Transfer\ToMove\node\"
 # $txtfiles = (gci -recurse C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\*.txt)
 # foreach($file in $txtfiles){$(gc $file | Sort-Object -Unique ).Foreach({
@@ -44,21 +76,27 @@
 #     })
 # }
 ### Alternative method
+$txtfiles = (gci -recurse C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\react.txt)
+$txtfiles = (gci -recurse C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\mantine.txt)
+$txtfiles = (gci -recurse C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\svelte.txt)
+$txtfiles = (gci -recurse C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\express.txt)
+$txtfiles = (gci -recurse C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\firebase.txt)
 # $txtfiles = (gci -recurse C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\*.txt)
-# $unclean = $txtfiles.foreach({gc $_ })
-# $clean = $unclean | Sort-Object -Unique
-# $clean.foreach({
-#     npm i $_ --force ; 
-#     npm audit fix ; 
-#     npm audit fix --force ; 
-#     rm -r -Force "D:\Transfer\ToMove\node\*"
-#     [System.GC]::Collect()
-# })
+$unclean = $txtfiles.foreach({gc $_ })
+$clean = $unclean | Sort-Object -Unique
+$clean.foreach({
+    write-host "Downloading $_ ..."
+    npm i $_ --force ; 
+    npm audit fix ; 
+    npm audit fix --force ; 
+    rm -r -Force "D:\Transfer\Moved\node\*"
+    [System.GC]::Collect()
+})
 
 
 
 function Invoke-DownloadNpmPackages {
-# Invoke-DownloadNpmPackages -npmPackageList "C:\\Users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\react.txt"
+    # Invoke-DownloadNpmPackages -npmPackageList "C:\\Users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\react.txt"
     param (
         [string]$npmPackageList,
         [switch]$Top1000NpmPackages,
@@ -197,7 +235,8 @@ function Find-AllPackages {
         }
         if ($Scoped) {
             $PackageArray += $(97..122).foreach({ npm search -p "$PackageName/$([char]$_)" })    
-        } else {
+        }
+        else {
             $PackageArray += $(97..122).foreach({ npm search -p "$PackageName$([char]$_)" })
         }
         $npmFilesSearchedUnique = $($PackageArray | Sort-Object | Get-Unique)
@@ -219,30 +258,54 @@ function Install-NpmPackages {
         [switch]$AllNext,
         [switch]$AllMajorVersions,
         [int]$UpperVersionRange,
-        [int]$LowerVersionRange
+        [int]$LowerVersionRange,
+        [string]$BaseVersion
+
     )
     # NOTES
     # If you see ~1.0.2 it means to install version 1.0.2 or the latest patch version such as 1.0.4. 
     # If you see ^1.0.2 it means to install version 1.0.2 or the latest minor or patch version such as 1.1.0.
     # Install-NpmPackages -PackageName svelte -AllMajorVersions
     # $packageArray = gc "C:\\Users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\newnet.txt"
-    # Install-NpmPackages -PackageArray $packageArray -AllMajorVersions -UpperVersionRange 0 -LowerVersionRange 20
-
+    # Install-NpmPackages -PackageArray $packageArray -AllMajorVersions -UpperVersionRange 20 -LowerVersionRange 0
+    $Directory = Get-Location
     if (!$LowerVersionRange) {
         $LowerVersionRange = 0
     }
     if (!$UpperVersionRange) {
         $UpperVersionRange = 10
     }
-
+    if (!$BaseVersion) {
+        $BaseVersion = 0
+    }
     if ($AllLatest) {
         if ($PackageArray) {
             # foreach ($PackageName in $PackageArray) { npm i "$PackageName@latest" --legacy-peer-deps }
-            foreach ($PackageName in $PackageArray) { npm i "$PackageName@latest" --force }
+            # foreach ($PackageName in $PackageArray) { npm i "$PackageName@latest" --force }
+            foreach ($PackageName in $PackageArray) { 
+                # npm i "$PackageName@latest" --force ;
+                npm i "$PackageName" --force ;
+                npm audit fix ; 
+                npm audit fix --force ;  
+                Remove-Item -r -Force "$Directory\\*"
+                # Remove-Item -r -Force "$Directory\\node_modules"
+                # Remove-Item -r -Force "$Directory\\package.json"
+                # Remove-Item -r -Force "$Directory\\package-lock.json"
+                [System.GC]::Collect()
+            }
         }
         elseif ($PackageName) {
             # npm i "$PackageName@latest" --legacy-peer-deps
-            npm i "$PackageName@latest" --force
+            # npm i "$PackageName@latest" --force
+            # npm i "$PackageName@latest" --force ;
+            npm i "$PackageName" --force ;
+            npm audit fix ; 
+            npm audit fix --force ;  
+            Remove-Item -r -Force "$Directory\\*"
+            # Remove-Item -r -Force "$Directory\\node_modules"
+            # Remove-Item -r -Force "$Directory\\package.json"
+            # Remove-Item -r -Force "$Directory\\package-lock.json"
+            [System.GC]::Collect()
         }
         else {
             Write-Host "PackageName OR PackageArray required with the AllLatest option."
@@ -251,11 +314,29 @@ function Install-NpmPackages {
     if ($AllNext) {
         if ($PackageArray) {
             # foreach ($PackageName in $PackageArray) { npm i "$PackageName@next" --legacy-peer-deps }
-            foreach ($PackageName in $PackageArray) { npm i "$PackageName@next" --force }
+            # foreach ($PackageName in $PackageArray) { npm i "$PackageName@next" --force }
+            foreach ($PackageName in $PackageArray) { 
+                npm i "$PackageName@next" --force ;
+                npm audit fix ; 
+                npm audit fix --force ;  
+                Remove-Item -r -Force "$Directory\\*"
+                # Remove-Item -r -Force "$Directory\\node_modules"
+                # Remove-Item -r -Force "$Directory\\package.json"
+                # Remove-Item -r -Force "$Directory\\package-lock.json"
+                [System.GC]::Collect()
+            }
         }
         elseif ($PackageName) {
             # npm i "$PackageName@next" --legacy-peer-deps
-            npm i "$PackageName@next" --force
+            # npm i "$PackageName@next" --force
+            npm i "$PackageName@next" --force ;
+            npm audit fix ; 
+            npm audit fix --force ;  
+            Remove-Item -r -Force "$Directory\\*"
+            # Remove-Item -r -Force "$Directory\\node_modules"
+            # Remove-Item -r -Force "$Directory\\package.json"
+            # Remove-Item -r -Force "$Directory\\package-lock.json"
+            [System.GC]::Collect()
         }
         else {
             Write-Host "PackageName OR PackageArray required with the AllNext option."
@@ -264,14 +345,89 @@ function Install-NpmPackages {
     if ($AllMajorVersions) {
         if ($PackageArray) {
             # foreach ($PackageName in $PackageArray) { $($LowerVersionRange..$UpperVersionRange).foreach({ npm i $PackageName"@^"$_ --legacy-peer-deps }) }    
-            foreach ($PackageName in $PackageArray) { $($LowerVersionRange..$UpperVersionRange).foreach({ npm i $PackageName"@^"$_ --force }) }    
+            foreach ($PackageName in $PackageArray) {
+                $($LowerVersionRange..$UpperVersionRange).foreach({ 
+                    if($BaseVersion -eq "") {
+                        npm i $PackageName"@^"$BaseVersion.$_ --force ;
+                    } else {
+                        npm i $PackageName"@^"$_ --force ;
+                    }
+                        npm audit fix ; 
+                        npm audit fix --force ;  
+                        Remove-Item -r -Force "$Directory\\*"
+                        # Remove-Item -r -Force "$Directory\\node_modules"
+                        # Remove-Item -r -Force "$Directory\\package.json"
+                        # Remove-Item -r -Force "$Directory\\package-lock.json"
+                        [System.GC]::Collect()
+                    }) 
+            }
         }
         elseif ($PackageName) {
             # $($LowerVersionRange..$UpperVersionRange).foreach({ npm i $PackageName"@^"$_ --legacy-peer-deps })
-            $($LowerVersionRange..$UpperVersionRange).foreach({ npm i $PackageName"@^"$_ --force })
+            $($LowerVersionRange..$UpperVersionRange).foreach({ 
+                if($BaseVersion -eq ""){
+                    npm i $PackageName"@^"$BaseVersion.$_ --force 
+                } else {
+                    npm i $PackageName"@^"$_ --force 
+                }
+                
+                    npm audit fix ; 
+                    npm audit fix --force ;  
+                    Remove-Item -r -Force "$Directory\\*"
+                    # Remove-Item -r -Force "$Directory\\node_modules"
+                    # Remove-Item -r -Force "$Directory\\package.json"
+                    # Remove-Item -r -Force "$Directory\\package-lock.json"
+                    [System.GC]::Collect()
+                })
         }
         else {
             Write-Host "PackageName OR PackageArray required with the AllMajorVersions option."
         }
     }
 }
+
+
+
+
+function Build-NPMList {
+    # Return to STDOUT
+    # Build-NPMList -PackageName "sveltejs" 
+    # Add to and clean up a txt file
+    # Build-NPMList -PackageName "sveltejs" -OutputFile "C:\Users\$env:USERNAME\Downloads\gits\TheRum\npmPackageFiles\packageLists\svelte.txt"
+    # Add to and clean up a txt file based on an array of packages
+    # Build-NPMList PackageArray $PackageArray -OutputFile "C:\Users\$env:USERNAME\Downloads\gits\TheRum\npmPackageFiles\packageLists\random.txt"
+    param (
+        [string]$PackageName,
+        [System.Collections.ArrayList]$PackageArray,
+        [string]$OutputFile
+    )
+    $TempFile = "C:\Windows\Temp\npmFiles.txt"
+    $null > $TempFile
+    if ($PackageArray) {
+        foreach ($PackageName in $PackageArray) { 
+            (npm search -p $PackageName).foreach({ ($_.split(" ")[0]).split("`t")[0] }) | Sort-Object -Unique >> $TempFile
+            [System.GC]::Collect()
+        }
+    }
+    elseif ($PackageName) {
+        (npm search -p $PackageName).foreach({ ($_.split(" ")[0]).split("`t")[0] }) | Sort-Object -Unique >> $TempFile
+        [System.GC]::Collect()
+    }
+    else {
+        Write-Host "PackageName OR PackageArray required with the AllLatest option."
+    }
+    if ($OutputFile) {
+        $files = Get-Content $OutputFile 
+        $files >> $TempFile
+        $files = Get-Content $TempFile
+        $files = $files | Sort-Object -Unique
+        $files = $files | Sort-Object -Unique
+        $files > $OutputFile
+        $files.Count
+    }
+    else {
+        return $(Get-Content $TempFile | sort-Object -Unique )
+    }
+    # Remove-Item -Force $TempFile
+}
+
