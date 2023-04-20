@@ -1,4 +1,3 @@
-
 FluentValidation
 FluentValidation.AspNetCore
 FluentValidation.DependencyInjectionExtensions                                                                          
@@ -12,14 +11,3 @@ FluentValidation.Specifications
 FluentValidation.ValidatorAttribute
 FluentValidation.Validators.UnitTestExtension
 FluentValidation.WebAPI
-FluentvalidationBR.Extensions
-FluentValidationDynamicRules
-FluentValidationExtensions
-FluentValidationExtensions.AutoMapper
-FluentValidationExtensions.Reactive
-FluentValidationExtensions.Reactive.WPF
-FluentValidationForMassTransit
-FluentValidationFramework
-FluentValidationGuard
-FluentValidationLister.Filter
-FluentValidationWithEntityValidation

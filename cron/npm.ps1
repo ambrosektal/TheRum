@@ -13,7 +13,10 @@ $fullpath = "D:\Transfer\ToMove\node"
 
 Set-Location -Path $fullpath
 
-$allfiles = gci "C:\Users\$env:USERNAME\Downloads\gits\TheRum\npmPackageFiles\*.txt"
+$allfiles = gci "C:\\Users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\packageLists\\*.txt"
+$allfiles += gci "C:\\Users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\requests\\*.txt"
+$allfiles += gci "C:\\Users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\others\\*.txt"
+$allfiles += gci "C:\\Users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\TopLists\\*.txt"
 $files = $allfiles.foreach({get-content $_ })
 # get-content $_files = Get-Content "C:\Users\$env:USERNAME\Downloads\gits\TheRum\npmPackageFiles\Top1000NpmPackages.txt"
 # $files += Get-Content  "C:\Users\$env:USERNAME\Downloads\gits\TheRum\npmPackageFiles\TopPackages.txt"
@@ -43,12 +46,17 @@ while($count -lt 5){
             break;
         } else {
             Write-Host "yay, I'm in the correct directory!!!"
-            $files.foreach({
+            # $files.foreach({
+            $files | foreach-object -Parallel ({
                 write-host "Downloading $_ ..."
-                npm i $_ --force ; 
+                [string]$random = Get-Random -Maximum 9999 -Minimum 1000
+                mkdir "D:\\Transfer\\ToMove\\node\\$random"
+                # npm i $_ --force --prefix "$fullpath"; 
+                npm i $_ --force --prefix "D:\\Transfer\\ToMove\\node\\$random"; 
                 npm audit fix ; 
                 npm audit fix --force ; 
-                Remove-Item -r -Force "$fullpath\*"
+                # Remove-Item -r -Force "$fullpath"
+                Remove-Item -r -Force "D:\\Transfer\\ToMove\\node\\$random"
                 [System.GC]::Collect()
             })
         }

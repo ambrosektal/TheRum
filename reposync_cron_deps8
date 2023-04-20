@@ -1,0 +1,8 @@
+#!/bin/bash
+echo Depecndency Update script started at $(date) >> /var/log/dependency-update-repository.log
+#reposync --download_path=/opt/repo/ --downloadcomps --download-metadata
+cd /opt/repo/otherrepo
+
+for i in $(ls /opt/repo/remi*); do /usr/local/bin/downloadMe.sh "$i" 1 ; done
+    
+echo Dependency Update script ended at $(date) >> /var/log/dependency-update-repository.log

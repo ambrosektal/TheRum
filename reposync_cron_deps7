@@ -1,0 +1,13 @@
+#!/bin/bash
+echo Depecndency Update script started at $(date) >> /var/log/dependency-update-repository.log
+#reposync --download_path=/opt/repo/ --downloadcomps --download-metadata
+cd /opt/docker/depRepo/el7
+
+# for i in $(ls /opt/repo/remi*); do /usr/local/bin/downloadMe.sh "$i" 1 ; done
+# for i in $(ls /opt/docker/el7/remi*); do /usr/local/bin/downloadMe.sh "$i" 1 ; done
+# for i in $(ls /opt/docker/el7/*); do /usr/local/bin/downloadMe.sh "$i" 1 ; done
+# for i in $(find /opt/docker/el7/ -type f -iname "*.rpm"); do /usr/local/bin/downloadMe.sh "$i" 1 ; done
+# for i in $(find /opt/docker/el7/ -type f -iname "*.rpm" -exec basename {} \; | sort -u); do /usr/local/bin/downloadMe.sh "$i" 1 ; done
+find /opt/docker/el7/ -type f -iname "*.rpm" -print0 | parallel -0 'downloadMe.sh "$(basename {})" 1'
+
+echo Dependency Update script ended at $(date) >> /var/log/dependency-update-repository.log

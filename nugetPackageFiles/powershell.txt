@@ -1,6 +1,0 @@
-powershell
-powershell*
-powershell.*
-microsoft.powershell*
-microsoft.powershell.*
-Microsoft.AspNetCore.Response*

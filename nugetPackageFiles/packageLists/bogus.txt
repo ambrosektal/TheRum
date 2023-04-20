@@ -1,0 +1,7 @@
+Bogus
+Bogus.Healthcare
+Bogus.Hollywood
+Bogus.Locations
+Bogus.Text
+Bogus.Tools.Analyzer
+BogusSQL

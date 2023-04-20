@@ -1,5 +1,3 @@
-
-Swashbuckle
 Swashbuckle.AspNetCore
 Swashbuckle.AspNetCore.Annotations                                                                                      
 Swashbuckle.AspNetCore.ApiDoc
@@ -62,6 +60,3 @@ Swashbuckle.Rebase.Extensions
 Swashbuckle.SchemaExtensions.Core
 Swashbuckle.Servers.Extension
 Swashbuckle.SwaggerConfigurationExtension
-SwashbuckleAspNetVersioningShim
-SwashbuckleEx
-SwashbuckleEx.Core

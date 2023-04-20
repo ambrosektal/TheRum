@@ -1,9 +1,0 @@
-System.Collections.Generic*
-System.Collections*
-System.componentModel*
-System.ext*
-System.Linq*
-System.Threading.tasks*
-System.Threading*
-System.Windows.Extensions*
-System.*

@@ -53,5 +53,94 @@ $bunFiles = gci -Recurse -Filter "*.tgz" | Where-Object {$_.LastWriteTime -ge (G
 ## Skip the first 3 folders(versions) in the extensions folders and remove the rest.
 (gci ).foreach({Get-ChildItem $_ -Directory|Sort-Object FullName -Desc|Select-Object -Skip 3|Remove-Item -Confirm:$false -Force -Recurse})
 
+## Skip the first 3 json files(LastWriteTime), including "latest.json", in each stable installer folder and return the rest.
+(gci -Directory).foreach({
+	(gci $_ "stable" ).foreach({
+		Get-ChildItem $_ -File -Filter "*.json" | Sort-Object LastWriteTime -Desc | Select-Object -Skip 4 
+	})
+})
+
+## Skip the first 3 json files(LastWriteTime), including "latest.json", in each stable installer folder and Remove the rest.
+(gci -Directory).foreach({
+	(gci $_ "stable" ).foreach({
+		Get-ChildItem $_ -File -Filter "*.json" | Sort-Object LastWriteTime -Desc | Select-Object -Skip 4 | Remove-Item -Confirm:$false -Force -Recurse
+	})
+})
+
+## Skip the first 3 zip files(LastWriteTime), including "latest.json", in each stable installer folder and return the rest.
+(gci -Directory).foreach({
+	(gci $_ "stable" ).foreach({
+		Get-ChildItem $_ -File -Filter "*.zip" | Sort-Object LastWriteTime -Desc | Select-Object -Skip 4 
+	})
+})
+
+## Skip the first 3 exe files(LastWriteTime), including "latest.json", in each stable installer folder and return the rest.
+(gci -Directory).foreach({
+	(gci $_ "stable" ).foreach({
+		Get-ChildItem $_ -File -Filter "*.exe" | Sort-Object LastWriteTime -Desc | Select-Object -Skip 4 
+	})
+})
+
+## Skip the first 3 tar.gz files(LastWriteTime), including "latest.json", in each stable installer folder and return the rest.
+(gci -Directory).foreach({
+	(gci $_ "stable" ).foreach({
+		Get-ChildItem $_ -File -Filter "*.tar.gz" | Sort-Object LastWriteTime -Desc | Select-Object -Skip 4 
+	})
+})
+
+## Skip the first 3 snap files(LastWriteTime), including "latest.json", in each stable installer folder and return the rest.
+(gci -Directory).foreach({
+	(gci $_ "stable" ).foreach({
+		Get-ChildItem $_ -File -Filter "*.snap" | Sort-Object LastWriteTime -Desc | Select-Object -Skip 4 
+	})
+})
 
 
+## Skip the first 3 deb files(LastWriteTime), including "latest.json", in each stable installer folder and return the rest.
+(gci -Directory).foreach({
+	(gci $_ "stable" ).foreach({
+		Get-ChildItem $_ -File -Filter "*.deb" | Sort-Object LastWriteTime -Desc | Select-Object -Skip 4 
+	})
+})
+
+## Skip the first 3 rpm files(LastWriteTime), including "latest.json", in each stable installer folder and return the rest.
+(gci -Directory).foreach({
+	(gci $_ "stable" ).foreach({
+		Get-ChildItem $_ -File -Filter "*.rpm" | Sort-Object LastWriteTime -Desc | Select-Object -Skip 4 
+	})
+})
+
+
+
+# This has become where I store basic functions and math stuff... Really not sure how that happened, but here we are...
+$results = for($i=101010101; $i -le 9999999999 ; $i++ ){
+	[PSCustomObject]@{
+		Number = $i
+		x3 = $i % 3 -eq 0
+		x6 = $i % 6 -eq 0
+		x9 = $i % 9 -eq 0
+	} | Where-Object {
+		$_.x3 -eq "True" -and $_.x6 -eq "True" -and $_.x9 -eq "True"
+	}
+}
+
+$results = for($i=100000000; $i -le 9999999999 ; $i++ ){
+	[PSCustomObject]@{
+		Number = $i
+		x18 = $i % 18 -eq 0
+	} | Where-Object {
+		$_.x18 -eq "True"	
+	}
+}
+
+# Returns this error
+# OperationStopped: Value was either too large or too small for an Int32.
+# need to make it a [long] instead of int32.
+10000000000..706968676625 | Foreach-Object -Parallel {
+    if ($_ % 18 -eq 0) {
+        Write-Output $_
+    }
+}
+
+# Trim off the nupkg and the version from the nupkg file names
+($moved.foreach({$_.Name.TrimStart('.0123456789').TrimEnd(".nupkg") })).trimstart('.0123456789').trimend('.0123456789')

@@ -1,0 +1,13 @@
+Paket
+paket.bootstrapper
+Paket.Core
+paket.install
+Paket.Integrations.Npm
+Paket.PowerShell
+Paket.SequelMed
+Paket.Unity3D
+Paket.Unity3D.Example.Source
+PaketChain
+paketi
+PaketLocalUpdate
+PaketSequelMed

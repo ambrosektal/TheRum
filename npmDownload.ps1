@@ -51,6 +51,7 @@
 # $files = gci . -Recurse -Filter package.json
 # # $files.foreach({cd $_.Directory && npm i --legacy-peer-deps && npm audit fix --force})
 # $files.foreach({cd $_.Directory && npm i --force && npm audit fix --force})
+# $files.foreach({cd $_.Parent && npm i --force && npm audit fix --force})
 
 # $reactFiles = $(97..122).foreach({ npm search -p "react-$([char]$_)" })
 # $reactFiles.foreach({npm install --force $($_.split("`t")[0])})
@@ -77,22 +78,90 @@
 # }
 ### Alternative method
 $txtfiles = (gci -recurse C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\react.txt)
+
+$txtfiles = (gci -recurse C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\bun.txt)
 $txtfiles = (gci -recurse C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\mantine.txt)
 $txtfiles = (gci -recurse C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\svelte.txt)
 $txtfiles = (gci -recurse C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\express.txt)
 $txtfiles = (gci -recurse C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\firebase.txt)
+$txtfiles = (gci -recurse C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\packageLists\\mattermost.txt)
+$txtfiles = (gci -recurse C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\packageLists\\requests.txt)
+$txtfiles = (gci -recurse C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\requests\\createapps.txt)
 # $txtfiles = (gci -recurse C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\*.txt)
-$unclean = $txtfiles.foreach({gc $_ })
-$clean = $unclean | Sort-Object -Unique
-$clean.foreach({
-    write-host "Downloading $_ ..."
-    npm i $_ --force ; 
-    npm audit fix ; 
-    npm audit fix --force ; 
-    rm -r -Force "D:\Transfer\Moved\node\*"
-    [System.GC]::Collect()
-})
 
+function SimpleNPMDownload {
+    # SimpleNPMDownload -PackageListTxtFile "C:\\Users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\packageLists\\react.txt"
+    # SimpleNPMDownload -PackageListTxtFile "C:\\Users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\requests\\svelte.txt"
+    # SimpleNPMDownload -PackageListTxtFile "C:\\Users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\packageLists\\requests.txt" 
+    # SimpleNPMDownload -PackageListTxtFile "C:\\Users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\packageLists\\missingFiles.txt" 
+    # SimpleNPMDownload -PackageListTxtFile "C:\\Users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\requests\\createapps.txt" 
+    # SimpleNPMDownload -PackageListTxtFile "C:\\Users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\requests\\esbuild.txt" 
+    # SimpleNPMDownload -PackageListTxtFile "C:\\Users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\TopLists\\TopPackages20230227.txt" 
+    # SimpleNPMDownload -InstallDirectory "D:\Transfer\Staging\node" -PackageListTxtFile "C:\\Users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\svelte.txt"
+    # SimpleNPMDownload -InstallDirectory "D:\Transfer\Moved\node" -PackageListTxtFile "C:\\Users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\packageLists\\requests.txt" 
+    # SimpleNPMDownload -DirectoryOfPackageListTxtFiles "C:\\Users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\requests"
+    # SimpleNPMDownload -DirectoryOfPackageListTxtFiles "C:\\Users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\others"
+    # SimpleNPMDownload -DirectoryOfPackageListTxtFiles "C:\\Users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\TopLists"
+    # SimpleNPMDownload -DirectoryOfPackageListTxtFiles "C:\\Users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\packageLists"
+    param (
+        [string]$npmPackageList,
+        [string]$PackageListTxtFile,
+        [string]$DirectoryOfPackageListTxtFiles,
+        [string]$InstallDirectory,
+        [array]$npmPackageArray,
+        [switch]$yarn
+    )
+    if ($PackageListTxtFile) {
+        $txtfiles = (Get-ChildItem $PackageListTxtFile)
+    }
+    elseif ($DirectoryOfPackageListTxtFiles) {
+        $txtfiles = (Get-ChildItem "$DirectoryOfPackageListTxtFiles\*")
+    }
+    else {
+        Write-host "Must give a Packagelist, or directory of text files.  " -ForegroundColor Red
+    }
+    write-host "Number of txtfiles: $($txtfiles.count)"
+    Write-Host "Text Files: $txtfiles"
+    if (!$InstallDirectory) {
+        $InstallDirectory = "D:\Transfer\ToMove\node"
+    }
+    else {
+        while ($InstallDirectory.EndsWith("\") ) {
+            $InstallDirectory = $InstallDirectory.TrimEnd("\")
+        }
+    }
+    
+    Set-Location -Path $InstallDirectory
+
+    if ($(Get-Location ).Path -notlike $InstallDirectory ) {
+        Write-Host "I'm not where I expected I was. I'm quitting."
+        break;
+    }
+    else {
+        $unclean = $txtfiles.foreach({ gc $_ })
+        # $clean = $unclean | Sort-Object -Unique
+        $clean = $unclean.Replace('\','/') | Sort-Object -Unique
+        Write-Host "yay, I'm in the correct directory!!!"
+        $clean | foreach-object -Parallel ({
+                write-host "Downloading $_ ..."
+                [string]$random = Get-Random -Maximum 999999 -Minimum 100000
+                mkdir "D:\\Transfer\\ToMove\\node\\$random"
+                try{
+                    npm i $_"@latest" --force --prefix "D:\\Transfer\\ToMove\\node\\$random"; 
+                } catch {
+                    npm i $_ --force --prefix "D:\\Transfer\\ToMove\\node\\$random"; 
+                }
+                # npm i $_ --force --prefix "D:\\Transfer\\ToMove\\node\\$random"; 
+                cd "D:\\Transfer\\ToMove\\node\\$random"; 
+                npm audit fix ; 
+                npm audit fix --force ; 
+                cd "D:\\Transfer\\ToMove\\node\\"; 
+                Remove-Item -r -Force "D:\\Transfer\\ToMove\\node\\$random"
+                [System.GC]::Collect()
+            })
+    }
+    # Remove-Item -r -Force "$InstallDirectory\*"
+}
 
 
 function Invoke-DownloadNpmPackages {
@@ -267,7 +336,8 @@ function Install-NpmPackages {
     # If you see ^1.0.2 it means to install version 1.0.2 or the latest minor or patch version such as 1.1.0.
     # Install-NpmPackages -PackageName svelte -AllMajorVersions
     # $packageArray = gc "C:\\Users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\newnet.txt"
-    # Install-NpmPackages -PackageArray $packageArray -AllMajorVersions -UpperVersionRange 20 -LowerVersionRange 0
+    # $packageArray = gc "C:\\Users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\requests\\esbuild.txt" 
+    # Install-NpmPackages -PackageArray $packageArray -AllMajorVersions -UpperVersionRange 20 -LowerVersionRange 0 -BaseVersion '0'
     $Directory = Get-Location
     if (!$LowerVersionRange) {
         $LowerVersionRange = 0
@@ -275,9 +345,9 @@ function Install-NpmPackages {
     if (!$UpperVersionRange) {
         $UpperVersionRange = 10
     }
-    if (!$BaseVersion) {
-        $BaseVersion = 0
-    }
+    # if (!$BaseVersion) {
+    #     $BaseVersion = 0
+    # }
     if ($AllLatest) {
         if ($PackageArray) {
             # foreach ($PackageName in $PackageArray) { npm i "$PackageName@latest" --legacy-peer-deps }
@@ -346,12 +416,20 @@ function Install-NpmPackages {
         if ($PackageArray) {
             # foreach ($PackageName in $PackageArray) { $($LowerVersionRange..$UpperVersionRange).foreach({ npm i $PackageName"@^"$_ --legacy-peer-deps }) }    
             foreach ($PackageName in $PackageArray) {
-                $($LowerVersionRange..$UpperVersionRange).foreach({ 
-                    if($BaseVersion -eq "") {
-                        npm i $PackageName"@^"$BaseVersion.$_ --force ;
-                    } else {
-                        npm i $PackageName"@^"$_ --force ;
+                # $($LowerVersionRange..$UpperVersionRange).foreach({ 
+                $($LowerVersionRange..$UpperVersionRange) | foreach-object -parallel ({ 
+                    $PackageName = $using:PackageName
+                    $Directory = $using:Directory
+                    if($null -ne $using:BaseVersion){
+                        $BaseVersion = $using:BaseVersion
                     }
+                    
+                        if ($null -ne $BaseVersion ) {
+                            npm i "$PackageName@^$BaseVersion.$_" --force ;
+                        }
+                        else {
+                            npm i "$PackageName@^$_" --force ;
+                        }
                         npm audit fix ; 
                         npm audit fix --force ;  
                         Remove-Item -r -Force "$Directory\\*"
@@ -365,11 +443,12 @@ function Install-NpmPackages {
         elseif ($PackageName) {
             # $($LowerVersionRange..$UpperVersionRange).foreach({ npm i $PackageName"@^"$_ --legacy-peer-deps })
             $($LowerVersionRange..$UpperVersionRange).foreach({ 
-                if($BaseVersion -eq ""){
-                    npm i $PackageName"@^"$BaseVersion.$_ --force 
-                } else {
-                    npm i $PackageName"@^"$_ --force 
-                }
+                    if ($BaseVersion -eq "") {
+                        npm i $PackageName"@^"$BaseVersion.$_ --force 
+                    }
+                    else {
+                        npm i $PackageName"@^"$_ --force 
+                    }
                 
                     npm audit fix ; 
                     npm audit fix --force ;  
@@ -391,26 +470,63 @@ function Install-NpmPackages {
 
 function Build-NPMList {
     # Return to STDOUT
+    # $(97..122).foreach({ Build-NPMList -PackageName "svelte-$([char]$_)" -OutputFile "C:\Users\$env:USERNAME\Downloads\gits\TheRum\npmPackageFiles\requests\svelte.txt" })
     # Build-NPMList -PackageName "sveltejs" 
     # Add to and clean up a txt file
-    # Build-NPMList -PackageName "sveltejs" -OutputFile "C:\Users\$env:USERNAME\Downloads\gits\TheRum\npmPackageFiles\packageLists\svelte.txt"
+    # Build-NPMList -PackageName "sveltejs" -OutputFile "C:\Users\$env:USERNAME\Downloads\gits\TheRum\npmPackageFiles\requests\svelte.txt"
+    # Build-NPMList -PackageName "react" -OutputFile "C:\Users\$env:USERNAME\Downloads\gits\TheRum\npmPackageFiles\requests\react.txt"
+    # Build-NPMList -PackageName "react-" -OutputFile "C:\Users\$env:USERNAME\Downloads\gits\TheRum\npmPackageFiles\requests\react.txt"
+    # Build-NPMList -PackageName "cra-template" -OutputFile "C:\Users\$env:USERNAME\Downloads\gits\TheRum\npmPackageFiles\requests\react.txt"
+    # Build-NPMList -PackageName "cra-template-" -OutputFile "C:\Users\$env:USERNAME\Downloads\gits\TheRum\npmPackageFiles\requests\react.txt"
     # Add to and clean up a txt file based on an array of packages
     # Build-NPMList PackageArray $PackageArray -OutputFile "C:\Users\$env:USERNAME\Downloads\gits\TheRum\npmPackageFiles\packageLists\random.txt"
     param (
         [string]$PackageName,
         [System.Collections.ArrayList]$PackageArray,
-        [string]$OutputFile
+        [string]$OutputFile,
+        # [int]$Iterations = 2,
+        [string]$Registry = "https://registry.npmjs.org/"
     )
     $TempFile = "C:\Windows\Temp\npmFiles.txt"
     $null > $TempFile
+    # $count = 0
+    # $newfiles = New-Object System.Collections.ArrayList
     if ($PackageArray) {
         foreach ($PackageName in $PackageArray) { 
-            (npm search -p $PackageName).foreach({ ($_.split(" ")[0]).split("`t")[0] }) | Sort-Object -Unique >> $TempFile
+            (npm search -p $PackageName --registry $Registry).foreach({ ($_.split(" ")[0]).split("`t")[0] }) | Sort-Object -Unique >> $TempFile
+            # npm search and clean up
+            
+            # # New Test START
+            
+            # $files = (npm search -p $PackageName ).foreach({ $_.split(" ")[0].split("`t")[0] })
+            # while ($count -lt $Iterations) {
+            #     $count++
+            #     ($files |  Foreach-Object -ThrottleLimit 5 -Parallel {
+            #             $files += (npm search -p $_ ).foreach({ $_.split(" ")[0].split("`t")[0] })
+            #             $files | Sort-Object -Unique >> $TempFile
+            #         }
+            #     )    
+            # }
+
+            # # New Test END
             [System.GC]::Collect()
         }
     }
     elseif ($PackageName) {
-        (npm search -p $PackageName).foreach({ ($_.split(" ")[0]).split("`t")[0] }) | Sort-Object -Unique >> $TempFile
+        (npm search -p $PackageName --registry $Registry).foreach({ ($_.split(" ")[0]).split("`t")[0] }) | Sort-Object -Unique >> $TempFile
+        #  # New Test START
+            
+        #  $files = (npm search -p $PackageName ).foreach({ $_.split(" ")[0].split("`t")[0] })
+        #  while ($count -lt $Iterations) {
+        #      $count++
+        #      ($files |  Foreach-Object -ThrottleLimit 5 -Parallel {
+        #              $files += (npm search -p $_ ).foreach({ $_.split(" ")[0].split("`t")[0] })
+        #              $files | Sort-Object -Unique >> $TempFile
+        #          }
+        #      )    
+        #  }
+
+        #  # New Test END
         [System.GC]::Collect()
     }
     else {
@@ -431,3 +547,61 @@ function Build-NPMList {
     # Remove-Item -Force $TempFile
 }
 
+################# 
+################# 
+################# 
+# $directories = [System.IO.Directory]::EnumerateDirectories("D:\Transfer\toMove\Software\Verdaccio\Storage\data\", "*", [System.IO.SearchOption]::TopDirectoryOnly)
+
+# foreach ($dir in $directories) {
+#     $files = [System.IO.Directory]::EnumerateFiles($dir)
+#     if ($files.Count -eq 1) {
+#         Write-Output $dir
+#     }
+# }
+
+# function Get-DirectoriesWithSingleFile {
+#     param(
+#         [string]$path
+#     )
+
+#     $directories = [System.IO.Directory]::EnumerateDirectories($path)
+
+#     foreach ($directory in $directories) {
+#         $files = [System.IO.Directory]::EnumerateFiles($directory)
+
+#         # if ($files.Count -eq 1) {
+#         if ($files.Count -lt 1) {
+#             Write-Output $directory
+#         }
+
+#         Get-DirectoriesWithSingleFile -path $directory
+#     }
+# }
+
+# Get-DirectoriesWithSingleFile -path "D:\Transfer\toMove\Software\Verdaccio\Storage\data\"
+################# 
+
+function Get-DirectoriesWithSingleFile {
+    param (
+        [string]$path
+    )
+
+    $directories = [System.IO.Directory]::GetDirectories($path)
+
+    foreach ($directory in $directories) {
+        $files = [System.IO.Directory]::GetFiles($directory)
+
+        if ($files.Count -eq 1) {
+            Write-Output $directory
+        }
+
+        Get-DirectoriesWithSingleFile -path $directory
+    }
+}
+
+$files = Get-DirectoriesWithSingleFile -path "D:\Transfer\toMove\Software\Verdaccio\Storage\data\"
+$newFiles = $files | foreach {$_.Replace('D:\Transfer\toMove\Software\Verdaccio\Storage\data\','')}
+$newfiles = $newfiles.Replace('\','/')
+$newfiles.count
+$newFiles > "C:\\Users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\packageLists\\missingFiles2.txt" 
+################# 

@@ -1,0 +1,4 @@
+System.DirectoryServices
+System.DirectoryServices.AccountManagement
+System.DirectoryServices.Linq
+System.DirectoryServices.Protocols
