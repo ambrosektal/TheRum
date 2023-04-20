@@ -1,8 +1,9 @@
 #!/bin/bash
 
 # rm -rf /root/remi/config/el8/*
-#touch /root/remi/config/el8/$filename
-filename=$(mktemp XXXXXXXXXXXX_deps_u)
+#touch $filename
+filename=$(mktemp /root/remi/config/el8/XXXXXXXXXXXX_deps_u)
+# touch "$filename"
 
 function fileExists() {
 	if [[ -f "$1" ]]
@@ -15,8 +16,8 @@ function findingDeps() {
 #	for j in $(rpm -qR "$a");
 #		do rpm -q --whatprovides "$j";
 #			done | sort | uniq | grep -v "no package provides" | sort -u >> /root/remi/config/el8/depdeps ;
-	yum deplist "$a" | grep provider | awk -F ": " {'print $2'} | awk -F " " '{print $1}' | sort -u >> /root/remi/config/el8/$filename;
-	echo "$filename has $(wc -l /root/remi/config/el8/$filename) files:::  "
+	yum deplist "$a" | grep provider | awk -F ": " {'print $2'} | awk -F " " '{print $1}' | sort -u >> "$filename";
+	echo "$filename has $(wc -l "$filename") files:::  "
 	
 }
 
@@ -46,18 +47,18 @@ function downloadDeps(){
 
 #	echo "" > /root/remi/config/el8/deps
 #	echo "" > /root/remi/config/el8/depdeps
-#	echo "" > /root/remi/config/el8/$filename_cleaned
+#	echo "" > $filename_cleaned
 #	echo "" > /root/remi/config/el8/deps_cleaned
-	#echo "" > /root/remi/config/el8/$filename
+	#echo "" > $filename
 #	echo "" > /root/remi/config/el8/dep$filename
 #	echo "" > /root/remi/config/el8/depdeplist
-#	echo "" > /root/remi/config/el8/$filename_comma
+#	echo "" > $filename_comma
 
 	k=0
 	findingDeps "$1"
 	echo "recursion is equal to::  $2"
 	while [ "$k" -lt "$2" ]
-		do for i in $(cat /root/remi/config/el8/$filename); 
+		do for i in $(cat "$filename"); 
 			do findingDeps "$i";
 				done;
 		k=$[$k+2]
@@ -66,10 +67,10 @@ function downloadDeps(){
 	done
 }		
 
-#	sort -u /root/remi/config/el8/$filename > /root/remi/config/el8/$filename_clean
-#        mv -f /root/remi/config/el8/$filename_clean /root/remi/config/el8/$filename
+#	sort -u $filename > $filename_clean
+#        mv -f $filename_clean $filename
 
-#	for i in $(cat /root/remi/config/el8/$filename);
+#	for i in $(cat $filename);
 #                do yumdownloader -y "$i" --downloadonly ;
 #                done;
 
@@ -78,8 +79,8 @@ function downloadDeps(){
 downloadDeps "$1" "$2"
 
 
-#sort -u /root/remi/config/el8/$filename > /root/remi/config/el8/$filename_clean
-#mv -f /root/remi/config/el8/$filename_clean /root/remi/config/el8/$filename
+#sort -u $filename > $filename_clean
+#mv -f $filename_clean $filename
 
 # I keep losing connection when I leave this running overnight
 # This logs the parent file that is getting deps downloaded/searched for.
@@ -90,10 +91,10 @@ if [ ! -z "$1" ]
 fi
 
 # Reports to STDOUT how many deps are being downloaded for each file.
-echo "Discovered $(wc -l /root/remi/config/el8/$filename) dependencies"
+echo "Discovered $(wc -l "$filename") dependencies"
 
-for i in $(cat /root/remi/config/el8/$filename);
+for i in $(cat "$filename");
 	# do yumdownloader -y "$i" --downloadonly ;
 	do dnf download -y "$i" --resolve ;
 	done;
-echo "" > /root/remi/config/el8/$filename
+# echo "" > $filename
