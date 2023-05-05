@@ -1,0 +1,7 @@
+SharpZipLib
+SharpZipLib-WP7
+SharpZipLib.Cry3
+SharpZipLib.NETStandard
+SharpZipLib.P4k
+SharpZipLib.Port
+SharpZipLib.Portable

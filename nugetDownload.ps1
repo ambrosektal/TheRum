@@ -168,19 +168,22 @@ $files.foreach({
     [System.GC]::Collect()
     })
 
-# Gett the 3 newest versions in Parallel
-$files.foreach({
-    $(find-package -Name "$($_)" -AllVersions -Source nuget.org) | Sort-Object Version -Desc | Select-Object -First 3 | foreach-object -Parallel {
+# Gett the 5 newest versions in Parallel
+$files = gc "C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\nugetPackageFiles\\Microsoft2\\*.txt"
+$files = gc "C:\users\joesp\Downloads\gits\TheRum\nugetPackageFiles\PSGallery\TopModules.txt"  
+# $files.foreach({
+$files | Foreach-Object -Parallel  {
+    $(find-package -Name "$($_)" -AllVersions -Source nuget.org) | Sort-Object Version -Desc | Select-Object -First 5 | foreach-object -Parallel {
         nuget install -OutputDirectory "D:\\Transfer\\ToMove\\nupkg\\" $($_.Name) -Version $($_.version) -Source "BaGet" }
     [System.GC]::Collect()
-    })
+    }
 
 (find-package "microsoft.powershell**") | foreach-object ({
     $(find-package -Name "$($_.Name)" -AllVersions -AllowPrereleaseVersions -Source nuget.org) | Sort-Object Version -Desc | Select-Object -First 5 | foreach-object -Parallel {
         nuget install -OutputDirectory "D:\\Transfer\\ToMove\\nupkg\\" $($_.Name) -Version $($_.version) -Source "BaGet" }
     [System.GC]::Collect()
     })
-(find-package "microsoft.powershell**") | foreach-object ({
+(find-package "microsoft.powershell**") | foreach-object -parallel ({
     $(find-package -Name "$($_.Name)" -AllVersions -Source PSGallery) | Sort-Object Version -Desc | Select-Object -First 5 | foreach-object -Parallel {
         nuget install -OutputDirectory "D:\\Transfer\\ToMove\\nupkg\\" $($_.Name) -Version $($_.version) -Source "BaGet_Posh" }
     [System.GC]::Collect()
@@ -192,7 +195,7 @@ $files.foreach({
 
 $files = New-Object System.Collections.ArrayList
 # $tmpfiles = gci "C:\Users\$env:USERNAME\Downloads\gits\TheRum\nugetPackageFiles\packageLists2\*.txt"
-$tmpfiles = gci "C:\Users\$env:USERNAME\Downloads\gits\TheRum\nugetPackageFiles\Microsoft2\*.txt"
+# $tmpfiles = gci "C:\Users\$env:USERNAME\Downloads\gits\TheRum\nugetPackageFiles\Microsoft2\*.txt"
 # $tmpfiles = gci "C:\Users\$env:USERNAME\Downloads\gits\TheRum\nugetPackageFiles\PSGallery\*.txt"
 foreach($tmpfile in $tmpfiles){
     $files = gc $tmpfile
@@ -210,10 +213,28 @@ function BuildPackageList {
     # BuildPackageList -PackageName "*vmware*" -OutputFile "C:\Users\$env:USERNAME\Downloads\gits\TheRum\nugetPackageFiles\packageLists\vmware.txt"
     # BuildPackageList -PackageName "*ldap*" -OutputFile "C:\Users\$env:USERNAME\Downloads\gits\TheRum\nugetPackageFiles\packageLists\ldap.txt"
     # BuildPackageList -PackageName "system.collections*" -OutputFile "C:\Users\$env:USERNAME\Downloads\gits\TheRum\nugetPackageFiles\packageLists\system.txt"
+    # BuildPackageList -PackageName "mediatr*" -OutputFile "C:\Users\$env:USERNAME\Downloads\gits\TheRum\nugetPackageFiles\packageLists2\mediatr.txt"
+    # BuildPackageList -PackageName "HotChocolate*" -OutputFile "C:\Users\$env:USERNAME\Downloads\gits\TheRum\nugetPackageFiles\packageLists2\HotChocolate.txt"
+    # BuildPackageList -PackageName "Automapper*" -OutputFile "C:\Users\$env:USERNAME\Downloads\gits\TheRum\nugetPackageFiles\packageLists2\Automapper.txt"
+    # BuildPackageList -PackageName "polly*" -OutputFile "C:\Users\$env:USERNAME\Downloads\gits\TheRum\nugetPackageFiles\packageLists2\polly.txt"
+    # BuildPackageList -PackageName "fluentemail*" -OutputFile "C:\Users\$env:USERNAME\Downloads\gits\TheRum\nugetPackageFiles\packageLists2\fluent.txt"
+    # BuildPackageList -PackageName "fluentassertions*" -OutputFile "C:\Users\$env:USERNAME\Downloads\gits\TheRum\nugetPackageFiles\packageLists2\fluent.txt"
+    # BuildPackageList -PackageName "swagger.*" -OutputFile "C:\Users\$env:USERNAME\Downloads\gits\TheRum\nugetPackageFiles\packageLists2\swagger.txt"
+    # BuildPackageList -PackageName "Nswag.*" -OutputFile "C:\Users\$env:USERNAME\Downloads\gits\TheRum\nugetPackageFiles\packageLists2\swagger.txt"
+    # BuildPackageList -PackageName "swashbuckle.*" -OutputFile "C:\Users\$env:USERNAME\Downloads\gits\TheRum\nugetPackageFiles\packageLists2\swashbuckle.txt"
+    # BuildPackageList -PackageName "nodatime*" -OutputFile "C:\Users\$env:USERNAME\Downloads\gits\TheRum\nugetPackageFiles\packageLists2\nodatime.txt"
+    # BuildPackageList -PackageName "SharpZipLib*" -OutputFile "C:\Users\$env:USERNAME\Downloads\gits\TheRum\nugetPackageFiles\packageLists2\SharpZipLib.txt"
+    # BuildPackageList -PackageName "HtmlAgilityPack*" -OutputFile "C:\Users\$env:USERNAME\Downloads\gits\TheRum\nugetPackageFiles\packageLists2\HtmlAgilityPack.txt"
+    # BuildPackageList -PackageName "mailkit*" -OutputFile "C:\Users\$env:USERNAME\Downloads\gits\TheRum\nugetPackageFiles\packageLists2\mailkit.txt"
+    # BuildPackageList -PackageName "restsharp*" -OutputFile "C:\Users\$env:USERNAME\Downloads\gits\TheRum\nugetPackageFiles\packageLists2\restsharp.txt"
     # BuildPackageList -PackageName "microsoft.net*" -OutputFile "C:\Users\$env:USERNAME\Downloads\gits\TheRum\nugetPackageFiles\Microsoft\dotnet.txt"
     # BuildPackageList -PackageName "microsoft.netCore*" -OutputFile "C:\Users\$env:USERNAME\Downloads\gits\TheRum\nugetPackageFiles\Microsoft\dotnetcore.txt"
-    # BuildPackageList -PackageName "blazor*" -OutputFile "C:\Users\$env:USERNAME\Downloads\gits\TheRum\nugetPackageFiles\Microsoft\blazor.txt"
-    # BuildPackageList -PackageName "runtime.*" -OutputFile "C:\Users\$env:USERNAME\Downloads\gits\TheRum\nugetPackageFiles\Microsoft\runtime.txt"
+    # BuildPackageList -PackageName "blazor*" -OutputFile "C:\Users\$env:USERNAME\Downloads\gits\TheRum\nugetPackageFiles\Microsoft2\blazor.txt"
+    # BuildPackageList -PackageName "runtime.*" -OutputFile "C:\Users\$env:USERNAME\Downloads\gits\TheRum\nugetPackageFiles\Microsoft2\runtime.txt"
+    # BuildPackageList -PackageName "Microsoft.*runtime.*" -OutputFile "C:\Users\$env:USERNAME\Downloads\gits\TheRum\nugetPackageFiles\Microsoft2\runtime.txt"
+    # BuildPackageList -PackageName "Microsoft.*" -OutputFile "C:\Users\$env:USERNAME\Downloads\gits\TheRum\nugetPackageFiles\Microsoft2\microsoft.txt"
+    # BuildPackageList -PackageName "System.*" -OutputFile "C:\Users\$env:USERNAME\Downloads\gits\TheRum\nugetPackageFiles\Microsoft2\system.txt"
+    # BuildPackageList -PackageName "Microsoft.aspnetcore*" -OutputFile "C:\Users\$env:USERNAME\Downloads\gits\TheRum\nugetPackageFiles\Microsoft2\aspnetcore.txt"
     # BuildPackageList -PackageName "microsoft.entityframework*" -OutputFile "C:\Users\$env:USERNAME\Downloads\gits\TheRum\nugetPackageFiles\Microsoft\efcore.txt"
     # BuildPackageList -PackageName "microsoft.aspnetcore.auth*" -OutputFile "C:\Users\$env:USERNAME\Downloads\gits\TheRum\nugetPackageFiles\Microsoft\aspnetcoreAuthentication.txt"
     # Add to and clean up a txt file based on an array of packages

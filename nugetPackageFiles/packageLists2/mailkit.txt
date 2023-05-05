@@ -1,0 +1,16 @@
+MailKit
+MailKit_Preda_Bogdan_Gabriel
+MailKit-On-NETCore
+MailKit.AspNet
+MailKit.Microsoft.Extension.Logging
+MailKit.NET
+MailKit.Security.SaslMechanismNtlmIntegrated
+MailKitCustomExtensions
+MailKitLite
+MailKitPackage
+MailKitSimplified.Core
+MailKitSimplified.Generic
+MailKitSimplified.Receiver
+MailKitSimplified.Sender
+MailkitTools
+MailkitTools.DependencyInjection

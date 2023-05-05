@@ -87,7 +87,40 @@ $txtfiles = (gci -recurse C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npm
 $txtfiles = (gci -recurse C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\packageLists\\mattermost.txt)
 $txtfiles = (gci -recurse C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\packageLists\\requests.txt)
 $txtfiles = (gci -recurse C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\requests\\createapps.txt)
-# $txtfiles = (gci -recurse C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\*.txt)
+
+
+############################
+
+$txtfiles = (gci -recurse C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\ -Filter "*.txt")
+$files = $txtfiles | foreach {gc $_}
+$files = $files | Sort-Object -Unique
+$files = $files | Sort-Object -Unique
+
+$files = $files[0..$($files.count * .50)]
+$files.count
+
+$files > C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\firstHalf.txt
+
+############################
+
+
+$txtfiles = (gci -recurse C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\ -Filter "*.txt")
+$files = $txtfiles | foreach {gc $_}
+$files = $files | Sort-Object -Unique
+$files = $files | Sort-Object -Unique
+
+$files = $files[$($files.count * .50)..$($files.count)]
+$files.count
+
+$files > C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\secondHalf.txt
+
+############################
+
+SimpleNPMDownload -PackageListTxtFile "C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\firstHalf.txt" 
+
+SimpleNPMDownload -PackageListTxtFile "C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\secondHalf.txt" 
+
+############################
 
 function SimpleNPMDownload {
     # SimpleNPMDownload -PackageListTxtFile "C:\\Users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\packageLists\\react.txt"

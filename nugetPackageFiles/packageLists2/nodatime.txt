@@ -1,0 +1,15 @@
+NodaTime
+NodaTime.AmazonDate
+NodaTime.Bogus
+NodaTime.DynamoDB.Conversions
+NodaTime.EntityFrameworkCore.Conversions
+NodaTime.Global
+NodaTime.MongoDBSerializers
+NodaTime.NetworkClock
+NodaTime.Serialization.JsonNet
+NodaTime.Serialization.Protobuf
+NodaTime.Serialization.ServiceStackText
+NodaTime.Serialization.SystemTextJson
+NodaTime.Testing
+NodaTimeFriendlyTimezoneNames
+NodaTimePicker

@@ -1,0 +1,10 @@
+HtmlAgilityPack
+HtmlAgilityPack_Helper
+HtmlAgilityPack-DNX
+HtmlAgilityPack-PCL
+HtmlAgilityPack.CssSelector.Core
+HtmlAgilityPack.CssSelectors
+HtmlAgilityPack.CssSelectors.NetCore
+HtmlAgilityPack.Net45
+HtmlAgilityPack.NetCore
+HtmlAgilityPackCore

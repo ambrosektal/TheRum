@@ -123,11 +123,14 @@ Microsoft.NET.Runtime.Emscripten.2.0.23.Sdk.win-x64.Msi.x64
 Microsoft.NET.Runtime.Emscripten.3.1.12.Cache.linux-x64
 Microsoft.NET.Runtime.Emscripten.3.1.12.Cache.osx-x64
 Microsoft.NET.Runtime.Emscripten.3.1.12.Cache.win-x64
+Microsoft.NET.Runtime.Emscripten.3.1.12.Cache.win-x64.Msi.x64
 Microsoft.NET.Runtime.Emscripten.3.1.12.Node.linux-x64
 Microsoft.NET.Runtime.Emscripten.3.1.12.Node.osx-x64
 Microsoft.NET.Runtime.Emscripten.3.1.12.Node.win-x64
+Microsoft.NET.Runtime.Emscripten.3.1.12.Node.win-x64.Msi.x64
 Microsoft.NET.Runtime.Emscripten.3.1.12.Python.osx-x64
 Microsoft.NET.Runtime.Emscripten.3.1.12.Python.win-x64
+Microsoft.NET.Runtime.Emscripten.3.1.12.Python.win-x64.Msi.x64
 Microsoft.NET.Runtime.Emscripten.3.1.12.Sdk.linux-x64
 Microsoft.NET.Runtime.Emscripten.3.1.12.Sdk.osx-x64
 Microsoft.NET.Runtime.Emscripten.3.1.12.Sdk.win-x64
@@ -221,6 +224,7 @@ Microsoft.NETCore.App.Runtime.Mono.tvossimulator-arm64.Msi.x64
 Microsoft.NETCore.App.Runtime.Mono.tvossimulator-x64
 Microsoft.NETCore.App.Runtime.Mono.tvossimulator-x64.Msi.x64
 Microsoft.NETCore.App.Runtime.Mono.win-x64
+Microsoft.NETCore.App.Runtime.Mono.win-x86
 Microsoft.NETCore.App.Runtime.osx-arm64
 Microsoft.NETCore.App.Runtime.osx-x64
 Microsoft.NETCore.App.Runtime.rhel.6-x64
@@ -255,6 +259,7 @@ Microsoft.Sharepoint.Client.Runtime
 Microsoft.SharePoint.Client.Runtime.dll
 Microsoft.SharePoint.Client.ServerRuntime14.0.0.0
 Microsoft.tvOS.Runtime.tvos-arm64
+Microsoft.tvOS.Runtime.tvos-arm64.Msi.x64
 Microsoft.tvOS.Runtime.tvossimulator-arm64
 Microsoft.tvOS.Runtime.tvossimulator-x64
 Microsoft.WindowsDesktop.App.Runtime.win-arm64

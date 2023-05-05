@@ -363,6 +363,7 @@ Microsoft.NETCore.App.Runtime.Mono.tvossimulator-x64.Msi.arm64
 Microsoft.NETCore.App.Runtime.Mono.tvossimulator-x64.Msi.x64
 Microsoft.NETCore.App.Runtime.Mono.tvossimulator-x64.Msi.x86
 Microsoft.NETCore.App.Runtime.Mono.win-x64
+Microsoft.NETCore.App.Runtime.Mono.win-x86
 Microsoft.NETCore.App.Runtime.osx-arm64
 Microsoft.NETCore.App.Runtime.osx-x64
 Microsoft.NETCore.App.Runtime.rhel.6-x64
