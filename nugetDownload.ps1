@@ -170,7 +170,7 @@ $files.foreach({
 
 # Gett the 5 newest versions in Parallel
 $files = gc "C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\nugetPackageFiles\\Microsoft2\\*.txt"
-$files = gc "C:\users\joesp\Downloads\gits\TheRum\nugetPackageFiles\PSGallery\TopModules.txt"  
+# $files = gc "C:\users\joesp\Downloads\gits\TheRum\nugetPackageFiles\PSGallery\TopModules.txt"  
 # $files.foreach({
 $files | Foreach-Object -Parallel  {
     $(find-package -Name "$($_)" -AllVersions -Source nuget.org) | Sort-Object Version -Desc | Select-Object -First 5 | foreach-object -Parallel {
@@ -211,6 +211,7 @@ function BuildPackageList {
     # BuildPackageList -PackageName "system.collections*" 
     # Add to and clean up a txt file
     # BuildPackageList -PackageName "*vmware*" -OutputFile "C:\Users\$env:USERNAME\Downloads\gits\TheRum\nugetPackageFiles\packageLists\vmware.txt"
+    # BuildPackageList -PackageName "*vagrant*" -OutputFile "C:\Users\$env:USERNAME\Downloads\gits\TheRum\nugetPackageFiles\packageLists\vagrant.txt"
     # BuildPackageList -PackageName "*ldap*" -OutputFile "C:\Users\$env:USERNAME\Downloads\gits\TheRum\nugetPackageFiles\packageLists\ldap.txt"
     # BuildPackageList -PackageName "system.collections*" -OutputFile "C:\Users\$env:USERNAME\Downloads\gits\TheRum\nugetPackageFiles\packageLists\system.txt"
     # BuildPackageList -PackageName "mediatr*" -OutputFile "C:\Users\$env:USERNAME\Downloads\gits\TheRum\nugetPackageFiles\packageLists2\mediatr.txt"

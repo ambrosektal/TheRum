@@ -1,11 +1,15 @@
+@blockquote/create-wc
 @coffeekraken/s-vite
 @coffeekraken/s-vite-postcss-plugin
 @coffeekraken/s-vite-sugar-plugin
+@froko/create-vite-ts
 @modular-css/vite
 @nitra/vite-check-env
 @quasar/app-vite
+@sabashavidze/create-vite-react-ts-app
 @svelte-add/create-vite
 @sveltejs/vite-plugin-svelte
+@vinsjo/create-microbundle
 @vite/bridge
 @vite/connector
 @vite/ledgerjs-hw-app-vite
@@ -47,6 +51,7 @@ create-jh-admin
 create-kvuse
 create-lessbit
 create-lio-fs
+create-log-cli
 create-rakkas-app
 create-react-mobx
 create-sp-vue
@@ -63,6 +68,7 @@ create-vite-react-template
 create-vite-vercel-y
 create-vue-dsfr
 create-vue-router
+create-vue3-apps
 create-web3
 generator-vite-react
 pocketbase-vite-serverside
