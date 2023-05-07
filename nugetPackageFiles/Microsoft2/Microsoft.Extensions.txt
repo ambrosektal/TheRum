@@ -64,7 +64,6 @@ Microsoft.CodeAnalysis.CSharp.Extensions
 Microsoft.CrmSdk.Extensions
 Microsoft.DocAsCode.MarkdigEngine.Extensions
 Microsoft.DotNet.UpgradeAssistant.Extensions.Default.Analyzers
-Microsoft.Extensions.ApiDescription.Client
 Microsoft.Extensions.ApiDescription.Server
 Microsoft.Extensions.Azure
 Microsoft.Extensions.Caching.Abstractions

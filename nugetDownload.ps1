@@ -86,7 +86,15 @@ $files | ForEach-Object -Parallel ({
 
 # Parallel Attempt W/O presearch
 $files | ForEach-Object -Parallel ({
-    nuget install -OutputDirectory "D:\\Transfer\\ToMove\\nupkg\\" $_ -Source "BaGet"
+    [string]$random = Get-Random -Maximum 99999999 -Minimum 1000000
+    mkdir "D:\\Transfer\\ToMove\\nupkg\\$random"
+    try{
+        nuget install -OutputDirectory "D:\\Transfer\\ToMove\\nupkg\\$random" $_ -Source "BaGet"
+    } catch {
+        [string]$random = Get-Random -Maximum 99999999 -Minimum 1000000
+        mkdir "D:\\Transfer\\ToMove\\nupkg\\$random"
+        nuget install -OutputDirectory "D:\\Transfer\\ToMove\\nupkg\\$random" $_ -Source "BaGet" 
+    }
     [System.GC]::Collect()
 })
 

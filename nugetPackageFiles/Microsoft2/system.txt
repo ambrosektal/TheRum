@@ -256,7 +256,6 @@ System.Reflection.TypeExtensions
 System.Regex
 System.Resources.Extensions
 System.Resources.Models
-System.Resources.Reader
 System.Resources.ResourceManager
 System.Resources.Writer
 System.Rido

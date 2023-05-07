@@ -1603,7 +1603,6 @@ Microsoft.Experience.CloudFx
 Microsoft.Experience.CloudFx.Core
 Microsoft.Experimental.IO
 Microsoft.Expression.Blend.SDK.WPF
-Microsoft.Extensions.ApiDescription.Client
 Microsoft.Extensions.ApiDescription.Server
 Microsoft.Extensions.Azure
 Microsoft.Extensions.Caching.Abstractions
@@ -3038,7 +3037,6 @@ Microsoft.Recognizers.Text
 Microsoft.Recognizers.Text.Choice
 Microsoft.Recognizers.Text.DataTypes.TimexExpression
 Microsoft.Recognizers.Text.DateTime
-Microsoft.Recognizers.Text.Number
 Microsoft.Recognizers.Text.NumberWithUnit
 Microsoft.Recognizers.Text.Sequence
 Microsoft.Report.Viewer
