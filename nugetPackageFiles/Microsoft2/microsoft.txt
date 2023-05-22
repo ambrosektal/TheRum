@@ -876,6 +876,7 @@ Microsoft.AspNetCore.WebSockets.Protocol
 Microsoft.AspNetCore.WebSockets.Server
 Microsoft.AspNetCore.WebUtilities
 Microsoft.Authentication.WebAssembly.Msal
+Microsoft.Automata.SRM
 Microsoft.AutoRest.Common
 Microsoft.Avro.Core
 Microsoft.Avro.Tools
@@ -953,6 +954,7 @@ Microsoft.Azure.Documents.OData.Sql
 Microsoft.Azure.DurableTask.AzureStorage
 Microsoft.Azure.DurableTask.Core
 Microsoft.Azure.DurableTask.Emulator
+Microsoft.Azure.DurableTask.Netherite
 Microsoft.Azure.DurableTask.ServiceBus
 Microsoft.Azure.EventGrid
 Microsoft.Azure.EventHubs
@@ -1144,6 +1146,7 @@ Microsoft.Azure.WebJobs.Extensions.Storage.Blobs
 Microsoft.Azure.WebJobs.Extensions.Storage.Queues
 Microsoft.Azure.WebJobs.Extensions.Tables
 Microsoft.Azure.WebJobs.Extensions.TeamsFx
+Microsoft.Azure.WebJobs.Extensions.Timers.Storage
 Microsoft.Azure.WebJobs.Extensions.Twilio
 Microsoft.Azure.WebJobs.Extensions.WebPubSub
 Microsoft.Azure.WebJobs.Host.Storage
@@ -1414,6 +1417,7 @@ Microsoft.CST.OAT.Blazor.Components
 Microsoft.CST.OAT.Scripting
 Microsoft.CST.OSSGadget.FindSquats
 Microsoft.CST.OSSGadget.FindSquats.CLI
+Microsoft.CST.OSSGadget.Shared
 Microsoft.CST.RecursiveExtractor
 Microsoft.CST.RecursiveExtractor.CLI
 Microsoft.CustomDecisionService
@@ -1559,8 +1563,10 @@ Microsoft.DotNet.Web.Spa.ProjectTemplates.7.0
 Microsoft.DotNet.Xdt.Tools
 Microsoft.DragonGate.SamplePackage
 Microsoft.DragonGate.SDKPackage
+Microsoft.DurableTask.Abstractions
 Microsoft.DurableTask.Client
 Microsoft.DurableTask.Client.Grpc
+Microsoft.DurableTask.Grpc
 Microsoft.DurableTask.Sidecar
 Microsoft.DurableTask.Sidecar.Protobuf
 Microsoft.DurableTask.SqlServer
@@ -1603,6 +1609,7 @@ Microsoft.Experience.CloudFx
 Microsoft.Experience.CloudFx.Core
 Microsoft.Experimental.IO
 Microsoft.Expression.Blend.SDK.WPF
+Microsoft.Extensions.ApiDescription.Client
 Microsoft.Extensions.ApiDescription.Server
 Microsoft.Extensions.Azure
 Microsoft.Extensions.Caching.Abstractions
@@ -1692,6 +1699,7 @@ Microsoft.FSharpLu
 Microsoft.FSharpLu.Azure
 Microsoft.FSharpLu.Json
 Microsoft.FSharpLu.Windows
+Microsoft.Gaming.XboxGameBar
 Microsoft.glTF.CPP
 Microsoft.googletest.v140.windesktop.msvcstl.dyn.rt-dyn
 Microsoft.googletest.v140.windesktop.msvcstl.static.rt-dyn
@@ -1728,6 +1736,7 @@ Microsoft.ICU.ICU4C.Runtime.win-x64
 Microsoft.ICU.ICU4C.Runtime.win-x86
 Microsoft.Identity.Abstractions
 Microsoft.Identity.Client
+Microsoft.Identity.Client.Broker
 Microsoft.Identity.Client.Desktop
 Microsoft.Identity.Client.Extensions.Adal
 Microsoft.Identity.Client.Extensions.Msal
@@ -1840,7 +1849,10 @@ Microsoft.Kinect.VisualGestureBuilder
 Microsoft.Kinect.VisualGestureBuilder.x64
 Microsoft.Kinect.Wpf.Controls
 Microsoft.Kiota.Abstractions
+Microsoft.Kiota.Authentication.Azure
+Microsoft.Kiota.Http.HttpClientLibrary
 Microsoft.Kiota.Serialization.Form
+Microsoft.Kiota.Serialization.Json
 Microsoft.Kiota.Serialization.Text
 Microsoft.Language.Xml
 Microsoft.Language.Xml.Editor
@@ -1893,6 +1905,7 @@ Microsoft.Management.Infrastructure.Runtime.Win
 Microsoft.Maps.MapControl.WPF
 Microsoft.Maps.Unity
 Microsoft.MarkedNet
+Microsoft.Maui.Controls.Maps
 Microsoft.Maui.Controls.Ref.android
 Microsoft.Maui.Controls.Ref.android.Msi.arm64
 Microsoft.Maui.Controls.Ref.android.Msi.x64
@@ -2055,6 +2068,7 @@ Microsoft.Maui.Graphics.Win2D.WinUI.Desktop
 Microsoft.Maui.Graphics.Win2D.WinUI.Desktop.Msi.arm64
 Microsoft.Maui.Graphics.Win2D.WinUI.Desktop.Msi.x64
 Microsoft.Maui.Graphics.Win2D.WinUI.Desktop.Msi.x86
+Microsoft.Maui.Maps
 Microsoft.Maui.Resizetizer.Sdk
 Microsoft.Maui.Resizetizer.Sdk.Msi.arm64
 Microsoft.Maui.Resizetizer.Sdk.Msi.x64
@@ -2146,6 +2160,7 @@ Microsoft.Net.Http
 Microsoft.Net.Http.cs
 Microsoft.Net.Http.de
 Microsoft.Net.Http.es
+Microsoft.Net.Http.fr
 Microsoft.Net.Http.Headers
 Microsoft.Net.Http.it
 Microsoft.Net.Http.ja
@@ -2178,11 +2193,19 @@ Microsoft.NET.Runtime.Emscripten.2.0.23.Sdk.win-x64.Msi.arm64
 Microsoft.NET.Runtime.Emscripten.2.0.23.Sdk.win-x64.Msi.x64
 Microsoft.NET.Runtime.Emscripten.3.1.12.Cache.linux-x64
 Microsoft.NET.Runtime.Emscripten.3.1.12.Cache.osx-x64
+Microsoft.NET.Runtime.Emscripten.3.1.12.Cache.win-x64
+Microsoft.NET.Runtime.Emscripten.3.1.12.Cache.win-x64.Msi.x64
 Microsoft.NET.Runtime.Emscripten.3.1.12.Node.linux-x64
 Microsoft.NET.Runtime.Emscripten.3.1.12.Node.osx-x64
+Microsoft.NET.Runtime.Emscripten.3.1.12.Node.win-x64
+Microsoft.NET.Runtime.Emscripten.3.1.12.Node.win-x64.Msi.x64
 Microsoft.NET.Runtime.Emscripten.3.1.12.Python.osx-x64
+Microsoft.NET.Runtime.Emscripten.3.1.12.Python.win-x64
+Microsoft.NET.Runtime.Emscripten.3.1.12.Python.win-x64.Msi.x64
 Microsoft.NET.Runtime.Emscripten.3.1.12.Sdk.linux-x64
 Microsoft.NET.Runtime.Emscripten.3.1.12.Sdk.osx-x64
+Microsoft.NET.Runtime.Emscripten.3.1.12.Sdk.win-x64
+Microsoft.NET.Runtime.Emscripten.3.1.12.Sdk.win-x64.Msi.x64
 Microsoft.NET.Runtime.MonoAOTCompiler.Task
 Microsoft.NET.Runtime.MonoAOTCompiler.Task.Msi.arm64
 Microsoft.NET.Runtime.MonoAOTCompiler.Task.Msi.x64
@@ -2195,6 +2218,7 @@ Microsoft.NET.Runtime.WebAssembly.Sdk
 Microsoft.NET.Runtime.WebAssembly.Sdk.Msi.arm64
 Microsoft.NET.Runtime.WebAssembly.Sdk.Msi.x64
 Microsoft.NET.Runtime.WebAssembly.Sdk.Msi.x86
+Microsoft.NET.Runtime.WebAssembly.Templates
 Microsoft.NET.Sdk.Android.Manifest-6.0.300
 Microsoft.NET.Sdk.Android.Manifest-6.0.300.Msi.arm64
 Microsoft.NET.Sdk.Android.Manifest-6.0.300.Msi.x64
@@ -2598,6 +2622,7 @@ Microsoft.OneDriveSDK
 Microsoft.OneDriveSDK.Authentication
 Microsoft.OpenApi
 Microsoft.OpenApi.Hidi
+Microsoft.OpenApi.Kiota
 Microsoft.OpenApi.OData
 Microsoft.OpenApi.Readers
 Microsoft.OrchestrationFactory.Automation
@@ -2911,6 +2936,7 @@ Microsoft.PowerBI.JavaScript
 Microsoft.PowerBI.Owin.Security
 Microsoft.PowerPlatform.Dataverse.Client
 Microsoft.PowerPlatform.Dataverse.Client.Dynamics
+Microsoft.PowerQuery.SdkTools
 Microsoft.PowerShell.2.ReferenceAssemblies
 Microsoft.PowerShell.3.ReferenceAssemblies
 Microsoft.PowerShell.4.ReferenceAssemblies
@@ -3037,6 +3063,7 @@ Microsoft.Recognizers.Text
 Microsoft.Recognizers.Text.Choice
 Microsoft.Recognizers.Text.DataTypes.TimexExpression
 Microsoft.Recognizers.Text.DateTime
+Microsoft.Recognizers.Text.Number
 Microsoft.Recognizers.Text.NumberWithUnit
 Microsoft.Recognizers.Text.Sequence
 Microsoft.Report.Viewer
@@ -3082,6 +3109,8 @@ Microsoft.Restier.EntityFrameworkCore
 Microsoft.Rtc.Collaboration.AsyncExtensions
 Microsoft.Rtc.Collaboration.AsyncExtensions.Sources
 Microsoft.Samples.Debugging.CorApi
+Microsoft.Sbom.Contracts
+Microsoft.Sbom.DotNetTool
 Microsoft.SCP.Net.SDK
 Microsoft.SCP.Net.Test.SDK
 Microsoft.ScriptManager.jQuery
@@ -3188,6 +3217,7 @@ Microsoft.Spark.Extensions.Hyperspace
 Microsoft.SparkCLR
 Microsoft.Spatial
 Microsoft.SpatialAudio.Spatializer.Unity
+Microsoft.SqlPackage
 Microsoft.SqlServer.Assessment
 Microsoft.SqlServer.Assessment.Authoring
 Microsoft.SqlServer.Assessment.DataSources
@@ -3531,7 +3561,7 @@ Microsoft.VisualStudio.Workspace.Extensions.VS
 Microsoft.VisualStudio.Workspace.VSIntegration
 Microsoft.VisualStudioEng.MicroBuild.Core
 Microsoft.VSSDK.BuildTools
-Microsoft.VSSDK.CompatibilityAnalyzer
+Microsoft.VsSDK.CompatibilityAnalyzer
 Microsoft.VSSDK.Debugger.VSDConfigTool
 Microsoft.VSSDK.Debugger.VSDebugEng
 Microsoft.VSSDK.UnitTestLibrary

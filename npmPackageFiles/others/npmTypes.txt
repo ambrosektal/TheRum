@@ -1,5 +1,7 @@
 @types/accepts
 @types/acorn
+@types/angular-q-extras
+@types/angular-q-spread
 @types/anymatch
 @types/archiver
 @types/archy
@@ -74,6 +76,17 @@
 @types/d3-hierarchy
 @types/d3-interpolate
 @types/d3-path
+@types/datatables.net-autofill
+@types/datatables.net-buttons
+@types/datatables.net-colreorder
+@types/datatables.net-fixedcolumns
+@types/datatables.net-fixedheader
+@types/datatables.net-keytable
+@types/datatables.net-rowgroup
+@types/datatables.net-rowreorder
+@types/datatables.net-scroller
+@types/datatables.net-select
+@types/delta-e
 @types/easy-table
 @types/ed2curve
 @types/ejs
@@ -112,6 +125,7 @@
 @types/fs-extra-promise-es6
 @types/fs-readdir-recursive
 @types/gapi.client.appsactivity
+@types/gapi.client.mybusinessqanda-v1
 @types/geojson
 @types/get-port
 @types/glob
@@ -293,6 +307,7 @@
 @types/react-redux
 @types/react-router
 @types/react-router-dom
+@types/react-s-alert
 @types/react-transition-group
 @types/redis-errors
 @types/redis-server
@@ -368,6 +383,7 @@
 @types/webpack-sources
 @types/websocket
 @types/whatwg-url
+@types/wiiu
 @types/ws
 @types/xml
 @types/xml2js

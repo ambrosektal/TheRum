@@ -1,3 +1,4 @@
+@azure/core-paging
 @microsoft/api-documenter
 @microsoft/api-extractor
 @microsoft/api-extractor-model
@@ -14,6 +15,7 @@
 @microsoft/bf-generate
 @microsoft/bf-generate-library
 @microsoft/bf-lu
+@microsoft/bf-orchestrator
 @microsoft/compose-language-service
 @microsoft/decorators
 @microsoft/dotnet-js-interop
@@ -21,6 +23,7 @@
 @microsoft/dynamicproto-js
 @microsoft/eslint-config-scalable-ts
 @microsoft/eslint-config-spfx
+@microsoft/eslint-plugin-power-apps
 @microsoft/eslint-plugin-scalable-ts
 @microsoft/eslint-plugin-spfx
 @microsoft/fast-animation
@@ -57,16 +60,20 @@
 @microsoft/loader-load-themed-styles
 @microsoft/loader-raw-script
 @microsoft/loader-set-webpack-public-path
+@microsoft/microsoft-graph-client
+@microsoft/microsoft-graph-types
 @microsoft/node-core-library
 @microsoft/node-library-build
 @microsoft/npmx
 @microsoft/npmx-lib
 @microsoft/office-ui-fabric-react-bundle
+@microsoft/omnichannel-chat-widget
 @microsoft/onedrive-file-picker
 @microsoft/openpai-js-sdk
 @microsoft/overreact
 @microsoft/package-deps-hash
 @microsoft/paris
+@microsoft/power-fx-formulabar
 @microsoft/react-native
 @microsoft/react-native-svg-desktop
 @microsoft/recognizers-text
@@ -180,6 +187,7 @@
 @rushstack/rundown
 @rushstack/rush-amazon-s3-build-cache-plugin
 @rushstack/rush-azure-storage-build-cache-plugin
+@rushstack/rush-http-build-cache-plugin
 @rushstack/rush-sdk
 @rushstack/rush-serve-plugin
 @rushstack/set-webpack-public-path-plugin
@@ -195,3 +203,17 @@
 @rushstack/webpack5-localization-plugin
 @rushstack/webpack5-module-minifier-plugin
 @rushstack/worker-pool
+adaptivecards
+add-to-calendar-button
+docxtemplater
+generator-office
+microsoft
+mssql
+office-ui-fabric-react
+pxt-core
+sails-mssql
+sequelize
+timezones-ical-library
+tslib
+tslint-microsoft-contrib
+typescript

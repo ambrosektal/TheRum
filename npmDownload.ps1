@@ -511,6 +511,7 @@ function Build-NPMList {
     # Build-NPMList -PackageName "react-" -OutputFile "C:\Users\$env:USERNAME\Downloads\gits\TheRum\npmPackageFiles\requests\react.txt"
     # Build-NPMList -PackageName "cra-template" -OutputFile "C:\Users\$env:USERNAME\Downloads\gits\TheRum\npmPackageFiles\requests\react.txt"
     # Build-NPMList -PackageName "cra-template-" -OutputFile "C:\Users\$env:USERNAME\Downloads\gits\TheRum\npmPackageFiles\requests\react.txt"
+    # Build-NPMList -PackageName "jsdoc" -OutputFile "C:\Users\$env:USERNAME\Downloads\gits\TheRum\npmPackageFiles\requests\jsdoc.txt"
     # Add to and clean up a txt file based on an array of packages
     # Build-NPMList PackageArray $PackageArray -OutputFile "C:\Users\$env:USERNAME\Downloads\gits\TheRum\npmPackageFiles\packageLists\random.txt"
     param (
