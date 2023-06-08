@@ -4,17 +4,33 @@
 
 
 function Invoke-ParNugetDown {
+    # Invoke-ParNugetDown -FirstHalf -Directory "C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\nugetPackageFiles\\Microsoft2"
+    # Invoke-ParNugetDown -SecondHalf -Directory "C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\nugetPackageFiles\\Microsoft2"
+    # 
+    # Invoke-ParNugetDown -FirstHalf -Directory "C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\nugetPackageFiles\\packageLists2"
+    # Invoke-ParNugetDown -SecondHalf -Directory "C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\nugetPackageFiles\\packageLists2"
+    # 
+    # Invoke-ParNugetDown -FirstHalf -Directory "C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\nugetPackageFiles\\PSGallery" -Source "BaGet_Posh"
+    # Invoke-ParNugetDown -SecondHalf -Directory "C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\nugetPackageFiles\\PSGallery" -Source "BaGet_Posh"
+    #
+    # $PackageList = gc  "C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\nugetPackageFiles\\packageLists2\\docfx.txt"
+    # Invoke-ParNugetDown -FirstHalf -PackageList $PackageList
+    # Invoke-ParNugetDown -SecondHalf -PackageList $PackageList
     [CmdletBinding()]
     param (
         [switch]$FirstHalf,
         [switch]$SecondHalf,
         # [System.Collections.Generic]$Files,
+        [System.Array]$PackageList,
         [System.Array]$Files,
         [string]$Directory,
         [string]$Source = "BaGet"
     )
     
     begin {
+        if ($PackageList) {
+            $Files = $PackageList
+        }
         if ($null -eq $Files -and $null -eq $Directory) {
             $Files = Get-Content "C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\nugetPackageFiles\\Microsoft2\\*.txt"
         } elseif ($Directory) {
@@ -24,19 +40,16 @@ function Invoke-ParNugetDown {
         }
         if ($FirstHalf) {
             $Files = $Files | Sort-Object -Unique
-            $Files = $Files | Sort-Object -Unique
 
             $Files = $Files[0..$($Files.count * .50)]
             $Files.count
         } elseif ($SecondHalf) {
-            $Files = $Files | Sort-Object -Unique
             $Files = $Files | Sort-Object -Unique
 
             $Files = $Files[$($Files.count * .50)..$($Files.count)]
             $Files.count
 
         } else {
-            $Files = $Files | Sort-Object -Unique
             $Files = $Files | Sort-Object -Unique
             Write-Host "Not spliting up list. Pulling: $($Files.count) files."
 
@@ -56,6 +69,16 @@ function Invoke-ParNugetDown {
                 mkdir "D:\\Transfer\\ToMove\\nupkg\\$random"
                 nuget install -OutputDirectory "D:\\Transfer\\ToMove\\nupkg\\$random" $_ -Source $Source
             }
+            Get-ChildItem -Recurse -Path "D:\\Transfer\\ToMove\\nupkg\\$random" -File -Filter "*.*nupkg" | ForEach-Object -Parallel {
+                $_ | Where-Object {
+                    $_.Length -gt 0
+                } | Foreach-Object {
+                    Move-Item $_ "D:\\Transfer\\ToMove\\nupkg\\"
+                }
+            }
+            if ($null -ne $random) {
+                Remove-Item -Recurse -Force "D:\\Transfer\\ToMove\\nupkg\\$random"
+            }
             [System.GC]::Collect()
         })
 
@@ -66,6 +89,93 @@ function Invoke-ParNugetDown {
     }
 }
 
+
+
+# # Function to calculate the hash value of a file
+# function Get-FileHash($filePath) {
+#     $hashAlgorithm = Get-FileHash -Algorithm MD5 -Path $filePath
+#     return $hashAlgorithm.Hash
+# }
+
+# # Function to remove duplicate files from a directory
+# function Remove-DuplicateFiles($directoryPath) {
+#     # Get all files in the directory
+#     $files = Get-ChildItem -File -Recurse $directoryPath -Filter "*.*nupkg"
+
+#     # Create a hashtable to store the hash values of files
+#     $hashTable = @{}
+
+#     # Iterate through each file
+#     foreach ($file in $files) {
+#         # Get the hash value of the file
+#         $hash = Get-FileHash $file.FullName
+
+#         # Check if the hash value already exists in the hashtable
+#         if ($hashTable.ContainsKey($hash)) {
+#             # If the hash value exists, remove the duplicate file
+#             Write-Host "Removing duplicate file: $($file.FullName)"
+#             Remove-Item -Path $file.FullName -Force
+#         }
+#         else {
+#             # If the hash value doesn't exist, add it to the hashtable
+#             $hashTable[$hash] = $null
+#         }
+#     }
+# }
+
+# # # Usage: Remove-DuplicateFiles "C:\Path\To\Directory"
+# # Remove-DuplicateFiles "C:\Path\To\Directory"
+
+# ----------------------------------------------------------------------------
+
+
+# Function to calculate the hash value of a file
+function Get-FileHash($filePath) {
+    $hashAlgorithm = Get-FileHash -Algorithm MD5 -Path $filePath
+    return $hashAlgorithm.Hash
+}
+# Function to remove duplicate files from a directory
+function Remove-DuplicateFiles($parentDirectories) {
+    # Get all files in the directories
+    $files = [System.Collections.ArrayList]@()
+    foreach ($directoryPath in $parentDirectories) {
+        $files += Get-ChildItem -File -Recurse $directoryPath -Filter "*.*nupkg"
+    }
+
+    # Create a hashtable to store the hash values of files
+    $hashTable = @{}
+
+    # Iterate through each file
+    foreach ($file in $files) {
+        # Get the hash value of the file
+        $hash = Get-FileHash $file.FullName
+
+        # Check if the hash value already exists in the hashtable
+        if ($hashTable.ContainsKey($hash)) {
+            # If the hash value exists, remove the duplicate file
+            Write-Host "Removing duplicate file: $($file.FullName)"
+            Remove-Item -Path $file.FullName -Force
+        }
+        else {
+            # If the hash value doesn't exist, add it to the hashtable
+            $hashTable[$hash] = $null
+        }
+    }
+}
+
+
+# Parent directories to process
+$parentDirectories = @(
+    "D:\\Transfer\\ToMove\\nupkg\\",
+    "D:\\Transfer\\ToMove\\BaGet_Shared"
+)
+
+# # Process each parent directory in parallel
+# $parentDirectories | ForEach-Object -Parallel {
+#     $parentDir = $_
+#     Remove-DuplicateFiles $parentDir
+# }
+Remove-DuplicateFiles $parentDirectories
 
 
 
@@ -311,8 +421,12 @@ function BuildPackageList {
     # BuildPackageList -PackageName "fluentassertions*" -OutputFile "C:\Users\$env:USERNAME\Downloads\gits\TheRum\nugetPackageFiles\packageLists2\fluent.txt"
     # BuildPackageList -PackageName "swagger.*" -OutputFile "C:\Users\$env:USERNAME\Downloads\gits\TheRum\nugetPackageFiles\packageLists2\swagger.txt"
     # BuildPackageList -PackageName "Nswag.*" -OutputFile "C:\Users\$env:USERNAME\Downloads\gits\TheRum\nugetPackageFiles\packageLists2\swagger.txt"
+    # BuildPackageList -PackageName "Microsoft.*javascript*" -OutputFile "C:\Users\$env:USERNAME\Downloads\gits\TheRum\nugetPackageFiles\Microsoft2\javascript.txt"
+    # BuildPackageList -PackageName "Microsoft.*typescript*" -OutputFile "C:\Users\$env:USERNAME\Downloads\gits\TheRum\nugetPackageFiles\Microsoft2\javascript.txt"
+    # BuildPackageList -PackageName "Microsoft.*nodejs*" -OutputFile "C:\Users\$env:USERNAME\Downloads\gits\TheRum\nugetPackageFiles\Microsoft2\javascript.txt"
     # BuildPackageList -PackageName "swashbuckle.*" -OutputFile "C:\Users\$env:USERNAME\Downloads\gits\TheRum\nugetPackageFiles\packageLists2\swashbuckle.txt"
     # BuildPackageList -PackageName "nodatime*" -OutputFile "C:\Users\$env:USERNAME\Downloads\gits\TheRum\nugetPackageFiles\packageLists2\nodatime.txt"
+    # BuildPackageList -PackageName "docfx*" -OutputFile "C:\Users\$env:USERNAME\Downloads\gits\TheRum\nugetPackageFiles\packageLists2\docfx.txt"
     # BuildPackageList -PackageName "SharpZipLib*" -OutputFile "C:\Users\$env:USERNAME\Downloads\gits\TheRum\nugetPackageFiles\packageLists2\SharpZipLib.txt"
     # BuildPackageList -PackageName "HtmlAgilityPack*" -OutputFile "C:\Users\$env:USERNAME\Downloads\gits\TheRum\nugetPackageFiles\packageLists2\HtmlAgilityPack.txt"
     # BuildPackageList -PackageName "mailkit*" -OutputFile "C:\Users\$env:USERNAME\Downloads\gits\TheRum\nugetPackageFiles\packageLists2\mailkit.txt"
@@ -328,10 +442,15 @@ function BuildPackageList {
     # BuildPackageList -PackageName "Microsoft.aspnetcore*" -OutputFile "C:\Users\$env:USERNAME\Downloads\gits\TheRum\nugetPackageFiles\Microsoft2\aspnetcore.txt"
     # BuildPackageList -PackageName "microsoft.entityframework*" -OutputFile "C:\Users\$env:USERNAME\Downloads\gits\TheRum\nugetPackageFiles\Microsoft2\efcore.txt"
     # BuildPackageList -PackageName "microsoft.aspnetcore.auth*" -OutputFile "C:\Users\$env:USERNAME\Downloads\gits\TheRum\nugetPackageFiles\Microsoft2\aspnetcoreAuthentication.txt"
+    # BuildPackageList -PackageName "microsoft.*powershell*" -OutputFile "C:\Users\$env:USERNAME\Downloads\gits\TheRum\nugetPackageFiles\Microsoft2\powershell.txt"
+    # BuildPackageList -PackageName "powershell.*" -OutputFile "C:\Users\$env:USERNAME\Downloads\gits\TheRum\nugetPackageFiles\Microsoft2\powershell.txt"
+    # BuildPackageList -PackageName "microsoft.*.signalr*" -OutputFile "C:\Users\$env:USERNAME\Downloads\gits\TheRum\nugetPackageFiles\Microsoft2\signalr.txt"
+    # BuildPackageList -PackageName "signalr.*" -OutputFile "C:\Users\$env:USERNAME\Downloads\gits\TheRum\nugetPackageFiles\Microsoft2\signalr.txt"
     # Add to and clean up a txt file based on an array of packages
     # BuildPackageList -PackageArray $PackageArray -OutputFile "C:\Users\$env:USERNAME\Downloads\gits\TheRum\nugetPackageFiles\packageLists2\system.txt"
     # Specify SearchSource
     # BuildPackageList -PackageName "*vmware*" -SearchSource "BaGet_Posh" -OutputFile "C:\Users\$env:USERNAME\Downloads\gits\TheRum\nugetPackageFiles\PSGallery\vmware.txt"
+    # BuildPackageList -PackageName "powershell.*" -SearchSource "BaGet_Posh" -OutputFile "C:\Users\$env:USERNAME\Downloads\gits\TheRum\nugetPackageFiles\PSGallery\powershell.txt"
     param (
         [string]$PackageName,
         [System.Collections.ArrayList]$PackageArray,
@@ -413,7 +532,8 @@ function DeDupe-Nupkg() {
     )
 
     if (!$allFiles) {
-        $toDeDupeCopy = Get-ChildItem "*.nupkg" -Recurse -Path "D:\\Transfer\\ToMove\\BaGet_Shared"    
+        # $toDeDupeCopy = Get-ChildItem "*.nupkg" -Recurse -Path "D:\\Transfer\\ToMove\\BaGet_Shared"    
+        $toDeDupeCopy = Get-ChildItem "*.*nupkg" -Recurse -Path "D:\\Transfer\\ToMove\\BaGet_Shared" | Where-Object {$($_.GetType().Name -eq "FileInfo") -and $($_.LastWriteTime -ge (Get-Date).AddDays(-5))}
     }
     else {
         # $toDeDupeCopy = $allFiles.foreach({ Get-ChildItem "*.nupkg" -Recurse -Path $_ })
@@ -423,12 +543,14 @@ function DeDupe-Nupkg() {
     $toDeDupeCopy | Where-Object { $_.Length -le 0 } | Remove-Item -force
     # $toDeDupeCopy. foreach({ Copy-Item $_ -Destination "D:\\Transfer\\ToMove\\nupkg\\" })
     $toDeDupeCopy | ForEach-Object -Parallel ({ Copy-Item $_ -Destination "D:\\Transfer\\ToMove\\nupkg\\" })
-    $moved = Get-ChildItem "*.nupkg" -Recurse -Path "D:\\Transfer\\Moved\\nupkg\\"
+    $moved = Get-ChildItem "*.*nupkg" -Recurse -Path "D:\\Transfer\\Moved\\nupkg\\" -File
     $moved | Where-Object { $_.Length -le 0 } | Remove-Item -force
-    $moved = Get-ChildItem "*.nupkg" -Recurse -Path "D:\\Transfer\\Moved\\nupkg\\"
-    $toMove = Get-ChildItem -recurse "*.nupkg" -Path "D:\\Transfer\\ToMove\\nupkg\\"
+    $moved = $moved | Where-Object { $_.Length -gt 0 } 
+    # $moved = Get-ChildItem "*.*nupkg" -Recurse -Path "D:\\Transfer\\Moved\\nupkg\\"
+    $toMove = Get-ChildItem -recurse "*.*nupkg" -Path "D:\\Transfer\\ToMove\\nupkg\\" -File
     $toMove | Where-Object { $_.Length -le 0 } | Remove-Item -force
-    $toMove = Get-ChildItem -recurse "*.nupkg" -Path "D:\\Transfer\\ToMove\\nupkg\\"
+    $toMove = $toMove | Where-Object { $_.Length -gt 0 } 
+    # $toMove = Get-ChildItem -recurse "*.*nupkg" -Path "D:\\Transfer\\ToMove\\nupkg\\"
     [system.gc]::collect()
     $staging = "D:\\Transfer\\Staging\\nupkg\\"
     # $count = 0

@@ -1,400 +1,669 @@
-#!/bin/bash
-
-# for file in /path/to/recovered/files/*; do
-# for file in $(find . -type f); do
-find . -type f | while read file; do
+find . -type f | while read -r file; do
     type=$(file -b --mime-type "$file")
     case "$type" in
     "image/jpeg")
-        mv "$file" "${file%.*}.jpg"
+        ext=".jpg"
         ;;
     "image/png")
-        mv "$file" "${file%.*}.png"
+        ext=".png"
         ;;
     "image/gif")
-        mv "$file" "${file%.*}.gif"
+        ext=".gif"
         ;;
-    "image/bmp")
-        mv "$file" "${file%.*}.bmp"
+    "image/bmp" | "image/x-ms-bmp")
+        ext=".bmp"
         ;;
     "image/tiff")
-        mv "$file" "${file%.*}.tiff"
-        ;;
-    "image/x-ms-bmp")
-        mv "$file" "${file%.*}.bmp"
+        ext=".tiff"
         ;;
     "image/x-canon-cr2")
-        mv "$file" "${file%.*}.cr2"
+        ext=".cr2"
         ;;
     "image/x-nikon-nef")
-        mv "$file" "${file%.*}.nef"
+        ext=".nef"
         ;;
     "image/x-olympus-orf")
-        mv "$file" "${file%.*}.orf"
+        ext=".orf"
         ;;
     "image/x-panasonic-rw2")
-        mv "$file" "${file%.*}.rw2"
+        ext=".rw2"
         ;;
     "image/x-pentax-pef")
-        mv "$file" "${file%.*}.pef"
+        ext=".pef"
         ;;
     "image/x-sony-arw")
-        mv "$file" "${file%.*}.arw"
+        ext=".arw"
         ;;
-    "image/x-ico")
-        mv "$file" "${file%.*}.ico"
-        ;;
-    "image/x-tga")
-        mv "$file" "${file%.*}.tga"
-        ;;
-    "application/octet-stream")
-        mv "$file" "${file%.*}.octet-stream"
-        ;;
-    "application/json")
-        mv "$file" "${file%.*}.json"
-        ;;
-    "application/x-dbt")
-        mv "$file" "${file%.*}.dbt"
-        ;;
-    "application/x-stargallery-thm")
-        mv "$file" "${file%.*}.stargallery-thm"
-        ;;
-    "application/CDFV2")
-        mv "$file" "${file%.*}.cdfv2"
-        ;;
-    "application/zlib")
-        mv "$file" "${file%.*}.zlib"
-        ;;
-    "application/gzip")
-        mv "$file" "${file%.*}.gz"
-        ;;
-    "application/x-tex-tfm")
-        mv "$file" "${file%.*}.tfm"
-        ;;
-    "inode/x-empty")
-        mv "$file" "${file%.*}.empty"
-        ;;
-    "application/x-ms-sdi")
-        mv "$file" "${file%.*}.sdi"
-        ;;
-    "image/jpeg")
-        mv "$file" "${file%.*}.jpg"
-        ;;
-    "image/png")
-        mv "$file" "${file%.*}.png"
-        ;;
-    "image/gif")
-        mv "$file" "${file%.*}.gif"
-        ;;
-    "application/pdf")
-        mv "$file" "${file%.*}.pdf"
-        ;;
-    "text/plain")
-        mv "$file" "${file%.*}.txt"
-        ;;
-    "application/zip")
-        mv "$file" "${file%.*}.zip"
-        ;;
-    "application/x-rar-compressed")
-        mv "$file" "${file%.*}.rar"
-        ;;
-    "application/x-tar")
-        mv "$file" "${file%.*}.tar"
-        ;;
-    "application/x-7z-compressed")
-        mv "$file" "${file%.*}.7z"
-        ;;
-    "application/vnd.ms-powerpoint")
-        mv "$file" "${file%.*}.ppt"
-        ;;
-    "application/vnd.ms-excel")
-        mv "$file" "${file%.*}.xls"
-        ;;
-    "application/msword")
-        mv "$file" "${file%.*}.doc"
-        ;;
-    "application/vnd.openxmlformats-officedocument.wordprocessingml.document")
-        mv "$file" "${file%.*}.docx"
-        ;;
-    "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
-        mv "$file" "${file%.*}.xlsx"
-        ;;
-    "application/vnd.mozilla.xul+xml")
-        mv "$file" "${file%.*}.xul"
-        ;;
-    "application/x-javascript")
-        mv "$file" "${file%.*}.js"
-        ;;
-    "application/x-shockwave-flash")
-        mv "$file" "${file%.*}.swf"
-        ;;
-    "audio/mpeg")
-        mv "$file" "${file%.*}.mp3"
-        ;;
-    "audio/ogg")
-        mv "$file" "${file%.*}.ogg"
-        ;;
-    "audio/wav")
-        mv "$file" "${file%.*}.wav"
-        ;;
-    "image/bmp")
-        mv "$file" "${file%.*}.bmp"
-        ;;
-    "image/icon")
-        mv "$file" "${file%.*}.ico"
-        ;;
-    "image/svg+xml")
-        mv "$file" "${file%.*}.svg"
-        ;;
-    "text/csv")
-        mv "$file" "${file%.*}.csv"
-        ;;
-    "text/html")
-        mv "$file" "${file%.*}.html"
-        ;;
-    "text/xml")
-        mv "$file" "${file%.*}.xml"
-        ;;
-    "video/avi")
-        mv "$file" "${file%.*}.avi"
-        ;;
-    "video/mp4")
-        mv "$file" "${file%.*}.mp4"
-        ;;
-    "video/mpeg")
-        mv "$file" "${file%.*}.mpeg"
-        ;;
-    "video/quicktime")
-        mv "$file" "${file%.*}.mov"
-        ;;
-    "video/x-ms-wmv")
-        mv "$file" "${file%.*}.wmv"
-        ;;
-    "application/x-msdownload")
-        mv "$file" "${file%.*}.exe"
-        ;;
-    "application/x-java-archive")
-        mv "$file" "${file%.*}.jar"
-        ;;
-    "application/vnd.android.package-archive")
-        mv "$file" "${file%.*}.apk"
-        ;;
-    "application/x-msaccess")
-        mv "$file" "${file%.*}.mdb"
-        ;;
-    "application/x-sh")
-        mv "$file" "${file%.*}.sh"
-        ;;
-    "application/x-perl")
-        mv "$file" "${file%.*}.pl"
-        ;;
-    "application/x-python")
-        mv "$file" "${file%.*}.py"
-        ;;
-    "application/x-php")
-        mv "$file" "${file%.*}.php"
-        ;;
-    "application/x-rpm")
-        mv "$file" "${file%.*}.rpm"
-        ;;
-    "application/x-iso9660-image")
-        mv "$file" "${file%.*}.iso"
-        ;;
-    "application/x-gzip")
-        mv "$file" "${file%.*}.gz"
-        ;;
-    "application/x-bzip2")
-        mv "$file" "${file%.*}.bz2"
-        ;;
-    "application/x-dosexec")
-        mv "$file" "${file%.*}.com"
-        ;;
-    "application/x-object")
-        mv "$file" "${file%.*}.o"
-        ;;
-    "application/vnd.oasis.opendocument.text")
-        mv "$file" "${file%.*}.odt"
-        ;;
-    "application/vnd.oasis.opendocument.spreadsheet")
-        mv "$file" "${file%.*}.ods"
-        ;;
-    "application/vnd.oasis.opendocument.presentation")
-        mv "$file" "${file%.*}.odp"
-        ;;
-    "application/vnd.apple.keynote")
-        mv "$file" "${file%.*}.key"
-        ;;
-    "application/vnd.google-earth.kml+xml")
-        mv "$file" "${file%.*}.kml"
-        ;;
-    "application/vnd.google-earth.kmz")
-        mv "$file" "${file%.*}.kmz"
-        ;;
-    "application/vnd.mozilla.xul+xml")
-        mv "$file" "${file%.*}.xul"
-        ;;
-    "application/x-mspublisher")
-        mv "$file" "${file%.*}.pub"
-        ;;
-    "application/x-font-ttf")
-        mv "$file" "${file%.*}.ttf"
-        ;;
-    "application/font-woff")
-        mv "$file" "${file%.*}.woff"
-        ;;
-    "application/vnd.ms-cab-compressed")
-        mv "$file" "${file%.*}.cab"
-        ;;
-    "application/x-chm")
-        mv "$file" "${file%.*}.chm"
-        ;;
-    "application/x-ms-wim")
-        mv "$file" "${file%.*}.wim"
-        ;;
-    "application/x-msi")
-        mv "$file" "${file%.*}.msi"
-        ;;
-    "application/x-shockwave-flash")
-        mv "$file" "${file%.*}.swf"
-        ;;
-    "application/x-ole-storage")
-        mv "$file" "${file%.*}.ole"
+    "image/x-ico" | "image/vnd.microsoft.icon")
+        ext=".ico"
         ;;
     "image/webp")
-        mv "$file" "${file%.*}.webp"
+        ext=".webp"
         ;;
     "image/vnd.adobe.photoshop")
-        mv "$file" "${file%.*}.psd"
-        ;;
-    "image/x-icon")
-        mv "$file" "${file%.*}.ico"
-        ;;
-    "image/vnd.microsoft.icon")
-        mv "$file" "${file%.*}.ico"
+        ext=".psd"
         ;;
     "image/x-xbitmap")
-        mv "$file" "${file%.*}.xbm"
+        ext=".xbm"
         ;;
     "image/x-xpixmap")
-        mv "$file" "${file%.*}.xpm"
+        ext=".xpm"
+        ;;
+    "image/svg+xml")
+        ext=".svg"
+        ;;
+    "image/x-tga")
+        ext=".tga"
+        ;;
+    "application/octet-stream")
+        ext=".octet-stream"
+        ;;
+    "application/json")
+        ext=".json"
+        ;;
+    "application/x-dbt")
+        ext=".dbt"
+        ;;
+    "application/x-stargallery-thm")
+        ext=".stargallery-thm"
+        ;;
+    "application/CDFV2")
+        ext=".cdfv2"
+        ;;
+    "application/zlib")
+        ext=".zlib"
+        ;;
+    "application/gzip" | "application/x-gzip")
+        ext=".gz"
+        ;;
+    "application/x-tex-tfm")
+        ext=".tfm"
+        ;;
+    "inode/x-empty")
+        ext=".empty"
+        ;;
+    "application/x-ms-sdi")
+        ext=".sdi"
+        ;;
+    "application/pdf")
+        ext=".pdf"
+        ;;
+    "text/plain")
+        ext=".txt"
+        ;;
+    "application/zip")
+        ext=".zip"
+        ;;
+    "application/x-rar-compressed")
+        ext=".rar"
+        ;;
+    "application/x-tar")
+        ext=".tar"
+        ;;
+    "application/x-7z-compressed")
+        ext=".7z"
+        ;;
+    "application/vnd.ms-powerpoint")
+        ext=".ppt"
+        ;;
+    "application/vnd.ms-excel")
+        ext=".xls"
+        ;;
+    "application/msword")
+        ext=".doc"
+        ;;
+    "application/vnd.openxmlformats-officedocument.wordprocessingml.document")
+        ext=".docx"
+        ;;
+    "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+        ext=".xlsx"
+        ;;
+    "application/vnd.mozilla.xul+xml" | "application/xhtml+xml")
+        ext=".xul"
+        ;;
+    "application/x-javascript")
+        ext=".js"
+        ;;
+    "application/x-shockwave-flash" | "application/x-shockwave-flash2-preview")
+        ext=".swf"
+        ;;
+    "audio/mpeg")
+        ext=".mp3"
+        ;;
+    "audio/ogg")
+        ext=".ogg"
+        ;;
+    "audio/wav" | "audio/x-wav")
+        ext=".wav"
         ;;
     "image/x-ms-bmp")
-        mv "$file" "${file%.*}.bmp"
+        ext=".bmp"
         ;;
-    "image/x-canon-cr2")
-        mv "$file" "${file%.*}.cr2"
+    "image/icon")
+        ext=".ico"
         ;;
-    "image/x-nikon-nef")
-        mv "$file" "${file%.*}.nef"
+    "image/svg+xml")
+        ext=".svg"
         ;;
-    "image/x-olympus-orf")
-        mv "$file" "${file%.*}.orf"
+    "text/csv" | "application/csv")
+        ext=".csv"
         ;;
-    "image/x-panasonic-rw2")
-        mv "$file" "${file%.*}.rw2"
+    "text/html")
+        ext=".html"
         ;;
-    "image/x-pentax-pef")
-        mv "$file" "${file%.*}.pef"
+    "text/xml")
+        ext=".xml"
         ;;
-    "image/x-sony-arw")
-        mv "$file" "${file%.*}.arw"
-        ;;
-    "image/x-ico")
-        mv "$file" "${file%.*}.ico"
-        ;;
-    "video/x-msvideo")
-        mv "$file" "${file%.*}.avi"
+    "video/avi" | "video/x-msvideo")
+        ext=".avi"
         ;;
     "video/mp4")
-        mv "$file" "${file%.*}.mp4"
+        ext=".mp4"
         ;;
     "video/mpeg")
-        mv "$file" "${file%.*}.mpeg"
+        ext=".mpeg"
         ;;
     "video/quicktime")
-        mv "$file" "${file%.*}.mov"
+        ext=".mov"
         ;;
     "video/x-ms-wmv")
-        mv "$file" "${file%.*}.wmv"
+        ext=".wmv"
         ;;
     "video/x-flv")
-        mv "$file" "${file%.*}.flv"
+        ext=".flv"
         ;;
     "video/x-matroska")
-        mv "$file" "${file%.*}.mkv"
+        ext=".mkv"
         ;;
     "video/x-ms-asf")
-        mv "$file" "${file%.*}.asf"
+        ext=".asf"
         ;;
     "video/webm")
-        mv "$file" "${file%.*}.webm"
+        ext=".webm"
         ;;
     "video/x-avi")
-        mv "$file" "${file%.*}.avi"
+        ext=".avi"
         ;;
     "video/x-f4v")
-        mv "$file" "${file%.*}.f4v"
+        ext=".f4v"
         ;;
     "video/x-fli")
-        mv "$file" "${file%.*}.fli"
+        ext=".fli"
         ;;
     "video/x-flv")
-        mv "$file" "${file%.*}.flv"
+        ext=".flv"
         ;;
     "video/x-m4v")
-        mv "$file" "${file%.*}.m4v"
-        ;;
-    "video/x-matroska")
-        mv "$file" "${file%.*}.mkv"
+        ext=".m4v"
         ;;
     "video/x-mng")
-        mv "$file" "${file%.*}.mng"
+        ext=".mng"
         ;;
     "video/x-ms-asf")
-        mv "$file" "${file%.*}.asf"
+        ext=".asf"
         ;;
     "video/x-ms-wm")
-        mv "$file" "${file%.*}.wm"
+        ext=".wm"
         ;;
     "video/x-ms-wmv")
-        mv "$file" "${file%.*}.wmv"
+        ext=".wmv"
         ;;
     "video/x-ms-wmx")
-        mv "$file" "${file%.*}.wmx"
+        ext=".wmx"
         ;;
     "video/x-ms-wvx")
-        mv "$file" "${file%.*}.wvx"
+        ext=".wvx"
         ;;
     "video/x-nsv")
-        mv "$file" "${file%.*}.nsv"
+        ext=".nsv"
         ;;
     "video/x-ogm")
-        mv "$file" "${file%.*}.ogm"
+        ext=".ogm"
         ;;
     "video/x-mpegurl")
-        mv "$file" "${file%.*}.m3u"
+        ext=".m3u"
         ;;
     "video/3gpp")
-        mv "$file" "${file%.*}.3gp"
+        ext=".3gp"
         ;;
     "video/3gpp2")
-        mv "$file" "${file%.*}.3g2"
+        ext=".3g2"
         ;;
     "video/vnd.rn-realvideo")
-        mv "$file" "${file%.*}.rv"
+        ext=".rv"
         ;;
     "video/vnd.vivo")
-        mv "$file" "${file%.*}.viv"
+        ext=".viv"
         ;;
     "video/x-dv")
-        mv "$file" "${file%.*}.dv"
+        ext=".dv"
         ;;
     "video/x-ms-dvr")
-        mv "$file" "${file%.*}.dvr-ms"
+        ext=".dvr-ms"
         ;;
+    "application/x-dosexec")
+        ext=".exe"
+        ;;
+    "image/x-tga")
+        ext=".tga"
+        ;;
+    "application/x-wine-extension-ini")
+        ext=".ini"
+        ;;
+    "application/vnd.ms-cab-compressed")
+        ext=".cab"
+        ;;
+    "application/vnd.ms-msi" | "application/x-msi")
+        ext=".msi"
+        ;;
+    "application/vnd.ms-outlook")
+        ext=".pst"
+        ;;
+    "application/winhelp")
+        ext=".hlp"
+        ;;
+    "audio/midi")
+        ext=".mid"
+        ;;
+    "application/x-sqlite3")
+        ext=".sqlite3"
+        ;;
+    "application/dicom")
+        ext=".dcm"
+        ;;
+    "application/epub+zip")
+        ext=".epub"
+        ;;
+    "application/java-archive" | "application/x-java-archive")
+        ext=".jar"
+        ;;
+    "application/javascript" | "application/x-javascript")
+        ext=".js"
+        ;;
+    "application/postscript")
+        ext=".ps"
+        ;;
+    "application/vnd.iccprofile")
+        ext=".icc"
+        ;;
+    "application/vnd.lotus-1-2-3")
+        ext=".123"
+        ;;
+    "application/vnd.ms-fontobject")
+        ext=".eot"
+        ;;
+    "application/vnd.ms-office")
+        ext=".office"
+        ;;
+    "application/vnd.ms-opentype")
+        ext=".otf"
+        ;;
+    "application/vnd.openxmlformats-officedocument.presentationml.presentation")
+        ext=".pptx"
+        ;;
+    "application/x-arc")
+        ext=".arc"
+        ;;
+    "application/x-archive")
+        ext=".archive"
+        ;;
+    "application/x-chrome-extension")
+        ext=".crx"
+        ;;
+    "application/x-dosdriver")
+        ext=".sys"
+        ;;
+    "application/x-dxf")
+        ext=".dxf"
+        ;;
+    "application/x-executable")
+        ext=".exe"
+        ;;
+    "application/x-font-sfn")
+        ext=".sfn"
+        ;;
+    "application/x-fptapplication/x-dbt")
+        ext=".fpt"
+        ;;
+    "application/x-gettext-translation")
+        ext=".po"
+        ;;
+    "application/x-hdf")
+        ext=".hdf"
+        ;;
+    "application/x-ima")
+        ext=".ima"
+        ;;
+    "application/x-innosetup")
+        ext=".iss"
+        ;;
+    "application/x-java-keystore")
+        ext=".jks"
+        ;;
+    "application/x-ms-dat")
+        ext=".dat"
+        ;;
+    "application/x-ms-ese")
+        ext=".ese"
+        ;;
+    "application/x-ms-pdb")
+        ext=".pdb"
+        ;;
+    "application/x-ms-sdb")
+        ext=".sdb"
+        ;;
+    "application/x-ms-wim")
+        ext=".wim"
+        ;;
+    "application/x-msaccess")
+        ext=".mdb"
+        ;;
+    "application/x-object")
+        ext=".o"
+        ;;
+    "application/x-rar")
+        ext=".rar"
+        ;;
+    "application/x-riff")
+        ext=".riff"
+        ;;
+    "application/x-setupscript")
+        ext=".setup"
+        ;;
+    "application/x-stuffit")
+        ext=".sit"
+        ;;
+    "application/x-tplink-bin")
+        ext=".bin"
+        ;;
+    "audio/basic")
+        ext=".au"
+        ;;
+    "audio/x-aiff")
+        ext=".aiff"
+        ;;
+    "audio/x-hx-aac-adts")
+        ext=".aac"
+        ;;
+    "audio/x-m4a" | "audio/x-mp4a-latm")
+        ext=".m4a"
+        ;;
+    "font/sfnt")
+        ext=".sfnt"
+        ;;
+    "font/ttf")
+        ext=".ttf"
+        ;;
+    "image/g3fax")
+        ext=".g3fax"
+        ;;
+    "image/heic")
+        ext=".heic"
+        ;;
+    "image/wmf")
+        ext=".wmf"
+        ;;
+    "image/x-eps")
+        ext=".eps"
+        ;;
+    "image/x-icns")
+        ext=".icns"
+        ;;
+    "image/x-win-bitmap")
+        ext=".bmp"
+        ;;
+    "image/x-xcf")
+        ext=".xcf"
+        ;;
+    "message/rfc822")
+        ext=".eml"
+        ;;
+    "text/PGP")
+        ext=".pgp"
+        ;;
+    "text/rtf")
+        ext=".rtf"
+        ;;
+    "text/troff")
+        ext=".tr"
+        ;;
+    "text/x-asm")
+        ext=".asm"
+        ;;
+    "text/x-c")
+        ext=".c"
+        ;;
+    "text/x-c++")
+        ext=".cpp"
+        ;;
+    "text/x-java")
+        ext=".java"
+        ;;
+    "text/x-ms-regedit")
+        ext=".reg"
+        ;;
+    "text/x-msdos-batch")
+        ext=".bat"
+        ;;
+    "text/x-shellscript")
+        ext=".sh"
+        ;;
+    "application/x-ms-wim")
+        ext=".wim"
+        ;;
+    "image/x-award-bioslogo")
+        ext=".awdbio"
+        ;;
+    "application/dicom")
+        ext=".dcm"
+        ;;
+    "application/epub+zip")
+        ext=".epub"
+        ;;
+    "application/java-archive" | "application/x-java-archive")
+        ext=".jar"
+        ;;
+    "application/javascript" | "application/x-javascript")
+        ext=".js"
+        ;;
+    "application/pgp-keys")
+        ext=".pgp"
+        ;;
+    "application/postscript")
+        ext=".ps"
+        ;;
+    "application/vnd.iccprofile")
+        ext=".icc"
+        ;;
+    "application/vnd.lotus-1-2-3")
+        ext=".123"
+        ;;
+    "application/vnd.ms-fontobject")
+        ext=".eot"
+        ;;
+    "application/vnd.ms-office")
+        ext=".office"
+        ;;
+    "application/vnd.ms-opentype")
+        ext=".otf"
+        ;;
+    "application/vnd.openxmlformats-officedocument.presentationml.presentation")
+        ext=".pptx"
+        ;;
+    "application/x-arc")
+        ext=".arc"
+        ;;
+    "application/x-archive")
+        ext=".archive"
+        ;;
+    "application/x-chrome-extension")
+        ext=".crx"
+        ;;
+    "application/x-compress")
+        ext=".Z"
+        ;;
+    "application/x-dosdriver")
+        ext=".sys"
+        ;;
+    "application/x-dvi")
+        ext=".dvi"
+        ;;
+    "application/x-dxf")
+        ext=".dxf"
+        ;;
+    "application/x-dzip")
+        ext=".dz"
+        ;;
+    "application/x-executable")
+        ext=".exe"
+        ;;
+    "application/x-font-sfn")
+        ext=".sfn"
+        ;;
+    "application/x-fptapplication/x-dbt")
+        ext=".fpt"
+        ;;
+    "application/x-gettext-translation")
+        ext=".po"
+        ;;
+    "application/x-hdf")
+        ext=".hdf"
+        ;;
+    "application/x-ima")
+        ext=".ima"
+        ;;
+    "application/x-innosetup")
+        ext=".iss"
+        ;;
+    "application/x-java-keystore")
+        ext=".jks"
+        ;;
+    "application/x-ms-dat")
+        ext=".dat"
+        ;;
+    "application/x-ms-ese")
+        ext=".ese"
+        ;;
+    "application/x-ms-pdb")
+        ext=".pdb"
+        ;;
+    "application/x-ms-sdb")
+        ext=".sdb"
+        ;;
+    "application/x-ms-wim")
+        ext=".wim"
+        ;;
+    "application/x-msaccess")
+        ext=".mdb"
+        ;;
+    "application/x-object")
+        ext=".o"
+        ;;
+    "application/x-pgp-keyring")
+        ext=".keyring"
+        ;;
+    "application/x-rar")
+        ext=".rar"
+        ;;
+    "application/x-riff")
+        ext=".riff"
+        ;;
+    "application/x-setupscript")
+        ext=".setup"
+        ;;
+    "application/x-stuffit")
+        ext=".sit"
+        ;;
+    "application/x-tplink-bin")
+        ext=".bin"
+        ;;
+    "audio/basic")
+        ext=".au"
+        ;;
+    "audio/x-aiff")
+        ext=".aiff"
+        ;;
+    "audio/x-hx-aac-adts")
+        ext=".aac"
+        ;;
+    "audio/x-m4a" | "audio/x-mp4a-latm")
+        ext=".m4a"
+        ;;
+    "font/sfnt")
+        ext=".sfnt"
+        ;;
+    "font/ttf")
+        ext=".ttf"
+        ;;
+    "image/g3fax")
+        ext=".g3fax"
+        ;;
+    "image/heic")
+        ext=".heic"
+        ;;
+    "image/wmf")
+        ext=".wmf"
+        ;;
+    "image/x-award-bioslogo")
+        ext=".awdbio"
+        ;;
+    "image/x-eps")
+        ext=".eps"
+        ;;
+    "image/x-icns")
+        ext=".icns"
+        ;;
+    "image/x-portable-pixmap")
+        ext=".ppm"
+        ;;
+    "image/x-win-bitmap")
+        ext=".bmp"
+        ;;
+    "image/x-xcf")
+        ext=".xcf"
+        ;;
+    "message/rfc822")
+        ext=".eml"
+        ;;
+    "text/PGP")
+        ext=".pgp"
+        ;;
+    "text/rtf")
+        ext=".rtf"
+        ;;
+    "text/troff")
+        ext=".tr"
+        ;;
+    "text/x-asm")
+        ext=".asm"
+        ;;
+    "text/x-c")
+        ext=".c"
+        ;;
+    "text/x-c++")
+        ext=".cpp"
+        ;;
+    "text/x-java")
+        ext=".java"
+        ;;
+    "text/x-ms-regedit")
+        ext=".reg"
+        ;;
+    "text/x-msdos-batch")
+        ext=".bat"
+        ;;
+    "text/x-shellscript")
+        ext=".sh"
+        ;;
+
     *)
         echo "Unknown file type: $type"
+        echo "Unknown file type: $type" >>/mnt/d/Transfer/unknownFiles.txt
+        continue
         ;;
     esac
-
+ 
+    dir=$(dirname "$file")
+    base=$(basename "$file")
+    mv "$file" "$dir/${base%.*}$ext"
 done

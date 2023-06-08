@@ -238,6 +238,7 @@ SignalR.RavenDB
 SignalR.Reactive
 SignalR.Scaleout.RabbitMq
 SignalR.SharePoint.WSP
+SignalR.SmartCore
 SignalR.Strong
 SignalR.Strong.Dynamic
 SignalR.Strong.Expressive

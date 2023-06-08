@@ -1,3 +1,6 @@
+Cake.DocFx
+Cake.Issues.DocFx
+Cake.Prca.Issues.DocFx
 docfx
 docfx.console
 DocFx.Plugins.Kroki
@@ -59,3 +62,9 @@ DocFX.Plugins.Roadmap
 Docfx2xml
 DocFxChapterNumbers
 DocFxMarkdownGen
+DocFxOpenApi
+DocFxTocGenerator
+ElCamino.DocFx.WebAppRefresh
+Fake.Documentation.DocFx
+Hsp.DocFxTools
+Nuke.DocFX

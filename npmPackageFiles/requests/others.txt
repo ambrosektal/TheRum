@@ -1,0 +1,8 @@
+font-awesome
+@fortawesome/free-solid-svg-icons
+@fortawesome/fontawesome-svg-core
+@fortawesome/angular-fontawesome
+@fortawesome/free-regular-svg-icons
+@fortawesome/fontawesome-free
+bootstrap-icons
+@iconify/svelte

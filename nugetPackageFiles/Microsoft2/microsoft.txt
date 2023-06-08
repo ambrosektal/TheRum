@@ -1450,6 +1450,7 @@ Microsoft.Datasync.Client
 Microsoft.Datasync.Client.SQLiteStore
 Microsoft.DataTransfer.Gateway.Encryption
 Microsoft.DependencyValidation.Analyzers
+Microsoft.Deployment.DotNet.Releases
 Microsoft.Diagnostics.EventFlow.Core
 Microsoft.Diagnostics.EventFlow.EtwUtilities
 Microsoft.Diagnostics.EventFlow.Inputs.ApplicationInsights

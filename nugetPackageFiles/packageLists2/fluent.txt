@@ -11,6 +11,7 @@ FluentAssertions.CSharpFunctionalExtensions
 FluentAssertions.Extension.Json
 FluentAssertions.Extensions
 FluentAssertions.Http
+FluentAssertions.Inspiring.Primitives
 FluentAssertions.Ioc.Ninject
 FluentAssertions.Json
 FluentAssertions.Json.Validator

@@ -302,6 +302,8 @@ System.ServiceModel.Duplex
 System.ServiceModel.Dynamic
 System.ServiceModel.Federation
 System.ServiceModel.Http
+System.ServiceModel.NetFramingBase
+System.ServiceModel.NetNamedPipe
 System.ServiceModel.NetTcp
 System.ServiceModel.PollingDuplex.SL
 System.ServiceModel.Primitives

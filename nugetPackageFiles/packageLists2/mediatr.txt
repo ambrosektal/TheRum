@@ -68,6 +68,7 @@ MediatR.NotificationHandling.Extensions
 Mediatr.ObservableExtentions
 MediatR.OpenTelemetry
 MediatR.ParallelPublisher
+Mediatr.Patterns.Builder
 MediatR.Pipeline.Cancellation
 MediatR.Pipeline.Diagnostics
 MediatR.Pipelines.Authorization
@@ -86,6 +87,7 @@ MediatR.StructureMap
 MediatR.Useful.Behavior
 MediaTrainer.Templating
 MediatRedux
+MediatREndPoints
 MediatRExt
 MediatrPattern
 MediatRX

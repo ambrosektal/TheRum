@@ -3,6 +3,7 @@ Microsoft.NET.Build.Extensions
 Microsoft.Net.Compilers
 Microsoft.Net.Compilers.netcore
 Microsoft.Net.Compilers.Toolset
+Microsoft.Net.Compilers.Toolset.Framework
 Microsoft.NET.HostModel
 Microsoft.Net.Http
 Microsoft.Net.Http.cs
