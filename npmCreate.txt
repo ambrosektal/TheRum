@@ -7,7 +7,7 @@ npx create-next@latest --template typescript then
 npx create-next-app@latest was
 npx create-next-app@latest --template typescript when
 
-npm create vite@latest
+# npm create vite@latest
 
 npm create vite@latest my-vue-app -- --template vue -y
 npm create vite@latest my-vue-ts-app -- --template vue-ts -y
@@ -21,5 +21,12 @@ npm create vite@latest my-preact-ts-app -- --template preact-ts -y
 npm create vite@latest my-preact-app -- --template preact -y
 npm create vite@latest my-svelte-ts-app -- --template svelte-ts -y
 npm create vite@latest my-svelte-app -- --template svelte -y
+
+
+$files = gci -Recurse -File -Filter "package.json"
+
+$files | foreach-object{ cd $_.Directory && npm i && npm audit fix -force }
+
+
 
 

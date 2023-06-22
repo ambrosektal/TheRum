@@ -1,4 +1,5 @@
 Microsoft.BingMaps.V8.TypeScript
+Microsoft.JavaScript.Hermes
 Microsoft.JavaScript.NodeApi
 Microsoft.JavaScript.NodeApi.Generator
 Microsoft.JavaScript.UnitTest

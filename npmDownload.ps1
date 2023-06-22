@@ -50,7 +50,7 @@
 # Git Repo cycle through:
 # $files = gci . -Recurse -Filter package.json
 # $files.foreach({cd $_.Directory && npm i --force && npm audit fix --force})
-# $files.foreach({cd $_.Parent && npm i --force && npm audit fix --force})
+## $files.foreach({cd $_.Parent && npm i --force && npm audit fix --force})
 
 # $reactFiles = $(97..122).foreach({ npm search -p "react-$([char]$_)" })
 # $reactFiles.foreach({npm install --force $($_.split("`t")[0])})
@@ -122,7 +122,7 @@ SimpleNPMDownload -PackageListTxtFile "C:\\users\\$env:USERNAME\\Downloads\\gits
 ############################
 
 function SimpleNPMDownload {
-    # SimpleNPMDownload -PackageListTxtFile "C:\\Users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\packageLists\\react.txt"
+    # SimpleNPMDownload -PackageListTxtFile "C:\\Users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\requests\\react.txt"
     # SimpleNPMDownload -PackageListTxtFile "C:\\Users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\requests\\svelte.txt"
     # SimpleNPMDownload -PackageListTxtFile "C:\\Users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\packageLists\\requests.txt" 
     # SimpleNPMDownload -PackageListTxtFile "C:\\Users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\packageLists\\missingFiles.txt" 
@@ -173,7 +173,13 @@ function SimpleNPMDownload {
     else {
         $unclean = $txtfiles.foreach({ gc $_ })
         # $clean = $unclean | Sort-Object -Unique
-        $clean = $unclean.Replace('\','/') | Sort-Object -Unique
+        try {
+            $clean = $unclean.Replace('\','/') | Sort-Object -Unique    
+        }
+        catch {
+            $clean = $unclean | Sort-Object -Unique
+        }
+        
         Write-Host "yay, I'm in the correct directory!!!"
         $clean | foreach-object -Parallel ({
                 write-host "Downloading $_ ..."

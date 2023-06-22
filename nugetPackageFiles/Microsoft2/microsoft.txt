@@ -1013,6 +1013,7 @@ Microsoft.Azure.Kusto.Cloud.Platform
 Microsoft.Azure.Kusto.Cloud.Platform.Aad
 Microsoft.Azure.Kusto.Cloud.Platform.Azure
 Microsoft.Azure.Kusto.Cloud.Platform.Communication.Wcf
+Microsoft.Azure.Kusto.Cloud.Platform.Msal
 Microsoft.Azure.Kusto.Data
 Microsoft.Azure.Kusto.Ingest
 Microsoft.Azure.Kusto.Language
@@ -1158,6 +1159,7 @@ Microsoft.Azure.WebJobs.ProjectTemplates
 Microsoft.Azure.WebJobs.Script.ExtensionsMetadataGenerator
 Microsoft.Azure.WebJobs.ServiceBus
 Microsoft.Azure.WebJobs.Sources
+Microsoft.Azure.WebPubSub.AspNetCore
 Microsoft.Azure.WebPubSub.Common
 Microsoft.Azure.Workflows.WebJobs.Extension
 Microsoft.Band

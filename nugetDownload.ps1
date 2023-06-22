@@ -1,6 +1,15 @@
 # docker run --rm --name nuget-server -p 5555:80 --env-file "D:\\Transfer\\ToMove\\BaGet_Shared\\baget.env" -v "D:\\Transfer\\ToMove\\BaGet_Shared:/var/baget" loicsharma/baget:latest
 
 # ----------------------------------------------------------------------------
+Invoke-ParNugetDown -FirstHalf -Directory "C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\nugetPackageFiles\\Microsoft2"
+Invoke-ParNugetDown -FirstHalf -Directory "C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\nugetPackageFiles\\packageLists2"
+Invoke-ParNugetDown -FirstHalf -Directory "C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\nugetPackageFiles\\PSGallery" -Source "BaGet_Posh"
+
+
+Invoke-ParNugetDown -SecondHalf -Directory "C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\nugetPackageFiles\\Microsoft2"
+Invoke-ParNugetDown -SecondHalf -Directory "C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\nugetPackageFiles\\packageLists2"
+Invoke-ParNugetDown -SecondHalf -Directory "C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\nugetPackageFiles\\PSGallery" -Source "BaGet_Posh"
+
 
 
 function Invoke-ParNugetDown {
@@ -428,6 +437,11 @@ function BuildPackageList {
     # BuildPackageList -PackageName "nodatime*" -OutputFile "C:\Users\$env:USERNAME\Downloads\gits\TheRum\nugetPackageFiles\packageLists2\nodatime.txt"
     # BuildPackageList -PackageName "docfx*" -OutputFile "C:\Users\$env:USERNAME\Downloads\gits\TheRum\nugetPackageFiles\packageLists2\docfx.txt"
     # BuildPackageList -PackageName "SharpZipLib*" -OutputFile "C:\Users\$env:USERNAME\Downloads\gits\TheRum\nugetPackageFiles\packageLists2\SharpZipLib.txt"
+    # BuildPackageList -PackageName "*kubernetes*" -OutputFile "C:\Users\$env:USERNAME\Downloads\gits\TheRum\nugetPackageFiles\packageLists2\kube.txt"
+    # BuildPackageList -PackageName "*kube*" -OutputFile "C:\Users\$env:USERNAME\Downloads\gits\TheRum\nugetPackageFiles\packageLists2\kube.txt"
+    # BuildPackageList -PackageName "*helm*" -OutputFile "C:\Users\$env:USERNAME\Downloads\gits\TheRum\nugetPackageFiles\packageLists2\kube.txt"
+    # BuildPackageList -PackageName "*fleet*" -OutputFile "C:\Users\$env:USERNAME\Downloads\gits\TheRum\nugetPackageFiles\packageLists2\kube.txt"
+    # BuildPackageList -PackageName "*rancher*" -OutputFile "C:\Users\$env:USERNAME\Downloads\gits\TheRum\nugetPackageFiles\packageLists2\kube.txt"
     # BuildPackageList -PackageName "HtmlAgilityPack*" -OutputFile "C:\Users\$env:USERNAME\Downloads\gits\TheRum\nugetPackageFiles\packageLists2\HtmlAgilityPack.txt"
     # BuildPackageList -PackageName "mailkit*" -OutputFile "C:\Users\$env:USERNAME\Downloads\gits\TheRum\nugetPackageFiles\packageLists2\mailkit.txt"
     # BuildPackageList -PackageName "restsharp*" -OutputFile "C:\Users\$env:USERNAME\Downloads\gits\TheRum\nugetPackageFiles\packageLists2\restsharp.txt"
