@@ -49,9 +49,8 @@
 
 # Git Repo cycle through:
 # $files = gci . -Recurse -Filter package.json
-# # $files.foreach({cd $_.Directory && npm i --legacy-peer-deps && npm audit fix --force})
 # $files.foreach({cd $_.Directory && npm i --force && npm audit fix --force})
-# $files.foreach({cd $_.Parent && npm i --force && npm audit fix --force})
+## $files.foreach({cd $_.Parent && npm i --force && npm audit fix --force})
 
 # $reactFiles = $(97..122).foreach({ npm search -p "react-$([char]$_)" })
 # $reactFiles.foreach({npm install --force $($_.split("`t")[0])})
@@ -123,11 +122,12 @@ SimpleNPMDownload -PackageListTxtFile "C:\\users\\$env:USERNAME\\Downloads\\gits
 ############################
 
 function SimpleNPMDownload {
-    # SimpleNPMDownload -PackageListTxtFile "C:\\Users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\packageLists\\react.txt"
+    # SimpleNPMDownload -PackageListTxtFile "C:\\Users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\requests\\react.txt"
     # SimpleNPMDownload -PackageListTxtFile "C:\\Users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\requests\\svelte.txt"
     # SimpleNPMDownload -PackageListTxtFile "C:\\Users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\packageLists\\requests.txt" 
     # SimpleNPMDownload -PackageListTxtFile "C:\\Users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\packageLists\\missingFiles.txt" 
     # SimpleNPMDownload -PackageListTxtFile "C:\\Users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\requests\\createapps.txt" 
+    # SimpleNPMDownload -PackageListTxtFile "C:\\Users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\requests\\others.txt" 
     # SimpleNPMDownload -PackageListTxtFile "C:\\Users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\requests\\esbuild.txt" 
     # SimpleNPMDownload -PackageListTxtFile "C:\\Users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\TopLists\\TopPackages20230227.txt" 
     # SimpleNPMDownload -InstallDirectory "D:\Transfer\Staging\node" -PackageListTxtFile "C:\\Users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\svelte.txt"
@@ -173,7 +173,13 @@ function SimpleNPMDownload {
     else {
         $unclean = $txtfiles.foreach({ gc $_ })
         # $clean = $unclean | Sort-Object -Unique
-        $clean = $unclean.Replace('\','/') | Sort-Object -Unique
+        try {
+            $clean = $unclean.Replace('\','/') | Sort-Object -Unique    
+        }
+        catch {
+            $clean = $unclean | Sort-Object -Unique
+        }
+        
         Write-Host "yay, I'm in the correct directory!!!"
         $clean | foreach-object -Parallel ({
                 write-host "Downloading $_ ..."
@@ -370,6 +376,8 @@ function Install-NpmPackages {
     # Install-NpmPackages -PackageName svelte -AllMajorVersions
     # $packageArray = gc "C:\\Users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\newnet.txt"
     # $packageArray = gc "C:\\Users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\requests\\esbuild.txt" 
+    # $packageArray = gc "C:\\Users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\requests\\font-awesome.txt" 
+    # Install-NpmPackages -PackageArray $packageArray -AllLatest
     # Install-NpmPackages -PackageArray $packageArray -AllMajorVersions -UpperVersionRange 20 -LowerVersionRange 0 -BaseVersion '0'
     $Directory = Get-Location
     if (!$LowerVersionRange) {
@@ -512,6 +520,7 @@ function Build-NPMList {
     # Build-NPMList -PackageName "cra-template" -OutputFile "C:\Users\$env:USERNAME\Downloads\gits\TheRum\npmPackageFiles\requests\react.txt"
     # Build-NPMList -PackageName "cra-template-" -OutputFile "C:\Users\$env:USERNAME\Downloads\gits\TheRum\npmPackageFiles\requests\react.txt"
     # Build-NPMList -PackageName "jsdoc" -OutputFile "C:\Users\$env:USERNAME\Downloads\gits\TheRum\npmPackageFiles\requests\jsdoc.txt"
+    # Build-NPMList -PackageName "font-awesome" -OutputFile "C:\Users\$env:USERNAME\Downloads\gits\TheRum\npmPackageFiles\requests\font-awesome.txt"
     # Add to and clean up a txt file based on an array of packages
     # Build-NPMList PackageArray $PackageArray -OutputFile "C:\Users\$env:USERNAME\Downloads\gits\TheRum\npmPackageFiles\packageLists\random.txt"
     param (

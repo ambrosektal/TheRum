@@ -22,6 +22,8 @@ Bitai.LDAPHelper
 Bitai.LDAPHelper.DTO
 Bitai.LDAPWebApi.Clients
 Bitai.LDAPWebApi.DTO
+CData.LDAP
+CData.LDAP.EntityFrameworkCore
 Dywham.Commons.Providers.Ldap
 Dywham.Fabric.Providers.Ldap
 GR.Identity.LdapAuth

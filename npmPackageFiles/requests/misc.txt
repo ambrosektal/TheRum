@@ -130,3 +130,5 @@ w-tinymce-vue
 watanabe-jspdf-autotable
 wrapper-exceljs
 yangsen-html2canvas
+unplugin-icons
+@iconify/json

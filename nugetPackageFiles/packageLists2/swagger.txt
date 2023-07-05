@@ -42,6 +42,7 @@ Swagger.Net
 Swagger.Net.Examples
 Swagger.Net.UI
 Swagger.ObjectModel.Alyce
+Swagger.PetstoreSDK
 Swagger.Plugin
 Swagger.Simplify
 Swagger.Theme.Orange

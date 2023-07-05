@@ -15,6 +15,7 @@ HotChocolate.AspNetCore
 HotChocolate.AspNetCore.Abstractions
 HotChocolate.AspNetCore.Authorization
 HotChocolate.AspNetCore.Authorization.Opa
+HotChocolate.AspNetCore.CommandLine
 HotChocolate.AspNetCore.GraphiQL
 HotChocolate.AspNetCore.HttpGet
 HotChocolate.AspNetCore.HttpGetSchema
@@ -45,6 +46,10 @@ HotChocolate.Extensions.Tracking.MassTransit
 HotChocolate.Extensions.Translation
 HotChocolate.Extensions.Types.Fido2
 HotChocolate.Fetching
+HotChocolate.Fusion
+HotChocolate.Fusion.Abstractions
+HotChocolate.Fusion.CommandLine
+HotChocolate.Fusion.Composition
 HotChocolate.Language
 HotChocolate.Language.SyntaxTree
 HotChocolate.Language.Utf8

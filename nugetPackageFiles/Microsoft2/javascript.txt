@@ -1,0 +1,10 @@
+Microsoft.BingMaps.V8.TypeScript
+Microsoft.JavaScript.Hermes
+Microsoft.JavaScript.NodeApi
+Microsoft.JavaScript.NodeApi.Generator
+Microsoft.JavaScript.UnitTest
+Microsoft.LightSwitch.Client.JavaScript.Runtime
+Microsoft.PowerBI.JavaScript
+Microsoft.Toolkit.Uwp.Notifications.JavaScript
+Microsoft.TypeScript.Compiler
+Microsoft.TypeScript.MSBuild

@@ -32,6 +32,7 @@
 @htmlbricks/hb-captcha-google-recaptcha-v2-invisible
 @htmlbricks/hb-input-checkbox
 @icewolf/svelte-kit
+@iconify/svelte
 @irispixel/svelte-checkbox
 @irispixel/svelte-flex
 @irispixel/svelte-portal
