@@ -1,0 +1,314 @@
+# Archive docker and gitlab repos
+
+dockergitlab=$(date '+%Y%m%d')
+find /mnt/d/Transfer/ToMove/repo -ctime -5 -type f -print0  | tar czf /mnt/d/Transfer/ToMove/$(echo $dockergitlab)_dockergitlab.tar.gz --files-from=- 
+# find /mnt/d/Transfer/ToMove/repo -atime -5 -type f -print0  | tar czf /mnt/d/Transfer/ToMove/$(echo $dockergitlab)_dockergitlab_a.tar.gz --files-from=- 
+# find /mnt/d/Transfer/ToMove/repo -cmin -420 -type f -print0  | tar czf /mnt/d/Transfer/ToMove/$(echo $dockergitlab)_dockergitlab.tar.gz --files-from=- 
+###
+dockergitlab=$(date '+%Y%m%d')
+# find /mnt/d/Transfer/ToMove/repo/docker -cmin -420 -type f -print0  | tar czf /mnt/d/Transfer/ToMove/$(echo $dockergitlab)_dockergitlab_docker.tar.gz --files-from=- 
+find /mnt/d/Transfer/ToMove/repo/gitlab -cmin -420 -type f -print0  | tar czf /mnt/d/Transfer/ToMove/$(echo $dockergitlab)_dockergitlab_gitlab.tar.gz --files-from=- 
+# find /mnt/d/Transfer/ToMove/repo/opennms -cmin -420 -type f -print0  | tar czf /mnt/d/Transfer/ToMove/$(echo $dockergitlab)_dockergitlab_opennms.tar.gz --files-from=- 
+# find /mnt/d/Transfer/ToMove/repo/depRepo -cmin -420 -type f -print0  | tar czf /mnt/d/Transfer/ToMove/$(echo $dockergitlab)_dockergitlab_depRepo.tar.gz --files-from=- 
+# find /mnt/d/Transfer/ToMove/repo/configs -cmin -420 -type f -print0  | tar czf /mnt/d/Transfer/ToMove/$(echo $dockergitlab)_dockergitlab_configs.tar.gz --files-from=- 
+# find /mnt/d/Transfer/ToMove/repo/remi -cmin -420 -type f -print0  | tar czf /mnt/d/Transfer/ToMove/$(echo $dockergitlab)_dockergitlab_remi.tar.gz --files-from=- 
+
+
+find /mnt/d/Transfer/ToMove/repo -ctime -5 -type f -print0  | tar czf /mnt/d/Transfer/ToMove/$(echo $dockergitlab)_dockergitlab.tar.gz --files-from=- 
+
+###############
+
+docker run -d -it -v D:\Transfer\ToMove\repo\docker\el8:/opt/repo/docker  -v D:\Transfer\ToMove\repo\opennms\el8:/opt/repo/opennms -v D:\Transfer\ToMove\repo\gitlab\el8:/opt/repo/gitlab -v D:\Transfer\ToMove\repo\depRepo\el8:/opt/repo/depRepo -v D:\Transfer\ToMove\repo\remi\el8:/opt/repo/remi -v D:\Transfer\ToMove\repo\configs\el8:/opt/repo/configs registry.access.redhat.com/ubi8/ubi:latest /bin/bash
+
+
+docker run -d -it -v D:\Transfer\ToMove\repo\docker\el7:/opt/repo/docker  -v D:\Transfer\ToMove\repo\opennms\el7:/opt/repo/opennms -v D:\Transfer\ToMove\repo\gitlab\el7:/opt/repo/gitlab -v D:\Transfer\ToMove\repo\depRepo\el7:/opt/repo/depRepo -v D:\Transfer\ToMove\repo\remi\el7:/opt/repo/remi -v D:\Transfer\ToMove\repo\configs\el7:/opt/repo/configs  registry.access.redhat.com/ubi7/ubi:latest /bin/bash
+
+
+
+# Download the newest packages only with the comps and metadata
+
+
+
+
+
+
+
+dnf reposync -n --download-metadata --repoid=gitlab_gitlab-ce -p=/opt/repo/gitlab
+
+dnf reposync -n --download-metadata --repoid=runner_gitlab-runner -p=/opt/repo/gitlab
+## dnf reposync --downloadcomps --download-metadata --repoid=runner_gitlab-runner -p=/opt/repo/gitlab
+
+dnf reposync -n --download-metadata --repoid=gitlab_gitlab-ce-source -p=/opt/repo/gitlab
+dnf reposync -n --download-metadata --repoid=runner_gitlab-runner-source -p=/opt/repo/gitlab
+dnf reposync -n --download-metadata --repoid=gitlab_gitlab-fips -p=/opt/repo/gitlab
+dnf reposync -n --download-metadata --repoid=gitlab_gitlab-fips-source -p=/opt/repo/gitlab
+
+
+dnf reposync --download-metadata --repoid=runner_gitlab-runner -p=/opt/repo/gitlab -x gitlab-runner-fips-12.*,gitlab-runner-fips-13.*,gitlab-runner-fips-14.*,gitlab-runner-fips-15.0*,gitlab-runner-fips-15.1.*,gitlab-runner-fips-15.2.*,gitlab-runner-fips-15.3.*,gitlab-runner-fips-15.4.*,gitlab-runner-fips-15.5.*,gitlab-runner-fips-15.6.*,gitlab-runner-fips-15.7.*,gitlab-runner-fips-15.8.*,gitlab-runner-fips-15.9.*,gitlab-runner-fips-15.10.*,gitlab-runner-fips-15.7.*,gitlab-runner-12.*,gitlab-runner-13.*,gitlab-runner-14.*,gitlab-runner-15.0*,gitlab-runner-15.1.*,gitlab-runner-15.2.*,gitlab-runner-15.3.*,gitlab-runner-15.4.*,gitlab-runner-15.5.*,gitlab-runner-15.6.*,gitlab-runner-15.7.*,gitlab-runner-15.8.*,gitlab-runner-15.9.*,gitlab-runner-15.10.*
+
+dnf reposync --download-metadata --repoid=gitlab_gitlab-ce -p=/opt/repo/gitlab -x gitlab-ce-12.*,gitlab-ce-13.*,gitlab-ce-14.*,gitlab-ce-15.0*,gitlab-ce-15.1.*,gitlab-ce-15.2.*,gitlab-ce-15.3.*,gitlab-ce-15.4.*,gitlab-ce-15.5.*,gitlab-ce-15.6.*,gitlab-ce-15.7.*,gitlab-ce-15.8.*,gitlab-ce-15.8.*,gitlab-ce-15.9.*,gitlab-ce-15.10.*,gitlab-ce-15.11.0,gitlab-ce-15.11.1,gitlab-ce-15.11.2,gitlab-ce-15.11.3,gitlab-ce-15.11.4,gitlab-ce-15.11.5
+
+# dnf reposync --download-metadata --repoid=gitlab_gitlab-ce-source -p=/opt/repo/gitlab -x gitlab-ce-source-12.*,gitlab-ce-source-13.*,gitlab-ce-source-14.*,gitlab-ce-source-15.0*,gitlab-ce-source-15.1.*,gitlab-ce-source-15.2.*,gitlab-ce-source-15.3.*,gitlab-ce-source-15.4.*,gitlab-ce-source-15.5.*
+
+dnf reposync --download-metadata --repoid=gitlab_gitlab-fips -p=/opt/repo/gitlab -x gitlab-fips-12.*,gitlab-fips-13.*,gitlab-fips-14.*,gitlab-fips-15.0*,gitlab-fips-15.1.*,gitlab-fips-15.2.*,gitlab-fips-15.3.*,gitlab-fips-15.4.*,gitlab-fips-15.5.*,gitlab-fips-15.6.*,gitlab-fips-15.7.*,gitlab-fips-15.8.*,gitlab-fips-15.9.*,gitlab-fips-15.10.*,gitlab-fips-15.11.0,gitlab-fips-15.11.1,gitlab-fips-15.11.2,gitlab-fips-15.11.3,gitlab-fips-15.11.4,gitlab-fips-15.11.5
+
+# dnf reposync --download-metadata --repoid=gitlab_gitlab-fips-source -p=/opt/repo/gitlab -x gitlab-fips-source-12.*,gitlab-fips-source-13.*,gitlab-fips-source-14.*,gitlab-fips-source-15.0*,gitlab-fips-source-15.1.*,gitlab-fips-source-15.2.*,gitlab-fips-source-15.3.*,gitlab-fips-source-15.4.*,gitlab-fips-source-15.5.*
+
+
+
+
+
+# Don't need this, but might need it again later
+# dnf reposync -n --download-metadata --repoid=docker-ce-stable -p=/opt/repo/docker
+## dnf reposync --downloadcomps --download-metadata --repoid=docker-ce-stable -p=/opt/repo/docker
+# dnf reposync -n --download-metadata --repoid=docker-ce-stable-source -p=/opt/repo/docker
+# dnf reposync -n --download-metadata --repoid=docker-ce-nightly -p=/opt/repo/docker
+
+
+# RHEL 8
+## dnf reposync -n --downloadcomps --download-metadata --repoid=remi-safe -p=/opt/repo/remi
+#dnf reposync -n --download-metadata --repoid=remi-safe -p=/opt/repo/remi
+#
+## dnf reposync -n --downloadcomps --download-metadata --repoid=remi-modular -p=/opt/repo/remi
+#dnf reposync -n --download-metadata --repoid=remi-modular -p=/opt/repo/remi
+#
+## dnf reposync -n --downloadcomps --download-metadata --repoid=remi -p=/opt/repo/remi
+#dnf reposync -n --download-metadata --repoid=remi -p=/opt/repo/remi
+
+# dnf reposync -n --download-metadata --repoid=lens-repo -p=/opt/repo/configs/lens/el8
+
+
+
+# RHEL 7
+yum install -y https://rpms.remirepo.net/enterprise/remi-release-7.rpm
+
+# reposync -n --download-metadata --repoid=remi-php54 -p /opt/repo/remi
+# reposync -n --download-metadata --repoid=remi-php55 -p /opt/repo/remi
+# reposync -n --download-metadata --repoid=remi-php56 -p /opt/repo/remi
+# reposync -n --download-metadata --repoid=remi-php70 -p /opt/repo/remi
+# reposync -n --download-metadata --repoid=remi-php71 -p /opt/repo/remi
+# reposync -n --download-metadata --repoid=remi-php72 -p /opt/repo/remi
+# reposync -n --download-metadata --repoid=remi-php73 -p /opt/repo/remi
+# reposync -n --download-metadata --repoid=remi-php74 -p /opt/repo/remi
+# reposync -n --download-metadata --repoid=remi-php80 -p /opt/repo/remi
+# reposync -n --download-metadata --repoid=remi-php81 -p /opt/repo/remi
+# reposync -n --download-metadata --repoid=remi-php82 -p /opt/repo/remi
+# 
+# reposync -n --download-metadata --repoid=remi-safe -p /opt/repo/remi
+# 
+# reposync -n --download-metadata --repoid=remi-modular -p /opt/repo/remi
+
+reposync -n --download-metadata --repoid=gitlab_gitlab-ce -p /opt/repo/gitlab
+
+# reposync -n --download-metadata --repoid=docker-ce-stable -p /opt/repo/docker
+#
+# reposync -n --download-metadata --repoid=docker-ce-stable-source -p /opt/repo/docker
+#
+## reposync -n --downloadcomps --download-metadata --repoid=docker-ce-nightly -p /opt/repo/docker
+#
+
+reposync -n --download-metadata --repoid=runner_gitlab-runner -p /opt/repo/gitlab
+
+# reposync -n --download-metadata --repoid=lens-repo -p /opt/repo/configs/lens/el7
+
+
+
+
+# exclude these packages
+dnf reposync --downloadcomps --download-metadata --repoid=gitlab_gitlab-ce -p=/opt/repo -x gitlab-ce-12*,gitlab-ce-13*,gitlab-ce-14*,gitlab-ce-15.0*,gitlab-ce-15.1.*,gitlab-ce-15.2.*,gitlab-ce-15.3.*,gitlab-ce-15.4.*,gitlab-ce-15.5.*,gitlab-ce-15.6.*,gitlab-ce-15.7.*,
+
+dnf reposync --downloadcomps --download-metadata --repoid=gitlab_gitlab-fips -p=/opt/repo -x gitlab-fips-12*,gitlab-fips-13*,gitlab-fips-14*,gitlab-fips-15.0*,gitlab-fips-15.1.*,gitlab-fips-15.2.*,gitlab-fips-15.3.*,gitlab-fips-15.4.*,gitlab-fips-15.5.*,gitlab-fips-15.6.*,gitlab-fips-15.7.*,
+
+dnf reposync --downloadcomps --download-metadata --repoid=runner_gitlab-runner -p=/opt/repo -x gitlab-runner-fips-12*,gitlab-runner-fips-13*,gitlab-runner-fips-14*,gitlab-runner-fips-15.0*,gitlab-runner-fips-15.1.*,gitlab-runner-fips-15.2.*,gitlab-runner-fips-15.3.*,gitlab-runner-fips-15.4.*,gitlab-runner-fips-15.5.*,gitlab-runner-fips-15.6.*,gitlab-runner-fips-15.7.*,gitlab-runner-12*,gitlab-runner-13*,gitlab-runner-14*,gitlab-runner-15.0*,gitlab-runner-15.1.*,gitlab-runner-15.2.*,gitlab-runner-15.3.*,gitlab-runner-15.4.*,gitlab-runner-15.5.*,gitlab-runner-15.6.*,gitlab-runner-15.7.*,
+
+#################
+# opennms repo
+
+## RHEL8
+rpm -Uvh http://yum.opennms.org/repofiles/opennms-repo-stable-rhel8.noarch.rpm
+# dnf reposync -n --download-metadata --repoid=opennms-repo-stable-common -p=/opt/repo/opennms
+dnf reposync --download-metadata --repoid=opennms-repo-stable-common -p=/opt/repo/opennms
+# dnf reposync -n --download-metadata --repoid=opennms-repo-stable-rhel8 -p=/opt/repo/opennms
+dnf reposync --download-metadata --repoid=opennms-repo-stable-rhel8 -p=/opt/repo/opennms
+
+## RHEL7
+rpm -Uvh http://yum.opennms.org/repofiles/opennms-repo-stable-rhel7.noarch.rpm
+# reposync -n --download-metadata --repoid=opennms-repo-stable-common -p /opt/repo/opennms
+reposync --download-metadata --repoid=opennms-repo-stable-common -p /opt/repo/opennms
+# reposync -n --download-metadata --repoid=opennms-repo-stable-rhel7 -p /opt/repo/opennms
+reposync --downloadcomps --plugins --download-metadata --repoid=opennms-repo-stable-rhel7 --download_path=/opt/repo/opennms
+
+#docker and gitlab repos
+
+#################
+
+[docker-ce-stable]
+name=Docker CE Stable - $basearch
+baseurl=https://download.docker.com/linux/centos/$releasever/$basearch/stable
+enabled=1
+gpgcheck=1
+gpgkey=https://download.docker.com/linux/rhel/gpg
+
+[docker-ce-stable-debuginfo]
+name=Docker CE Stable - Debuginfo $basearch
+baseurl=https://download.docker.com/linux/centos/$releasever/debug-$basearch/stable
+enabled=0
+gpgcheck=1
+gpgkey=https://download.docker.com/linux/rhel/gpg
+
+[docker-ce-stable-source]
+name=Docker CE Stable - Sources
+baseurl=https://download.docker.com/linux/centos/$releasever/source/stable
+enabled=0
+gpgcheck=1
+gpgkey=https://download.docker.com/linux/rhel/gpg
+
+[docker-ce-test]
+name=Docker CE Test - $basearch
+baseurl=https://download.docker.com/linux/centos/$releasever/$basearch/test
+enabled=0
+gpgcheck=1
+gpgkey=https://download.docker.com/linux/rhel/gpg
+
+[docker-ce-test-debuginfo]
+name=Docker CE Test - Debuginfo $basearch
+baseurl=https://download.docker.com/linux/centos/$releasever/debug-$basearch/test
+enabled=0
+gpgcheck=1
+gpgkey=https://download.docker.com/linux/rhel/gpg
+
+[docker-ce-test-source]
+name=Docker CE Test - Sources
+baseurl=https://download.docker.com/linux/centos/$releasever/source/test
+enabled=0
+gpgcheck=1
+gpgkey=https://download.docker.com/linux/rhel/gpg
+
+[docker-ce-nightly]
+name=Docker CE Nightly - $basearch
+baseurl=https://download.docker.com/linux/centos/$releasever/$basearch/nightly
+enabled=0
+gpgcheck=1
+gpgkey=https://download.docker.com/linux/rhel/gpg
+
+[docker-ce-nightly-debuginfo]
+name=Docker CE Nightly - Debuginfo $basearch
+baseurl=https://download.docker.com/linux/centos/$releasever/debug-$basearch/nightly
+enabled=0
+gpgcheck=1
+gpgkey=https://download.docker.com/linux/rhel/gpg
+
+[docker-ce-nightly-source]
+name=Docker CE Nightly - Sources
+baseurl=https://download.docker.com/linux/centos/$releasever/source/nightly
+enabled=0
+gpgcheck=1
+gpgkey=https://download.docker.com/linux/rhel/gpg
+
+
+
+
+
+
+
+##############################################
+[gitlab_gitlab-ce]
+name=gitlab_gitlab-ce
+baseurl=https://packages.gitlab.com/gitlab/gitlab-ce/el/8/$basearch
+repo_gpgcheck=1
+gpgcheck=1
+enabled=1
+gpgkey=https://packages.gitlab.com/gitlab/gitlab-ce/gpgkey
+       https://packages.gitlab.com/gitlab/gitlab-ce/gpgkey/gitlab-gitlab-ce-3D645A26AB9FBD22.pub.gpg
+sslverify=1
+sslcacert=/etc/pki/tls/certs/ca-bundle.crt
+metadata_expire=300
+
+[gitlab_gitlab-ce-source]
+name=gitlab_gitlab-ce-source
+baseurl=https://packages.gitlab.com/gitlab/gitlab-ce/el/8/SRPMS
+repo_gpgcheck=1
+gpgcheck=1
+enabled=1
+gpgkey=https://packages.gitlab.com/gitlab/gitlab-ce/gpgkey
+       https://packages.gitlab.com/gitlab/gitlab-ce/gpgkey/gitlab-gitlab-ce-3D645A26AB9FBD22.pub.gpg
+sslverify=1
+sslcacert=/etc/pki/tls/certs/ca-bundle.crt
+metadata_expire=300
+
+##############################################
+
+
+[runner_gitlab-runner]
+name=runner_gitlab-runner
+baseurl=https://packages.gitlab.com/runner/gitlab-runner/el/8/$basearch
+repo_gpgcheck=1
+gpgcheck=1
+enabled=1
+gpgkey=https://packages.gitlab.com/runner/gitlab-runner/gpgkey
+       https://packages.gitlab.com/runner/gitlab-runner/gpgkey/runner-gitlab-runner-4C80FB51394521E9.pub.gpg
+sslverify=1
+sslcacert=/etc/pki/tls/certs/ca-bundle.crt
+metadata_expire=300
+
+[runner_gitlab-runner-source]
+name=runner_gitlab-runner-source
+baseurl=https://packages.gitlab.com/runner/gitlab-runner/el/8/SRPMS
+repo_gpgcheck=1
+gpgcheck=1
+enabled=1
+gpgkey=https://packages.gitlab.com/runner/gitlab-runner/gpgkey
+       https://packages.gitlab.com/runner/gitlab-runner/gpgkey/runner-gitlab-runner-4C80FB51394521E9.pub.gpg
+sslverify=1
+sslcacert=/etc/pki/tls/certs/ca-bundle.crt
+metadata_expire=300
+
+
+
+
+##############################################
+[gitlab_gitlab-fips]
+name=gitlab_gitlab-fips
+baseurl=https://packages.gitlab.com/gitlab/gitlab-fips/el/8/$basearch
+repo_gpgcheck=1
+gpgcheck=1
+enabled=1
+gpgkey=https://packages.gitlab.com/gitlab/gitlab-ce/gpgkey
+       https://packages.gitlab.com/gitlab/gitlab-ce/gpgkey/gitlab-gitlab-ce-3D645A26AB9FBD22.pub.gpg
+sslverify=1
+sslcacert=/etc/pki/tls/certs/ca-bundle.crt
+metadata_expire=300
+
+[gitlab_gitlab-fips-source]
+name=gitlab_gitlab-fips-source
+baseurl=https://packages.gitlab.com/gitlab/gitlab-fips/el/8/SRPMS
+repo_gpgcheck=1
+gpgcheck=1
+enabled=1
+gpgkey=https://packages.gitlab.com/gitlab/gitlab-ce/gpgkey
+       https://packages.gitlab.com/gitlab/gitlab-ce/gpgkey/gitlab-gitlab-ce-3D645A26AB9FBD22.pub.gpg
+sslverify=1
+sslcacert=/etc/pki/tls/certs/ca-bundle.crt
+metadata_expire=300
+
+##############################################
+[lens-repo]
+name=Lens Repo
+baseurl=https://downloads.k8slens.dev/rpm/packages
+enabled=1
+gpgcheck=1
+gpgkey=https://downloads.k8slens.dev/keys/gpg
+
+
+
+##############################################
+
+
+
+##############################################
+
+
+##############################################
+
+
+##############################################
