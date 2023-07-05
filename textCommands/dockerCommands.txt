@@ -1,0 +1,432 @@
+USS Hamilton
+
+# Using 7zip to cycle through directories to 7zip them.
+$(gci -directory . ) | foreach { & ${env:ProgramFiles}\7-Zip\7z.exe a -psimnet1 "$($_.name).7z" $_ }
+
+docker images
+# Find container name
+docker container ls
+# ReTag
+docker commit cranky_margulis verdaccio_transfer
+# Verify new name
+docker container ls
+docker images
+# Tag docker image
+docker image tag verdaccio_transfer ambrosektal/verdaccio_transfer:latest
+# Push to docker.io
+docker image push ambrosektal/verdaccio_transfer:latest
+
+#docker pull ambrosektal/verdaccio_transfer:latest
+
+docker run --name cranky_margulis -p 4873:4873 verdaccio/verdaccio
+# docker run -it --rm --name verdaccio --env "VERDACCIO_PROTOCOL=https" -p 4873:4873 verdaccio/verdaccio
+# Docker Compose Example
+services:
+  verdaccio:
+    # image: verdaccio/verdaccio:nightly-master
+	image: verdaccio/verdaccio:latest
+    # container_name: verdaccio-docker-local-storage-vol
+	container_name: cranky_margulis
+    ports:
+      - '4873:4873'
+    volumes:
+      - './storage:/verdaccio/storage'
+      - './conf:/verdaccio/conf'
+volumes:
+  verdaccio:
+    driver: local
+
+
+# docker run --rm --name nuget-server -p 5555:80 --env-file baget.env -v "$(pwd)/packages:/var/baget" loicsharma/baget:latest
+
+docker run -d --name nuget-server -p 5555:80 --env-file baget.env -v "$(pwd):/var/baget" loicsharma/baget:latest
+
+docker run -d --name PowerShell-server -p 7777:80 --env-file baget.env -v "$(pwd)/poshpackages:/var/baget" loicsharma/baget:latest
+
+# https://www.powershellgallery.com/api/v2
+
+docker run -d --name AzureDev-server -p 9999:80 --env-file baget.env -v "$(pwd)/AzurePackages:/var/baget" loicsharma/baget:latest
+
+docker run -d --name AzureNuget-server -p 9889:80 --env-file baget.env -v "$(pwd)/AzureNuGetPackages:/var/baget" ambrosektal/azurenuget_baget:latest
+
+# docker run -d --name AzureNuget-server -p 9889:80 --env-file baget.env -v "D:\Transfer\ToMove\BaGet_Shared\AzurePackages:/var/baget" ambrosektal/azurenuget_baget:latest
+
+docker run  --name cranky_margulis -p 4873:4873 -v "D:\Transfer\ToMove\software\verdaccio\storage\data:/verdaccio/storage/data" verdaccio/verdaccio:latest
+
+docker run -it -v D:\Transfer\ToMove\repo\docker\el8:/opt/repo/docker  -v D:\Transfer\ToMove\repo\opennms\el8:/opt/repo/opennms -v D:\Transfer\ToMove\repo\gitlab\el8:/opt/repo/gitlab -v D:\Transfer\ToMove\repo\depRepo\el8:/opt/repo/depRepo -v D:\Transfer\ToMove\repo\remi\el8:/opt/repo/remi -v D:\Transfer\ToMove\repo\configs\el8:/opt/repo/configs registry.access.redhat.com/ubi8/ubi:latest /bin/bash
+
+
+docker run -it -v D:\Transfer\ToMove\repo\docker\el7:/opt/repo/docker  -v D:\Transfer\ToMove\repo\opennms\el7:/opt/repo/opennms -v D:\Transfer\ToMove\repo\gitlab\el7:/opt/repo/gitlab -v D:\Transfer\ToMove\repo\depRepo\el7:/opt/repo/depRepo -v D:\Transfer\ToMove\repo\remi\el7:/opt/repo/remi -v D:\Transfer\ToMove\repo\configs\el7:/opt/repo/configs  registry.access.redhat.com/ubi7/ubi:latest /bin/bash
+
+
+docker run -it -v D:\Transfer\ToMove\repo\docker\debian:/opt/repo/docker  -v D:\Transfer\ToMove\repo\opennms\el8:/opt/repo/opennms -v D:\Transfer\ToMove\repo\gitlab\el8:/opt/repo/gitlab -v D:\Transfer\ToMove\repo\depRepo\el8:/opt/repo/depRepo -v D:\Transfer\ToMove\repo\remi\el8:/opt/repo/remi -v D:\Transfer\ToMove\repo\configs\el8:/opt/repo/configs registry.access.redhat.com/ubi8/ubi:latest /bin/bash
+
+
+
+docker images
+# Find container name
+docker container ls
+# ReTag
+docker commit nuget-server baget_transfer
+#docker commit agitated_hellman baget_transfer
+# Verify new name
+docker container ls
+docker images
+# Tag docker image
+docker image tag baget_transfer ambrosektal/baget_transfer:latest
+# Push to docker.io
+docker image push ambrosektal/baget_transfer:latest
+
+# is it not connecting? Not pulling extensions? maybe this will work???
+docker run -it -v 'D:\Transfer\ToMove\software\vscodeoffline\artifacts:/artifacts' lolinternet/vscsync:latest sh
+
+# Start vsync 
+# python sync.py --check-recommended-extensions --check-specified-extensions --check-binaries --check-insider --update-binaries --update-malicious --update-extensions --artifacts /artifacts
+
+python sync.py --check-recommended-extensions --check-specified-extensions --check-binaries --update-binaries --update-extensions  --update-malicious --artifacts /artifacts
+
+python sync.py --check-recommended-extensions --check-specified-extensions --update-extensions --artifacts /artifacts --update-malicious
+python sync.py --check-specified-extensions --update-extensions --artifacts /artifacts --update-malicious
+
+python sync.py --skip-binaries --check-specified-extensions --update-malicious --update-extensions --artifacts /artifacts
+
+# Pull every Target Platform of an extensions
+
+$files = $(gc latest.json | convertfrom-json)
+
+($files.versions).foreach({$(mkdir C:\Users\joesp\Downloads\Transfer\ToMove\software\vscodeoffline\artifacts\extensions\ms-dotnettools.csharp\$($_.version)\$($_.targetPlatform) ) })
+
+($files.versions).foreach({$(cd C:\Users\joesp\Downloads\Transfer\ToMove\software\vscodeoffline\artifacts\extensions\ms-dotnettools.csharp\$($_.version)\$($_.targetPlatform) && ($_.files.source).foreach({Invoke-WebRequest $_ -OutFile $_.Split("/")[-1]  }) ) })
+
+# Archive VSCSync
+## Fix for overcomplication...
+
+vscodedate=$(date '+%Y%m%d')
+find /mnt/d/Transfer/ToMove/software/vscodeoffline/artifacts -ctime -10 -type f -print0  | tar czf /mnt/d/Transfer/ToMove/software/vscodeoffline/$(echo $vscodedate)_vscodeoffline.tar.gz --files-from=- 
+
+# find /mnt/d/Transfer/ToMove/software/vscodeoffline/artifacts -mtime -3 -type f -print0  | tar czf /mnt/d/Transfer/ToMove/software/vscodeoffline/$(echo $vscodedate)_vscodeoffline.tar.gz --files-from=- --null
+
+###################
+
+# Variables
+newerThan=2
+olderThan=3
+
+# Copy changed directories, while maintaining timestamps, to another folder.
+cp -r -p /artifacts/* /opt/vscoffline/backup/
+
+# find /opt/vscoffline/backup/ -mtime -"$newerThan" -type d | wc -l
+# find /opt/vscoffline/backup/ -mtime +"$olderThan" -type f | wc -l 
+
+# Delete files older than X days
+find /opt/vscoffline/backup/ -mtime +"$olderThan" -type f -delete
+
+# remove old and extraneous files
+find /opt/vscoffline/backup/extensions/* -iname "Microsoft.VisualStudio*" > VsixFiles
+cat VsixFiles |  sed 's/\/opt\/vscoffline\/backup\/extensions//' | cut -d '/' -f2 | sort -u | sort -u > keepFiles
+mkdir /opt/vscoffline/backup/clean
+for i in ` cat keepFiles ` ; do mv /opt/vscoffline/backup/extensions/"$i" /opt/vscoffline/backup/clean/ ; done
+rm -rf /opt/vscoffline/backup/extensions
+mv /opt/vscoffline/backup/clean /opt/vscoffline/backup/extensions
+du -cksh /opt/vscoffline/backup/extensions
+
+# Remove old install files
+find /opt/vscoffline/backup/installers/* -type f -mtime +"$olderThan" -delete
+
+# tar up files
+
+# Tar the files up
+newdate=$(date '+%Y%m%d')
+tar czvf /artifacts/$(echo $newdate)_vscoffline.tar.gz /opt/vscoffline/backup/
+
+-------------------------------------------------------------------
+
+# # move tar file to share 
+# mv $(echo $newdate)_vscoffline.tar.gz /artifacts/
+
+-------------------------------------------------------------------
+
+# backup Rust
+newdate=$(date '+%Y%m%d')
+find panamax/ -mtime -3 -type f -print0  | tar czf ../$(echo $newdate)_changed.tar.gz --files-from=- --null
+
+
+docker images
+# Find container name
+docker container ls -a
+# ReTag
+docker commit vscodeoffline-vscsync-1 vscsync_offline
+# Verify new name
+docker container ls
+docker images
+# Tag docker image
+docker image tag vscsync_offline ambrosektal/vscsync_offline
+# Push to docker.io
+docker image push ambrosektal/vscsync_offline
+
+
+docker commit netbox-docker-netbox-housekeeping-1 netbox-docker-netbox-housekeeping-1
+docker commit netbox-docker-netbox-worker-1       netbox-docker-netbox-worker-1
+docker commit netbox-docker-netbox-1              netbox-docker-netbox-1
+docker commit netbox-docker-postgres-1            netbox-docker-postgres-1
+docker commit netbox-docker-redis-1               netbox-docker-redis-1
+docker commit netbox-docker-redis-cache-1         netbox-docker-redis-cache-1
+
+netbox-docker-redis-cache-1:latest
+netbox-docker-postgres-1:latest
+netbox-docker-netbox-1:latest
+netbox-docker-netbox-worker-1:latest
+netbox-docker-redis-1:latest
+netbox-docker-netbox-housekeeping-1:latest
+radzen:blazor_20230427
+veyon:linux.ubuntu.jammy
+veyon:linux.ubuntu.focal
+veyon:linux.ubuntu.bionic
+veyon:linux.debian.buster
+veyon:linux.debian.bullseye
+veyon:linux.centos.7.9
+netboxcommunity/netbox:v3.4-2.5.3
+docker/disk-usage-extension:0.2.7
+redis:7-alpine
+postgres:15-alpine
+busybox:latest
+docker/volumes-backup-extension:1.1.2
+
+
+
+
+
+docker run --rm -it -v D:\Transfer\ToMove\software\panamax\:/mirror ambrosektal/panamax:20221019 init /mirror
+
+docker run --rm -it -v D:\Transfer\ToMove\software\panamax\:/mirror ambrosektal/panamax:20221019 sync /mirror
+
+docker run --rm -it -v D:\Transfer\ToMove\software\panamax\:/mirror -p8080:8080 ambrosektal/panamax:20221019 serve /mirror
+
+export NFS_AUDIOVOL_NAME=plexaudioshare
+export NFS_MOVIESVOL_NAME=plexmoviesshare
+export NFS_TVVOL_NAME=plextvshare
+export NFS_LIBRARYVOL_NAME=plexlibraryshare
+export NFS_LOCAL_AUDIO=/audio
+export NFS_LOCAL_MOVIES=/movies
+export NFS_LOCAL_TV=/tv
+export NFS_LOCAL_LIBRARY=/config
+export NFS_SERVER=192.168.0.124
+export NFS_AUDIO_SHARE=\data\plex\audio
+export NFS_MOVIES_SHARE=\data\plex\movies
+export NFS_TV_SHARE=\data\plex\tv
+export NFS_LIBRARY_SHARE=\data\plex\library
+#export NFS_OPTS=vers=4,soft
+export NFS_OPTS='vers=4,soft,username=ambrose,password=THIS'
+
+$NFS_AUDIOVOL_NAME='plexaudioshare'
+$NFS_MOVIESVOL_NAME='plexmoviesshare'
+$NFS_TVVOL_NAME='plextvshare'
+$NFS_LIBRARYVOL_NAME='plexlibraryshare'
+$NFS_LOCAL_AUDIO='/audio'
+$NFS_LOCAL_MOVIES='/movies'
+$NFS_LOCAL_TV='/tv'
+$NFS_LOCAL_LIBRARY='/config'
+$NFS_SERVER='192.168.0.124'
+$NFS_AUDIO_SHARE='\volume2\plex\plex\audio'
+$NFS_MOVIES_SHARE='\volume2\plex\plex\movies'
+$NFS_TV_SHARE='\volume2\plex\plex\tv'
+$NFS_LIBRARY_SHARE='\volume2\plex\plex\library'
+$NFS_OPTS='vers=3,soft,username=ambrose,password=THIS'
+
+
+
+#export NFS_SERVER=\\stored\plex
+#export NFS_AUDIO_SHARE=\plex\audio
+#export NFS_MOVIES_SHARE=\plex\movies
+#export NFS_TV_SHARE=\plex\tv
+#export NFS_LIBRARY_SHARE=\plex\library
+
+#docker run --mount \
+#  "src=$NFS_VOL_NAME,dst=$NFS_LOCAL_MNT,volume-opt=device=:$NFS_SHARE,\"volume-opt=o=addr=$NFS_SERVER,$NFS_OPTS\",type=volume,volume-driver=local,volume-opt=type=nfs" \
+#  busybox ls $NFS_LOCAL_MNT
+
+docker run --rm -it -v D:\Transfer\ToMove\repo\docker:/opt/docker 270f760d3d046dabd97e0b0f172ea326cb9afac988e3f2a74e8833eec21817b6 /bin/bash
+
+docker volume create `
+  --driver local `
+  --opt type=nfs `
+  --opt o=addr=$NFS_SERVER,$NFS_OPTS `
+  --opt device=:$NFS_AUDIO_SHARE `
+  $NFS_AUDIOVOL_NAME
+
+docker volume create `
+  --driver local `
+  --opt type=nfs `
+  --opt o=addr=$NFS_SERVER,$NFS_OPTS `
+  --opt device=:$NFS_MOVIES_SHARE `
+  $NFS_MOVIESVOL_NAME
+
+docker volume create `
+  --driver local `
+  --opt type=nfs `
+  --opt o=addr=$NFS_SERVER,$NFS_OPTS `
+  --opt device=:$NFS_TV_SHARE `
+  $NFS_TVVOL_NAME
+
+docker volume create `
+  --driver local `
+  --opt type=nfs `
+  --opt o=addr=$NFS_SERVER,$NFS_OPTS `
+  --opt device=:$NFS_LIBRARY_SHARE `
+  $NFS_LIBRARYVOL_NAME
+
+
+sudo mount -t cifs -o username=ambrose //stored/plex/plex/movies testmount/   
+
+docker run --rm -v $NFS_VOL_NAME:$NFS_LOCAL_MNT busybox ls $NFS_LOCAL_MNT
+
+## THIS ONE ALMOST WORKED
+docker run -d `
+  --name=plex `
+  --net=host `
+  -e PUID=1000 `
+  -e PGID=1000 `
+  -e VERSION=docker `
+  -e PLEX_CLAIM='claim-WzBPgzpNZUybCzwSNnu7' `
+  --restart unless-stopped `
+  --privileged `
+  --mount type=bind,source=\\wsl.localhost\Ubuntu\mnt\plex\movies,target=/movies `
+  --mount type=bind,source=\\wsl.localhost\Ubuntu\mnt\plex\TV_Shows,target=/tv `
+  --mount type=bind,source=\\wsl.localhost\Ubuntu\mnt\plex\audio,target=/audio `
+  --mount type=bind,source=\\wsl.localhost\Ubuntu\mnt\plex\library,target=/config `
+  lscr.io/linuxserver/plex:latest
+
+
+# fstab:://stored/plex/plex /mnt/plex type cifs (rw,relatime,vers=3.1.1,cache=strict,username=ambrose,uid=0,noforceuid,gid=0,noforcegid,addr=192.168.0.124,file_mode=0755,dir_mode=0755,soft,nounix,serverino,mapposix,rsize=4194304,wsize=4194304,bsize=1048576,echo_interval=60,actimeo=1)  
+
+//stored/plex/plex /mnt/plex cifs credentials=/etc/plexcreds,rw,relatime,vers=3.1.1,cache=strict,username=ambrose,uid=0,noforceuid,gid=0,noforcegid,addr=192.168.0.124,file_mode=0777,dir_mode=0777,soft,nounix,serverino,mapposix,rsize=4194304,wsize=4194304,bsize=1048576,echo_interval=60,actimeo=1 0 0
+  
+docker run -d `
+  --name=plex `
+  --net=host `
+  -e PUID=0 `
+  -e PGID=0 `
+  -e VERSION=docker `
+  -e PLEX_CLAIM='claim-vxS_Q_HrRefAR8yb55DT' `
+  --restart unless-stopped `
+  -v \\wsl.localhost\Ubuntu\mnt\plex\movies:/movies `
+  -v \\wsl.localhost\Ubuntu\mnt\plex\TV_Shows:/tv `
+  -v \\wsl.localhost\Ubuntu\mnt\plex\audio:/audio `
+  -v \\wsl.localhost\Ubuntu\mnt\plex\library:/config `
+  lscr.io/linuxserver/plex:latest
+  
+  # i had to create one contatiner using default network with the 32400 port exposed. so I could continue setup. Hopefully I can switch back after the setup completes.
+docker run -d `
+  --name=plex_share `
+  -p19876:32400 `
+  -e PUID=0 `
+  -e PGID=0 `
+  -e VERSION=docker `
+  -e PLEX_CLAIM='claim-jEhD8xUdGJ61FXSf1EvS' `
+  --restart unless-stopped `
+  --privileged `
+  -v \\wsl.localhost\Ubuntu\mnt\plex\movies:/movies `
+  -v \\wsl.localhost\Ubuntu\mnt\plex\TV_Shows:/tv `
+  -v \\wsl.localhost\Ubuntu\mnt\plex\audio:/audio `
+  -v \\wsl.localhost\Ubuntu\mnt\plex\library:/config `
+  lscr.io/linuxserver/plex:latest
+  
+  
+docker run `
+-d `
+--name plex `
+--network=host `
+--privileged `
+-e TZ="America/New_York" `
+-e PLEX_CLAIM="claim--7TYz7PqYyiun9NsTpc5" `
+  -v \\wsl.localhost\Ubuntu\mnt\plex\movies:/movies `
+  -v \\wsl.localhost\Ubuntu\mnt\plex\TV_Shows:/tv `
+  -v \\wsl.localhost\Ubuntu\mnt\plex\audio:/audio `
+  -v \\wsl.localhost\Ubuntu\mnt\plex\library:/config `
+plexinc/pms-docker
+  
+  
+  
+  
+docker run `
+-d `
+--name plex `
+--network=host `
+--privileged `
+-e TZ="America/New_York" `
+-e PLEX_CLAIM="claim-1x8JJ7eqyRoFzhK-nXVc" `
+plexinc/pms-docker
+  
+  
+  
+docker run `
+-d `
+--name plexport `
+--privileged `
+-p19876:32400 `
+-e TZ="America/New_York" `
+-e PLEX_CLAIM="claim-wxB6yDzsKRcDrzkq1DzU" `
+-h "BobContained" `
+ambrosektal/plex:latest 
+  
+  
+  
+docker run `
+-d `
+--name plexport `
+--privileged `
+--network=host `
+-e TZ="America/New_York" `
+-e PLEX_CLAIM="claim-wxB6yDzsKRcDrzkq1DzU" `
+-h "BobContained" `
+ambrosektal/plex:latest 
+  
+  
+  
+docker run `
+-d `
+--name plex `
+--privileged `
+-p 32400:32400/tcp `
+-p 3005:3005/tcp `
+-p 8324:8324/tcp `
+-p 32469:32469/tcp `
+-p 1900:1900/udp `
+-p 32410:32410/udp `
+-p 32412:32412/udp `
+-p 32413:32413/udp `
+-p 32414:32414/udp `
+-e TZ="America/New_York" `
+-e PLEX_CLAIM="claim-LLz5MkraehqZJDZdDyqZ" `
+-e ADVERTISE_IP="http://127.0.0.1:32400/" `
+-h "BobContained" `
+ambrosektal/plex:latest 
+  
+  
+docker run `
+-d `
+--name plexport2 `
+--privileged `
+--network=host `
+-e TZ="America/New_York" `
+-h "BobContained" `
+ambrosektal/plex:latest 
+  
+  
+
+docker run \
+-d \
+--name plex \
+--network=host \
+--privileged \
+-e TZ="America/New_York" \
+-e VERSION=docker \
+-v \mnt\plex\movies:/movies \
+-v \mnt\plex\TV_Shows:/tv \
+-v \mnt\plex\audio:/audio \
+-v \mnt\plex\library:/config \
+--restart unless-stopped \
+lscr.io/linuxserver/plex:latest
+    
+  
+  

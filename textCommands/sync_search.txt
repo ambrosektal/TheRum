@@ -1,0 +1,94 @@
+python sync.py --extension-search "csharp" --debug --logfile searchextensions --artifacts /artifacts
+python sync.py --extension-search "gitlab" --debug --logfile searchextensions_gitlab --artifacts /artifacts
+python sync.py --extension-search "machinelearning" --debug --logfile searchextensions_ml --artifacts /artifacts
+python sync.py --extension-search "machine_learning" --debug --logfile searchextensions_ml --artifacts /artifacts
+python sync.py --extension-search "ml" --debug --logfile searchextensions_ml --artifacts /artifacts
+python sync.py --extension-search "mlnet" --debug --logfile searchextensions_ml --artifacts /artifacts
+python sync.py --extension-search "ml.net" --debug --logfile searchextensions_ml --artifacts /artifacts
+python sync.py --extension-search "asp.net" --debug --logfile searchextensions_aspnet --artifacts /artifacts
+python sync.py --extension-search "aspnet" --debug --logfile searchextensions_aspnet --artifacts /artifacts
+python sync.py --extension-search "kube" --debug --logfile searchextensions_kube --artifacts /artifacts
+python sync.py --extension-search "python" --debug --logfile searchextensions_python --artifacts /artifacts
+python sync.py --extension-search "powershell" --debug --logfile searchextensions_powershell --artifacts /artifacts
+python sync.py --extension-search "blazor" --debug --logfile searchextensions_blazor --artifacts /artifacts
+python sync.py --extension-search "aspnetcore" --debug --logfile searchextensions_aspnetcore --artifacts /artifacts
+python sync.py --extension-search "golang" --debug --logfile searchextensions_golang --artifacts /artifacts
+python sync.py --extension-search "bun" --debug --logfile searchextensions_bun --artifacts /artifacts
+python sync.py --extension-search "rust" --debug --logfile searchextensions_rust --artifacts /artifacts
+
+python sync.py --extension-search "blazor" --debug --logfile searchextensions_blazor --artifacts /artifacts
+python sync.py --extension-search "razor" --debug --logfile searchextensions_blazor --artifacts /artifacts
+
+python sync.py --extension-search "aspnet" --debug --logfile searchextensions_aspnet --artifacts /artifacts
+python sync.py --extension-search "asp.net" --debug --logfile searchextensions_aspnet --artifacts /artifacts
+python sync.py --extension-search "asp.netcore" --debug --logfile searchextensions_aspnet --artifacts /artifacts
+python sync.py --extension-search "aspnetcore" --debug --logfile searchextensions_aspnet --artifacts /artifacts
+python sync.py --extension-search "aspnet.core" --debug --logfile searchextensions_aspnet --artifacts /artifacts
+
+python sync.py --extension-search "ms-" --debug --logfile searchextensions_Microsoft --artifacts /artifacts
+python sync.py --extension-search "Microsoft" --debug --logfile searchextensions_Microsoft --artifacts /artifacts
+python sync.py --extension-search "ms-toolsai" --debug --logfile searchextensions_Microsoft --artifacts /artifacts
+python sync.py --extension-search "ms-vscode" --debug --logfile searchextensions_Microsoft --artifacts /artifacts
+python sync.py --extension-search "msjsdiag" --debug --logfile searchextensions_Microsoft --artifacts /artifacts
+python sync.py --extension-search "ms-kube" --debug --logfile searchextensions_Microsoft --artifacts /artifacts
+python sync.py --extension-search "ms-kubernetes" --debug --logfile searchextensions_Microsoft --artifacts /artifacts
+python sync.py --extension-search "ms-mssql" --debug --logfile searchextensions_Microsoft --artifacts /artifacts
+python sync.py --extension-search "ms-kubernetes-" --debug --logfile searchextensions_Microsoft --artifacts /artifacts
+python sync.py --extension-search "ms-kubernetes-tools" --debug --logfile searchextensions_Microsoft --artifacts /artifacts
+python sync.py --extension-search "ms-dotnettools" --debug --logfile searchextensions_Microsoft --artifacts /artifacts
+python sync.py --extension-search "ms-dotnet" --debug --logfile searchextensions_Microsoft --artifacts /artifacts
+python sync.py --extension-search "ms-dot" --debug --logfile searchextensions_Microsoft --artifacts /artifacts
+python sync.py --extension-search "ms-dot*" --debug --logfile searchextensions_Microsoft --artifacts /artifacts
+python sync.py --extension-search "ms-devlabs" --debug --logfile searchextensions_Microsoft --artifacts /artifacts
+python sync.py --extension-search "ms-ceintl" --debug --logfile searchextensions_Microsoft --artifacts /artifacts
+
+python sync.py --extension-search "php" --debug --logfile searchextensions_php --artifacts /artifacts
+
+python sync.py --extension-search "sourcegraph" --debug --logfile searchextensions_sourcegraph --artifacts /artifacts
+python sync.py --extension-search "svelte" --debug --logfile searchextensions_svelte --artifacts /artifacts
+python sync.py --extension-search "jsdoc" --debug --logfile searchextensions_jsdoc --artifacts /artifacts
+
+
+# echo "" > cleanSearch
+# cat searchextensions* | cut -d " " -f 6 >> cleanSearch
+# cat cleanSearch | sort -u | sort -u | sort -u > cleanSearch1
+# mv cleanSearch1 cleanSearch
+
+for i in searchextensions* ;
+	do cat "$i" | cut -d " " -f 6 >> cleanSearch ;
+	cat cleanSearch | sort -u | sort -u | sort -u > cleanSearch1 ;
+	mv cleanSearch1 cleanSearch ;
+	mv cleanSearch "$i" ;
+done
+
+
+#######################
+
+$files = ((gci).name).foreach({$_.split("-1")[0]})
+$files = $files.foreach({$_.split("-0")[0]})
+$files = $files.foreach({$_.split("-1")[0]})
+$files = $files.foreach({$_.split("-2")[0]})
+$files = $files.foreach({$_.split("-3")[0]})
+$files = $files.foreach({$_.split("-4")[0]})
+$files = $files.foreach({$_.split("-5")[0]})
+$files = $files.foreach({$_.split("-6")[0]})
+$files = $files.foreach({$_.split("-7")[0]})
+$files = $files.foreach({$_.split("-8")[0]})
+$files = $files.foreach({$_.split("-9")[0]})
+
+$files = $files | sort-object | Get-Unique
+$files = $files | sort-object | Get-Unique
+$files = $files | sort-object | Get-Unique
+$files = $files | sort-object | Get-Unique
+$files = $files | sort-object | Get-Unique
+$files > ..\extension.Files
+
+
+# remove old and extraneous files
+find /opt/vscoffline/backup/extensions/* -iname "Microsoft.VisualStudio*" >> VsixFiles
+cat VsixFiles |  sed 's/\/opt\/vscoffline\/backup\/extensions//' | cut -d '/' -f2 | sort -u | sort -u > keepFiles
+mkdir /opt/vscoffline/backup/clean
+for i in ` cat keepFiles ` ; do mv /opt/vscoffline/backup/extensions/"$i" /opt/vscoffline/backup/clean/ ; done
+rm -rf /opt/vscoffline/backup/extensions
+mv /opt/vscoffline/backup/clean /opt/vscoffline/backup/extensions
+du -cksh /opt/vscoffline/backup/extensions
