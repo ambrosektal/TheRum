@@ -34,7 +34,6 @@ Microsoft.AI.Skills.Vision.ImageScanningPreview
 Microsoft.AI.Skills.Vision.ObjectDetectorPreview
 Microsoft.AI.Skills.Vision.ObjectTrackerPreview
 Microsoft.AI.Skills.Vision.SkeletalDetectorPreview
-Microsoft.OpenApi
 Microsoft.ML
 Microsoft.ML.AutoML
 Microsoft.ML.CodeGenerator
@@ -83,6 +82,7 @@ Microsoft.ML.Tokenizers
 Microsoft.ML.TorchSharp
 Microsoft.ML.Vision
 Microsoft.MLFeaturizers
+Microsoft.OpenApi
 Microsoft.Quantum.AutoSubstitution
 Microsoft.Quantum.Canon
 Microsoft.Quantum.Chemistry

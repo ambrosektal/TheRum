@@ -1696,6 +1696,7 @@ Microsoft.Extensions.WebEncoders
 Microsoft.Fast.Components.FluentUI
 Microsoft.Fast.Components.FluentUI.DataGrid.EntityFrameworkAdapter
 Microsoft.FASTER.Core
+Microsoft.FASTER.Server
 Microsoft.FeatureManagement
 Microsoft.FeatureManagement.AspNetCore
 Microsoft.FSharpLu
@@ -3123,6 +3124,8 @@ Microsoft.ScriptManager.WebForms
 Microsoft.SDK.Expression.Blend
 Microsoft.Security.CodeAnalysis.Cli
 Microsoft.Security.DevOps.Cli
+Microsoft.Security.DevOps.Cli.linux-x64
+Microsoft.Security.DevOps.Cli.win-x64
 Microsoft.Security.Extensions
 Microsoft.Security.Utilities
 Microsoft.ServiceFabric

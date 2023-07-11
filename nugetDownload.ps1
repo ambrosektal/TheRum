@@ -1,14 +1,96 @@
 # docker run --rm --name nuget-server -p 5555:80 --env-file "D:\\Transfer\\ToMove\\BaGet_Shared\\baget.env" -v "D:\\Transfer\\ToMove\\BaGet_Shared:/var/baget" loicsharma/baget:latest
 
+#Testing another method.
+nugetmirror.exe nupkgs "https://api.nuget.org/v3/index.json" -o D:\Transfer\ToMove\nupkg --ignore-errors --latest-only --include-id "Microsoft.*" --start $((Get-Date).AddDays(-25))
+nugetmirror.exe nupkgs "https://www.powershellgallery.com/api/v2" -o D:\Transfer\ToMove\nupkg --ignore-errors --latest-only --include-id "Microsoft.*" --start $((Get-Date).AddDays(-25))
+nugetmirror.exe nupkgs "https://pkgs.dev.azure.com/ms/terminal/_packaging/TerminalDependencies/nuget/v3/index.json" -o D:\Transfer\ToMove\nupkg --ignore-errors --latest-only --include-id "Microsoft.*" --start $((Get-Date).AddDays(-25))
+nugetmirror.exe nupkgs "https://pkgs.dev.azure.com/dnceng/public/_packaging/nuget-build/nuget/v3/index.json" -o D:\Transfer\ToMove\nupkg --ignore-errors --latest-only --include-id "Microsoft.*" --start $((Get-Date).AddDays(-25))
+
+nugetmirror.exe nupkgs "https://pkgs.dev.azure.com/dnceng/public/_packaging/dotnet-eng/nuget/v3/index.json" -o D:\Transfer\ToMove\nupkg --ignore-errors --latest-only --include-id "Microsoft.*" --start $((Get-Date).AddDays(-25))
+nugetmirror.exe nupkgs "https://pkgs.dev.azure.com/dnceng/public/_packaging/dotnet-public/nuget/v3/index.json" -o D:\Transfer\ToMove\nupkg --ignore-errors --latest-only --include-id "Microsoft.*" --start $((Get-Date).AddDays(-25))
+nugetmirror.exe nupkgs "https://pkgs.dev.azure.com/dnceng/public/_packaging/myget-legacy%40Local/nuget/v3/index.json" -o D:\Transfer\ToMove\nupkg --ignore-errors --latest-only --include-id "Microsoft.*" --start $((Get-Date).AddDays(-25))
+nugetmirror.exe nupkgs "https://pkgs.dev.azure.com/dnceng/public/_packaging/nuget-build/nuget/v3/index.json" -o D:\Transfer\ToMove\nupkg --ignore-errors --latest-only --include-id "Microsoft.*" --start $((Get-Date).AddDays(-25))
+nugetmirror.exe nupkgs "https://pkgs.dev.azure.com/azure-public/vside/_packaging/msft_consumption/nuget/v3/index.json" -o D:\Transfer\ToMove\nupkg --ignore-errors --latest-only --include-id "Microsoft.*" --start $((Get-Date).AddDays(-25))
+
+
+$Directory = "C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\nugetPackageFiles\\Microsoft2"
+# $Directory = "C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\nugetPackageFiles\\packageLists2"
+# $Directory = "C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\nugetPackageFiles\\PSGallery"
+$Files = Get-Content (Get-ChildItem -Recurse  -Path $Directory -Filter "*.txt")
+$Files = $Files | Sort-Object -Unique
+$Sources = "https://api.nuget.org/v3/index.json",
+"https://pkgs.dev.azure.com/ms/terminal/_packaging/TerminalDependencies/nuget/v3/index.json",
+"https://pkgs.dev.azure.com/dnceng/public/_packaging/nuget-build/nuget/v3/index.json",
+"https://pkgs.dev.azure.com/dnceng/public/_packaging/dotnet-eng/nuget/v3/index.json",
+"https://pkgs.dev.azure.com/dnceng/public/_packaging/dotnet-public/nuget/v3/index.json",
+"https://pkgs.dev.azure.com/dnceng/public/_packaging/myget-legacy%40Local/nuget/v3/index.json",
+"https://pkgs.dev.azure.com/azure-public/vside/_packaging/msft_consumption/nuget/v3/index.json"
+# "https://www.powershellgallery.com/api/v2",
+
+
+ForEach($Source in $Sources){
+    $Files | ForEach-Object ({
+        # $Source = $using:Source
+        # nugetmirror.exe nupkgs $Source -o D:\Transfer\ToMove\nupkg --ignore-errors --latest-only --stable-only --include-id "$_*" --start $((Get-Date).AddDays(-45))
+        # nugetmirror.exe nupkgs $Source -o D:\Transfer\ToMove\nupkg --ignore-errors --stable-only --include-id "$_*" --start $((Get-Date).AddDays(-45))
+        # nugetmirror.exe nupkgs $Source -o D:\Transfer\ToMove\nupkg2 --ignore-errors --stable-only --include-id "$_*" --start $((Get-Date).AddDays(-45))
+        nugetmirror.exe nupkgs $Source -o D:\Transfer\ToMove\nupkg3 --ignore-errors --include-id "$_*" --start $((Get-Date).AddDays(-90))
+        [System.GC]::Collect()
+    })
+}
+
+
+# $Files = "microsoft*","nuget*","typescript*","system*","runtime*","nuke*","dotnet*","blazor*","powershell*","vmware*","docker*","kube*","cake*"
+# $arguments = ""
+# $arguments += $Files | foreach({"`"$_*`" "})
+
+
+ForEach($Source in $Sources){
+        nugetmirror.exe nupkgs $Source -o D:\Transfer\ToMove\nupkg --ignore-errors --latest-only --stable-only --include-id "microsoft*" --include-id "nuget*" --include-id "typescript*"  --include-id "system*" --include-id "runtime*" --include-id "nuke*" --include-id "dotnet*" --include-id "blazor*" --include-id "powershell*" --include-id "vmware*" --include-id "docker*" --include-id "kube*" --include-id "cake*" --include-id "dapper*" --include-id "syncfusion*" --include-id "skia*" --include-id "lucern*"  --start $((Get-Date).AddDays(-360))
+        [System.GC]::Collect()
+}
+
+
+ForEach($Source in $Sources){
+    nugetmirror.exe nupkgs $Source -o D:\Transfer\ToMove\nupkg --ignore-errors --latest-only --stable-only --start $((Get-Date).AddDays(-360))
+    [System.GC]::Collect()
+}
+
+nugetmirror.exe nupkgs "https://api.nuget.org/v3/index.json" -o D:\Transfer\ToMove\nupkg --ignore-errors --latest-only --stable-only --start $((Get-Date).AddDays(-360))
+
+
+# ----------------------------------------------------------------------------
+
+$Sources = "https://api.nuget.org/v3/index.json",
+"https://www.powershellgallery.com/api/v2",
+"https://pkgs.dev.azure.com/ms/terminal/_packaging/TerminalDependencies/nuget/v3/index.json",
+"https://pkgs.dev.azure.com/dnceng/public/_packaging/nuget-build/nuget/v3/index.json",
+"https://pkgs.dev.azure.com/dnceng/public/_packaging/dotnet-eng/nuget/v3/index.json",
+"https://pkgs.dev.azure.com/dnceng/public/_packaging/dotnet-public/nuget/v3/index.json"
+# "https://pkgs.dev.azure.com/dnceng/public/_packaging/myget-legacy%40Local/nuget/v3/index.json",
+# "https://pkgs.dev.azure.com/azure-public/vside/_packaging/msft_consumption/nuget/v3/index.json"
+
+
+
+
+foreach($Source in $Sources){
+    Invoke-ParNugetDown -Directory "C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\nugetPackageFiles\\Microsoft2" -Source $Source
+    Invoke-ParNugetDown -Directory "C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\nugetPackageFiles\\packageLists2" -Source $Source
+    Invoke-ParNugetDown -Directory "C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\nugetPackageFiles\\PSGallery" -Source $Source
+}
+
+
 # ----------------------------------------------------------------------------
 Invoke-ParNugetDown -FirstHalf -Directory "C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\nugetPackageFiles\\Microsoft2"
 Invoke-ParNugetDown -FirstHalf -Directory "C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\nugetPackageFiles\\packageLists2"
-Invoke-ParNugetDown -FirstHalf -Directory "C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\nugetPackageFiles\\PSGallery" -Source "BaGet_Posh"
+Invoke-ParNugetDown -FirstHalf -Directory "C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\nugetPackageFiles\\PSGallery"
+# Invoke-ParNugetDown -FirstHalf -Directory "C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\nugetPackageFiles\\PSGallery" -Source "BaGet_Posh"
 
 
 Invoke-ParNugetDown -SecondHalf -Directory "C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\nugetPackageFiles\\Microsoft2"
 Invoke-ParNugetDown -SecondHalf -Directory "C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\nugetPackageFiles\\packageLists2"
-Invoke-ParNugetDown -SecondHalf -Directory "C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\nugetPackageFiles\\PSGallery" -Source "BaGet_Posh"
+Invoke-ParNugetDown -SecondHalf -Directory "C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\nugetPackageFiles\\PSGallery"
+# Invoke-ParNugetDown -SecondHalf -Directory "C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\nugetPackageFiles\\PSGallery" -Source "BaGet_Posh"
 
 
 
@@ -33,7 +115,8 @@ function Invoke-ParNugetDown {
         [System.Array]$PackageList,
         [System.Array]$Files,
         [string]$Directory,
-        [string]$Source = "BaGet"
+        # [string]$Source = "BaGet"
+        [string]$Source = "nuget.org"
     )
     
     begin {
@@ -460,6 +543,7 @@ function BuildPackageList {
     # BuildPackageList -PackageName "powershell.*" -OutputFile "C:\Users\$env:USERNAME\Downloads\gits\TheRum\nugetPackageFiles\Microsoft2\powershell.txt"
     # BuildPackageList -PackageName "microsoft.*.signalr*" -OutputFile "C:\Users\$env:USERNAME\Downloads\gits\TheRum\nugetPackageFiles\Microsoft2\signalr.txt"
     # BuildPackageList -PackageName "signalr.*" -OutputFile "C:\Users\$env:USERNAME\Downloads\gits\TheRum\nugetPackageFiles\Microsoft2\signalr.txt"
+    # BuildPackageList -PackageName "nuget.*" -OutputFile "C:\Users\$env:USERNAME\Downloads\gits\TheRum\nugetPackageFiles\Microsoft2\nuget.txt"
     # Add to and clean up a txt file based on an array of packages
     # BuildPackageList -PackageArray $PackageArray -OutputFile "C:\Users\$env:USERNAME\Downloads\gits\TheRum\nugetPackageFiles\packageLists2\system.txt"
     # Specify SearchSource
@@ -535,7 +619,7 @@ function Find-AllPackages {
 }
 
 
-$allFiles = "C:\Program Files (x86)\Microsoft SDKs", "C:\Users\$env:USERNAME\.nuget\packages", "D:\\Transfer\\ToMove\\BaGet_Shared", "C:\\Users\\$env:USERNAME\\AppData\\Local\\NuGet\\v3-cache"
+$allFiles = "C:\Program Files (x86)\Microsoft SDKs", "C:\Users\$env:USERNAME\.nuget\packages", "D:\\Transfer\\ToMove", "C:\\Users\\$env:USERNAME\\AppData\\Local\\NuGet\\v3-cache"
 # Remove-Variable allFiles
 # DeDupe
 # $toDeDupeCopy = gci "*.nupkg" -Recurse -Path "D:\\Transfer\\ToMove\\BaGet_Shared\\packages\\packages"
@@ -782,6 +866,29 @@ while ($uniqueFiles.count -gt 0) {
 
 
 ################# 
+# Comparing file list with actual file names
+$outputdir = "C:\\users\\$env:USERNAME\\Downloads\\"
+
+$files = gc "$outputdir\output.json" | convertfrom-json
+
+# Get-ChildItem -Recurse -Path 'D:\Transfer\Moved\nupkg\' | Select-Object Name, FullName, CreationTime, LastWriteTime, Length | ConvertTo-Json | Out-File "$outputdir\output.json"
+$files += Get-ChildItem -Recurse -Path 'D:\Transfer\Moved\nupkg\' | Select-Object Name, FullName, CreationTime, LastWriteTime, Length 
+
+$files | ConvertTo-Json | Out-File "$outputdir\$(Get-Date -Format "yyyyMMdd")_output.json"
+
+Copy-Item -Force "$outputdir\$(Get-Date -Format "yyyyMMdd")_output.json" "$outputdir\output.json"
+
+# $files = gc "$outputdir\output.json" | convertfrom-json
+
+# $tomove = gci -Recurse -Filter "*.*nupkg" -Path D:\Transfer\ToMove\nupkg
+$tomove = gci -Recurse -Filter "*.*nupkg" -Path D:\Transfer\ToMove
+
+$tomove | Where-Object {$_.Name -inotin $files.name} | Foreach-Object {mv $_ D:\transfer\Staging\nupkg\ }
+
+# 7zip the staging folder up.
+& 'C:\Program Files\7-Zip\7z.exe' a -psimnet1 "D:\transfer\$(Get-Date -Format "yyyyMMdd")_nupkg.7z" "D:\transfer\Staging\nupkg\"
 
 ################# 
+
+
 ################# 

@@ -1,5 +1,7 @@
+Microsoft.VisualStudio.Services.NuGet.AuthHelper
 Microsoft.VisualStudio.Services.NuGet.Bootstrap
 Microsoft.VisualStudio.Services.NuGet.CredentialProvider
+NuGet.Anand.Packager1
 NuGet.AzureWebSite
 NuGet.Bootstrapper
 NuGet.Build
@@ -70,6 +72,7 @@ NuGet.Packager7
 NuGet.Packager8
 NuGet.PackagerCrmSdk
 NuGet.PackagerSample
+NuGet.PackageSourceMapper
 NuGet.Packaging
 NuGet.Packaging.Build
 NuGet.Packaging.Core

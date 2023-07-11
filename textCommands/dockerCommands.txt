@@ -102,7 +102,8 @@ $files = $(gc latest.json | convertfrom-json)
 ## Fix for overcomplication...
 
 vscodedate=$(date '+%Y%m%d')
-find /mnt/d/Transfer/ToMove/software/vscodeoffline/artifacts -ctime -10 -type f -print0  | tar czf /mnt/d/Transfer/ToMove/software/vscodeoffline/$(echo $vscodedate)_vscodeoffline.tar.gz --files-from=- 
+# find /mnt/d/Transfer/ToMove/software/vscodeoffline/artifacts -ctime -10 -type f -print0  | tar czf /mnt/d/Transfer/ToMove/software/vscodeoffline/$(echo $vscodedate)_vscodeoffline.tar.gz --files-from=- 
+find /mnt/d/Transfer/software/vscodeoffline/artifacts -ctime -10 -type f -print0  | tar czf /mnt/d/Transfer/software/vscodeoffline/$(echo $vscodedate)_vscodeoffline.tar.gz --files-from=- 
 
 # find /mnt/d/Transfer/ToMove/software/vscodeoffline/artifacts -mtime -3 -type f -print0  | tar czf /mnt/d/Transfer/ToMove/software/vscodeoffline/$(echo $vscodedate)_vscodeoffline.tar.gz --files-from=- --null
 

@@ -30,7 +30,7 @@ docker run -d -it -v D:\Transfer\ToMove\repo\docker\el7:/opt/repo/docker  -v D:\
 
 
 
-
+dnf download 
 
 
 dnf reposync -n --download-metadata --repoid=gitlab_gitlab-ce -p=/opt/repo/gitlab
@@ -303,7 +303,28 @@ gpgkey=https://downloads.k8slens.dev/keys/gpg
 
 ##############################################
 
-
+Getting Python deps
+ 91  $(for i in * ; do repoquery --requires --resolve --recursive --queryformat '%{name}-%{version}\n' "$i" ; done ) >> deps.txt
+   92  cat deps
+   93  cat deps.txt 
+   94  for i in * ; do repoquery --requires --resolve --recursive --queryformat '%{name}-%{version}\n' "$i" >> deps.txt ; done 
+   95  cat deps
+   96* deps.txt 
+   97  cat deps.txt | wc -l
+   98  sort -u deps.txt > deps_clean.txt
+   99  cat deps_clean.txt | wc -l
+  100  vim
+  101  v
+  102  vi
+  103  vi deps_clean.txt 
+  104  for i in $(cat deps_clean.txt ); do dnf download "$i" ; done
+  105  for i in $(cat deps_clean.txt ); do dnf download "$i" ; done
+  106  ll
+  107  ls
+  108  rm -rf a*
+  109  rm -rf b*
+  110* 
+  111  for i in $(cat deps_clean.txt ); do dnf download "$i" ; done
 
 ##############################################
 
