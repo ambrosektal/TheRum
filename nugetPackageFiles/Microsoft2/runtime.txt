@@ -184,13 +184,17 @@ Microsoft.Maui.Essentials.Runtime.win.Msi.arm64
 Microsoft.Maui.Essentials.Runtime.win.Msi.x64
 Microsoft.Maui.Essentials.Runtime.win.Msi.x86
 Microsoft.ML.OnnxRuntime
+Microsoft.ML.OnnxRuntime.Azure
 Microsoft.ML.OnnxRuntime.DirectML
+Microsoft.ML.OnnxRuntime.Extensions
 Microsoft.ML.OnnxRuntime.Gpu
 Microsoft.ML.OnnxRuntime.Managed
 Microsoft.ML.OnnxRuntime.MKLML
 Microsoft.ML.OnnxRuntime.NoOpenMP
 Microsoft.ML.OnnxRuntime.OpenMP
+Microsoft.ML.OnnxRuntime.QNN
 Microsoft.ML.OnnxRuntime.Snpe
+Microsoft.ML.OnnxRuntime.Training
 Microsoft.NET.Runtime.Emscripten.2.0.23.Node.linux-x64
 Microsoft.NET.Runtime.Emscripten.2.0.23.Node.osx-x64
 Microsoft.NET.Runtime.Emscripten.2.0.23.Node.win-x64

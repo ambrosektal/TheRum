@@ -1,1 +1,4 @@
 NETStandard.Library
+NETStandard.Library.Extensions
+NETStandard.Library.Extensions.EntityFrameworkCore
+NETStandard.Library.Ref

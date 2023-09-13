@@ -1,0 +1,10 @@
+Microsoft.DotNet.UpgradeAssistant.Abstractions
+Microsoft.DotNet.UpgradeAssistant.Extensions
+Microsoft.DotNet.UpgradeAssistant.Extensions.Default.Analyzers
+Microsoft.DotNet.UpgradeAssistant.Extensions.LooseAssembly
+Microsoft.DotNet.UpgradeAssistant.Extensions.LooseAssembly.NuGet
+Microsoft.DotNet.UpgradeAssistant.Extensions.Maui
+NEST.7xUpgradeAssistant
+upgrade-assistant
+UpgradeAssistant.Extension.CleanUp
+UpgradeAssistant.Extension.ForceTFM

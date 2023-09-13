@@ -1,6 +1,7 @@
 @4tw/cypress-drag-drop
 @activepipe/react-chartjs-2
 @ahrefs/bs-recharts
+@aks-dev/picker
 @alesmenzel/recharts
 @alifd/theme-bizcharts-blue
 @alifd/theme-bizcharts-green
@@ -8,12 +9,15 @@
 @alifd/theme-bizcharts-purple
 @aliyun-sls/bizcharts
 @allenluce/chai-enzyme
+@americanexpress/one-app-dev-bundler
+@anu-dev/core
 @autopilot/recharts
 @babel/preset-react
 @badeball/cypress-configuration
 @bahmutov/cly
 @bizcharts/rax-canvas
 @bndynet/recharts-wrapper
+@c4605/interpolate-webpack-plugin
 @chakra-ui/cra-template
 @chakra-ui/portal
 @cliqmind/react-table
@@ -30,9 +34,11 @@
 @finsit/eslint-plugin-cypress
 @fluentui/cra-template
 @fluentui/react-window-provider
+@hookform/devtools
 @hookform/resolvers
 @influxdata/vis
 @itk/react-chartjs-2
+@jellyfish-dev/react-native-membrane-webrtc
 @kimizuy/react-chartjs
 @kiru42/cypress-plugin-visual-tests
 @lifeomic/react-vis-network
@@ -63,6 +69,7 @@
 @plasmicpkgs/react-chartjs-2
 @plrthink/bizcharts
 @react-18-pdf/root
+@react-dev-inspector/babel-plugin
 @react-file-based-routing/react-router-dom
 @react-hook/event
 @react-hook/resize-observer
@@ -416,6 +423,7 @@ dom-helpers
 downshift
 draft-js
 eigen-react-virtualized-tree
+electrode-archetype-react-app-dev
 elora
 emotion
 enzyme
@@ -435,6 +443,9 @@ eslint-plugin-react-hooks
 exenv
 expect-enzyme
 expo-camera
+expo-dev-launcher
+expo-dev-menu
+expo-dev-menu-interface
 fable-react-to-webcomponent
 fast-kbar
 feature-react-navigation
@@ -492,6 +503,7 @@ mivl-chartjs-2
 mng-react-toolbox
 mobx
 mobx-react
+mocker-api
 molibox-t
 mtxui
 mui-modal-provider
@@ -528,6 +540,7 @@ react-b
 react-beautiful-dnd
 react-block-placeholder
 react-bootstrap
+react-bootstrap-typeahead
 react-bulma-components
 react-c
 react-c-grid
@@ -556,6 +569,7 @@ react-components-form
 react-compound-slider
 react-cookie
 react-copy-to-clipboard
+react-create-url
 react-custom-scrollbars
 react-d
 react-d3-force-graphs
@@ -565,6 +579,7 @@ react-datetime
 react-datocms
 react-day-picker
 react-deck-o-cards
+react-dev
 react-dev-utils
 react-dnd
 react-dnd-html5-backend
@@ -654,6 +669,7 @@ react-native
 react-native-alipay-u
 react-native-clusterer
 react-native-deliverer
+react-native-dev-info
 react-native-ecom-portmone
 react-native-flex-grid
 react-native-g-ad-manager
@@ -791,6 +807,7 @@ react-window-dimensions
 react-window-resize-listener
 react-window-sizer
 react-window-ui
+react-with-styles
 react-x
 react-ymd-date-select
 react-z
@@ -798,6 +815,7 @@ react-z-index
 react-z-pull-down
 react-z-scroll
 react-z-swipe
+reactcci
 reactful
 reactstrap
 really-awsome-button-react-native
@@ -892,4 +910,5 @@ vis-ui
 warning
 webapp-ui-macs
 webpack-react-j
+wenke-dev
 x-nivo

@@ -47,6 +47,7 @@ python sync.py --extension-search "php" --debug --logfile searchextensions_php -
 python sync.py --extension-search "sourcegraph" --debug --logfile searchextensions_sourcegraph --artifacts /artifacts
 python sync.py --extension-search "svelte" --debug --logfile searchextensions_svelte --artifacts /artifacts
 python sync.py --extension-search "jsdoc" --debug --logfile searchextensions_jsdoc --artifacts /artifacts
+python sync.py --extension-search "bash" --debug --logfile searchextensions_bash --artifacts /artifacts
 
 
 # echo "" > cleanSearch
@@ -92,3 +93,16 @@ for i in ` cat keepFiles ` ; do mv /opt/vscoffline/backup/extensions/"$i" /opt/v
 rm -rf /opt/vscoffline/backup/extensions
 mv /opt/vscoffline/backup/clean /opt/vscoffline/backup/extensions
 du -cksh /opt/vscoffline/backup/extensions
+
+
+$osversions = "win32","linux","linux-deb","linux-rpm","linux-snap","server-linux","server-win32","cli-win32","cli-linux"
+
+$arch = "","x64"
+
+foreach($osver in $osversions) {
+	# $(70..83).foreach({ invoke-webrequest "https://update.code.visualstudio.com/1.$_.0/$osver/stable" -OutFile D:\Transfer\ToMove\vscode\ })    
+	$(70..83).foreach({ 
+		$URL = "https://update.code.visualstudio.com/1.$_.0/$osver/stable"
+		invoke-webrequest $URL -OutFile "D:\Transfer\ToMove\vscode\$(Split-Path -Leaf $URL)" 
+		})    
+}

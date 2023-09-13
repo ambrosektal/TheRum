@@ -91,20 +91,41 @@ $txtfiles = (gci -recurse C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npm
 ############################
 
 $txtfiles = (gci -recurse C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\ -Filter "*.txt")
-$files = $txtfiles | foreach {gc $_}
+$files = $txtfiles | foreach { gc $_ }
 $files = $files | Sort-Object -Unique
 $files = $files | Sort-Object -Unique
 
-$files = $files[0..$($files.count * .50)]
-$files.count
+$first50files = $files[0..$($files.count * .50)]
+$second50files = $files[$($files.count * .50)..$($files.count)]
 
-$files > C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\firstHalf.txt
+$25files = $files[0..$($files.count * .25)]
+$50files = $files[$($files.count * .25)..$($files.count * .50)]
+$75files = $files[$($files.count * .50)..$($files.count * .75)]
+$100files = $files[$($files.count * .75)..$($files.count)]
+
+$25files.count
+$50files.count
+$75files.count
+$100files.count
+
+
+$first50files.count
+$second50files.count
+
+$first50files > C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\firstHalf.txt
+$second50files > C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\secondHalf.txt
+
+$25files > C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\firstQuarter.txt
+$50files > C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\secondQuarter.txt
+$75files > C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\thirdQuarter.txt
+$100files > C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\fourthQuarter.txt
+
 
 ############################
 
 
 $txtfiles = (gci -recurse C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\ -Filter "*.txt")
-$files = $txtfiles | foreach {gc $_}
+$files = $txtfiles | foreach { gc $_ }
 $files = $files | Sort-Object -Unique
 $files = $files | Sort-Object -Unique
 
@@ -118,6 +139,12 @@ $files > C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\sec
 SimpleNPMDownload -PackageListTxtFile "C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\firstHalf.txt" 
 
 SimpleNPMDownload -PackageListTxtFile "C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\secondHalf.txt" 
+
+
+SimpleNPMDownload -PackageListTxtFile "C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\firstQuarter.txt" 
+SimpleNPMDownload -PackageListTxtFile "C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\secondQuarter.txt" 
+SimpleNPMDownload -PackageListTxtFile "C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\thirdQuarter.txt" 
+SimpleNPMDownload -PackageListTxtFile "C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\fourthQuarter.txt" 
 
 ############################
 
@@ -142,7 +169,11 @@ function SimpleNPMDownload {
         [string]$DirectoryOfPackageListTxtFiles,
         [string]$InstallDirectory,
         [array]$npmPackageArray,
+        # [string]$Registry = "https://registry.npmjs.org/",
+        [string]$Registry = "http://127.0.0.1:4873/",
         [switch]$yarn
+        
+        
     )
     if ($PackageListTxtFile) {
         $txtfiles = (Get-ChildItem $PackageListTxtFile)
@@ -174,7 +205,7 @@ function SimpleNPMDownload {
         $unclean = $txtfiles.foreach({ gc $_ })
         # $clean = $unclean | Sort-Object -Unique
         try {
-            $clean = $unclean.Replace('\','/') | Sort-Object -Unique    
+            $clean = $unclean.Replace('\', '/') | Sort-Object -Unique    
         }
         catch {
             $clean = $unclean | Sort-Object -Unique
@@ -182,18 +213,31 @@ function SimpleNPMDownload {
         
         Write-Host "yay, I'm in the correct directory!!!"
         $clean | foreach-object -Parallel ({
+                $Registry = $using:Registry
                 write-host "Downloading $_ ..."
                 [string]$random = Get-Random -Maximum 999999 -Minimum 100000
                 mkdir "D:\\Transfer\\ToMove\\node\\$random"
-                try{
-                    npm i $_"@latest" --force --prefix "D:\\Transfer\\ToMove\\node\\$random"; 
-                } catch {
-                    npm i $_ --force --prefix "D:\\Transfer\\ToMove\\node\\$random"; 
+                if (!$(Test-Path "D:\\Transfer\\ToMove\\node\\$random")) {
+                    mkdir "D:\\Transfer\\ToMove\\node\\$random"
+                }
+                try {
+                    npm i $_"@latest" --force --registry $Registry --prefix "D:\\Transfer\\ToMove\\node\\$random"; 
+                    Remove-Item -r -Force "D:\\Transfer\\ToMove\\node\\$random\\*" ;
+                    npm i $_ --force --registry $Registry --prefix "D:\\Transfer\\ToMove\\node\\$random" ; 
+                }
+                catch {
+                    Write-Host "Failed to install $_" ; 
+                }
+                try {
+                    npm i $_ --force --prefix "D:\\Transfer\\ToMove\\node\\$random" --registry $Registry; 
+                }
+                catch {
+                    Write-Host "Failed to install $_" ; 
                 }
                 # npm i $_ --force --prefix "D:\\Transfer\\ToMove\\node\\$random"; 
                 cd "D:\\Transfer\\ToMove\\node\\$random"; 
-                npm audit fix ; 
-                npm audit fix --force ; 
+                npm audit fix --registry $Registry; 
+                npm audit fix --force --registry $Registry; 
                 cd "D:\\Transfer\\ToMove\\node\\"; 
                 Remove-Item -r -Force "D:\\Transfer\\ToMove\\node\\$random"
                 [System.GC]::Collect()
@@ -367,7 +411,7 @@ function Install-NpmPackages {
         [switch]$AllMajorVersions,
         [int]$UpperVersionRange,
         [int]$LowerVersionRange,
-        [string]$BaseVersion
+        [string]$BaseVersion = $null
 
     )
     # NOTES
@@ -376,9 +420,19 @@ function Install-NpmPackages {
     # Install-NpmPackages -PackageName svelte -AllMajorVersions
     # $packageArray = gc "C:\\Users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\newnet.txt"
     # $packageArray = gc "C:\\Users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\requests\\esbuild.txt" 
+    # $packageArray = gc "C:\\Users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\requests\\babel.txt" 
+    # $packageArray = gc "C:\\Users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\requests\\svelte.txt" 
     # $packageArray = gc "C:\\Users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\requests\\font-awesome.txt" 
     # Install-NpmPackages -PackageArray $packageArray -AllLatest
     # Install-NpmPackages -PackageArray $packageArray -AllMajorVersions -UpperVersionRange 20 -LowerVersionRange 0 -BaseVersion '0'
+
+
+    # $(0..20) | foreach-object -Parallel {
+    #     $BaseVersion = $_
+    #     $packageArray = $using:PackageArray
+    #     & "C:\\Users\\$env:USERNAME\\Downloads\\gits\\TheRum\\Install-NpmPackages.ps1" -PackageArray $packageArray -AllMajorVersions -UpperVersionRange 20 -LowerVersionRange 0 -BaseVersion $BaseVersion
+    # }
+   
     $Directory = Get-Location
     if (!$LowerVersionRange) {
         $LowerVersionRange = 0
@@ -391,64 +445,155 @@ function Install-NpmPackages {
     # }
     if ($AllLatest) {
         if ($PackageArray) {
-            # foreach ($PackageName in $PackageArray) { npm i "$PackageName@latest" --legacy-peer-deps }
-            # foreach ($PackageName in $PackageArray) { npm i "$PackageName@latest" --force }
-            foreach ($PackageName in $PackageArray) { 
-                # npm i "$PackageName@latest" --force ;
-                npm i "$PackageName" --force ;
-                npm audit fix ; 
-                npm audit fix --force ;  
-                Remove-Item -r -Force "$Directory\\*"
-                # Remove-Item -r -Force "$Directory\\node_modules"
-                # Remove-Item -r -Force "$Directory\\package.json"
-                # Remove-Item -r -Force "$Directory\\package-lock.json"
-                [System.GC]::Collect()
+            foreach ($PackageName in $PackageArray) {
+                Foreach-Object -parallel ({ 
+                        $PackageName = $using:PackageName
+                        $Directory = $using:Directory
+                        write-host "Downloading $PackageName ..."
+                        [string]$random = Get-Random -Maximum 999999 -Minimum 100000
+                        mkdir "D:\\Transfer\\ToMove\\node\\$random"
+                        try {
+                            npm i "$PackageName@latest" --force --prefix "D:\\Transfer\\ToMove\\node\\$random"; 
+                        }
+                        catch {
+                            npm i "$PackageName" --force --prefix "D:\\Transfer\\ToMove\\node\\$random"; 
+                        }
+                        cd "D:\\Transfer\\ToMove\\node\\$random"; 
+                        npm audit fix ; 
+                        npm audit fix --force ; 
+                        cd "D:\\Transfer\\ToMove\\node\\"; 
+                        Remove-Item -r -Force "D:\\Transfer\\ToMove\\node\\$random"
+                        [System.GC]::Collect()
+                    }) 
             }
         }
         elseif ($PackageName) {
-            # npm i "$PackageName@latest" --legacy-peer-deps
-            # npm i "$PackageName@latest" --force
-            # npm i "$PackageName@latest" --force ;
-            npm i "$PackageName" --force ;
-            npm audit fix ; 
-            npm audit fix --force ;  
-            Remove-Item -r -Force "$Directory\\*"
-            # Remove-Item -r -Force "$Directory\\node_modules"
-            # Remove-Item -r -Force "$Directory\\package.json"
-            # Remove-Item -r -Force "$Directory\\package-lock.json"
-            [System.GC]::Collect()
+            Foreach-Object -Parallel ({ 
+                    $PackageName = $using:PackageName
+                    $Directory = $using:Directory
+                    write-host "Downloading $_ ..."
+                    [string]$random = Get-Random -Maximum 999999 -Minimum 100000
+                    mkdir "D:\\Transfer\\ToMove\\node\\$random"
+                    try {
+                        npm i "$PackageName@latest" --force --prefix "D:\\Transfer\\ToMove\\node\\$random"; 
+                    }
+                    catch {
+                        npm i "$PackageName" --force --prefix "D:\\Transfer\\ToMove\\node\\$random"; 
+                    }
+                    cd "D:\\Transfer\\ToMove\\node\\$random"; 
+                    npm audit fix ; 
+                    npm audit fix --force ; 
+                    cd "D:\\Transfer\\ToMove\\node\\"; 
+                    Remove-Item -r -Force "D:\\Transfer\\ToMove\\node\\$random"
+                    [System.GC]::Collect()
+                })
         }
+
+        # if ($PackageArray) {
+        #     # foreach ($PackageName in $PackageArray) { npm i "$PackageName@latest" --legacy-peer-deps }
+        #     # foreach ($PackageName in $PackageArray) { npm i "$PackageName@latest" --force }
+        #     foreach ($PackageName in $PackageArray) { 
+        #         # npm i "$PackageName@latest" --force ;
+        #         npm i "$PackageName" --force ;
+        #         npm audit fix ; 
+        #         npm audit fix --force ;  
+        #         Remove-Item -r -Force "$Directory\\*"
+        #         # Remove-Item -r -Force "$Directory\\node_modules"
+        #         # Remove-Item -r -Force "$Directory\\package.json"
+        #         # Remove-Item -r -Force "$Directory\\package-lock.json"
+        #         [System.GC]::Collect()
+        #     }
+        # }
+        # elseif ($PackageName) {
+        #     # npm i "$PackageName@latest" --legacy-peer-deps
+        #     # npm i "$PackageName@latest" --force
+        #     # npm i "$PackageName@latest" --force ;
+        #     npm i "$PackageName" --force ;
+        #     npm audit fix ; 
+        #     npm audit fix --force ;  
+        #     Remove-Item -r -Force "$Directory\\*"
+        #     # Remove-Item -r -Force "$Directory\\node_modules"
+        #     # Remove-Item -r -Force "$Directory\\package.json"
+        #     # Remove-Item -r -Force "$Directory\\package-lock.json"
+        #     [System.GC]::Collect()
+        # }
         else {
             Write-Host "PackageName OR PackageArray required with the AllLatest option."
         }
     }
     if ($AllNext) {
         if ($PackageArray) {
-            # foreach ($PackageName in $PackageArray) { npm i "$PackageName@next" --legacy-peer-deps }
-            # foreach ($PackageName in $PackageArray) { npm i "$PackageName@next" --force }
-            foreach ($PackageName in $PackageArray) { 
-                npm i "$PackageName@next" --force ;
-                npm audit fix ; 
-                npm audit fix --force ;  
-                Remove-Item -r -Force "$Directory\\*"
-                # Remove-Item -r -Force "$Directory\\node_modules"
-                # Remove-Item -r -Force "$Directory\\package.json"
-                # Remove-Item -r -Force "$Directory\\package-lock.json"
-                [System.GC]::Collect()
+            foreach ($PackageName in $PackageArray) {
+                foreach-object -parallel ({ 
+                        $PackageName = $using:PackageName
+                        $Directory = $using:Directory
+                        write-host "Downloading $PackageName ..."
+                        [string]$random = Get-Random -Maximum 999999 -Minimum 100000
+                        mkdir "D:\\Transfer\\ToMove\\node\\$random"
+                        try {
+                            npm i "$PackageName@next" --force --prefix "D:\\Transfer\\ToMove\\node\\$random"; 
+                        }
+                        catch {
+                            npm i "$PackageName" --force --prefix "D:\\Transfer\\ToMove\\node\\$random"; 
+                        }
+                        cd "D:\\Transfer\\ToMove\\node\\$random"; 
+                        npm audit fix ; 
+                        npm audit fix --force ; 
+                        cd "D:\\Transfer\\ToMove\\node\\"; 
+                        Remove-Item -r -Force "D:\\Transfer\\ToMove\\node\\$random"
+                        [System.GC]::Collect()
+                    }) 
             }
         }
         elseif ($PackageName) {
-            # npm i "$PackageName@next" --legacy-peer-deps
-            # npm i "$PackageName@next" --force
-            npm i "$PackageName@next" --force ;
-            npm audit fix ; 
-            npm audit fix --force ;  
-            Remove-Item -r -Force "$Directory\\*"
-            # Remove-Item -r -Force "$Directory\\node_modules"
-            # Remove-Item -r -Force "$Directory\\package.json"
-            # Remove-Item -r -Force "$Directory\\package-lock.json"
-            [System.GC]::Collect()
+            Foreach-Object -Parallel ({ 
+                    $PackageName = $using:PackageName
+                    $Directory = $using:Directory
+                    write-host "Downloading $PackageName ..."
+                    [string]$random = Get-Random -Maximum 999999 -Minimum 100000
+                    mkdir "D:\\Transfer\\ToMove\\node\\$random"
+                    try {
+                        npm i "$PackageName@next" --force --prefix "D:\\Transfer\\ToMove\\node\\$random"; 
+                    }
+                    catch {
+                        npm i "$PackageName" --force --prefix "D:\\Transfer\\ToMove\\node\\$random"; 
+                    }
+                    cd "D:\\Transfer\\ToMove\\node\\$random"; 
+                    npm audit fix ; 
+                    npm audit fix --force ; 
+                    cd "D:\\Transfer\\ToMove\\node\\"; 
+                    Remove-Item -r -Force "D:\\Transfer\\ToMove\\node\\$random"
+                    [System.GC]::Collect()
+                })
         }
+
+
+        # if ($PackageArray) {
+        #     # foreach ($PackageName in $PackageArray) { npm i "$PackageName@next" --legacy-peer-deps }
+        #     # foreach ($PackageName in $PackageArray) { npm i "$PackageName@next" --force }
+        #     foreach ($PackageName in $PackageArray) { 
+        #         npm i "$PackageName@next" --force ;
+        #         npm audit fix ; 
+        #         npm audit fix --force ;  
+        #         Remove-Item -r -Force "$Directory\\*"
+        #         # Remove-Item -r -Force "$Directory\\node_modules"
+        #         # Remove-Item -r -Force "$Directory\\package.json"
+        #         # Remove-Item -r -Force "$Directory\\package-lock.json"
+        #         [System.GC]::Collect()
+        #     }
+        # }
+        # elseif ($PackageName) {
+        #     # npm i "$PackageName@next" --legacy-peer-deps
+        #     # npm i "$PackageName@next" --force
+        #     npm i "$PackageName@next" --force ;
+        #     npm audit fix ; 
+        #     npm audit fix --force ;  
+        #     Remove-Item -r -Force "$Directory\\*"
+        #     # Remove-Item -r -Force "$Directory\\node_modules"
+        #     # Remove-Item -r -Force "$Directory\\package.json"
+        #     # Remove-Item -r -Force "$Directory\\package-lock.json"
+        #     [System.GC]::Collect()
+        # }
         else {
             Write-Host "PackageName OR PackageArray required with the AllNext option."
         }
@@ -459,44 +604,56 @@ function Install-NpmPackages {
             foreach ($PackageName in $PackageArray) {
                 # $($LowerVersionRange..$UpperVersionRange).foreach({ 
                 $($LowerVersionRange..$UpperVersionRange) | foreach-object -parallel ({ 
-                    $PackageName = $using:PackageName
-                    $Directory = $using:Directory
-                    if($null -ne $using:BaseVersion){
-                        $BaseVersion = $using:BaseVersion
-                    }
-                    
-                        if ($null -ne $BaseVersion ) {
-                            npm i "$PackageName@^$BaseVersion.$_" --force ;
+                        $PackageName = $using:PackageName
+                        $Directory = $using:Directory
+                        if ($using:BaseVersion) {
+                            $BaseVersion = $using:BaseVersion
+                        }
+                        write-host "Downloading $_ ..."
+                        [string]$random = Get-Random -Maximum 999999 -Minimum 100000
+                        mkdir "D:\\Transfer\\ToMove\\node\\$random"
+                        if ($BaseVersion ) {
+                            npm i "$PackageName@~$BaseVersion.$_" --force --prefix "D:\\Transfer\\ToMove\\node\\$random"; 
                         }
                         else {
-                            npm i "$PackageName@^$_" --force ;
+                            # npm i "$PackageName@$_" --force --prefix "D:\\Transfer\\ToMove\\node\\$random"; 
+                            npm i "$PackageName@~$_" --force --prefix "D:\\Transfer\\ToMove\\node\\$random"; 
+                            # npm i "$PackageName@^$_" --force --prefix "D:\\Transfer\\ToMove\\node\\$random"; 
                         }
+                        cd "D:\\Transfer\\ToMove\\node\\$random"; 
                         npm audit fix ; 
-                        npm audit fix --force ;  
-                        Remove-Item -r -Force "$Directory\\*"
-                        # Remove-Item -r -Force "$Directory\\node_modules"
-                        # Remove-Item -r -Force "$Directory\\package.json"
-                        # Remove-Item -r -Force "$Directory\\package-lock.json"
+                        npm audit fix --force ; 
+                        cd "D:\\Transfer\\ToMove\\node\\"; 
+                        Remove-Item -r -Force "D:\\Transfer\\ToMove\\node\\$random"
                         [System.GC]::Collect()
                     }) 
             }
         }
         elseif ($PackageName) {
             # $($LowerVersionRange..$UpperVersionRange).foreach({ npm i $PackageName"@^"$_ --legacy-peer-deps })
-            $($LowerVersionRange..$UpperVersionRange).foreach({ 
-                    if ($BaseVersion -eq "") {
-                        npm i $PackageName"@^"$BaseVersion.$_ --force 
+            # $($LowerVersionRange..$UpperVersionRange).foreach({ 
+            # $($LowerVersionRange..$UpperVersionRange).foreach({ 
+            $($LowerVersionRange..$UpperVersionRange) | Foreach-Object -Parallel ({ 
+                    # if ($null -ne $BaseVersion -or $BaseVersion -ne "" -or $BaseVersion -eq [int] ) {
+                    $PackageName = $using:PackageName
+                    $Directory = $using:Directory
+                    if ($using:BaseVersion) {
+                        $BaseVersion = $using:BaseVersion
+                    }
+                    write-host "Downloading $_ ..."
+                    [string]$random = Get-Random -Maximum 999999 -Minimum 100000
+                    mkdir "D:\\Transfer\\ToMove\\node\\$random"
+                    if ($BaseVersion ) {
+                        npm i "$PackageName@~$BaseVersion.$_" --force --prefix "D:\\Transfer\\ToMove\\node\\$random"; 
                     }
                     else {
-                        npm i $PackageName"@^"$_ --force 
+                        npm i "$PackageName@~$_" --force --prefix "D:\\Transfer\\ToMove\\node\\$random"; 
                     }
-                
+                    cd "D:\\Transfer\\ToMove\\node\\$random"; 
                     npm audit fix ; 
-                    npm audit fix --force ;  
-                    Remove-Item -r -Force "$Directory\\*"
-                    # Remove-Item -r -Force "$Directory\\node_modules"
-                    # Remove-Item -r -Force "$Directory\\package.json"
-                    # Remove-Item -r -Force "$Directory\\package-lock.json"
+                    npm audit fix --force ; 
+                    cd "D:\\Transfer\\ToMove\\node\\"; 
+                    Remove-Item -r -Force "D:\\Transfer\\ToMove\\node\\$random"
                     [System.GC]::Collect()
                 })
         }
@@ -515,6 +672,7 @@ function Build-NPMList {
     # Build-NPMList -PackageName "sveltejs" 
     # Add to and clean up a txt file
     # Build-NPMList -PackageName "sveltejs" -OutputFile "C:\Users\$env:USERNAME\Downloads\gits\TheRum\npmPackageFiles\requests\svelte.txt"
+    # Build-NPMList -PackageName "@babel/runtime" -OutputFile "C:\Users\$env:USERNAME\Downloads\gits\TheRum\npmPackageFiles\requests\babel.txt"
     # Build-NPMList -PackageName "react" -OutputFile "C:\Users\$env:USERNAME\Downloads\gits\TheRum\npmPackageFiles\requests\react.txt"
     # Build-NPMList -PackageName "react-" -OutputFile "C:\Users\$env:USERNAME\Downloads\gits\TheRum\npmPackageFiles\requests\react.txt"
     # Build-NPMList -PackageName "cra-template" -OutputFile "C:\Users\$env:USERNAME\Downloads\gits\TheRum\npmPackageFiles\requests\react.txt"
@@ -643,8 +801,33 @@ function Get-DirectoriesWithSingleFile {
 }
 
 $files = Get-DirectoriesWithSingleFile -path "D:\Transfer\toMove\Software\Verdaccio\Storage\data\"
-$newFiles = $files | foreach {$_.Replace('D:\Transfer\toMove\Software\Verdaccio\Storage\data\','')}
-$newfiles = $newfiles.Replace('\','/')
+$newFiles = $files | foreach { $_.Replace('D:\Transfer\toMove\Software\Verdaccio\Storage\data\', '') }
+$newfiles = $newfiles.Replace('\', '/')
 $newfiles.count
 $newFiles > "C:\\Users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\packageLists\\missingFiles2.txt" 
 ################# 
+
+
+$packageArray = "react","react-dom","react-router","react-router-dom","dotenv"
+
+# $packageArray = gc "C:\\Users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\requests\\kevin.txt"
+$packageArray = gc "C:\\Users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\requests\\angular.txt"
+
+$(0..20) | foreach-object -Parallel {
+    $BaseVersion = $_
+    $packageArray = $using:PackageArray
+    & "C:\\Users\\$env:USERNAME\\Downloads\\gits\\TheRum\\Install-NpmPackages.ps1" -PackageArray $packageArray -AllMajorVersions -UpperVersionRange 20 -LowerVersionRange 0 -BaseVersion $BaseVersion 
+    # Write-Host $BaseVersion
+}
+
+
+# $PackageName = "npm"
+$PackageName = "dotenv"
+$(0..20) | foreach-object -Parallel {
+    $BaseVersion = $_
+    # $packageArray = $using:PackageArray
+    $PackageName = $using:PackageName
+    & "C:\\Users\\$env:USERNAME\\Downloads\\gits\\TheRum\\Install-NpmPackages.ps1" -PackageName $PackageName -AllMajorVersions -UpperVersionRange 20 -LowerVersionRange 0 -BaseVersion $BaseVersion 
+    # Write-Host $BaseVersion
+}
+

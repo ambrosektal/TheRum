@@ -25,7 +25,10 @@ npm create vite@latest my-svelte-app -- --template svelte -y
 
 $files = gci -Recurse -File -Filter "package.json"
 
-$files | foreach-object{ cd $_.Directory && npm i && npm audit fix -force }
+# $files | foreach-object{ cd $_.Directory && npm i && npm audit fix -force }
+$files | foreach-object -Parallel { 
+    cd $_.Directory && npm i && npm audit fix -force 
+    }
 
 
 

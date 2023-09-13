@@ -1,6 +1,7 @@
 Microsoft.CodeDom.Providers.DotNetCompilerPlatform
 Microsoft.CodeDom.Providers.DotNetCompilerPlatform.BinFix
 Microsoft.CodeDom.Providers.DotNetCompilerPlatform.NoInstall
+Microsoft.CodeDom.Providers.DotNetCompilerPlatform.WebSites
 Microsoft.Deployment.DotNet.Releases
 Microsoft.Diagnostics.NETCore.Client
 Microsoft.dotnet-httprepl
@@ -24,6 +25,8 @@ Microsoft.DotNet.UpgradeAssistant.Extensions.Default.Analyzers
 Microsoft.DotNet.Watcher.Tools
 Microsoft.DotNet.Web.Client.ItemTemplates
 Microsoft.DotNet.Web.ItemTemplates
+Microsoft.DotNet.Web.ItemTemplates.6.0
+Microsoft.DotNet.Web.ItemTemplates.7.0
 Microsoft.DotNet.Web.ProjectTemplates.2.1
 Microsoft.DotNet.Web.ProjectTemplates.2.2
 Microsoft.DotNet.Web.ProjectTemplates.3.0
@@ -37,6 +40,7 @@ Microsoft.DotNet.Web.Spa.ProjectTemplates.3.0
 Microsoft.DotNet.Web.Spa.ProjectTemplates.3.1
 Microsoft.DotNet.Web.Spa.ProjectTemplates.5.0
 Microsoft.DotNet.Web.Spa.ProjectTemplates.6.0
+Microsoft.DotNet.Web.Spa.ProjectTemplates.7.0
 Microsoft.DotNet.Xdt.Tools
 Microsoft.EntityFrameworkCore.Sqlite.NetTopologySuite
 Microsoft.EntityFrameworkCore.SqlServer.NetTopologySuite
@@ -47,9 +51,13 @@ Microsoft.FeatureManagement.AspNetCore
 Microsoft.Json.Schema.ToDotNet
 Microsoft.MarkedNet
 Microsoft.Maui.Templates.net6
+Microsoft.Maui.Templates.net6.Msi.arm64
 Microsoft.Maui.Templates.net6.Msi.x64
+Microsoft.Maui.Templates.net6.Msi.x86
 Microsoft.Maui.Templates.net7
+Microsoft.Maui.Templates.net7.Msi.arm64
 Microsoft.Maui.Templates.net7.Msi.x64
+Microsoft.Maui.Templates.net7.Msi.x86
 Microsoft.ML.DnnImageFeaturizer.AlexNet
 Microsoft.ML.DnnImageFeaturizer.ResNet101
 Microsoft.ML.DnnImageFeaturizer.ResNet18

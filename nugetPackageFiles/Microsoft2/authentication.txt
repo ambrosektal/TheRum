@@ -121,6 +121,7 @@ Microsoft.Extensions.Identity.Stores
 Microsoft.Extensions.SecretManager.Tools
 Microsoft.Identity.Abstractions
 Microsoft.Identity.Client
+Microsoft.Identity.Client.Broker
 Microsoft.Identity.Client.Desktop
 Microsoft.Identity.Client.Extensions.Adal
 Microsoft.Identity.Client.Extensions.Msal
@@ -132,6 +133,8 @@ Microsoft.Identity.Web.Certificate
 Microsoft.Identity.Web.Certificateless
 Microsoft.Identity.Web.Diagnostics
 Microsoft.Identity.Web.DownstreamApi
+Microsoft.Identity.Web.GraphServiceClient
+Microsoft.Identity.Web.GraphServiceClientBeta
 Microsoft.Identity.Web.MicrosoftGraph
 Microsoft.Identity.Web.MicrosoftGraphBeta
 Microsoft.Identity.Web.OWIN
@@ -295,6 +298,9 @@ Microsoft.Preview.WindowsAzure.ActiveDirectory.Authentication
 Microsoft.Rest.ClientRuntime.Azure.Authentication
 Microsoft.Security.CodeAnalysis.Cli
 Microsoft.Security.DevOps.Cli
+Microsoft.Security.DevOps.Cli.linux-arm64
+Microsoft.Security.DevOps.Cli.linux-x64
+Microsoft.Security.DevOps.Cli.win-x64
 Microsoft.Security.Extensions
 Microsoft.Security.Utilities
 Microsoft.SqlServer.Assessment.Authoring

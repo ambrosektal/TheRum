@@ -1,0 +1,5 @@
+Microsoft.AspNetCore.Cryptography.Internal
+Microsoft.DotNet.InternalAbstractions
+Microsoft.ServiceFabric.Diagnostics.Internal
+Microsoft.ServiceFabric.FabricTransport.Internal
+Microsoft.VisualStudio.Utilities.Internal

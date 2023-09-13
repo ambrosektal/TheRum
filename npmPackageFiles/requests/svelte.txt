@@ -29,8 +29,10 @@
 @douganderson444/svelte-component-gateway
 @elderjs/plugin-seo-check
 @fanny-pack-ui/svelte-kit
+@firstfleet/sveltejs-brunch
 @htmlbricks/hb-captcha-google-recaptcha-v2-invisible
 @htmlbricks/hb-input-checkbox
+@hurtigruten/svelte-table
 @icewolf/svelte-kit
 @iconify/svelte
 @irispixel/svelte-checkbox
@@ -120,6 +122,7 @@
 @sveltejs/template-custom-element
 @sveltejs/template-webpack
 @sveltejs/vite-plugin-svelte
+@sveltejs/vite-plugin-svelte-inspector
 @sveltekit-addons/document
 @sveltekit/ui
 @svitejs/svelte-preprocess-svg
@@ -191,6 +194,7 @@ svelte-easy-crop
 svelte-echarts
 svelte-entitlement
 svelte-error-message
+svelte-eslint-parser
 svelte-fa
 svelte-favicon-badge
 svelte-filerouter
@@ -272,6 +276,7 @@ svelte-preprocess-sass
 svelte-pwa-template
 svelte-q
 svelte-radio-checkbox-z
+svelte-reactive-form
 svelte-redux-toolkit
 svelte-render-md
 svelte-resize

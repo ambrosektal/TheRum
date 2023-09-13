@@ -16,6 +16,7 @@
 @mui/styled-engine-sc
 @mui/styles
 @mui/system
+@mui/toolpad-utils
 @mui/types
 @mui/utils
 @mui/x-data-grid

@@ -1,4 +1,5 @@
 @devesharp/react-web
+@exuanbo/file-icons-js
 @fortawesome/angular-fontawesome
 @fortawesome/ember-fontawesome
 @fortawesome/fa-icon-chooser

@@ -76,5 +76,9 @@ foreach ($image in $list) {
 foreach($currentItemName in $pulled) {
     $currentName = $currentItemName.Replace("/","_").Replace(":","--")
     docker save $currentItemName -o "$currentName.tar" # | Compress-Archive -DestinationPath $images
+    # gci "D:\Transfer\$(Get-Date -Format "yyyyMMdd")_nupkg.7z*" | foreach ({mv $_ $gdrive_destination\\})
+
+    # Get-FileHash "$gdrive_destination\*.7z*" | Format-List >> "$shared_destination\PRE_DTA_HASH_$(Get-Date -Format "yyyyMMdd")_NAME.txt"
+
 }
 

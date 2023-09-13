@@ -1,0 +1,11 @@
+btrfs-rsync
+Cake.RSync
+Cake.RSyncCore
+Fake.Tools.Rsync
+FastRsyncNet
+FastRsyncNet.Compression
+IDeliverable.FastRsync
+OvermindRsync
+Retyped.rsync
+Rsync.Delta
+rsync.TypeScript.DefinitelyTyped

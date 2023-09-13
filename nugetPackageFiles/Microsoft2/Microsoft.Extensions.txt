@@ -52,11 +52,13 @@ Microsoft.Azure.WebJobs.Extensions.RabbitMQ
 Microsoft.Azure.WebJobs.Extensions.SendGrid
 Microsoft.Azure.WebJobs.Extensions.ServiceBus
 Microsoft.Azure.WebJobs.Extensions.SignalRService
+Microsoft.Azure.WebJobs.Extensions.Sql
 Microsoft.Azure.WebJobs.Extensions.Storage
 Microsoft.Azure.WebJobs.Extensions.Storage.Blobs
 Microsoft.Azure.WebJobs.Extensions.Storage.Queues
 Microsoft.Azure.WebJobs.Extensions.Tables
 Microsoft.Azure.WebJobs.Extensions.TeamsFx
+Microsoft.Azure.WebJobs.Extensions.Timers.Storage
 Microsoft.Azure.WebJobs.Extensions.Twilio
 Microsoft.Azure.WebJobs.Extensions.WebPubSub
 Microsoft.Azure.WebJobs.Script.ExtensionsMetadataGenerator
@@ -167,6 +169,7 @@ Microsoft.Omex.Extensions.Activities
 Microsoft.Rtc.Collaboration.AsyncExtensions
 Microsoft.Rtc.Collaboration.AsyncExtensions.Sources
 Microsoft.Sbom.Extensions
+Microsoft.Sbom.Extensions.DependencyInjection
 Microsoft.Security.Extensions
 Microsoft.ServiceFabric.Data.Extensions
 Microsoft.Spark.Extensions.Azure.Synapse.Analytics

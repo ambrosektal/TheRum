@@ -1,6 +1,7 @@
 @centrapay/axios-verror
 @gqlts/runtime
 @nestjs/axios
+@openagenda/axios-mock-adapter
 aws4-axios
 axios
 axios-adapter-logger
@@ -43,7 +44,9 @@ got
 middleware-axios
 node-libcurl
 node-red-contrib-axios
+piral-axios
 redux-axios-middleware
 superagent
+typed-axios-instance
 use-axios-loader
 vue-axios

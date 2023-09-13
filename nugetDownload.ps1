@@ -17,6 +17,7 @@ $Directory = "C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\nugetPackageFil
 # $Directory = "C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\nugetPackageFiles\\packageLists2"
 # $Directory = "C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\nugetPackageFiles\\PSGallery"
 $Files = Get-Content (Get-ChildItem -Recurse  -Path $Directory -Filter "*.txt")
+# $Files = Get-Content (Get-ChildItem -Recurse  -Path $Directory -Filter "terminal.txt")
 $Files = $Files | Sort-Object -Unique
 $Sources = "https://api.nuget.org/v3/index.json",
 "https://pkgs.dev.azure.com/ms/terminal/_packaging/TerminalDependencies/nuget/v3/index.json",
@@ -28,15 +29,15 @@ $Sources = "https://api.nuget.org/v3/index.json",
 # "https://www.powershellgallery.com/api/v2",
 
 
-ForEach($Source in $Sources){
+ForEach ($Source in $Sources) {
     $Files | ForEach-Object ({
-        # $Source = $using:Source
-        # nugetmirror.exe nupkgs $Source -o D:\Transfer\ToMove\nupkg --ignore-errors --latest-only --stable-only --include-id "$_*" --start $((Get-Date).AddDays(-45))
-        # nugetmirror.exe nupkgs $Source -o D:\Transfer\ToMove\nupkg --ignore-errors --stable-only --include-id "$_*" --start $((Get-Date).AddDays(-45))
-        # nugetmirror.exe nupkgs $Source -o D:\Transfer\ToMove\nupkg2 --ignore-errors --stable-only --include-id "$_*" --start $((Get-Date).AddDays(-45))
-        nugetmirror.exe nupkgs $Source -o D:\Transfer\ToMove\nupkg3 --ignore-errors --include-id "$_*" --start $((Get-Date).AddDays(-90))
-        [System.GC]::Collect()
-    })
+            # $Source = $using:Source
+            # nugetmirror.exe nupkgs $Source -o D:\Transfer\ToMove\nupkg --ignore-errors --latest-only --stable-only --include-id "$_*" --start $((Get-Date).AddDays(-45))
+            # nugetmirror.exe nupkgs $Source -o D:\Transfer\ToMove\nupkg --ignore-errors --stable-only --include-id "$_*" --start $((Get-Date).AddDays(-45))
+            # nugetmirror.exe nupkgs $Source -o D:\Transfer\ToMove\nupkg2 --ignore-errors --stable-only --include-id "$_*" --start $((Get-Date).AddDays(-45))
+            nugetmirror.exe nupkgs $Source -o D:\Transfer\ToMove\nupkg3 --ignore-errors --include-id "$_*" --start $((Get-Date).AddDays(-365))
+            [System.GC]::Collect()
+        })
 }
 
 
@@ -45,13 +46,13 @@ ForEach($Source in $Sources){
 # $arguments += $Files | foreach({"`"$_*`" "})
 
 
-ForEach($Source in $Sources){
-        nugetmirror.exe nupkgs $Source -o D:\Transfer\ToMove\nupkg --ignore-errors --latest-only --stable-only --include-id "microsoft*" --include-id "nuget*" --include-id "typescript*"  --include-id "system*" --include-id "runtime*" --include-id "nuke*" --include-id "dotnet*" --include-id "blazor*" --include-id "powershell*" --include-id "vmware*" --include-id "docker*" --include-id "kube*" --include-id "cake*" --include-id "dapper*" --include-id "syncfusion*" --include-id "skia*" --include-id "lucern*"  --start $((Get-Date).AddDays(-360))
-        [System.GC]::Collect()
+ForEach ($Source in $Sources) {
+    nugetmirror.exe nupkgs $Source -o D:\Transfer\ToMove\nupkg --ignore-errors --latest-only --stable-only --include-id "microsoft*" --include-id "nuget*" --include-id "typescript*"  --include-id "system*" --include-id "runtime*" --include-id "nuke*" --include-id "dotnet*" --include-id "blazor*" --include-id "powershell*" --include-id "vmware*" --include-id "docker*" --include-id "kube*" --include-id "cake*" --include-id "dapper*" --include-id "syncfusion*" --include-id "skia*" --include-id "lucern*"  --start $((Get-Date).AddDays(-360))
+    [System.GC]::Collect()
 }
 
 
-ForEach($Source in $Sources){
+ForEach ($Source in $Sources) {
     nugetmirror.exe nupkgs $Source -o D:\Transfer\ToMove\nupkg --ignore-errors --latest-only --stable-only --start $((Get-Date).AddDays(-360))
     [System.GC]::Collect()
 }
@@ -70,14 +71,33 @@ $Sources = "https://api.nuget.org/v3/index.json",
 # "https://pkgs.dev.azure.com/dnceng/public/_packaging/myget-legacy%40Local/nuget/v3/index.json",
 # "https://pkgs.dev.azure.com/azure-public/vside/_packaging/msft_consumption/nuget/v3/index.json"
 
+$PackageList = gc  "C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\nugetPackageFiles\\Terminal\\all.txt"
+foreach ($Source in $Sources) {
+    Invoke-ParNugetDown -AllVersions -PackageList $PackageList
+}
 
 
 
-foreach($Source in $Sources){
+foreach ($Source in $Sources) {
     Invoke-ParNugetDown -Directory "C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\nugetPackageFiles\\Microsoft2" -Source $Source
     Invoke-ParNugetDown -Directory "C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\nugetPackageFiles\\packageLists2" -Source $Source
     Invoke-ParNugetDown -Directory "C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\nugetPackageFiles\\PSGallery" -Source $Source
 }
+
+
+foreach ($Source in $Sources) {
+    Invoke-ParNugetDown -FirstHalf -Directory "C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\nugetPackageFiles\\Microsoft2" -Source $Source
+    Invoke-ParNugetDown -FirstHalf -Directory "C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\nugetPackageFiles\\packageLists2" -Source $Source
+    Invoke-ParNugetDown -FirstHalf -Directory "C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\nugetPackageFiles\\PSGallery" -Source $Source
+}
+
+
+foreach ($Source in $Sources) {
+    Invoke-ParNugetDown -SecondHalf -Directory "C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\nugetPackageFiles\\Microsoft2" -Source $Source
+    Invoke-ParNugetDown -SecondHalf -Directory "C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\nugetPackageFiles\\packageLists2" -Source $Source
+    Invoke-ParNugetDown -SecondHalf -Directory "C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\nugetPackageFiles\\PSGallery" -Source $Source
+}
+
 
 
 # ----------------------------------------------------------------------------
@@ -104,9 +124,18 @@ function Invoke-ParNugetDown {
     # Invoke-ParNugetDown -FirstHalf -Directory "C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\nugetPackageFiles\\PSGallery" -Source "BaGet_Posh"
     # Invoke-ParNugetDown -SecondHalf -Directory "C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\nugetPackageFiles\\PSGallery" -Source "BaGet_Posh"
     #
+    # $PackageList = gc  "C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\nugetPackageFiles\\Terminal\\all.txt"
     # $PackageList = gc  "C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\nugetPackageFiles\\packageLists2\\docfx.txt"
+    # $PackageList = gc  "C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\nugetPackageFiles\\Microsoft2\\System.txt"
+    # $PackageList = gc  "C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\nugetPackageFiles\\Microsoft2\\runtime.txt"
+    # $PackageList = gc  "C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\nugetPackageFiles\\Microsoft2\\aspnetcore.txt"
+    # $PackageList = gc  "C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\nugetPackageFiles\\Microsoft2\\dotnetcore.txt"
+    # $PackageList = gc  "C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\nugetPackageFiles\\Microsoft2\\upgrade.txt"
     # Invoke-ParNugetDown -FirstHalf -PackageList $PackageList
     # Invoke-ParNugetDown -SecondHalf -PackageList $PackageList
+    # Invoke-ParNugetDown -AllVersions -PackageList $PackageList
+    # Invoke-ParNugetDown -FirstHalf -AllVersions -PackageList $PackageList
+    # Invoke-ParNugetDown -SecondHalf -AllVersions -PackageList $PackageList
     [CmdletBinding()]
     param (
         [switch]$FirstHalf,
@@ -116,7 +145,8 @@ function Invoke-ParNugetDown {
         [System.Array]$Files,
         [string]$Directory,
         # [string]$Source = "BaGet"
-        [string]$Source = "nuget.org"
+        [string]$Source = "nuget.org",
+        [switch]$AllVersions
     )
     
     begin {
@@ -125,9 +155,11 @@ function Invoke-ParNugetDown {
         }
         if ($null -eq $Files -and $null -eq $Directory) {
             $Files = Get-Content "C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\nugetPackageFiles\\Microsoft2\\*.txt"
-        } elseif ($Directory) {
+        }
+        elseif ($Directory) {
             $Files = Get-Content (Get-ChildItem -Recurse  -Path $Directory -Filter "*.txt")
-        } else {
+        }
+        else {
             Write-Host "Please provide a directory or a list of files, or a collection of packages." -ForegroundColor Red
         }
         if ($FirstHalf) {
@@ -135,13 +167,15 @@ function Invoke-ParNugetDown {
 
             $Files = $Files[0..$($Files.count * .50)]
             $Files.count
-        } elseif ($SecondHalf) {
+        }
+        elseif ($SecondHalf) {
             $Files = $Files | Sort-Object -Unique
 
             $Files = $Files[$($Files.count * .50)..$($Files.count)]
             $Files.count
 
-        } else {
+        }
+        else {
             $Files = $Files | Sort-Object -Unique
             Write-Host "Not spliting up list. Pulling: $($Files.count) files."
 
@@ -149,31 +183,63 @@ function Invoke-ParNugetDown {
     }
     
     process {
-
         $Files | ForEach-Object -Parallel ({
-            $Source = $using:Source
-            [string]$random = Get-Random -Maximum 99999999 -Minimum 1000000
-            mkdir "D:\\Transfer\\ToMove\\nupkg\\$random"
-            try{
-                nuget install -OutputDirectory "D:\\Transfer\\ToMove\\nupkg\\$random" $_ -Source $Source
-            } catch {
+                $Source = $using:Source
+                $AllVersions = $using:AllVersions
                 [string]$random = Get-Random -Maximum 99999999 -Minimum 1000000
                 mkdir "D:\\Transfer\\ToMove\\nupkg\\$random"
-                nuget install -OutputDirectory "D:\\Transfer\\ToMove\\nupkg\\$random" $_ -Source $Source
-            }
-            Get-ChildItem -Recurse -Path "D:\\Transfer\\ToMove\\nupkg\\$random" -File -Filter "*.*nupkg" | ForEach-Object -Parallel {
-                $_ | Where-Object {
-                    $_.Length -gt 0
-                } | Foreach-Object {
-                    Move-Item $_ "D:\\Transfer\\ToMove\\nupkg\\"
+                if ($AllVersions) {
+                # (find-package "$_**") | foreach-object ({
+                #             $(find-package -Name "$($_.Name)" -AllVersions -Source $Source) | foreach-object -Parallel {
+                #                 $Source = $using:Source
+                #                 $random = $using:random
+                #                 nuget install -OutputDirectory "D:\\Transfer\\ToMove\\nupkg\\$random" $($_.Name) -Version $($_.version) -Source $Source }
+                #             [System.GC]::Collect()
+                #         })
+                    try {
+                    (find-package "$_**") | foreach-object ({
+                                $(find-package -Name "$($_.Name)" -AllVersions -Source $Source) | Sort-Object Version -Desc | Select-Object -First 20 | foreach-object -Parallel {
+                                    $Source = $using:Source
+                                    $random = $using:random
+                                    nuget install -OutputDirectory "D:\\Transfer\\ToMove\\nupkg\\$random" $($_.Name) -Version $($_.version) -Source $Source }
+                                [System.GC]::Collect()
+                            })
+                    }
+                    catch {
+                        [string]$random = Get-Random -Maximum 99999999 -Minimum 1000000
+                        mkdir "D:\\Transfer\\ToMove\\nupkg\\$random"
+                        nuget install -OutputDirectory "D:\\Transfer\\ToMove\\nupkg\\$random" $_ -Source $Source
+                    }
+                    Get-ChildItem -Recurse -Path "D:\\Transfer\\ToMove\\nupkg\\$random" -File -Filter "*.*nupkg" | ForEach-Object -Parallel {
+                        $_ | Where-Object {
+                            $_.Length -gt 0
+                        } | Foreach-Object {
+                            Move-Item $_ "D:\\Transfer\\ToMove\\nupkg\\"
+                        }
+                    }
                 }
-            }
-            if ($null -ne $random) {
-                Remove-Item -Recurse -Force "D:\\Transfer\\ToMove\\nupkg\\$random"
-            }
-            [System.GC]::Collect()
-        })
-
+                else {
+                    try {
+                        nuget install -OutputDirectory "D:\\Transfer\\ToMove\\nupkg\\$random" $_ -Source $Source
+                    }
+                    catch {
+                        [string]$random = Get-Random -Maximum 99999999 -Minimum 1000000
+                        mkdir "D:\\Transfer\\ToMove\\nupkg\\$random"
+                        nuget install -OutputDirectory "D:\\Transfer\\ToMove\\nupkg\\$random" $_ -Source $Source
+                    }
+                    Get-ChildItem -Recurse -Path "D:\\Transfer\\ToMove\\nupkg\\$random" -File -Filter "*.*nupkg" | ForEach-Object -Parallel {
+                        $_ | Where-Object {
+                            $_.Length -gt 0
+                        } | Foreach-Object {
+                            Move-Item $_ "D:\\Transfer\\ToMove\\nupkg\\"
+                        }
+                    }
+                }
+                if ($null -ne $random) {
+                    Remove-Item -Recurse -Force "D:\\Transfer\\ToMove\\nupkg\\$random"
+                }
+                [System.GC]::Collect()
+            })
     }
     
     end {
@@ -310,13 +376,13 @@ $files.count
 
 
 $files | ForEach-Object -Parallel ({
-    nuget install -OutputDirectory "D:\\Transfer\\ToMove\\nupkg\\" $_ 
-    [System.GC]::Collect()
-})
+        nuget install -OutputDirectory "D:\\Transfer\\ToMove\\nupkg\\" $_ 
+        [System.GC]::Collect()
+    })
 
 $files | ForEach-Object -Parallel ({
-    nuget install -OutputDirectory "D:\\Transfer\\ToMove\\nupkg\\" $_ -Prerelease
-    [System.GC]::Collect()
+        nuget install -OutputDirectory "D:\\Transfer\\ToMove\\nupkg\\" $_ -Prerelease
+        [System.GC]::Collect()
     })
 
 
@@ -355,44 +421,45 @@ $files | ForEach-Object -Parallel ({
 
 # Parallel Attempt W/O presearch
 $files | ForEach-Object -Parallel ({
-    [string]$random = Get-Random -Maximum 99999999 -Minimum 1000000
-    mkdir "D:\\Transfer\\ToMove\\nupkg\\$random"
-    try{
-        nuget install -OutputDirectory "D:\\Transfer\\ToMove\\nupkg\\$random" $_ -Source "BaGet"
-    } catch {
         [string]$random = Get-Random -Maximum 99999999 -Minimum 1000000
         mkdir "D:\\Transfer\\ToMove\\nupkg\\$random"
-        nuget install -OutputDirectory "D:\\Transfer\\ToMove\\nupkg\\$random" $_ -Source "BaGet" 
-    }
-    [System.GC]::Collect()
-})
+        try {
+            nuget install -OutputDirectory "D:\\Transfer\\ToMove\\nupkg\\$random" $_ -Source "BaGet"
+        }
+        catch {
+            [string]$random = Get-Random -Maximum 99999999 -Minimum 1000000
+            mkdir "D:\\Transfer\\ToMove\\nupkg\\$random"
+            nuget install -OutputDirectory "D:\\Transfer\\ToMove\\nupkg\\$random" $_ -Source "BaGet" 
+        }
+        [System.GC]::Collect()
+    })
 
 $files | ForEach-Object -Parallel ({
-    nuget install -OutputDirectory "D:\\Transfer\\ToMove\\nupkg\\" $_ -Source "BaGet" -Prerelease
-    [System.GC]::Collect()
-})
+        nuget install -OutputDirectory "D:\\Transfer\\ToMove\\nupkg\\" $_ -Source "BaGet" -Prerelease
+        [System.GC]::Collect()
+    })
 
 
 # Parallel Attempt W/O presearch or source
 $files | ForEach-Object -Parallel ({
-    nuget install -OutputDirectory "D:\\Transfer\\ToMove\\nupkg\\" $_ 
-    [System.GC]::Collect()
-})
+        nuget install -OutputDirectory "D:\\Transfer\\ToMove\\nupkg\\" $_ 
+        [System.GC]::Collect()
+    })
 
 $files | ForEach-Object -Parallel ({
-    nuget install -OutputDirectory "D:\\Transfer\\ToMove\\nupkg\\" $_ -Prerelease
-    [System.GC]::Collect()
-})
+        nuget install -OutputDirectory "D:\\Transfer\\ToMove\\nupkg\\" $_ -Prerelease
+        [System.GC]::Collect()
+    })
 
 
 
 
-$files | ForEach-Object -Parallel {dotnet tool install --tool-path "D:\\Transfer\\ToMove\\nupkg\\" --add-source "http://localhost:9999/v3/index.json" --add-source "http://localhost:9889/v3/index.json" --add-source "http://localhost:7777/v3/index.json" --add-source "http://localhost:5555/v3/index.json" $_.split(" ")[0] --arch x64 ; [System.GC]::Collect()}
-$(dotnet tool search "microsoft.powershell.commands*" --take 50) | ForEach-Object -Parallel {dotnet tool install --tool-path "D:\\Transfer\\ToMove\\nupkg\\" $_.split(" ")[0] --arch x64 ; [System.GC]::Collect()}
+$files | ForEach-Object -Parallel { dotnet tool install --tool-path "D:\\Transfer\\ToMove\\nupkg\\" --add-source "http://localhost:9999/v3/index.json" --add-source "http://localhost:9889/v3/index.json" --add-source "http://localhost:7777/v3/index.json" --add-source "http://localhost:5555/v3/index.json" $_.split(" ")[0] --arch x64 ; [System.GC]::Collect() }
+$(dotnet tool search "microsoft.powershell.commands*" --take 50) | ForEach-Object -Parallel { dotnet tool install --tool-path "D:\\Transfer\\ToMove\\nupkg\\" $_.split(" ")[0] --arch x64 ; [System.GC]::Collect() }
 
-$(dotnet tool search "vmware.*" --take 500) | ForEach-Object -Parallel {dotnet tool install --tool-path "D:\\Transfer\\ToMove\\nupkg\\" --add-source "http://localhost:7777/v3/index.json" --add-source "http://localhost:5555/v3/index.json" $_.split(" ")[0] --arch x64}
+$(dotnet tool search "vmware.*" --take 500) | ForEach-Object -Parallel { dotnet tool install --tool-path "D:\\Transfer\\ToMove\\nupkg\\" --add-source "http://localhost:7777/v3/index.json" --add-source "http://localhost:5555/v3/index.json" $_.split(" ")[0] --arch x64 }
 
-$(dotnet tool search "system.*" --take 500) | ForEach-Object -Parallel {dotnet tool install --tool-path "D:\\Transfer\\ToMove\\nupkg\\" --add-source "http://localhost:7777/v3/index.json" --add-source "http://localhost:5555/v3/index.json" $_.split(" ")[0] --arch x64}
+$(dotnet tool search "system.*" --take 500) | ForEach-Object -Parallel { dotnet tool install --tool-path "D:\\Transfer\\ToMove\\nupkg\\" --add-source "http://localhost:7777/v3/index.json" --add-source "http://localhost:5555/v3/index.json" $_.split(" ")[0] --arch x64 }
 
 # foreach($file in $(dotnet tool search "blazor" --take 500)) {dotnet tool install --tool-path "D:\\Transfer\\ToMove\\nupkg\\" --add-source "http://localhost:7777/v3/index.json" $file.split(" ")[0] --arch x64}
 
@@ -403,82 +470,83 @@ $(dotnet tool search "system.*" --take 500) | ForEach-Object -Parallel {dotnet t
 
 # POSH
 $files.foreach({
-    $((find-package "$_**" -Source PSGallery).name).foreach({
-        nuget install -OutputDirectory "D:\\Transfer\\ToMove\\nupkg\\" $_ -Source "BaGet_Posh" 
+        $((find-package "$_**" -Source PSGallery).name).foreach({
+                nuget install -OutputDirectory "D:\\Transfer\\ToMove\\nupkg\\" $_ -Source "BaGet_Posh" 
+            })
+        [System.GC]::Collect()
     })
-    [System.GC]::Collect()
-})
 
 $files.foreach({
-    $((find-package "$_**" -Source PSGallery).name).foreach({
-        nuget install -OutputDirectory "D:\\Transfer\\ToMove\\nupkg\\" $_ -Source "BaGet_Posh" -Prerelease
+        $((find-package "$_**" -Source PSGallery).name).foreach({
+                nuget install -OutputDirectory "D:\\Transfer\\ToMove\\nupkg\\" $_ -Source "BaGet_Posh" -Prerelease
+            })
+        [System.GC]::Collect()
     })
-    [System.GC]::Collect()
-})
 
 # POSH Parallel W/O search
 
 # Parallel Attempt W/O presearch
 $files | ForEach-Object -Parallel ({
-    [string]$random = Get-Random -Maximum 99999999 -Minimum 1000000
-    mkdir "D:\\Transfer\\ToMove\\nupkg\\$random"
-    try{
-        nuget install -OutputDirectory "D:\\Transfer\\ToMove\\nupkg\\$random" $_ -Source "BaGet_Posh"
-    } catch {
         [string]$random = Get-Random -Maximum 99999999 -Minimum 1000000
         mkdir "D:\\Transfer\\ToMove\\nupkg\\$random"
-        nuget install -OutputDirectory "D:\\Transfer\\ToMove\\nupkg\\$random" $_ -Source "BaGet_Posh" 
-    }
-    [System.GC]::Collect()
-})
+        try {
+            nuget install -OutputDirectory "D:\\Transfer\\ToMove\\nupkg\\$random" $_ -Source "BaGet_Posh"
+        }
+        catch {
+            [string]$random = Get-Random -Maximum 99999999 -Minimum 1000000
+            mkdir "D:\\Transfer\\ToMove\\nupkg\\$random"
+            nuget install -OutputDirectory "D:\\Transfer\\ToMove\\nupkg\\$random" $_ -Source "BaGet_Posh" 
+        }
+        [System.GC]::Collect()
+    })
 
 $files | ForEach-Object -Parallel ({
-    nuget install -OutputDirectory "D:\\Transfer\\ToMove\\nupkg\\" $_ -Source "BaGet_Posh" 
-    [System.GC]::Collect()
-})
+        nuget install -OutputDirectory "D:\\Transfer\\ToMove\\nupkg\\" $_ -Source "BaGet_Posh" 
+        [System.GC]::Collect()
+    })
 
 $files | ForEach-Object -Parallel ({
-    nuget install -OutputDirectory "D:\\Transfer\\ToMove\\nupkg\\" $_ -Source "BaGet_Posh" -Prerelease
-    [System.GC]::Collect()
-})
+        nuget install -OutputDirectory "D:\\Transfer\\ToMove\\nupkg\\" $_ -Source "BaGet_Posh" -Prerelease
+        [System.GC]::Collect()
+    })
 
 # # Get all the versions
 # $((find-package "microsoft.powershell**" -Source nuget.org ) ).foreach({  find-package -Name "$($_.Name)" -AllVersions -Source nuget.org}).foreach({nuget install -OutputDirectory "D:\\Transfer\\ToMove\\nupkg\\" $($_.Name) -Version $($_.version) -Source "BaGet" })
 
 # Gett all versions
 (find-package "microsoft.jsinterop**") | foreach-object ({
-    $(find-package -Name "$($_.Name)" -AllVersions -Source nuget.org) | foreach-object -Parallel {
-        nuget install -OutputDirectory "D:\\Transfer\\ToMove\\nupkg\\" $($_.Name) -Version $($_.version) -Source "BaGet" }
-    [System.GC]::Collect()
+        $(find-package -Name "$($_.Name)" -AllVersions -Source nuget.org) | foreach-object -Parallel {
+            nuget install -OutputDirectory "D:\\Transfer\\ToMove\\nupkg\\" $($_.Name) -Version $($_.version) -Source "BaGet" }
+        [System.GC]::Collect()
     })
 
 
 # Gett the 3 newest PRERELEASE versions in Parallel
 $files.foreach({
-    $(find-package -Name "$($_)" -AllVersions -AllowPrereleaseVersions -Source nuget.org) | Sort-Object Version -Desc | Select-Object -First 3 | foreach-object -Parallel {
-        nuget install -OutputDirectory "D:\\Transfer\\ToMove\\nupkg\\" $($_.Name) -Version $($_.version) -Source "BaGet" }
-    [System.GC]::Collect()
+        $(find-package -Name "$($_)" -AllVersions -AllowPrereleaseVersions -Source nuget.org) | Sort-Object Version -Desc | Select-Object -First 3 | foreach-object -Parallel {
+            nuget install -OutputDirectory "D:\\Transfer\\ToMove\\nupkg\\" $($_.Name) -Version $($_.version) -Source "BaGet" }
+        [System.GC]::Collect()
     })
 
 # Gett the 5 newest versions in Parallel
 $files = gc "C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\nugetPackageFiles\\Microsoft2\\*.txt"
 # $files = gc "C:\users\joesp\Downloads\gits\TheRum\nugetPackageFiles\PSGallery\TopModules.txt"  
 # $files.foreach({
-$files | Foreach-Object -Parallel  {
+$files | Foreach-Object -Parallel {
     $(find-package -Name "$($_)" -AllVersions -Source nuget.org) | Sort-Object Version -Desc | Select-Object -First 5 | foreach-object -Parallel {
         nuget install -OutputDirectory "D:\\Transfer\\ToMove\\nupkg\\" $($_.Name) -Version $($_.version) -Source "BaGet" }
     [System.GC]::Collect()
-    }
+}
 
 (find-package "microsoft.powershell**") | foreach-object ({
-    $(find-package -Name "$($_.Name)" -AllVersions -AllowPrereleaseVersions -Source nuget.org) | Sort-Object Version -Desc | Select-Object -First 5 | foreach-object -Parallel {
-        nuget install -OutputDirectory "D:\\Transfer\\ToMove\\nupkg\\" $($_.Name) -Version $($_.version) -Source "BaGet" }
-    [System.GC]::Collect()
+        $(find-package -Name "$($_.Name)" -AllVersions -AllowPrereleaseVersions -Source nuget.org) | Sort-Object Version -Desc | Select-Object -First 5 | foreach-object -Parallel {
+            nuget install -OutputDirectory "D:\\Transfer\\ToMove\\nupkg\\" $($_.Name) -Version $($_.version) -Source "BaGet" }
+        [System.GC]::Collect()
     })
 (find-package "microsoft.powershell**") | foreach-object -parallel ({
-    $(find-package -Name "$($_.Name)" -AllVersions -Source PSGallery) | Sort-Object Version -Desc | Select-Object -First 5 | foreach-object -Parallel {
-        nuget install -OutputDirectory "D:\\Transfer\\ToMove\\nupkg\\" $($_.Name) -Version $($_.version) -Source "BaGet_Posh" }
-    [System.GC]::Collect()
+        $(find-package -Name "$($_.Name)" -AllVersions -Source PSGallery) | Sort-Object Version -Desc | Select-Object -First 5 | foreach-object -Parallel {
+            nuget install -OutputDirectory "D:\\Transfer\\ToMove\\nupkg\\" $($_.Name) -Version $($_.version) -Source "BaGet_Posh" }
+        [System.GC]::Collect()
     })
 
 #############################################################
@@ -488,13 +556,48 @@ $files | Foreach-Object -Parallel  {
 $files = New-Object System.Collections.ArrayList
 # $tmpfiles = gci "C:\Users\$env:USERNAME\Downloads\gits\TheRum\nugetPackageFiles\packageLists2\*.txt"
 # $tmpfiles = gci "C:\Users\$env:USERNAME\Downloads\gits\TheRum\nugetPackageFiles\Microsoft2\*.txt"
+# $tmpfiles = gci "C:\Users\$env:USERNAME\Downloads\gits\TheRum\nugetPackageFiles\Microsoft2\aspnetcore.txt"
 # $tmpfiles = gci "C:\Users\$env:USERNAME\Downloads\gits\TheRum\nugetPackageFiles\PSGallery\*.txt"
-foreach($tmpfile in $tmpfiles){
+# $tmpfiles = gci "C:\Users\$env:USERNAME\Downloads\gits\TheRum\nugetPackageFiles\Terminal\*.txt"
+foreach ($tmpfile in $tmpfiles) {
     $files = gc $tmpfile
-    foreach($file in $files){
+    foreach ($file in $files) {
         BuildPackageList -PackageName "$($file)*" -OutputFile $tmpfile 
         # BuildPackageList -PackageName "$($file)*" -OutputFile $tmpfile -SerachSource "BaGet_Posh"
     }
+}
+
+
+$Sources = "https://api.nuget.org/v3/index.json",
+"https://pkgs.dev.azure.com/ms/terminal/_packaging/TerminalDependencies/nuget/v3/index.json",
+"https://pkgs.dev.azure.com/dnceng/public/_packaging/nuget-build/nuget/v3/index.json",
+"https://pkgs.dev.azure.com/dnceng/public/_packaging/dotnet-eng/nuget/v3/index.json",
+"https://pkgs.dev.azure.com/dnceng/public/_packaging/dotnet-public/nuget/v3/index.json",
+"https://pkgs.dev.azure.com/dnceng/public/_packaging/myget-legacy%40Local/nuget/v3/index.json",
+"https://pkgs.dev.azure.com/azure-public/vside/_packaging/msft_consumption/nuget/v3/index.json",
+"https://www.powershellgallery.com/api/v2"
+
+
+foreach ($tmpfile in $tmpfiles) {
+    $files = gc $tmpfile
+    foreach ($file in $files) {
+        foreach ($Source in $Sources) {
+            BuildPackageList -PackageName "$($file)*" -OutputFile $tmpfile -SerachSource $Source
+        }
+    }
+}
+
+# $tmpfile = "C:\Users\$env:USERNAME\Downloads\gits\TheRum\nugetPackageFiles\Microsoft2\Microsoft.Internal.txt"
+# $tmpfile = "C:\Users\$env:USERNAME\Downloads\gits\TheRum\nugetPackageFiles\Microsoft2\winappdriver.txt"
+$tmpfile = "C:\Users\$env:USERNAME\Downloads\gits\TheRum\nugetPackageFiles\Microsoft2\calc.txt"
+
+$SearchString = "microsoft.internal*"
+$SearchString = "microsoft.winappdriver*"
+$SearchString = "microsoft*calc*"
+$SearchString = "windows*calc*"
+
+foreach ($Source in $Sources) {
+    BuildPackageList -PackageName "$SearchString" -OutputFile $tmpfile -SerachSource $Source
 }
 
 function BuildPackageList {
@@ -528,6 +631,13 @@ function BuildPackageList {
     # BuildPackageList -PackageName "HtmlAgilityPack*" -OutputFile "C:\Users\$env:USERNAME\Downloads\gits\TheRum\nugetPackageFiles\packageLists2\HtmlAgilityPack.txt"
     # BuildPackageList -PackageName "mailkit*" -OutputFile "C:\Users\$env:USERNAME\Downloads\gits\TheRum\nugetPackageFiles\packageLists2\mailkit.txt"
     # BuildPackageList -PackageName "restsharp*" -OutputFile "C:\Users\$env:USERNAME\Downloads\gits\TheRum\nugetPackageFiles\packageLists2\restsharp.txt"
+    # BuildPackageList -PackageName "autofac*" -OutputFile "C:\Users\$env:USERNAME\Downloads\gits\TheRum\nugetPackageFiles\packageLists2\autofac.txt"
+    # BuildPackageList -PackageName "autofac.*" -OutputFile "C:\Users\$env:USERNAME\Downloads\gits\TheRum\nugetPackageFiles\packageLists2\autofac.txt"
+    # BuildPackageList -PackageName "autofac.core.*" -OutputFile "C:\Users\$env:USERNAME\Downloads\gits\TheRum\nugetPackageFiles\packageLists2\autofac.txt"
+    # BuildPackageList -PackageName "autofac.core.Resolving*" -OutputFile "C:\Users\$env:USERNAME\Downloads\gits\TheRum\nugetPackageFiles\packageLists2\autofac.txt"
+    # BuildPackageList -PackageName "autofac.core.Lifetime*" -OutputFile "C:\Users\$env:USERNAME\Downloads\gits\TheRum\nugetPackageFiles\packageLists2\autofac.txt"
+    # BuildPackageList -PackageName "rsync" -OutputFile "C:\Users\$env:USERNAME\Downloads\gits\TheRum\nugetPackageFiles\packageList2\rsync.txt"
+    # BuildPackageList -PackageName "rsync*" -OutputFile "C:\Users\$env:USERNAME\Downloads\gits\TheRum\nugetPackageFiles\packageList2\rsync.txt"
     # BuildPackageList -PackageName "microsoft.net*" -OutputFile "C:\Users\$env:USERNAME\Downloads\gits\TheRum\nugetPackageFiles\Microsoft2\dotnet.txt"
     # BuildPackageList -PackageName "microsoft.netCore*" -OutputFile "C:\Users\$env:USERNAME\Downloads\gits\TheRum\nugetPackageFiles\Microsoft2\dotnetcore.txt"
     # BuildPackageList -PackageName "microsoft.*blazor*" -OutputFile "C:\Users\$env:USERNAME\Downloads\gits\TheRum\nugetPackageFiles\Microsoft2\blazor.txt"
@@ -537,6 +647,13 @@ function BuildPackageList {
     # BuildPackageList -PackageName "Microsoft.*" -OutputFile "C:\Users\$env:USERNAME\Downloads\gits\TheRum\nugetPackageFiles\Microsoft2\microsoft.txt"
     # BuildPackageList -PackageName "System.*" -OutputFile "C:\Users\$env:USERNAME\Downloads\gits\TheRum\nugetPackageFiles\Microsoft2\system.txt"
     # BuildPackageList -PackageName "Microsoft.aspnetcore*" -OutputFile "C:\Users\$env:USERNAME\Downloads\gits\TheRum\nugetPackageFiles\Microsoft2\aspnetcore.txt"
+    # BuildPackageList -PackageName "Microsoft.AspNetCore.Mvc.Razor.Extensions*" -OutputFile "C:\Users\$env:USERNAME\Downloads\gits\TheRum\nugetPackageFiles\Microsoft2\aspnetcore.txt"
+    # BuildPackageList -PackageName "Microsoft.WinAppDriver*" -OutputFile "C:\Users\$env:USERNAME\Downloads\gits\TheRum\nugetPackageFiles\Microsoft2\winappdriver.txt"
+    # BuildPackageList -PackageName "Microsoft.WinAppDriver.Appium*" -OutputFile "C:\Users\$env:USERNAME\Downloads\gits\TheRum\nugetPackageFiles\Microsoft2\winappdriver.txt"
+    # BuildPackageList -PackageName "Microsoft.WinAppDriver.Appium.WebDriver*" -OutputFile "C:\Users\$env:USERNAME\Downloads\gits\TheRum\nugetPackageFiles\Microsoft2\winappdriver.txt"
+    # BuildPackageList -PackageName "Microsoft.AspNetCore.Mvc.Razor*" -OutputFile "C:\Users\$env:USERNAME\Downloads\gits\TheRum\nugetPackageFiles\Microsoft2\aspnetcore.txt"
+    # BuildPackageList -PackageName "Microsoft.AspNetCore.Mvc*" -OutputFile "C:\Users\$env:USERNAME\Downloads\gits\TheRum\nugetPackageFiles\Microsoft2\aspnetcore.txt"
+    # BuildPackageList -PackageName "Microsoft.AspNetCore*" -OutputFile "C:\Users\$env:USERNAME\Downloads\gits\TheRum\nugetPackageFiles\Microsoft2\aspnetcore.txt"
     # BuildPackageList -PackageName "microsoft.entityframework*" -OutputFile "C:\Users\$env:USERNAME\Downloads\gits\TheRum\nugetPackageFiles\Microsoft2\efcore.txt"
     # BuildPackageList -PackageName "microsoft.aspnetcore.auth*" -OutputFile "C:\Users\$env:USERNAME\Downloads\gits\TheRum\nugetPackageFiles\Microsoft2\aspnetcoreAuthentication.txt"
     # BuildPackageList -PackageName "microsoft.*powershell*" -OutputFile "C:\Users\$env:USERNAME\Downloads\gits\TheRum\nugetPackageFiles\Microsoft2\powershell.txt"
@@ -553,9 +670,12 @@ function BuildPackageList {
         [string]$PackageName,
         [System.Collections.ArrayList]$PackageArray,
         [string]$OutputFile,
-        [string]$SearchSource
+        [string]$SearchSource = "nuget.org"
+        # [string]$SearchSource = "https://pkgs.dev.azure.com/ms/terminal/_packaging/TerminalDependencies/nuget/v3/index.json"
+        
     )
-    $TempFile = "C:\Windows\Temp\nugetFiles.txt"
+    [string]$random = Get-Random -Maximum 9999999999 -Minimum 1000000
+    $TempFile = "C:\Windows\Temp\nugetFiles_$random.txt"
     $null > $TempFile
     if (!$SearchSource) {
         $SearchSource = "nuget.org"
@@ -593,8 +713,10 @@ function BuildPackageList {
 
 function Find-AllPackages {
     param (
-        [string]$PackageName
-    )
+        [string]$PackageName,
+        # [string]$Source = "https://api.nuget.org/v3/index.json"
+        [string]$Source = "https://pkgs.dev.azure.com/ms/terminal/_packaging/TerminalDependencies/nuget/v3/index.json"
+        )
     # NOTES
     # If you see ~1.0.2 it means to install version 1.0.2 or the latest patch version such as 1.0.4. 
     # If you see ^1.0.2 it means to install version 1.0.2 or the latest minor or patch version such as 1.1.0.
@@ -619,19 +741,83 @@ function Find-AllPackages {
 }
 
 
-$allFiles = "C:\Program Files (x86)\Microsoft SDKs", "C:\Users\$env:USERNAME\.nuget\packages", "D:\\Transfer\\ToMove", "C:\\Users\\$env:USERNAME\\AppData\\Local\\NuGet\\v3-cache"
+# $allFiles = "C:\Program Files (x86)\Microsoft SDKs", "C:\Users\$env:USERNAME\.nuget\packages", "D:\\Transfer\\ToMove", "C:\\Users\\$env:USERNAME\\AppData\\Local\\NuGet\\v3-cache", "C:\\Users\\$env:USERNAME\\source\\repos", "C:\\Users\\$env:USERNAME\\AppData\\Local\\PackageManagement\\NuGet\\Packages", "C:\\Program Files\\PackageManagement\\NuGet\\Packages"
+# # Remove-Variable allFiles
+# # DeDupe
+# # $toDeDupeCopy = gci "*.nupkg" -Recurse -Path "D:\\Transfer\\ToMove\\BaGet_Shared\\packages\\packages"
+
+# function DeDupe-Nupkg() {
+#     param(
+#         [System.Collections.Arraylist]$allFiles
+#     )
+
+#     if (!$allFiles) {
+#         # $toDeDupeCopy = Get-ChildItem "*.nupkg" -Recurse -Path "D:\\Transfer\\ToMove\\BaGet_Shared"    
+#         $toDeDupeCopy = Get-ChildItem "*.*nupkg" -Recurse -Path "D:\\Transfer\\ToMove\\BaGet_Shared" | Where-Object { $($_.GetType().Name -eq "FileInfo") -and $($_.LastWriteTime -ge (Get-Date).AddDays(-5)) }
+#     }
+#     else {
+#         # $toDeDupeCopy = $allFiles.foreach({ Get-ChildItem "*.nupkg" -Recurse -Path $_ })
+#         $toDeDupeCopy = $allFiles | foreach-object -Parallel ({ Get-ChildItem "*.nupkg" -Recurse -Path $_ })
+#     }
+#     # $toDeDupeCopy = gci "*.nupkg" -Recurse -Path "D:\\Transfer\\ToMove\\BaGet_Shared"
+#     $toDeDupeCopy | Where-Object { $_.Length -le 0 } | Remove-Item -force
+#     # $toDeDupeCopy. foreach({ Copy-Item $_ -Destination "D:\\Transfer\\ToMove\\nupkg\\" })
+#     $toDeDupeCopy | ForEach-Object -Parallel ({ Copy-Item $_ -Destination "D:\\Transfer\\ToMove\\nupkg\\" })
+#     $moved = Get-ChildItem "*.*nupkg" -Recurse -Path "D:\\Transfer\\Moved\\nupkg\\" -File
+#     $moved | Where-Object { $_.Length -le 0 } | Remove-Item -force
+#     $moved = $moved | Where-Object { $_.Length -gt 0 } 
+#     # $moved = Get-ChildItem "*.*nupkg" -Recurse -Path "D:\\Transfer\\Moved\\nupkg\\"
+#     $toMove = Get-ChildItem -recurse "*.*nupkg" -Path "D:\\Transfer\\ToMove\\nupkg\\" -File
+#     $toMove | Where-Object { $_.Length -le 0 } | Remove-Item -force
+#     $toMove = $toMove | Where-Object { $_.Length -gt 0 } 
+#     # $toMove = Get-ChildItem -recurse "*.*nupkg" -Path "D:\\Transfer\\ToMove\\nupkg\\"
+#     [system.gc]::collect()
+#     $staging = "D:\\Transfer\\Staging\\nupkg\\"
+#     # $count = 0
+#     # $leavingCount = 0
+#     # # $toMove.foreach({ if ($_.name -notin $moved) { $count++ } })
+#     # $moved.foreach({ if ($_.name -notin $toMove) { $count++ } })
+#     # $moved.foreach({ if ($_.name -in $toMove) { $leavingCount++ } })
+#     # write-host "Going to move $count packages"
+#     # write-host "$leavingCount duplicate packages"
+
+#     # Move Files
+#     if (!$ImportedMoved) {
+#         # $toMove.foreach({ if ($_.name -notin $moved.Name) { move-item $_ $staging } })    
+#         $toMove | ForEach-Object -Parallel ({
+#                 $staging = $using:staging
+#                 $moved = $using:moved
+#                 if ($_.name -notin $moved.Name) { move-item $_ $staging } })    
+#         [system.gc]::collect()
+#     }
+#     else {
+#         # $toMove.foreach({ if ($_.name -notin $ImportedMoved -or $_.name -notin $($ImportedMoved).Name) { move-item $_ $staging } })
+#         $toMove | ForEach-Object -Parallel ({ 
+#                 $staging = $using:staging
+#                 $ImportedMoved = $using:ImportedMoved
+#                 if ($_.name -notin $ImportedMoved -or $_.name -notin $($ImportedMoved).Name) { move-item $_ $staging } })
+#         [system.gc]::collect()
+#     }
+
+# }
+
+
+
+
+$allFiles = "C:\Program Files (x86)\Microsoft SDKs", "C:\Users\$env:USERNAME\.nuget\packages", "D:\\Transfer\\ToMove", "C:\\Users\\$env:USERNAME\\AppData\\Local\\NuGet\\v3-cache", "C:\\Users\\$env:USERNAME\\source\\repos", "C:\\Users\\$env:USERNAME\\AppData\\Local\\PackageManagement\\NuGet\\Packages", "C:\\Program Files\\PackageManagement\\NuGet\\Packages"
 # Remove-Variable allFiles
 # DeDupe
 # $toDeDupeCopy = gci "*.nupkg" -Recurse -Path "D:\\Transfer\\ToMove\\BaGet_Shared\\packages\\packages"
 
 function DeDupe-Nupkg() {
     param(
-        [System.Collections.Arraylist]$allFiles
+        [System.Collections.Arraylist]$allFiles,
+        [switch]$UseUpdateJson
     )
 
     if (!$allFiles) {
         # $toDeDupeCopy = Get-ChildItem "*.nupkg" -Recurse -Path "D:\\Transfer\\ToMove\\BaGet_Shared"    
-        $toDeDupeCopy = Get-ChildItem "*.*nupkg" -Recurse -Path "D:\\Transfer\\ToMove\\BaGet_Shared" | Where-Object {$($_.GetType().Name -eq "FileInfo") -and $($_.LastWriteTime -ge (Get-Date).AddDays(-5))}
+        $toDeDupeCopy = Get-ChildItem "*.*nupkg" -Recurse -Path "D:\\Transfer\\ToMove\\nupkg" | Where-Object { $($_.GetType().Name -eq "FileInfo") -and $($_.LastWriteTime -ge (Get-Date).AddDays(-5)) }
     }
     else {
         # $toDeDupeCopy = $allFiles.foreach({ Get-ChildItem "*.nupkg" -Recurse -Path $_ })
@@ -660,21 +846,89 @@ function DeDupe-Nupkg() {
     # write-host "$leavingCount duplicate packages"
 
     # Move Files
-    if (!$ImportedMoved) {
+    # if (!$ImportedMoved) {
+    if (!$UseUpdateJson) {
         # $toMove.foreach({ if ($_.name -notin $moved.Name) { move-item $_ $staging } })    
         $toMove | ForEach-Object -Parallel ({
-            $staging = $using:staging
-            $moved = $using:moved
-            if ($_.name -notin $moved.Name) { move-item $_ $staging } })    
-            [system.gc]::collect()
+                $staging = $using:staging
+                $moved = $using:moved
+                if ($_.name -notin $moved.Name) { move-item $_ $staging } })    
+        [system.gc]::collect()
     }
     else {
         # $toMove.foreach({ if ($_.name -notin $ImportedMoved -or $_.name -notin $($ImportedMoved).Name) { move-item $_ $staging } })
-        $toMove | ForEach-Object -Parallel ({ 
-            $staging = $using:staging
-            $ImportedMoved = $using:ImportedMoved
-            if ($_.name -notin $ImportedMoved -or $_.name -notin $($ImportedMoved).Name) { move-item $_ $staging } })
-            [system.gc]::collect()
+        # $toMove | ForEach-Object -Parallel ({ 
+        #         $staging = $using:staging
+        # $ImportedMoved = $using:ImportedMoved
+
+        # Comparing file list with actual file names
+        $outputdir = "C:\\users\\$env:USERNAME\\Downloads\\"
+
+        $files = gc "$outputdir\output.json" | convertfrom-json
+
+        # Get-ChildItem -Recurse -Path 'D:\Transfer\Moved\nupkg\' | Select-Object Name, FullName, CreationTime, LastWriteTime, Length | ConvertTo-Json | Out-File "$outputdir\output.json"
+        $files += Get-ChildItem -Recurse -Path 'D:\Transfer\Moved\nupkg\' | Select-Object Name, FullName, CreationTime, LastWriteTime, Length 
+
+        # Use a hashtable to remember which names have been seen
+        $seenNames = @{}
+
+        # Create an array to store the objects with unique names
+        $uniqueObjects = @()
+
+        $files.count
+
+        # Loop through each object in the original array
+        foreach ($object in $files) {
+            # Check if the name has been seen before
+            if (-not $seenNames.ContainsKey($object.name)) {
+                # Add the name to the hashtable
+                $seenNames[$object.name] = $true
+
+                # Add the object to the array of unique objects
+                $uniqueObjects += $object
+            }
+        }
+
+        $files = $uniqueObjects
+
+        $files.count
+
+        $files | ConvertTo-Json | Out-File "$outputdir\$(Get-Date -Format "yyyyMMdd")_output.json"
+
+        Copy-Item -Force "$outputdir\$(Get-Date -Format "yyyyMMdd")_output.json" "$outputdir\output.json"
+
+        # $files = gc "$outputdir\output.json" | convertfrom-json
+
+        # $tomove = gci -Recurse -Filter "*.*nupkg" -Path D:\Transfer\ToMove\nupkg
+        $tomove = gci -Recurse -Filter "*.*nupkg" -Path D:\Transfer\ToMove
+            
+        $tomove | Where-Object { $_.Name -inotin $files.name } | ForEach-Object -Parallel ({ 
+                $staging = $using:staging
+                # $files = $using:files
+                mv $_ "$staging\"
+            })
+        # 7zip the staging folder up.
+        # BD size
+        # & 'C:\Program Files\7-Zip\7z.exe' a -v23040M -psimnet1 "D:\transfer\$(Get-Date -Format "yyyyMMdd")_nupkg.7z" "D:\transfer\Staging\nupkg\"
+
+        ## DVD size
+        # & 'C:\Program Files\7-Zip\7z.exe' a -v8128M -psimnet1 "D:\transfer\$(Get-Date -Format "yyyyMMdd")_nupkg.7z" "D:\transfer\Staging\nupkg\"
+
+        # $shared_destination = "G:\My Drive\Shared\"
+
+        # $gdrive_destination = "G:\My Drive\Shared\$(Get-Date -Format "yyyyMMdd")\"
+
+        # if (!$(Test-Path $gdrive_destination)) {
+        #     mkdir $gdrive_destination
+        # }
+
+        # gci "D:\Transfer\$(Get-Date -Format "yyyyMMdd")_nupkg.7z*" | foreach ({mv $_ $gdrive_destination\\})
+
+        # Get-FileHash "$gdrive_destination\*.7z*" | Format-List >> "$shared_destination\PRE_DTA_HASH_$(Get-Date -Format "yyyyMMdd")_NAME.txt"
+
+
+        # if ($_.name -notin $ImportedMoved -or $_.name -notin $($ImportedMoved).Name) { move-item $_ $staging } 
+        [system.gc]::collect()
     }
 
 }
@@ -682,6 +936,17 @@ function DeDupe-Nupkg() {
 
 
 
+
+Start-Sleep 3600
+
+$allFiles = "C:\Program Files (x86)\Microsoft SDKs", "C:\Users\$env:USERNAME\.nuget\packages", "D:\\Transfer\\ToMove", "C:\\Users\\$env:USERNAME\\AppData\\Local\\NuGet\\v3-cache", "C:\\Users\\$env:USERNAME\\source\\repos", "C:\\Users\\$env:USERNAME\\AppData\\Local\\PackageManagement\\NuGet\\Packages", "C:\\Program Files\\PackageManagement\\NuGet\\Packages"
+
+
+DeDupe-Nupkg -allFiles $allFiles
+
+# 7zip the staging folder up.
+# BD size
+& 'C:\Program Files\7-Zip\7z.exe' a -v23040M -psimnet1 "D:\transfer\dedupe_$(Get-Date -Format "yyyyMMdd")_nupkg.7z" "D:\transfer\Staging\nupkg\"
 
 # $Directory = "D:\\Transfer\\Staging\\nupkg"
 # get-filehash "$Directory\\*" | format-list | Out-File "$Directory\\..\\PRE_HASH_$(Get-Date -Format "yyyyMMdd")_nupkg.txt"
@@ -874,6 +1139,30 @@ $files = gc "$outputdir\output.json" | convertfrom-json
 # Get-ChildItem -Recurse -Path 'D:\Transfer\Moved\nupkg\' | Select-Object Name, FullName, CreationTime, LastWriteTime, Length | ConvertTo-Json | Out-File "$outputdir\output.json"
 $files += Get-ChildItem -Recurse -Path 'D:\Transfer\Moved\nupkg\' | Select-Object Name, FullName, CreationTime, LastWriteTime, Length 
 
+# Use a hashtable to remember which names have been seen
+$seenNames = @{}
+
+# Create an array to store the objects with unique names
+$uniqueObjects = @()
+
+$files.count
+
+# Loop through each object in the original array
+foreach ($object in $files) {
+    # Check if the name has been seen before
+    if (-not $seenNames.ContainsKey($object.name)) {
+        # Add the name to the hashtable
+        $seenNames[$object.name] = $true
+
+        # Add the object to the array of unique objects
+        $uniqueObjects += $object
+    }
+}
+
+$files = $uniqueObjects
+
+$files.count
+
 $files | ConvertTo-Json | Out-File "$outputdir\$(Get-Date -Format "yyyyMMdd")_output.json"
 
 Copy-Item -Force "$outputdir\$(Get-Date -Format "yyyyMMdd")_output.json" "$outputdir\output.json"
@@ -883,12 +1172,63 @@ Copy-Item -Force "$outputdir\$(Get-Date -Format "yyyyMMdd")_output.json" "$outpu
 # $tomove = gci -Recurse -Filter "*.*nupkg" -Path D:\Transfer\ToMove\nupkg
 $tomove = gci -Recurse -Filter "*.*nupkg" -Path D:\Transfer\ToMove
 
-$tomove | Where-Object {$_.Name -inotin $files.name} | Foreach-Object {mv $_ D:\transfer\Staging\nupkg\ }
+# $tomove | Where-Object { $_.Name -inotin $files.name } | Foreach-Object { mv $_ D:\transfer\Staging\nupkg\ }
+$tomove | Foreach-Object -Parallel {
+    $files = $using:files
+    Where-Object { $_.Name -inotin $files.name } | Foreach-Object { mv $_ D:\transfer\Staging\nupkg\ }
+}  
 
 # 7zip the staging folder up.
-& 'C:\Program Files\7-Zip\7z.exe' a -psimnet1 "D:\transfer\$(Get-Date -Format "yyyyMMdd")_nupkg.7z" "D:\transfer\Staging\nupkg\"
+# BD size
+# & 'C:\Program Files\7-Zip\7z.exe' a -v23040M -psimnet1 "D:\transfer\$(Get-Date -Format "yyyyMMdd")_nupkg.7z" "D:\transfer\Staging\nupkg\"
+
+## DVD size
+& 'C:\Program Files\7-Zip\7z.exe' a -v8128M -psimnet1 "D:\transfer\$(Get-Date -Format "yyyyMMdd")_nupkg.7z" "D:\transfer\Staging\nupkg\"
+
+$shared_destination = "G:\My Drive\Shared\"
+
+$gdrive_destination = "G:\My Drive\Shared\$(Get-Date -Format "yyyyMMdd")\"
+
+if (!$(Test-Path $gdrive_destination)) {
+    mkdir $gdrive_destination
+}
+
+gci "D:\Transfer\$(Get-Date -Format "yyyyMMdd")_nupkg.7z*" | foreach ({mv $_ $gdrive_destination\\})
+
+Get-FileHash "$gdrive_destination\*.7z*" | Format-List >> "$shared_destination\PRE_DTA_HASH_$(Get-Date -Format "yyyyMMdd")_NAME.txt"
 
 ################# 
+################# 
+################# 
+################# 
 
+# Sample array of variable names
+# $variableNames = @("abc.def.ghi", "jkl.mno", "pqr.stu.vwx.yz")
+$list = gc "C:\Users\$env:USERNAME\Downloads\gits\TheRum\nugetPackageFiles\Microsoft2\aspnetcore.txt"
+
+# Loop through each variable name
+$newList = New-Object 'System.Collections.ArrayList'
+foreach ($name in $list) {
+    # Trim any leading and trailing white spaces
+    $trimmedName = $name.Trim()
+
+    # Split the name by the period character
+    $splitName = $trimmedName -split '\.'
+
+    # Remove the last item from the array
+    $splitName = $splitName[0..($splitName.Length - 2)]
+
+    # Join the array back into a string, separated by periods
+    $newName = $splitName -join '.'
+
+    # Add to ArrayList
+    $newList.Add($newName) | Out-Null  # | Out-Null suppresses the output of Add method
+
+    # Output the new name
+    Write-Host $newName
+}
+
+$newList = $newList.Trim() | Sort-Object -Unique
+$newList.Count
 
 ################# 

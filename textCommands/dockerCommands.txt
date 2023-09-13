@@ -63,6 +63,12 @@ docker run -it -v D:\Transfer\ToMove\repo\docker\debian:/opt/repo/docker  -v D:\
 
 
 
+# afccb000b1b5 otter
+# 9767b866a609 buildmaster
+# 2a019ea785a7 proget
+# 261c74fb18fe inedo-sql
+
+
 docker images
 # Find container name
 docker container ls
@@ -78,7 +84,8 @@ docker image tag baget_transfer ambrosektal/baget_transfer:latest
 docker image push ambrosektal/baget_transfer:latest
 
 # is it not connecting? Not pulling extensions? maybe this will work???
-docker run -it -v 'D:\Transfer\ToMove\software\vscodeoffline\artifacts:/artifacts' lolinternet/vscsync:latest sh
+# docker run -it -v 'D:\Transfer\ToMove\software\vscodeoffline\artifacts:/artifacts' lolinternet/vscsync:latest sh
+docker run -it -v 'D:\Transfer\ToMove\software\vscodeoffline\artifacts:/artifacts' vscsync:20230824 sh
 
 # Start vsync 
 # python sync.py --check-recommended-extensions --check-specified-extensions --check-binaries --check-insider --update-binaries --update-malicious --update-extensions --artifacts /artifacts
@@ -102,8 +109,15 @@ $files = $(gc latest.json | convertfrom-json)
 ## Fix for overcomplication...
 
 vscodedate=$(date '+%Y%m%d')
-# find /mnt/d/Transfer/ToMove/software/vscodeoffline/artifacts -ctime -10 -type f -print0  | tar czf /mnt/d/Transfer/ToMove/software/vscodeoffline/$(echo $vscodedate)_vscodeoffline.tar.gz --files-from=- 
-find /mnt/d/Transfer/software/vscodeoffline/artifacts -ctime -10 -type f -print0  | tar czf /mnt/d/Transfer/software/vscodeoffline/$(echo $vscodedate)_vscodeoffline.tar.gz --files-from=- 
+
+find /mnt/d/Transfer/software/vscodeoffline/artifacts -ctime -5 -type f -print0  | tar czf /mnt/d/Transfer/software/vscodeoffline/$(echo $vscodedate)_vscodeoffline.tar.gz --files-from=- 
+
+# 7za a -psimnet1 /mnt/d/Transfer/software/vscodeoffline/$(echo $vscodedate)_vscodeoffline.tar.7z /mnt/d/Transfer/software/vscodeoffline/$(echo $vscodedate)_vscodeoffline.tar.gz
+# Sets it to the DVD size
+7za a -v8128M -psimnet1 /mnt/d/Transfer/software/vscodeoffline/$(echo $vscodedate)_vscodeoffline.tar.7z /mnt/d/Transfer/software/vscodeoffline/$(echo $vscodedate)_vscodeoffline.tar.gz
+
+
+
 
 # find /mnt/d/Transfer/ToMove/software/vscodeoffline/artifacts -mtime -3 -type f -print0  | tar czf /mnt/d/Transfer/ToMove/software/vscodeoffline/$(echo $vscodedate)_vscodeoffline.tar.gz --files-from=- --null
 
@@ -298,9 +312,11 @@ docker run -d `
   lscr.io/linuxserver/plex:latest
 
 
+sudo mount -t nfs 192.168.0.124:/volume2/plex /opt/shares/plex
+
 # fstab:://stored/plex/plex /mnt/plex type cifs (rw,relatime,vers=3.1.1,cache=strict,username=ambrose,uid=0,noforceuid,gid=0,noforcegid,addr=192.168.0.124,file_mode=0755,dir_mode=0755,soft,nounix,serverino,mapposix,rsize=4194304,wsize=4194304,bsize=1048576,echo_interval=60,actimeo=1)  
 
-//stored/plex/plex /mnt/plex cifs credentials=/etc/plexcreds,rw,relatime,vers=3.1.1,cache=strict,username=ambrose,uid=0,noforceuid,gid=0,noforcegid,addr=192.168.0.124,file_mode=0777,dir_mode=0777,soft,nounix,serverino,mapposix,rsize=4194304,wsize=4194304,bsize=1048576,echo_interval=60,actimeo=1 0 0
+//stored/plex/plex /opt/shares/plex cifs credentials=/etc/plexcreds,rw,relatime,vers=3.1.1,cache=strict,username=ambrose,uid=0,noforceuid,gid=0,noforcegid,addr=192.168.0.124,file_mode=0777,dir_mode=0777,soft,nounix,serverino,mapposix,rsize=4194304,wsize=4194304,bsize=1048576,echo_interval=60,actimeo=1 0 0
   
 docker run -d `
   --name=plex `
@@ -430,4 +446,48 @@ docker run \
 lscr.io/linuxserver/plex:latest
     
   
-  
+###################################################
+# ProGet Build
+
+# afccb000b1b5 otter
+# 9767b866a609 buildmaster
+# 2a019ea785a7 proget
+# 261c74fb18fe inedo-sql
+
+
+docker images
+# Find container name
+docker container ls
+# ReTag
+docker commit otter otter_transfer
+# Verify new name
+docker container ls
+docker images
+# Tag docker image
+docker image tag otter_transfer otter_transfer:latest
+
+docker commit buildmaster buildmaster_transfer
+# Verify new name
+docker container ls
+docker images
+# Tag docker image
+docker image tag buildmaster_transfer buildmaster_transfer:latest
+
+docker commit proget proget_transfer
+# Verify new name
+docker container ls
+docker images
+# Tag docker image
+docker image tag proget_transfer proget_transfer:latest
+
+docker commit inedo-sql inedo-sql_transfer
+# Verify new name
+docker container ls
+docker images
+# Tag docker image
+docker image tag inedo-sql_transfer inedo-sql_transfer:latest
+
+inedo-sql_transfer:latest
+proget_transfer:latest
+buildmaster_transfer:latest
+otter_transfer:latest

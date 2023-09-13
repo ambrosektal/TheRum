@@ -141,6 +141,19 @@ Microsoft.AspNet.Cors.zh-Hant
 Microsoft.AspNet.DynamicData.EFProvider
 Microsoft.AspNet.EntityDataSource
 Microsoft.AspNet.Facebook
+Microsoft.AspNet.Facebook.cs
+Microsoft.AspNet.Facebook.de
+Microsoft.AspNet.Facebook.es
+Microsoft.AspNet.Facebook.fr
+Microsoft.AspNet.Facebook.it
+Microsoft.AspNet.Facebook.ja
+Microsoft.AspNet.Facebook.ko
+Microsoft.AspNet.Facebook.pl
+Microsoft.AspNet.Facebook.pt-br
+Microsoft.AspNet.Facebook.ru
+Microsoft.AspNet.Facebook.tr
+Microsoft.AspNet.Facebook.zh-Hans
+Microsoft.AspNet.Facebook.zh-Hant
 Microsoft.AspNet.FriendlyUrls
 Microsoft.AspNet.FriendlyUrls.Core
 Microsoft.AspNet.FriendlyUrls.Core.cs
@@ -955,6 +968,7 @@ Microsoft.Azure.DurableTask.AzureStorage
 Microsoft.Azure.DurableTask.Core
 Microsoft.Azure.DurableTask.Emulator
 Microsoft.Azure.DurableTask.Netherite
+Microsoft.Azure.DurableTask.Netherite.AzureFunctions
 Microsoft.Azure.DurableTask.ServiceBus
 Microsoft.Azure.EventGrid
 Microsoft.Azure.EventHubs
@@ -978,6 +992,7 @@ Microsoft.Azure.Functions.Worker.Extensions.RabbitMQ
 Microsoft.Azure.Functions.Worker.Extensions.SendGrid
 Microsoft.Azure.Functions.Worker.Extensions.ServiceBus
 Microsoft.Azure.Functions.Worker.Extensions.SignalRService
+Microsoft.Azure.Functions.Worker.Extensions.Sql
 Microsoft.Azure.Functions.Worker.Extensions.Storage
 Microsoft.Azure.Functions.Worker.Extensions.Storage.Blobs
 Microsoft.Azure.Functions.Worker.Extensions.Storage.Queues
@@ -1344,6 +1359,7 @@ Microsoft.CodeCoverage.IO
 Microsoft.CodeDom.Providers.DotNetCompilerPlatform
 Microsoft.CodeDom.Providers.DotNetCompilerPlatform.BinFix
 Microsoft.CodeDom.Providers.DotNetCompilerPlatform.NoInstall
+Microsoft.CodeDom.Providers.DotNetCompilerPlatform.WebSites
 Microsoft.CodedUI.Framework
 Microsoft.CodeQuality.Analyzers
 Microsoft.CognitiveServices.Speech
@@ -1451,6 +1467,8 @@ Microsoft.Database.ManagedEsent
 Microsoft.Datasync.Client
 Microsoft.Datasync.Client.SQLiteStore
 Microsoft.DataTransfer.Gateway.Encryption
+Microsoft.Debugging.Tools.PdbStr
+Microsoft.Debugging.Tools.SrcTool
 Microsoft.DependencyValidation.Analyzers
 Microsoft.Deployment.DotNet.Releases
 Microsoft.Diagnostics.EventFlow.Core
@@ -1569,6 +1587,7 @@ Microsoft.DragonGate.SDKPackage
 Microsoft.DurableTask.Abstractions
 Microsoft.DurableTask.Client
 Microsoft.DurableTask.Client.Grpc
+Microsoft.DurableTask.Client.OrchestrationServiceClientShim
 Microsoft.DurableTask.Grpc
 Microsoft.DurableTask.Sidecar
 Microsoft.DurableTask.Sidecar.Protobuf
@@ -1715,6 +1734,7 @@ Microsoft.Graph.Communications.Client
 Microsoft.Graph.Communications.Common
 Microsoft.Graph.Communications.Core
 Microsoft.Graph.Core
+Microsoft.Graph.Kibali
 Microsoft.Graphics.Win2D
 Microsoft.Gsl
 Microsoft.Hadoop.Avro-Core
@@ -1752,6 +1772,8 @@ Microsoft.Identity.Web.Certificate
 Microsoft.Identity.Web.Certificateless
 Microsoft.Identity.Web.Diagnostics
 Microsoft.Identity.Web.DownstreamApi
+Microsoft.Identity.Web.GraphServiceClient
+Microsoft.Identity.Web.GraphServiceClientBeta
 Microsoft.Identity.Web.MicrosoftGraph
 Microsoft.Identity.Web.MicrosoftGraphBeta
 Microsoft.Identity.Web.OWIN
@@ -1782,9 +1804,11 @@ Microsoft.ILVerification
 Microsoft.InformationProtection.File
 Microsoft.InformationProtection.File.Ubuntu1804
 Microsoft.InformationProtection.File.Ubuntu2004
+Microsoft.InformationProtection.File.Ubuntu2204
 Microsoft.InformationProtection.Policy
 Microsoft.InformationProtection.Protection
 Microsoft.InstrumentationEngine.Headers
+Microsoft.Internal.PGO-Helpers.Cpp
 Microsoft.International.Converters.PinYinConverter
 Microsoft.Intune.MAM.Remapper.Tasks
 Microsoft.Intune.MAM.Xamarin.Android
@@ -2125,13 +2149,17 @@ Microsoft.ML.ModelBuilder.CLI.OSX
 Microsoft.ML.ModelBuilder.CLI.Win64
 Microsoft.ML.OnnxConverter
 Microsoft.ML.OnnxRuntime
+Microsoft.ML.OnnxRuntime.Azure
 Microsoft.ML.OnnxRuntime.DirectML
+Microsoft.ML.OnnxRuntime.Extensions
 Microsoft.ML.OnnxRuntime.Gpu
 Microsoft.ML.OnnxRuntime.Managed
 Microsoft.ML.OnnxRuntime.MKLML
 Microsoft.ML.OnnxRuntime.NoOpenMP
 Microsoft.ML.OnnxRuntime.OpenMP
+Microsoft.ML.OnnxRuntime.QNN
 Microsoft.ML.OnnxRuntime.Snpe
+Microsoft.ML.OnnxRuntime.Training
 Microsoft.ML.OnnxTransformer
 Microsoft.ML.Parquet
 Microsoft.ML.Probabilistic
@@ -2159,6 +2187,7 @@ Microsoft.NET.Build.Extensions
 Microsoft.Net.Compilers
 Microsoft.Net.Compilers.netcore
 Microsoft.Net.Compilers.Toolset
+Microsoft.Net.Compilers.Toolset.Framework
 Microsoft.NET.HostModel
 Microsoft.Net.Http
 Microsoft.Net.Http.cs
@@ -2198,17 +2227,21 @@ Microsoft.NET.Runtime.Emscripten.2.0.23.Sdk.win-x64.Msi.x64
 Microsoft.NET.Runtime.Emscripten.3.1.12.Cache.linux-x64
 Microsoft.NET.Runtime.Emscripten.3.1.12.Cache.osx-x64
 Microsoft.NET.Runtime.Emscripten.3.1.12.Cache.win-x64
+Microsoft.NET.Runtime.Emscripten.3.1.12.Cache.win-x64.Msi.arm64
 Microsoft.NET.Runtime.Emscripten.3.1.12.Cache.win-x64.Msi.x64
 Microsoft.NET.Runtime.Emscripten.3.1.12.Node.linux-x64
 Microsoft.NET.Runtime.Emscripten.3.1.12.Node.osx-x64
 Microsoft.NET.Runtime.Emscripten.3.1.12.Node.win-x64
+Microsoft.NET.Runtime.Emscripten.3.1.12.Node.win-x64.Msi.arm64
 Microsoft.NET.Runtime.Emscripten.3.1.12.Node.win-x64.Msi.x64
 Microsoft.NET.Runtime.Emscripten.3.1.12.Python.osx-x64
 Microsoft.NET.Runtime.Emscripten.3.1.12.Python.win-x64
+Microsoft.NET.Runtime.Emscripten.3.1.12.Python.win-x64.Msi.arm64
 Microsoft.NET.Runtime.Emscripten.3.1.12.Python.win-x64.Msi.x64
 Microsoft.NET.Runtime.Emscripten.3.1.12.Sdk.linux-x64
 Microsoft.NET.Runtime.Emscripten.3.1.12.Sdk.osx-x64
 Microsoft.NET.Runtime.Emscripten.3.1.12.Sdk.win-x64
+Microsoft.NET.Runtime.Emscripten.3.1.12.Sdk.win-x64.Msi.arm64
 Microsoft.NET.Runtime.Emscripten.3.1.12.Sdk.win-x64.Msi.x64
 Microsoft.NET.Runtime.MonoAOTCompiler.Task
 Microsoft.NET.Runtime.MonoAOTCompiler.Task.Msi.arm64
@@ -2223,6 +2256,9 @@ Microsoft.NET.Runtime.WebAssembly.Sdk.Msi.arm64
 Microsoft.NET.Runtime.WebAssembly.Sdk.Msi.x64
 Microsoft.NET.Runtime.WebAssembly.Sdk.Msi.x86
 Microsoft.NET.Runtime.WebAssembly.Templates
+Microsoft.NET.Runtime.WebAssembly.Templates.Msi.arm64
+Microsoft.NET.Runtime.WebAssembly.Templates.Msi.x64
+Microsoft.NET.Runtime.WebAssembly.Templates.Msi.x86
 Microsoft.NET.Sdk.Android.Manifest-6.0.300
 Microsoft.NET.Sdk.Android.Manifest-6.0.300.Msi.arm64
 Microsoft.NET.Sdk.Android.Manifest-6.0.300.Msi.x64
@@ -2627,6 +2663,7 @@ Microsoft.OneDriveSDK.Authentication
 Microsoft.OpenApi
 Microsoft.OpenApi.Hidi
 Microsoft.OpenApi.Kiota
+Microsoft.OpenApi.Kiota.Builder
 Microsoft.OpenApi.OData
 Microsoft.OpenApi.Readers
 Microsoft.OrchestrationFactory.Automation
@@ -2671,7 +2708,9 @@ Microsoft.Orleans.ProtobufNet
 Microsoft.Orleans.Reminders
 Microsoft.Orleans.Reminders.AdoNet
 Microsoft.Orleans.Reminders.AzureStorage
+Microsoft.Orleans.Reminders.Cosmos
 Microsoft.Orleans.Reminders.DynamoDB
+Microsoft.Orleans.Reminders.Redis
 Microsoft.Orleans.Runtime
 Microsoft.Orleans.Runtime.Abstractions
 Microsoft.Orleans.Runtime.Legacy
@@ -2681,6 +2720,7 @@ Microsoft.Orleans.Serialization.Abstractions
 Microsoft.Orleans.Serialization.Bond
 Microsoft.Orleans.Serialization.FSharp
 Microsoft.Orleans.Serialization.NewtonsoftJson
+Microsoft.Orleans.Serialization.Protobuf
 Microsoft.Orleans.Serialization.SystemTextJson
 Microsoft.Orleans.Serialization.TestKit
 Microsoft.Orleans.Server
@@ -2929,6 +2969,7 @@ Microsoft.Portable.FSharp.Core
 Microsoft.PowerApps.CLI
 Microsoft.PowerApps.CLI.Core.linux-x64
 Microsoft.PowerApps.CLI.Core.osx-x64
+Microsoft.PowerApps.CLI.Tool
 Microsoft.PowerApps.MSBuild.Pcf
 Microsoft.PowerApps.MSBuild.Plugin
 Microsoft.PowerApps.MSBuild.Solution
@@ -3124,6 +3165,7 @@ Microsoft.ScriptManager.WebForms
 Microsoft.SDK.Expression.Blend
 Microsoft.Security.CodeAnalysis.Cli
 Microsoft.Security.DevOps.Cli
+Microsoft.Security.DevOps.Cli.linux-arm64
 Microsoft.Security.DevOps.Cli.linux-x64
 Microsoft.Security.DevOps.Cli.win-x64
 Microsoft.Security.Extensions
@@ -3171,6 +3213,7 @@ Microsoft.ServiceHub.Analyzers
 Microsoft.ServiceHub.Client
 Microsoft.ServiceHub.Controller
 Microsoft.ServiceHub.Framework
+Microsoft.ServiceHub.Framework.Testing
 Microsoft.ServiceHub.Host.CLR
 Microsoft.ServiceHub.Host.CLR.x64
 Microsoft.ServiceHub.Host.CLR.x86
@@ -3238,7 +3281,12 @@ Microsoft.SqlServer.DacFx.x64
 Microsoft.SqlServer.DacFx.x86
 Microsoft.SqlServer.Dacpacs
 Microsoft.SqlServer.Dacpacs.Azure
+Microsoft.SqlServer.Dacpacs.Azure.Master
+Microsoft.SqlServer.Dacpacs.Master
+Microsoft.SqlServer.Dacpacs.Msdb
 Microsoft.SqlServer.Dacpacs.Synapse
+Microsoft.SqlServer.Dacpacs.Synapse.Master
+Microsoft.SqlServer.Dacpacs.SynapseServerless.Master
 Microsoft.SqlServer.IntegrationServices.Build
 Microsoft.SqlServer.Management.AlwaysEncrypted.AzureKeyVaultProvider
 Microsoft.SqlServer.Management.Sdk.Sfc.dll
@@ -3266,6 +3314,7 @@ Microsoft.SyncFramework.DatabaseProvider
 Microsoft.SyncFramework.ProviderServices
 Microsoft.SyndicationFeed.ReaderWriter
 Microsoft.SystemForCrossDomainIdentityManagement
+Microsoft.Taef
 Microsoft.TargetingPack.Private.CoreCLR
 Microsoft.TeamFoundation.DistributedTask.Common.Contracts
 Microsoft.TeamFoundation.DistributedTask.WebApi
@@ -3607,6 +3656,7 @@ Microsoft.Win32.Primitives
 Microsoft.Win32.Registry
 Microsoft.Win32.Registry.AccessControl
 Microsoft.Win32.SystemEvents
+Microsoft.WinAppDriver.Appium.WebDriver
 Microsoft.Windows.Apps.Test
 Microsoft.Windows.Compatibility
 Microsoft.Windows.Compatibility.Shims
@@ -3714,3 +3764,4 @@ Microsoft.Xrm.Sdk.Workflow.2015
 Microsoft.XRM.SDK.Workflow.2015.OnPremise
 Microsoft.Z3
 Microsoft.Z3.x86
+MUXCustomBuildTasks

@@ -11,6 +11,7 @@
 @docsearch/js
 @dragonfly-js/seed
 @eluvio/elv-docdash
+@enact/jsdoc-to-ts
 @festicket/analytics
 @haegemonia/express-jsdoc-swagger
 @homer0/prettier-plugin-jsdoc
@@ -21,6 +22,7 @@
 @lemoineat/docdash
 @mareoraft/docdash
 @microsoft/tsdoc
+@microsoft/tsdoc-config
 @millionventures/docx
 @mmhmm/docx-steroid
 @mocha/docdash
@@ -33,6 +35,7 @@
 @pin-pon/cityway
 @pixi/jsdoc-template
 @sitna/jsdoc-template
+@studyportals/jsdoc-to-markdown
 @suitegeezus/docdash-suitescript
 @telus-uds/docusaurus-plugin-component-docs-pages
 @tnnevol/better-docs

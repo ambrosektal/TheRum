@@ -1,15 +1,18 @@
 # I think I've over complicated this....
 
 ## Testing
-### 1138
 
 npmdate=$(date '+%Y%m%d')
-# sudo find /mnt/d/Transfer/ToMove/software/verdaccio/storage -mtime -5 -type f -print0  | tar czf /mnt/d/Transfer/ToMove/software/verdaccio/$(echo $npmdate)_storage.tar.gz --files-from=- 
-sudo find /mnt/d/Transfer/ToMove/software/verdaccio/storage -ctime -10 -type f -print0  | tar czf /mnt/d/Transfer/ToMove/software/verdaccio/$(echo $npmdate)_storage.tar.gz --files-from=- 
+# # sudo find /mnt/d/Transfer/software/verdaccio/storage -mtime -5 -type f -print0  | tar czf /mnt/d/Transfer/software/verdaccio/$(echo $npmdate)_storage.tar.gz --files-from=- 
+# sudo find /mnt/d/Transfer/software/verdaccio/storage -ctime -5 -type f -print0  | tar czf /mnt/d/Transfer/software/verdaccio/$(echo $npmdate)_storage.tar.gz --files-from=- 
 
 # New test that removes package.json
-sudo find /mnt/d/Transfer/ToMove/software/verdaccio/storage ! -name "package.json" -ctime -10 -type f -print0  | tar czf /mnt/d/Transfer/ToMove/software/verdaccio/$(echo $npmdate)_storage_nopack_45.tar.gz --null --files-from=- 
+npmdate=$(date '+%Y%m%d')
+sudo find /mnt/d/Transfer/software/verdaccio/storage ! -name "package.json" -ctime -7 -type f -print0  | tar czf /mnt/d/Transfer/software/verdaccio/$(echo $npmdate)_storage_nopack_45.tar.gz --null --files-from=- 
 
+sudo 7za a -psimnet1 /mnt/d/Transfer/software/verdaccio/$(echo $npmdate)_storage_nopack_45.tar.7z /mnt/d/Transfer/software/verdaccio/$(echo $npmdate)_storage_nopack_45.tar.gz
+
+# ---------------------
 
 
 # find /mnt/d/Transfer/ToMove/software/verdaccio/storage -mtime -3 -type f -print0  | tar czf /mnt/d/Transfer/ToMove/software/verdaccio/$(echo $npmdate)_storage.tar.gz --files-from=- --null
