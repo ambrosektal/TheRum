@@ -1,0 +1,11 @@
+@itentialopensource/adapter-vmware_vcenter
+@vates/node-vsphere-soap
+easyvc
+node-vsphere-soap
+ts-vcenter
+vcenter-client
+velocity-parser
+vikashpr
+vmware_vcenter_converter_standalone_v4_0_1_portable_11_dwq
+vsphere
+vsphere-infra

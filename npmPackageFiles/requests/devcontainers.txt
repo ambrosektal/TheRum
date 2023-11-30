@@ -1,0 +1,5 @@
+@devcontainers/cli
+@ghostmind-dev/run
+create-metacloud
+freshstack
+project-albatross

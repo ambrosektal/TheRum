@@ -5,3 +5,7 @@ SharpZipLib.NETStandard
 SharpZipLib.P4k
 SharpZipLib.Port
 SharpZipLib.Portable
+LZMA-SDK
+Zlib.Portable.Signed
+Zlib.Portable
+7-Zip.CommandLine

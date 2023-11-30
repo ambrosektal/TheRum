@@ -1,3 +1,4 @@
+@cley_faye/boilerplate
 @emartech/faye-redis-sharded
 @fayesadev/lotide
 angular-faye
@@ -7,6 +8,7 @@ faye
 faye-ext
 faye-presence
 faye-websocket
+faye-ws-request-response
 getstream-faye-fix
 gitter-faye
 gitter-realtime-client
@@ -15,6 +17,7 @@ hubot-push
 primus
 rltm
 sfdx-faye
+testgpt
 urltm
 websocket-bench
 websocket-spellcheck-service

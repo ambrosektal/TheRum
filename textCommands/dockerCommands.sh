@@ -1,4 +1,3 @@
-USS Hamilton
 
 # Using 7zip to cycle through directories to 7zip them.
 $(gci -directory . ) | foreach { & ${env:ProgramFiles}\7-Zip\7z.exe a -psimnet1 "$($_.name).7z" $_ }
@@ -51,7 +50,7 @@ docker run -d --name AzureNuget-server -p 9889:80 --env-file baget.env -v "$(pwd
 
 # docker run -d --name AzureNuget-server -p 9889:80 --env-file baget.env -v "D:\Transfer\ToMove\BaGet_Shared\AzurePackages:/var/baget" ambrosektal/azurenuget_baget:latest
 
-docker run  --name cranky_margulis -p 4873:4873 -v "D:\Transfer\ToMove\software\verdaccio\storage\data:/verdaccio/storage/data" verdaccio/verdaccio:latest
+docker run  --name cranky_margulis -p 4873:4873 -v "D:\Transfer\software\verdaccio\storage\data:/verdaccio/storage/data" verdaccio/verdaccio:latest
 
 docker run -it -v D:\Transfer\ToMove\repo\docker\el8:/opt/repo/docker  -v D:\Transfer\ToMove\repo\opennms\el8:/opt/repo/opennms -v D:\Transfer\ToMove\repo\gitlab\el8:/opt/repo/gitlab -v D:\Transfer\ToMove\repo\depRepo\el8:/opt/repo/depRepo -v D:\Transfer\ToMove\repo\remi\el8:/opt/repo/remi -v D:\Transfer\ToMove\repo\configs\el8:/opt/repo/configs registry.access.redhat.com/ubi8/ubi:latest /bin/bash
 
@@ -60,13 +59,6 @@ docker run -it -v D:\Transfer\ToMove\repo\docker\el7:/opt/repo/docker  -v D:\Tra
 
 
 docker run -it -v D:\Transfer\ToMove\repo\docker\debian:/opt/repo/docker  -v D:\Transfer\ToMove\repo\opennms\el8:/opt/repo/opennms -v D:\Transfer\ToMove\repo\gitlab\el8:/opt/repo/gitlab -v D:\Transfer\ToMove\repo\depRepo\el8:/opt/repo/depRepo -v D:\Transfer\ToMove\repo\remi\el8:/opt/repo/remi -v D:\Transfer\ToMove\repo\configs\el8:/opt/repo/configs registry.access.redhat.com/ubi8/ubi:latest /bin/bash
-
-
-
-# afccb000b1b5 otter
-# 9767b866a609 buildmaster
-# 2a019ea785a7 proget
-# 261c74fb18fe inedo-sql
 
 
 docker images
@@ -83,9 +75,13 @@ docker image tag baget_transfer ambrosektal/baget_transfer:latest
 # Push to docker.io
 docker image push ambrosektal/baget_transfer:latest
 
+# PLATFORMS = ["win32", "linux", "linux-deb", "linux-rpm", "darwin", "linux-snap", "server-linux","cli-linux","cli-win32","server-win32"]
+
 # is it not connecting? Not pulling extensions? maybe this will work???
 # docker run -it -v 'D:\Transfer\ToMove\software\vscodeoffline\artifacts:/artifacts' lolinternet/vscsync:latest sh
-docker run -it -v 'D:\Transfer\ToMove\software\vscodeoffline\artifacts:/artifacts' vscsync:20230824 sh
+# docker run -it -v 'D:\Transfer\software\vscodeoffline\artifacts:/artifacts' ambrosektal/vscsync:latest sh
+docker run -it -d -v 'D:\Transfer\software\vscodeoffline\artifacts:/artifacts' ambrosektal/vscsync:20231115
+
 
 # Start vsync 
 # python sync.py --check-recommended-extensions --check-specified-extensions --check-binaries --check-insider --update-binaries --update-malicious --update-extensions --artifacts /artifacts
@@ -97,6 +93,8 @@ python sync.py --check-specified-extensions --update-extensions --artifacts /art
 
 python sync.py --skip-binaries --check-specified-extensions --update-malicious --update-extensions --artifacts /artifacts
 
+
+###################
 # Pull every Target Platform of an extensions
 
 $files = $(gc latest.json | convertfrom-json)
@@ -104,20 +102,50 @@ $files = $(gc latest.json | convertfrom-json)
 ($files.versions).foreach({$(mkdir C:\Users\joesp\Downloads\Transfer\ToMove\software\vscodeoffline\artifacts\extensions\ms-dotnettools.csharp\$($_.version)\$($_.targetPlatform) ) })
 
 ($files.versions).foreach({$(cd C:\Users\joesp\Downloads\Transfer\ToMove\software\vscodeoffline\artifacts\extensions\ms-dotnettools.csharp\$($_.version)\$($_.targetPlatform) && ($_.files.source).foreach({Invoke-WebRequest $_ -OutFile $_.Split("/")[-1]  }) ) })
+###################
 
-# Archive VSCSync
+
+#############################################################################################
+###################                                                       ###################
+###################                                                       ###################
+###################################### Archive VSCSync ######################################
 ## Fix for overcomplication...
 
 vscodedate=$(date '+%Y%m%d')
 
-find /mnt/d/Transfer/software/vscodeoffline/artifacts -ctime -5 -type f -print0  | tar czf /mnt/d/Transfer/software/vscodeoffline/$(echo $vscodedate)_vscodeoffline.tar.gz --files-from=- 
+find /mnt/d/Transfer/software/vscodeoffline/artifacts -ctime -3 -type f -print0  | tar czf /mnt/d/Transfer/Prep/$(echo $vscodedate)_vscodeoffline.tar.gz --files-from=- 
 
-# 7za a -psimnet1 /mnt/d/Transfer/software/vscodeoffline/$(echo $vscodedate)_vscodeoffline.tar.7z /mnt/d/Transfer/software/vscodeoffline/$(echo $vscodedate)_vscodeoffline.tar.gz
+# Create folders in case the system throws errors about now folders
+mkdir -p /mnt/d/Transfer/$(echo $vscodedate)
+
 # Sets it to the DVD size
-7za a -v8128M -psimnet1 /mnt/d/Transfer/software/vscodeoffline/$(echo $vscodedate)_vscodeoffline.tar.7z /mnt/d/Transfer/software/vscodeoffline/$(echo $vscodedate)_vscodeoffline.tar.gz
+# 7za a -v8128M -psimnet1 /mnt/d/Transfer/$(echo $vscodedate)/$(echo $vscodedate)_vscodeoffline.tar.7z /mnt/d/Transfer/Prep/$(echo $vscodedate)_vscodeoffline.tar.gz
+
+# Sets it to the 700M size
+7za a -v700M -psimnet1 /mnt/d/Transfer/$(echo $vscodedate)/$(echo $vscodedate)_vscodeoffline.tar.7z /mnt/d/Transfer/Prep/$(echo $vscodedate)_vscodeoffline.tar.gz
+
+###################################### Archive VSCSync ######################################
+###################                                                       ###################
+###################                                                       ###################
+#############################################################################################
 
 
 
+
+###################################### BanderSnatch ######################################
+###################                                                    ###################
+###################                                                    ###################
+##########################################################################################
+
+docker run -it -v 'D:\Transfer\ToMove\repo\simple:/opt/bandersnatch' pypa/bandersnatch bash
+
+###################################### BanderSnatch ######################################
+###################                                                    ###################
+###################                                                    ###################
+##########################################################################################
+
+
+###################
 
 # find /mnt/d/Transfer/ToMove/software/vscodeoffline/artifacts -mtime -3 -type f -print0  | tar czf /mnt/d/Transfer/ToMove/software/vscodeoffline/$(echo $vscodedate)_vscodeoffline.tar.gz --files-from=- --null
 
@@ -186,30 +214,6 @@ docker commit netbox-docker-netbox-1              netbox-docker-netbox-1
 docker commit netbox-docker-postgres-1            netbox-docker-postgres-1
 docker commit netbox-docker-redis-1               netbox-docker-redis-1
 docker commit netbox-docker-redis-cache-1         netbox-docker-redis-cache-1
-
-netbox-docker-redis-cache-1:latest
-netbox-docker-postgres-1:latest
-netbox-docker-netbox-1:latest
-netbox-docker-netbox-worker-1:latest
-netbox-docker-redis-1:latest
-netbox-docker-netbox-housekeeping-1:latest
-radzen:blazor_20230427
-veyon:linux.ubuntu.jammy
-veyon:linux.ubuntu.focal
-veyon:linux.ubuntu.bionic
-veyon:linux.debian.buster
-veyon:linux.debian.bullseye
-veyon:linux.centos.7.9
-netboxcommunity/netbox:v3.4-2.5.3
-docker/disk-usage-extension:0.2.7
-redis:7-alpine
-postgres:15-alpine
-busybox:latest
-docker/volumes-backup-extension:1.1.2
-
-
-
-
 
 docker run --rm -it -v D:\Transfer\ToMove\software\panamax\:/mirror ambrosektal/panamax:20221019 init /mirror
 
@@ -491,3 +495,36 @@ inedo-sql_transfer:latest
 proget_transfer:latest
 buildmaster_transfer:latest
 otter_transfer:latest
+##############################################################################################
+
+docker pull bitnami/rails:7
+docker pull bitnami/rails:7.1.1
+docker pull bitnami/rails:latest
+docker pull bitnami/ruby:latest
+docker pull bitnami/rails:5
+docker pull bitnami/rails:6
+docker pull ruby:latest
+docker pull ruby:2.7.8-bullseye
+docker pull ruby:2.6.10-bullseye
+docker pull ruby:3.0-bullseye
+
+
+
+docker run -it -d -v 'D:\Transfer\ToMove\repo\bit_rails7:/opt/repo' bitnami/rails:7             bash
+docker run -it -d -v 'D:\Transfer\ToMove\repo\bit_railslatest:/opt/repo' bitnami/rails:latest   bash
+docker run -it -d -v 'D:\Transfer\ToMove\repo\bit_rails5:/opt/repo' bitnami/rails:5             bash
+docker run -it -d -v 'D:\Transfer\ToMove\repo\bit_ruby:/opt/repo' bitnami/ruby:latest           bash
+docker run -it -d -v 'D:\Transfer\ToMove\repo\bit_rails6:/opt/repo' bitnami/rails:6             bash
+docker run -it -d -v 'D:\Transfer\ToMove\repo\rubylatest:/opt/repo' ruby:latest                 bash
+docker run -it -d -v 'D:\Transfer\ToMove\repo\ruby2.7.8:/opt/repo' ruby:2.7.8-bullseye          bash
+docker run -it -d -v 'D:\Transfer\ToMove\repo\ruby2.6.10:/opt/repo' ruby:2.6.10-bullseye        bash
+docker run -it -d -v 'D:\Transfer\ToMove\repo\ruby3:/opt/repo' ruby:3.0-bullseye                bash
+
+# docker run -it -d --rm -v 'D:\Transfer\ToMove\repo\ruby2.7.8:/opt/repo' bitnami/ruby:2.7.8-debian-11-r156          bash
+docker run -it --rm -v 'D:\Transfer\ToMove\repo\ruby2.7.8:/opt/repo' bitnami/ruby:2.7.8-debian-11-r156          bash
+
+
+ruby 2.7.8
+gem install rails -v 5.2.2 --path '/opt/repo'
+nodejs >= 18
+@rails/webpacker ^5.4.4

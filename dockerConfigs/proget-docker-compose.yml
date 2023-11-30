@@ -1,0 +1,59 @@
+version: '3.8'
+services:
+  db:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    container_name: inedo-sql
+    restart: unless-stopped
+    ports:
+      - "1433:1433"
+    networks:
+      inedo:
+        aliases:
+          - inedo-sql
+    environment:
+      ACCEPT_EULA: Y
+      MSSQL_SA_PASSWORD: <YourStrong!Passw0rd>
+      MSSQL_PID: Express
+# Optional if using persisted storage locations (https://docs.microsoft.com/en-us/sql/linux/sql-server-linux-docker-container-configure?view=sql-server-ver15&pivots=cs1-bash#persist)
+#    volumes:
+#      - ./inedo-sql/data:/var/opt/mssql/data
+#      - ./inedo-sql/log:/var/opt/mssql/log
+#      - ./inedo-sql/secrets:/var/opt/mssql/secrets
+  pg:
+    image: proget.inedo.com/productimages/inedo/proget:latest
+    container_name: proget
+    restart: unless-stopped
+    environment:
+      PROGET_SQL_CONNECTION_STRING: Data Source=inedo-sql; Initial Catalog=ProGet; User ID=sa; Password=<YourStrong!Passw0rd>
+    ports:
+      - "80:80"
+    networks:
+      inedo:
+        aliases:
+          - proget
+# Update this path to persist your ProGet packages storage
+    volumes:
+      - D:\Transfer\software\proget-packages:/var/proget/packages
+    depends_on:
+      - db
+
+networks:
+  inedo:
+    name: inedo
+
+# docker network create inedo
+
+# docker run --name inedo-sql `
+#   -e 'ACCEPT_EULA=Y' -e 'MSSQL_SA_PASSWORD=«YourStrong!Passw0rd»' `
+#   -e 'MSSQL_PID=Express' --net=inedo --restart=unless-stopped `
+#   -d mcr.microsoft.com/mssql/server:2019-latest
+
+# docker run -d --name=proget --restart=unless-stopped `
+#   -v proget-packages:/var/proget/packages -p 80:80 --net=inedo `
+#   -e PROGET_SQL_CONNECTION_STRING='Data Source=inedo-sql; Initial Catalog=ProGet; User ID=sa; Password=«YourStrong!Passw0rd»' `
+#   proget.inedo.com/productimages/inedo/proget:latest
+
+# docker exec -it inedo-sql /opt/mssql-tools/bin/sqlcmd `
+#   -S localhost -U SA -P '«YourStrong!Passw0rd»' `
+#   -Q 'CREATE DATABASE [ProGet] COLLATE SQL_Latin1_General_CP1_CI_AS'
+

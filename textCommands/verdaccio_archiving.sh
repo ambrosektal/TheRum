@@ -2,18 +2,75 @@
 
 ## Testing
 
-npmdate=$(date '+%Y%m%d')
-# # sudo find /mnt/d/Transfer/software/verdaccio/storage -mtime -5 -type f -print0  | tar czf /mnt/d/Transfer/software/verdaccio/$(echo $npmdate)_storage.tar.gz --files-from=- 
-# sudo find /mnt/d/Transfer/software/verdaccio/storage -ctime -5 -type f -print0  | tar czf /mnt/d/Transfer/software/verdaccio/$(echo $npmdate)_storage.tar.gz --files-from=- 
 
+#############################################################################################
+###################                                                       ###################
+###################                                                       ###################
+###################################### Archive Verdaccio ####################################
+
+sudo su
+
+npmdate=$(date '+%Y%m%d')
+mkdir -p /mnt/d/Transfer/$(echo $npmdate)
 # New test that removes package.json
-npmdate=$(date '+%Y%m%d')
-sudo find /mnt/d/Transfer/software/verdaccio/storage ! -name "package.json" -ctime -7 -type f -print0  | tar czf /mnt/d/Transfer/software/verdaccio/$(echo $npmdate)_storage_nopack_45.tar.gz --null --files-from=- 
+# npmdate=$(date '+%Y%m%d')
+# sudo find /mnt/d/Transfer/software/verdaccio/storage ! -name "package.json" -ctime -15 -type f -print0  | tar czf /mnt/d/Transfer/Prep/$(echo $npmdate)_storage_nopack_45.tar.gz --null --files-from=- 
+find /mnt/d/Transfer/software/verdaccio/storage ! -name "package.json" -ctime -3 -type f -print0  | tar czf /mnt/d/Transfer/Prep/$(echo $npmdate)_storage_nopack_45.tar.gz --null --files-from=- 
+# find /mnt/d/Transfer/software/verdaccio/storage ! -name "package.json" -cmin -120 -type f -print0  | tar czf /mnt/d/Transfer/Prep/$(echo $npmdate)_storage_nopack_45.tar.gz --null --files-from=- 
 
-sudo 7za a -psimnet1 /mnt/d/Transfer/software/verdaccio/$(echo $npmdate)_storage_nopack_45.tar.7z /mnt/d/Transfer/software/verdaccio/$(echo $npmdate)_storage_nopack_45.tar.gz
+# sudo find /mnt/d/Transfer/software/verdaccio/storage -ctime -15 -type f -print0  | tar czf /mnt/d/Transfer/Prep/$(echo $npmdate)_storage.tar.gz --null --files-from=- 
+find /mnt/d/Transfer/software/verdaccio/storage -ctime -3 -type f -print0  | tar czf /mnt/d/Transfer/Prep/$(echo $npmdate)_storage.tar.gz --null --files-from=- 
+
+# sudo 7za a -v8128M -psimnet1 /mnt/d/Transfer/$(echo $npmdate)/$(echo $npmdate)_storage_nopack_45.tar.7z /mnt/d/Transfer/Prep/$(echo $npmdate)_storage_nopack_45.tar.gz
+# sudo 7za a -v700M -psimnet1 /mnt/d/Transfer/$(echo $npmdate)/$(echo $npmdate)_storage_nopack_45.tar.7z /mnt/d/Transfer/Prep/$(echo $npmdate)_storage_nopack_45.tar.gz
+7za a -v700M -psimnet1 /mnt/d/Transfer/$(echo $npmdate)/$(echo $npmdate)_storage_nopack_45.tar.7z /mnt/d/Transfer/Prep/$(echo $npmdate)_storage_nopack_45.tar.gz
+
+# sudo 7za a -v8128M -psimnet1 /mnt/d/Transfer/$(echo $npmdate)/$(echo $npmdate)_storage.tar.7z /mnt/d/Transfer/Prep/$(echo $npmdate)_storage.tar.gz
+# sudo 7za a -v700M -psimnet1 /mnt/d/Transfer/$(echo $npmdate)/$(echo $npmdate)_storage.tar.7z /mnt/d/Transfer/Prep/$(echo $npmdate)_storage.tar.gz
+7za a -v700M -psimnet1 /mnt/d/Transfer/$(echo $npmdate)/$(echo $npmdate)_storage.tar.7z /mnt/d/Transfer/Prep/$(echo $npmdate)_storage.tar.gz
+
+###################################### Archive Verdaccio ####################################
+###################                                                       ###################
+###################                                                       ###################
+#############################################################################################
+
+
+
+
+#############################################################################################
+###################                                                       ###################
+###################                                                       ###################
+###################################### Archive Gems ####################################
+# Container
+find / -iname "*.gem" -type f -exec cp {} /opt/repo/ \;
+# find / -iname "*.gem" -ctime -2 -type f -exec cp {} /opt/repo/ \;
+
+# Local 
+sudo su
+
+gemdate=$(date '+%Y%m%d')
+mkdir -p /mnt/d/Transfer/$(echo $gemdate)
+# New test that removes package.json
+
+# find /mnt/d/Transfer/ToMove/repo -iname "*.gem" -type f -exec cp {} /mnt/d/Transfer/ToMove/repo/gems/ \;
+find /mnt/d/Transfer/ToMove/repo/ruby* -iname "*.gem" -type f -exec cp {} /mnt/d/Transfer/ToMove/repo/gems/ \;
+
+# sudo find /mnt/d/Transfer/software/verdaccio/storage -ctime -15 -type f -print0  | tar czf /mnt/d/Transfer/Prep/$(echo $gemdate)_gems.tar.gz --null --files-from=- 
+find /mnt/d/Transfer/ToMove/repo/gems -iname "*.gem" -ctime -2 -type f -print0  | tar czf /mnt/d/Transfer/Prep/$(echo $gemdate)_gems.tar.gz --null --files-from=- 
+# find /mnt/d/Transfer/ToMove/repo/gems -iname "*.gem" -cmin -120 -type f -print0  | tar czf /mnt/d/Transfer/Prep/$(echo $gemdate)_gems.tar.gz --null --files-from=- 
+
+# sudo 7za a -v8128M -psimnet1 /mnt/d/Transfer/$(echo $gemdate)/$(echo $gemdate)_gems.tar.7z /mnt/d/Transfer/Prep/$(echo $gemdate)_gems.tar.gz
+# sudo 7za a -v700M -psimnet1 /mnt/d/Transfer/$(echo $gemdate)/$(echo $gemdate)_gems.tar.7z /mnt/d/Transfer/Prep/$(echo $gemdate)_gems.tar.gz
+7za a -v700M -psimnet1 /mnt/d/Transfer/$(echo $gemdate)/$(echo $gemdate)_gems.tar.7z /mnt/d/Transfer/Prep/$(echo $gemdate)_gems.tar.gz
+
+###################################### Archive Gems ####################################
+###################                                                       ###################
+###################                                                       ###################
+#############################################################################################
+
+
 
 # ---------------------
-
 
 # find /mnt/d/Transfer/ToMove/software/verdaccio/storage -mtime -3 -type f -print0  | tar czf /mnt/d/Transfer/ToMove/software/verdaccio/$(echo $npmdate)_storage.tar.gz --files-from=- --null
 

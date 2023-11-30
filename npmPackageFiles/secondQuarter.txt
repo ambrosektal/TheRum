@@ -1,3 +1,35 @@
+@types/json5
+@types/jsonwebtoken
+@types/jss
+@types/k-bucket
+@types/keygrip
+@types/keyv
+@types/koa
+@types/koa__cors
+@types/koa__router
+@types/koa-bodyparser
+@types/koa-compose
+@types/koa-helmet
+@types/kube-probe
+@types/ldapjs
+@types/less
+@types/linkify-it
+@types/listr
+@types/lockfile
+@types/lodash
+@types/lodash-es
+@types/lodash.clonedeep
+@types/lodash.debounce
+@types/lodash.defaultsdeep
+@types/lodash.groupby
+@types/lodash.has
+@types/lodash.iselement
+@types/lodash.isequal
+@types/lodash.last
+@types/lodash.merge
+@types/lodash.mergewith
+@types/lodash.orderby
+@types/lodash.partialright
 @types/lodash.union
 @types/markdown-it
 @types/markdown-to-jsx
@@ -38,6 +70,7 @@
 @types/nodemailer
 @types/nodemon
 @types/normalize-package-data
+@types/novnc__novnc
 @types/npm-package-arg
 @types/npmlog
 @types/numeral
@@ -367,6 +400,10 @@
 @vaadin/vaadin-upload
 @vaadin/vaadin-virtual-list
 @vandeurenglenn/doc-it
+@vates/node-vsphere-soap
+@vcd/i18n
+@vcd/ui-components
+@vcd/ui-emulator
 @vingeray/html2canvas
 @vinsjo/create-microbundle
 @visulima/jsdoc-open-api
@@ -419,6 +456,7 @@
 @vitejs/plugin-vue2
 @vitejs/plugin-vue2-jsx
 @vitejs/release-scripts
+@vmw/build-tools-for-vmware-aria-codify
 @vue/cli-plugin-e2e-cypress
 @walkhub/recharts
 @webdnn
@@ -435,6 +473,7 @@
 @zhennann/docdash
 @zlooun/exceljs
 @zurmokeeper/exceljs
+0http-bun
 20-exceljs
 98.css
 accepts
@@ -448,6 +487,7 @@ actionhero
 active-enzyme
 adaptivecards
 add-to-calendar-button
+addon-tools-raub
 address
 adjust-sourcemap-loader
 adm-zip
@@ -634,6 +674,7 @@ async-validator
 asynckit
 at-least-node
 atob
+audio-split
 augury
 augury-electron
 augury-extension
@@ -752,6 +793,7 @@ babylon
 backbone
 bai-design-react
 balanced-match
+baojs
 base-64
 base64-js
 basic-auth
@@ -766,6 +808,7 @@ better-doc
 better-docs
 better-docs-custom
 better-docs-own
+better-mock-del-gyp
 better-sqlite3
 betterdocco
 bfj
@@ -773,6 +816,8 @@ big.js
 bigbom-react-ui
 bignumber.js
 binary-extensions
+binary-mirror-config
+binary-mirror-config-zzq
 bindings
 bip39
 biz-test
@@ -876,6 +921,9 @@ bufferutil
 builder-victory-component
 builtin-modules
 bulma
+bun
+bun-sqlite-migrations
+bunrest
 bunyan
 busboy
 business-moment
@@ -944,6 +992,7 @@ clone
 clone-changed
 clr-angular-bootstrap-datetimepicker
 clr-angular-static-fix
+clr-static-fix
 clui
 co
 co-prompt
@@ -1070,6 +1119,7 @@ create-kvuse
 create-lessbit
 create-lio-fs
 create-log-cli
+create-metacloud
 create-next
 create-next-
 create-pocketbase-app
@@ -1106,6 +1156,7 @@ create-vite-pages
 create-vite-react
 create-vite-react-template
 create-vite-vercel-y
+create-vsphere-plugin
 create-vue-dsfr
 create-vue-router
 create-vue3-apps
@@ -1144,6 +1195,7 @@ csstype
 cstype
 csv
 csv-parse
+csvsplit
 cuid
 customer-better-docs-cn
 cyclist
@@ -1368,6 +1420,7 @@ devextreme-aspnet-data
 devextreme-aspnet-data-cancelable
 devextreme-aspnet-data-nojquery
 devextreme-aspnet-data-nojquery-jit
+devez-node-gyp
 didyoumean
 diff
 diff-sequences
@@ -1391,8 +1444,3 @@ docme
 docnator
 docs-soap
 docstrap-doggy
-docstrapps
-doctrine
-documentation
-docx
-docx-dotx-hf-fix

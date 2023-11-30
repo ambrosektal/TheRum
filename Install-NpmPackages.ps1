@@ -22,12 +22,13 @@ param (
 # Install-NpmPackages -PackageArray $packageArray -AllLatest
 # Install-NpmPackages -PackageArray $packageArray -AllMajorVersions -UpperVersionRange 20 -LowerVersionRange 0 -BaseVersion '0'
 
+
 # $(0..20) | foreach-object -Parallel {
 #     $BaseVersion = $_
 #     $packageArray = $using:PackageArray
 #     Install-NpmPackages -PackageArray $packageArray -AllMajorVersions -UpperVersionRange 20 -LowerVersionRange 0 -BaseVersion $BaseVersion
 # }
-    
+
 $Directory = Get-Location
 if (!$LowerVersionRange) {
     $LowerVersionRange = 0
@@ -209,10 +210,12 @@ if ($AllMajorVersions) {
                     mkdir "D:\\Transfer\\ToMove\\node\\$random"
                     if ($BaseVersion ) {
                         npm i "$PackageName@~$BaseVersion.$_" --force --prefix "D:\\Transfer\\ToMove\\node\\$random"; 
+                        # npm i "$PackageName@$BaseVersion.$_" --force --prefix "D:\\Transfer\\ToMove\\node\\$random"; 
                     }
                     else {
                         # npm i "$PackageName@$_" --force --prefix "D:\\Transfer\\ToMove\\node\\$random"; 
                         npm i "$PackageName@~$_" --force --prefix "D:\\Transfer\\ToMove\\node\\$random"; 
+                        # npm i "$PackageName@$_" --force --prefix "D:\\Transfer\\ToMove\\node\\$random"; 
                         # npm i "$PackageName@^$_" --force --prefix "D:\\Transfer\\ToMove\\node\\$random"; 
                     }
                     cd "D:\\Transfer\\ToMove\\node\\$random"; 
@@ -240,9 +243,11 @@ if ($AllMajorVersions) {
                 mkdir "D:\\Transfer\\ToMove\\node\\$random"
                 if ($BaseVersion ) {
                     npm i "$PackageName@~$BaseVersion.$_" --force --prefix "D:\\Transfer\\ToMove\\node\\$random"; 
+                    # npm i "$PackageName@$BaseVersion.$_" --force --prefix "D:\\Transfer\\ToMove\\node\\$random"; 
                 }
                 else {
                     npm i "$PackageName@~$_" --force --prefix "D:\\Transfer\\ToMove\\node\\$random"; 
+                    # npm i "$PackageName@$_" --force --prefix "D:\\Transfer\\ToMove\\node\\$random"; 
                 }
                 cd "D:\\Transfer\\ToMove\\node\\$random"; 
                 npm audit fix ; 

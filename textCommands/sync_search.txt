@@ -48,6 +48,7 @@ python sync.py --extension-search "sourcegraph" --debug --logfile searchextensio
 python sync.py --extension-search "svelte" --debug --logfile searchextensions_svelte --artifacts /artifacts
 python sync.py --extension-search "jsdoc" --debug --logfile searchextensions_jsdoc --artifacts /artifacts
 python sync.py --extension-search "bash" --debug --logfile searchextensions_bash --artifacts /artifacts
+python sync.py --extension-search "toml" --debug --logfile searchextensions_toml --artifacts /artifacts
 
 
 # echo "" > cleanSearch
@@ -59,7 +60,7 @@ for i in searchextensions* ;
 	do cat "$i" | cut -d " " -f 6 >> cleanSearch ;
 	cat cleanSearch | sort -u | sort -u | sort -u > cleanSearch1 ;
 	mv cleanSearch1 cleanSearch ;
-	mv cleanSearch "$i" ;
+	mv cleanSearch /artifacts/"$i" ;
 done
 
 

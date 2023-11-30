@@ -74,7 +74,6 @@
 @storybook/addon
 @storybook/addon-svelte
 @storybook/addon-svelte-csf
-@svelte-add
 @svelte-add/app-initializer-tools
 @svelte-add/bulma
 @svelte-add/create-kit
@@ -95,7 +94,6 @@
 @svelte-plugins/tooltips
 @svelte-ui-frens/ui-kit
 @svelte-web-fonts/google
-@sveltejs
 @sveltejs/adapter-auto
 @sveltejs/adapter-cloudflare
 @sveltejs/adapter-cloudflare-workers

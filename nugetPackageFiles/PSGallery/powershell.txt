@@ -54,3 +54,4 @@ PowerShell.SqlServer.Modules
 PowerShell.X509Certificate.Utility
 PowerShellTools
 PowerShellTools.Interfaces
+OfflinePowerShellGetDeploy

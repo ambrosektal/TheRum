@@ -655,6 +655,58 @@ find . -type f | while read -r file; do
     "text/x-shellscript")
         ext=".sh"
         ;;
+        "application/etl")
+    ext=".etl"
+    ;;
+
+"application/vnd.microsoft.portable-executable")
+    ext=".exe"
+    ;;
+
+"application/x-adobe-aco")
+    ext=".aco"
+    ;;
+
+"application/x-apple-rsr")
+    ext=".rsr"
+    ;;
+
+"application/x-commodore-basic")
+    ext=".basic"
+    ;;
+
+"application/x-compress-ttcomp")
+    ext=".ttcomp"
+    ;;
+
+"application/x-matlab-data")
+    ext=".mat"
+    ;;
+
+"application/x-ms-ne-executable")
+    ext=".ne"
+    ;;
+
+"application/x-ms-shortcut")
+    ext=".lnk"
+    ;;
+
+"application/x-ole-storage")
+    ext=".ole"
+    ;;
+
+"application/x-pnf")
+    ext=".pnf"
+    ;;
+
+"font/woff")
+    ext=".woff"
+    ;;
+
+"font/x-amiga-font")
+    ext=".font"
+    ;;
+
 
     *)
         echo "Unknown file type: $type"
@@ -665,5 +717,10 @@ find . -type f | while read -r file; do
  
     dir=$(dirname "$file")
     base=$(basename "$file")
+    echo "file is $file"
+    echo "base is $base" 
+    echo "ext is $ext" 
+    echo " It will be placed here: "$dir/${base%.*}$ext""
+    echo "mv "$file" "$dir/${base%.*}$ext""
     mv "$file" "$dir/${base%.*}$ext"
 done
