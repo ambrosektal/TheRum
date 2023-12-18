@@ -1,6 +1,63 @@
 find . -type f | while read -r file; do
     type=$(file -b --mime-type "$file")
     case "$type" in
+    "application/etl")
+        ext=".etl"
+        ;;
+    "application/marc")
+        ext=".marc"
+        ;;
+    "application/vnd.microsoft.portable-executable")
+        ext=".exe"
+        ;;
+    "application/vnd.sqlite3")
+        ext=".sqlite3"
+        ;;
+    "application/x-adobe-aco")
+        ext=".aco"
+        ;;
+    "application/x-apple-rsr")
+        ext=".rsr"
+        ;;
+    "application/x-cdf")
+        ext=".cdf"
+        ;;
+    "application/x-commodore-basic")
+        ext=".basic"
+        ;;
+    "application/x-commodore-exec")
+        ext=".exec"
+        ;;
+    "application/x-compress-ttcomp")
+        ext=".ttcomp"
+        ;;
+    "application/x-ibm-dsk")
+        ext=".dsk"
+        ;;
+    "application/x-matlab-data")
+        ext=".mat"
+        ;;
+    "application/x-ms-ne-executable")
+        ext=".ne"
+        ;;
+    "application/x-ms-shortcut")
+        ext=".lnk"
+        ;;
+    "application/x-ole-storage")
+        ext=".ole"
+        ;;
+    "application/x-pnf")
+        ext=".pnf"
+        ;;
+    "audio/vnd.dolby.dd-raw")
+        ext=".dd"
+        ;;
+    "font/woff")
+        ext=".woff"
+        ;;
+    "font/x-amiga-font")
+        ext=".font"
+        ;;
     "image/jpeg")
         ext=".jpg"
         ;;

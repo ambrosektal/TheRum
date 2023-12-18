@@ -12,11 +12,32 @@ NAME="aasm achdirect-activemerchant action_mailer_matchers action_merchant actio
 # ----------------------------------------------------------------------------------------------------------------------------
 #! Best one!!!
 
-apt install -y parallel
+# apt install -y parallel
 
-newName="hoe,react,mysql2,pg,sqlite3,tzinfo,capistrano,sass,rails,mongo,jquery,redis,devise,sidekiq,rspec,carrierwave,bootstrap,haml,devise,omniauth,activeadmin,ldap"
+gem sources -r https://rubygems.org/
+gem sources -a http://127.0.0.1:9292
+
+# newName="hoe,react,mysql2,pg,sqlite3,tzinfo,capistrano,sass,rails,mongo,jquery,redis,devise,sidekiq,rspec,carrierwave,bootstrap,haml,devise,omniauth,activeadmin,ldap"
 # newName="hoe,pg,mongo,jquery,redis"
-# newName="react,mysql2,sqlite3,tzinfo,capistrano,sass,rails,mongo,jquery,redis,devise,bootstrap,haml,devise"
+# newName="react,mysql2,sqlite3,tzinfo,capistrano,sass,rails,mongo,bootstrap,haml,devise"
+# newName="gemstash,gemirro,geminabox,aruba,guard-minitest,citrus,webrick,mustache"
+# newName="server_health_check-rack,server_health_check,gemstash,gemirro,geminabox,puma"
+# newName="babel"
+# newName="psych"
+# newName="rake-compiler"
+# newName="bcrypt"
+# newName="openssl"
+# newName="ldap"
+# newName="rdoc"
+# newName="rails"
+# newName="gemstash"
+# newName="server_health_check"
+# newName="mysql2"
+# newName="postgres"
+# newName="mongo"
+# newName="webpacker,rake-compiler,rake,rspec,rspec-core,rspec-support,rspec-expectations,coderay,mocha,simplecov-html,docile,json"
+# newName="server_health_check-rack,server_health_check,gemstash,gemirro,geminabox,webpacker,devise,mongo,redis,jq,jquery"
+# newName="webpacker,babel-plugin-macros,case-sensitive-paths-webpack,core-js,regenerator-runtime,faye,solargraph,goldiloader,puma,geminabox,gemstash,gemirro,aruba,guard-minitest,citrus,webrick,mustache,dalli,faraday,faraday_middleware,lru_redux,psych,sinatra,sequel,server_health_check-rack,server_health_check,terminal-table,thor,sqlite3,activesupport,nio4r,jumbled-rspec-formatter,simplecov_json_formatter,rake-compiler,rspec,rspec-core,rspec-support,rspec-expectations,coderay,mocha,simplecov-html,docile,json"
 echo "" > files
 
 for j in $(echo $newName | tr "," "\n")
@@ -24,8 +45,15 @@ for j in $(echo $newName | tr "," "\n")
 done
 
 for i in $(cat files | awk -F " "  '{print $1}' | sort -u)
-    do gem fetch "$i" 
-    gem dependency "$i" --pipe | awk -F " "  '{print $1}' | grep -v "No" | parallel gem fetch 
+    do gem fetch "$i" --source http://127.0.0.1:9292
+    # gem install "$i" --source http://127.0.0.1:9292
+    gem install "$i" --source http://127.0.0.1:9292 --development-all
+    # gem dependency "$i" --pipe | awk -F " "  '{print $1}' | grep -v "No" | xargs -i gem fetch {} --source http://127.0.0.1:9292 && mv *.gem /opt/repo
+    gem dependency "$i" --pipe | awk -F " "  '{print $1}' | grep -v "No" | xargs -i gem fetch {} --source http://127.0.0.1:9292 
+    # gem dependency "$i" --pipe | awk -F " "  '{print $1}' | grep -v "No" | parallel gem fetch 
+    # gem dependency "$i" --pipe | awk -F " "  '{print $1}' | grep -v "No" | xargs -P 3 gem install --install-dir /opt/repo
+    # gem dependency "$i" --pipe | awk -F " "  '{print $1}' | grep -v "No" | xargs -i gem install {} --install-dir /opt/repo --source http://127.0.0.1:9292 
+    gem dependency "$i" --pipe | awk -F " "  '{print $1}' | grep -v "No" | xargs -i gem install {} --install-dir /opt/repo --source http://127.0.0.1:9292 --development-all
 done
 
 
@@ -39,6 +67,68 @@ for i in $(gem search "$SEARCHTERM" | awk -F " "  '{print $1}')
     do gem fetch "$i"  
     gem dependency "$i" --pipe | awk -F " "  '{print $1}' | grep -v "No" | parallel gem fetch 
 done
+
+# ----------------------------------------------------------------------------------------------------------------------------
+
+#! Get NEWEST version of a gem!!!!!!
+# Downloading all the versions from a search
+
+#!/bin/bash
+
+searchterm='mysql2'
+# searchterm='rails'
+# searchterm='webpacker'
+# searchterm='bootsnap'
+# searchterm='bootstrap'
+# searchterm='ldap3'
+# searchterm='rubocop'
+# searchterm='capistrano'
+# searchterm='react'
+# searchterm='rbvmomi'
+# searchterm='sass'
+# searchterm='babel'
+# searchterm='openssl'
+# searchterm='sassy'
+# searchterm='turbo'
+# searchterm='stimulus'
+# searchterm='strata'
+# searchterm='faye'
+# searchterm='solargraph'
+
+# searchterm='webpacker'
+# searchterm='babel-plugin-macros'
+# searchterm='case-sensitive-paths-webpack-plugin'
+# searchterm='core-js'
+# searchterm='regenerator-runtime'
+# searchterm='goldiloader'
+# searchterm='puma'
+# searchterm='rake'
+# searchterm='rake-compiler'
+# searchterm='server_health_check'
+
+
+# Search for the webpacker gem and store the output in a variable
+search_results=$(gem search $(echo $searchterm) --all)
+
+# Read each line of the search results
+while IFS= read -r line; do
+    # Use a regex to match the package name and capture all version numbers in a group
+    if [[ $line =~ ^([a-z0-9_-]+)\ \((.+)\)$ ]]; then
+        package="${BASH_REMATCH[1]}"
+        versions="${BASH_REMATCH[2]}"
+      
+        # Replace commas with spaces to create an array of versions
+        IFS=', ' read -r -a version_array <<< "$versions"
+
+        # Download the gem for the package
+        # gem install -f "$package" --install-dir /opt/repo --source http://localhost:9292 
+        gem install "$package" --install-dir /opt/repo 
+    fi
+done <<< "$search_results"
+
+echo "All $(echo $searchterm) packages and versions have been fetched."
+
+# ----------------------------------------------------------------------------------------------------------------------------
 
 # ----------------------------------------------------------------------------------------------------------------------------
 
@@ -72,6 +162,11 @@ searchterm='mysql2'
 # searchterm='case-sensitive-paths-webpack-plugin'
 # searchterm='core-js'
 # searchterm='regenerator-runtime'
+# searchterm='goldiloader'
+# searchterm='puma'
+# searchterm='rake'
+# searchterm='rake-compiler'
+# searchterm='server_health_check'
 
 
 
@@ -92,8 +187,11 @@ while IFS= read -r line; do
         # Iterate over each version in the array and fetch the gem for the package
         for version in "${version_array[@]}"; do
             echo "Fetching $package version $version..."
-            # gem fetch "$package" -v "$version"
-            gem install -f "$package" -v "$version"
+            gem fetch "$package" -v "$version"
+            # gem install -f "$package" -v "$version"
+            gem install -f "$package" -v "$version" --install-dir /opt/repo 
+            # gem install "$package" -v "$version" --install-dir /opt/repo 
+            # gem install -f "$package" -v "$version" --install-dir /opt/repo --source http://localhost:9292 
         done
     fi
 done <<< "$search_results"
@@ -101,7 +199,6 @@ done <<< "$search_results"
 echo "All $(echo $searchterm) packages and versions have been fetched."
 
 # ----------------------------------------------------------------------------------------------------------------------------
-
 
 # Downloading all the versions from a search or webpacker
 
@@ -124,7 +221,42 @@ searchterm='rails'
 # searchterm='regenerator-runtime'
 # searchterm='faye'
 # searchterm='solargraph'
-
+# searchterm='goldiloader'
+# searchterm='puma'
+# searchterm='geminabox'
+# searchterm='gemstash'
+# searchterm='gemirro'
+# searchterm='aruba'
+# searchterm='guard-minitest'
+# searchterm='citrus'
+# searchterm='webrick'
+# searchterm='mustache'
+# searchterm='dalli'
+# searchterm='faraday'
+# searchterm='faraday_middleware'
+# searchterm='lru_redux'
+# searchterm='psych'
+# searchterm='sinatra'
+# searchterm='sequel'
+# searchterm='server_health_check-rack'
+# searchterm='server_health_check'
+# searchterm='terminal-table'
+# searchterm='thor'
+# searchterm='sqlite3'
+# searchterm='activesupport'
+# searchterm='nio4r'
+# searchterm='jumbled-rspec-formatter'
+# searchterm='simplecov_json_formatter'
+# searchterm='rake-compiler'
+# searchterm='rspec'
+# searchterm='rspec-core'
+# searchterm='rspec-support'
+# searchterm='rspec-expectations'
+# searchterm='coderay'
+# searchterm='mocha'
+# searchterm='simplecov-html'
+# searchterm='docile'
+# searchterm='json'
 
 # Search for the webpacker gem and store the output in a variable
 search_results=$(gem search $(echo $searchterm) --all)
@@ -151,13 +283,19 @@ IFS=', ' read -r -a version_array <<< "$versions"
 for version in "${version_array[@]}"; do
     echo "Fetching $(echo $searchterm) version $version..."
     # gem fetch $(echo $searchterm) -v "$version"
-    gem install -f $(echo $searchterm) -v "$version"
+    # gem install -f $(echo $searchterm) -v "$version"
+    # gem install -f $(echo $searchterm) -v "$version" --install-dir /opt/repo
+    gem install -f $(echo $searchterm) -v "$version" --install-dir /opt/repo --development-all
     # gem install -f $(echo $searchterm) -v "$version" --development-all
     # gem install -f $(echo $searchterm) -v "$version" --development-all --prerelease
-    gem install -f $(echo $searchterm) -v "$version" --prerelease
+    # gem install -f $(echo $searchterm) -v "$version" --prerelease 
+    # gem install -f $(echo $searchterm) -v "$version" --prerelease --install-dir /opt/repo 
+    gem install -f $(echo $searchterm) -v "$version" --prerelease --install-dir /opt/repo --development-all
 done
 
 echo "All versions of $(echo $searchterm) have been fetched."
+
+
 # ----------------------------------------------------------------------------------------------------------------------------
 
 # Testing out a docker search and install
@@ -173,26 +311,78 @@ docker pull ruby:2.7.8-bullseye
 docker pull ruby:2.6.10-bullseye
 docker pull ruby:3.0-bullseye
 
-docker run -it --rm -d -v 'D:\Transfer\ToMove\repo\bit_rails5:/opt/repo' bitnami/rails:5            bash -c "gem install rails --install-dir /opt/repo"
-docker run -it --rm -d -v 'D:\Transfer\ToMove\repo\bit_ruby:/opt/repo' bitnami/ruby:latest          bash -c "gem install rails --install-dir /opt/repo"
-docker run -it --rm -d -v 'D:\Transfer\ToMove\repo\bit_rails6:/opt/repo' bitnami/rails:6            bash -c "gem install rails --install-dir /opt/repo"
-docker run -it --rm -d -v 'D:\Transfer\ToMove\repo\rubylatest:/opt/repo' ruby:latest                bash -c "gem install rails --install-dir /opt/repo"
-docker run -it --rm -d -v 'D:\Transfer\ToMove\repo\ruby2.7.8:/opt/repo' ruby:2.7.8-bullseye         bash -c "gem install rails --install-dir /opt/repo"
-docker run -it --rm -d -v 'D:\Transfer\ToMove\repo\ruby2.6.10:/opt/repo' ruby:2.6.10-bullseye       bash -c "gem install rails --install-dir /opt/repo"
-docker run -it --rm -d -v 'D:\Transfer\ToMove\repo\ruby3:/opt/repo' ruby:3.0-bullseye               bash -c "gem install rails --install-dir /opt/repo"
+docker network create -d bridge my-net
+# docker run --name gemstash --network=my-net -p 9292:9292 -it --rm -v 'D:\Transfer\ToMove\repo\rubylatest:/opt/repo' -v 'D:\Transfer\ToMove\repo\gemstashConf:/root/.gemstash'  ruby:latest     bash
+docker run --rm --name gemstash --network=my-net -p 9292:9292 -it -v 'D:\Transfer\ToMove\repo\rubylatest:/opt/repo' -v 'D:\Transfer\ToMove\repo\gemstashConf:/root/.gemstash'  ruby:latest     bash
+
+gem install gemstash
+
+gemstash start
+
+# docker run --name rubylatest --network=my-net -it --rm -v 'D:\Transfer\ToMove\repo\rubylatest:/opt/repo' ruby:latest  bash
+
+# docker inspect gemstash
+
+gem sources -r https://rubygems.org/
+gem sources -a http://127.0.0.1:9292
+# gem sources -a http://192.168.0.176:9292
+# gem sources -a http://172.18.0.2:9292
+
+git clone <stuff>
+
+find /opt -maxdepth 2 -iname "Gemfile" -execdir bundle  \;
+
+
+###################################################################
+
+# docker run -it --rm -d -v 'D:\Transfer\ToMove\repo\bit_rails5:/opt/repo' bitnami/rails:5            bash
+# docker run -it --rm -d -v 'D:\Transfer\ToMove\repo\bit_ruby:/opt/repo' bitnami/ruby:latest          bash
+# docker run -it --rm -d -v 'D:\Transfer\ToMove\repo\bit_rails6:/opt/repo' bitnami/rails:6            bash
+# docker run -it --rm -d -v 'D:\Transfer\ToMove\repo\rubylatest:/opt/repo' ruby:latest                bash
+# docker run -it --rm -d -v 'D:\Transfer\ToMove\repo\ruby2.7.8:/opt/repo' ruby:2.7.8-bullseye         bash
+# docker run -it --rm -d -v 'D:\Transfer\ToMove\repo\ruby2.6.10:/opt/repo' ruby:2.6.10-bullseye       bash
+# docker run -it --rm -d -v 'D:\Transfer\ToMove\repo\ruby3:/opt/repo' ruby:3.0-bullseye               bash
+
+ 
+# docker run -it --rm -d -v 'D:\Transfer\ToMove\repo\bit_rails5:/opt/repo' bitnami/rails:5            bash -c "gem install geminabox --install-dir /opt/repo"
+# docker run -it --rm -d -v 'D:\Transfer\ToMove\repo\bit_ruby:/opt/repo' bitnami/ruby:latest          bash -c "gem install geminabox --install-dir /opt/repo"
+# docker run -it --rm -d -v 'D:\Transfer\ToMove\repo\bit_rails6:/opt/repo' bitnami/rails:6            bash -c "gem install geminabox --install-dir /opt/repo"
+# docker run -it --rm -d -v 'D:\Transfer\ToMove\repo\rubylatest:/opt/repo' ruby:latest                bash -c "gem install geminabox --install-dir /opt/repo"
+# docker run -it --rm -d -v 'D:\Transfer\ToMove\repo\ruby2.7.8:/opt/repo' ruby:2.7.8-bullseye         bash -c "gem install geminabox --install-dir /opt/repo"
+# docker run -it --rm -d -v 'D:\Transfer\ToMove\repo\ruby2.6.10:/opt/repo' ruby:2.6.10-bullseye       bash -c "gem install geminabox --install-dir /opt/repo"
+# docker run -it --rm -d -v 'D:\Transfer\ToMove\repo\ruby3:/opt/repo' ruby:3.0-bullseye               bash -c "gem install geminabox --install-dir /opt/repo"
+
+
+# Using minikube, the volumes have to be mounted to the hyperv VM for docker to see them
+docker run -it --rm -d -v '/opt/Transfer/ToMove/repo/bit_rails5:/opt/repo' bitnami/rails:5            bash
+docker run -it --rm -d -v '/opt/Transfer/ToMove/repo/bit_ruby:/opt/repo' bitnami/ruby:latest          bash
+docker run -it --rm -d -v '/opt/Transfer/ToMove/repo/bit_rails6:/opt/repo' bitnami/rails:6            bash
+docker run -it --rm -d -v '/opt/Transfer/ToMove/repo/rubylatest:/opt/repo' ruby:latest                bash
+docker run -it --rm -d -v '/opt/Transfer/ToMove/repo/ruby2.7.8:/opt/repo' ruby:2.7.8-bullseye         bash
+docker run -it --rm -d -v '/opt/Transfer/ToMove/repo/ruby2.6.10:/opt/repo' ruby:2.6.10-bullseye       bash
+docker run -it --rm -d -v '/opt/Transfer/ToMove/repo/ruby3:/opt/repo' ruby:3.0-bullseye               bash
+
+ 
+docker run -it --rm -d -v '/opt/Transfer/ToMove/repo/bit_rails5:/opt/repo' bitnami/rails:5            bash -c "gem install geminabox --install-dir /opt/repo"
+docker run -it --rm -d -v '/opt/Transfer/ToMove/repo/bit_ruby:/opt/repo' bitnami/ruby:latest          bash -c "gem install geminabox --install-dir /opt/repo"
+docker run -it --rm -d -v '/opt/Transfer/ToMove/repo/bit_rails6:/opt/repo' bitnami/rails:6            bash -c "gem install geminabox --install-dir /opt/repo"
+docker run -it --rm -d -v '/opt/Transfer/ToMove/repo/rubylatest:/opt/repo' ruby:latest                bash -c "gem install geminabox --install-dir /opt/repo"
+docker run -it --rm -d -v '/opt/Transfer/ToMove/repo/ruby2.7.8:/opt/repo' ruby:2.7.8-bullseye         bash -c "gem install geminabox --install-dir /opt/repo"
+docker run -it --rm -d -v '/opt/Transfer/ToMove/repo/ruby2.6.10:/opt/repo' ruby:2.6.10-bullseye       bash -c "gem install geminabox --install-dir /opt/repo"
+docker run -it --rm -d -v '/opt/Transfer/ToMove/repo/ruby3:/opt/repo' ruby:3.0-bullseye               bash -c "gem install geminabox --install-dir /opt/repo"
 
 
 # $newName="hoe,react,mysql2,pg,sqlite3,tzinfo,capistrano,sass,sassy,rails,mongo,jquery,redis,devise,sidekiq,rspec,carrierwave,bootstrap,haml,omniauth,activeadmin,ldap"
 $newName = gc .\OneDrive\Documents\gems.txt
 
 $newName | Foreach-Object { 
-    docker run -it --rm -d -v 'D:\Transfer\ToMove\repo\bit_rails5:/opt/repo' bitnami/rails:5            sh -c "gem install $_ -f --install-dir /opt/repo"
-    docker run -it --rm -d -v 'D:\Transfer\ToMove\repo\bit_ruby:/opt/repo' bitnami/ruby:latest          sh -c "gem install $_ -f --install-dir /opt/repo"
-    docker run -it --rm -d -v 'D:\Transfer\ToMove\repo\bit_rails6:/opt/repo' bitnami/rails:6            sh -c "gem install $_ -f --install-dir /opt/repo"
-    docker run -it --rm -d -v 'D:\Transfer\ToMove\repo\rubylatest:/opt/repo' ruby:latest                sh -c "gem install $_ -f --install-dir /opt/repo"
-    docker run -it --rm -d -v 'D:\Transfer\ToMove\repo\ruby2.7.8:/opt/repo' ruby:2.7.8-bullseye         sh -c "gem install $_ -f --install-dir /opt/repo"
+    # docker run -it --rm -d -v 'D:\Transfer\ToMove\repo\bit_rails5:/opt/repo' bitnami/rails:5            sh -c "gem install $_ -f --install-dir /opt/repo"
+    # docker run -it --rm -d -v 'D:\Transfer\ToMove\repo\bit_ruby:/opt/repo' bitnami/ruby:latest          sh -c "gem install $_ -f --install-dir /opt/repo"
+    # docker run -it --rm -d -v 'D:\Transfer\ToMove\repo\bit_rails6:/opt/repo' bitnami/rails:6            sh -c "gem install $_ -f --install-dir /opt/repo"
+    # docker run -it --rm -d -v 'D:\Transfer\ToMove\repo\rubylatest:/opt/repo' ruby:latest                sh -c "gem install $_ -f --install-dir /opt/repo"
+    # docker run -it --rm -d -v 'D:\Transfer\ToMove\repo\ruby2.7.8:/opt/repo' ruby:2.7.8-bullseye         sh -c "gem install $_ -f --install-dir /opt/repo"
     docker run -it --rm -d -v 'D:\Transfer\ToMove\repo\ruby2.6.10:/opt/repo' ruby:2.6.10-bullseye       sh -c "gem install $_ -f --install-dir /opt/repo"
-    docker run -it --rm -d -v 'D:\Transfer\ToMove\repo\ruby3:/opt/repo' ruby:3.0-bullseye               sh -c "gem install $_ -f --install-dir /opt/repo"
+    # docker run -it --rm -d -v 'D:\Transfer\ToMove\repo\ruby3:/opt/repo' ruby:3.0-bullseye               sh -c "gem install $_ -f --install-dir /opt/repo"
     }
 
 # ----------------------------------------------------------------------------------------------------------------------------

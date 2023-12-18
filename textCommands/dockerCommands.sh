@@ -1,4 +1,9 @@
 
+# Starting minikube with a mounted drive and 200GB of space
+# minikube start --mount --mount-string="D:\Transfer\ToMove\repo\minikube:/mnt/minikube" --disk-size=200GB
+minikube.exe start --mount-string="D:\Transfer:/opt/Transfer" --disk-size 200GB
+
+
 # Using 7zip to cycle through directories to 7zip them.
 $(gci -directory . ) | foreach { & ${env:ProgramFiles}\7-Zip\7z.exe a -psimnet1 "$($_.name).7z" $_ }
 
@@ -105,6 +110,56 @@ $files = $(gc latest.json | convertfrom-json)
 ###################
 
 
+
+######################################################################################################################
+###################                                                                                ###################
+###################                                                                                ###################
+###################################### Restart if CPU == 0% for over threshold  ######################################
+
+# Set the container name or ID that you want to monitor
+$containerNameOrId = "verdaccio"
+
+# Set the threshold for CPU usage in percentage
+$cpuThreshold = 1.0
+
+# Set the duration in seconds for which CPU usage should be below the threshold
+$durationThresholdInSeconds = 180
+
+$counter = 0
+
+while ($true) {
+    # Get the current CPU usage of the container
+    $cpuUsage = (docker stats --no-stream $containerNameOrId | Select-String -Pattern "$containerNameOrId" | ForEach-Object { $_ -split '\s+' } | Select-Object -Index 2).Trim('%')
+
+    if ([float]$cpuUsage -le $cpuThreshold) {
+        # If the CPU usage is below the threshold, increment the counter
+        $counter++
+        Write-Host "CPU usage is below $cpuThreshold% for $($counter*10) seconds."
+    } else {
+        # If the CPU usage is above the threshold, reset the counter
+        $counter = 0
+        Write-Host "CPU usage is above $cpuThreshold%. Resetting counter..."
+    }
+
+    if ($($counter*10) -ge $durationThresholdInSeconds) {
+        Write-Host "CPU usage is below $cpuThreshold% for more than $durationThresholdInSeconds seconds."
+        Write-Host "Restarting the container at $(Get-Date)..."
+        
+        # Stop and then start the container (you may need to adjust this based on your container setup)
+        docker stop $containerNameOrId
+        docker start $containerNameOrId
+    }
+
+    # Sleep for a few seconds before checking again
+    Start-Sleep -Seconds 10
+}
+
+###################################### Restart if CPU == 0% for over 3 minutes  ######################################
+###################                                                                                ###################
+###################                                                                                ###################
+######################################################################################################################
+
+
 #############################################################################################
 ###################                                                       ###################
 ###################                                                       ###################
@@ -113,16 +168,17 @@ $files = $(gc latest.json | convertfrom-json)
 
 vscodedate=$(date '+%Y%m%d')
 
-find /mnt/d/Transfer/software/vscodeoffline/artifacts -ctime -3 -type f -print0  | tar czf /mnt/d/Transfer/Prep/$(echo $vscodedate)_vscodeoffline.tar.gz --files-from=- 
+# find /mnt/d/Transfer/software/vscodeoffline/artifacts -ctime -5 -type f -print0  | tar czf /mnt/d/Transfer/Prep/$(echo $vscodedate)_vscodeoffline.tar.gz --files-from=- 
+find /mnt/d/Transfer/software/vscodeoffline/artifacts -ctime -5 -type f -print0  | tar zf /mnt/d/Transfer/Prep/$(echo $vscodedate)_vscodeoffline.tar --files-from=-
 
 # Create folders in case the system throws errors about now folders
 mkdir -p /mnt/d/Transfer/$(echo $vscodedate)
 
 # Sets it to the DVD size
-# 7za a -v8128M -psimnet1 /mnt/d/Transfer/$(echo $vscodedate)/$(echo $vscodedate)_vscodeoffline.tar.7z /mnt/d/Transfer/Prep/$(echo $vscodedate)_vscodeoffline.tar.gz
+7za a -v8128M -psimnet1 /mnt/d/Transfer/$(echo $vscodedate)/$(echo $vscodedate)_vscodeoffline.tar.7z /mnt/d/Transfer/Prep/$(echo $vscodedate)_vscodeoffline.tar.gz
 
 # Sets it to the 700M size
-7za a -v700M -psimnet1 /mnt/d/Transfer/$(echo $vscodedate)/$(echo $vscodedate)_vscodeoffline.tar.7z /mnt/d/Transfer/Prep/$(echo $vscodedate)_vscodeoffline.tar.gz
+# 7za a -v700M -psimnet1 /mnt/d/Transfer/$(echo $vscodedate)/$(echo $vscodedate)_vscodeoffline.tar.7z /mnt/d/Transfer/Prep/$(echo $vscodedate)_vscodeoffline.tar.gz
 
 ###################################### Archive VSCSync ######################################
 ###################                                                       ###################
@@ -131,11 +187,10 @@ mkdir -p /mnt/d/Transfer/$(echo $vscodedate)
 
 
 
-
-###################################### BanderSnatch ######################################
-###################                                                    ###################
-###################                                                    ###################
 ##########################################################################################
+###################                                                    ###################
+###################                                                    ###################
+###################################### BanderSnatch ######################################
 
 docker run -it -v 'D:\Transfer\ToMove\repo\simple:/opt/bandersnatch' pypa/bandersnatch bash
 
@@ -143,6 +198,19 @@ docker run -it -v 'D:\Transfer\ToMove\repo\simple:/opt/bandersnatch' pypa/bander
 ###################                                                    ###################
 ###################                                                    ###################
 ##########################################################################################
+
+# After exporting the docker images to tar files, this will test for the integrity of the files.
+
+# for file in *.tar; 
+for file in *; 
+  do echo "Testing $file...";     
+    # output=$(7za t "$file" 2>&1) # Capture both stdout and stderr
+    output=$(7za t -psimnet1 "$file" 2>&1) # Capture both stdout and stderr
+    if ! echo "$output" | grep -q "Everything is Ok"; 
+    then echo "$file failed the integrity test";     
+    fi; 
+  done 
+
 
 
 ###################

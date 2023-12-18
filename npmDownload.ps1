@@ -182,6 +182,7 @@ function SimpleNPMDownload {
     # SimpleNPMDownload -PackageListTxtFile "C:\\Users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\requests\\webpacker.txt" 
     # SimpleNPMDownload -PackageListTxtFile "C:\\Users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\requests\\rails.txt" 
     # SimpleNPMDownload -PackageListTxtFile "C:\\Users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\requests\\babel.txt" 
+    # SimpleNPMDownload -PackageListTxtFile "C:\\Users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\requests\\vite.txt" 
     # SimpleNPMDownload -PackageListTxtFile "C:\\Users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\requests\\nettest.txt" 
     # SimpleNPMDownload -PackageListTxtFile "C:\\Users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\others\\needsUpdates.txt" 
     # SimpleNPMDownload -PackageListTxtFile "C:\\Users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\TopLists\\TopPackages20230227.txt" 
