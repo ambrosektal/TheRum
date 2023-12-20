@@ -55,9 +55,6 @@ foreach ($Source in $Sources) {
 # Invoke-ParNugetDown -SecondHalf -Directory "C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\nugetPackageFiles\\PSGallery"
 # # Invoke-ParNugetDown -SecondHalf -Directory "C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\nugetPackageFiles\\PSGallery" -Source "BaGet_Posh"
 
-
-
-function Invoke-ParNugetDown {
     # Invoke-ParNugetDown -FirstHalf -Directory "C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\nugetPackageFiles\\Microsoft2"
     # Invoke-ParNugetDown -SecondHalf -Directory "C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\nugetPackageFiles\\Microsoft2"
     # 
@@ -80,6 +77,11 @@ function Invoke-ParNugetDown {
     # Invoke-ParNugetDown -AllVersions -PackageList $PackageList
     # Invoke-ParNugetDown -FirstHalf -AllVersions -PackageList $PackageList
     # Invoke-ParNugetDown -SecondHalf -AllVersions -PackageList $PackageList
+
+
+
+function Invoke-ParNugetDown {
+
     [CmdletBinding()]
     param (
         [switch]$FirstHalf,
