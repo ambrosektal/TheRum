@@ -1,6 +1,221 @@
 
 #### NPM for Windows
 
+#Testing out something for troubleshooting
+# $txtfiles = (gc C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\requests\\bun.txt)
+# $txtfiles = (gc C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\requests\\vite.txt)
+# $txtfiles = (gc C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\requests\\gyp.txt)
+# $txtfiles | ForEach-Object { 
+#     [string]$random = Get-Random -Maximum 999999 -Minimum 100000
+#     [string]$newRandom = Get-Random -Maximum 999999 -Minimum 100000
+#     mkdir "D:\\Transfer\\ToMove\\node\\$random"
+#     mkdir "D:\\Transfer\\ToMove\\nodepack\\$newRandom"
+
+#     if (!$(Test-Path "D:\\Transfer\\ToMove\\node\\$random")) {
+#         mkdir "D:\\Transfer\\ToMove\\node\\$random"
+#     }
+
+#     if (!$(Test-Path "D:\\Transfer\\ToMove\\nodepack\\$newRandom")) {
+#         mkdir "D:\\Transfer\\ToMove\\nodepack\\$newRandom"
+#     }
+
+#     npm i $_ --force --prefix "D:\\Transfer\\ToMove\\node\\$random" --registry https://registry.npmjs.org/
+
+#     $files = (npm list --all --parseable -l --prefix "D:\\Transfer\\ToMove\\node\\$random" --registry https://registry.npmjs.org/).foreach({$_.Split(":")[2]})
+
+#     $files | foreach-object { npm pack --prefix "D:\\Transfer\\ToMove\\nodepack\\$newRandom" --registry https://registry.npmjs.org/ $_ }
+# }
+
+
+# $txtfiles = (gc C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\requests\\react.txt)
+# $txtfiles = (gc C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\requests\\faye.txt)
+# $txtfiles = (gc C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\requests\\bun.txt)
+# $txtfiles = (gc C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\requests\\vite.txt)
+# $txtfiles = (gc C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\requests\\gyp.txt)
+# $txtfiles = (gc C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\requests\\esbuild.txt)
+# $txtfiles = (gc C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\requests\\firebase.txt)
+# $txtfiles = (gc C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\requests\\babel.txt)
+# $txtfiles = (gc C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\requests\\ripgrep.txt)
+# $txtfiles = (gc C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\requests\\kevin.txt)
+# $txtfiles = (gc C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\requests\\eslint.txt)
+# $txtfiles = (gc C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\requests\\rails.txt)
+# $txtfiles = (gc C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\requests\\typescript.txt)
+# $txtfiles = (gc C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\requests\\kube.txt)
+# $txtfiles = (gc C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\requests\\jspdf.txt)
+# $txtfiles | ForEach-Object -Parallel { 
+#     Set-Location -Path "D:\\Transfer\\ToMove\\nodepack\\"
+#     # Generate random values for the paths
+#     $random = Get-Random
+#     $newRandom = Get-Random
+
+#     # Set the output directory
+#     $outputDirectory = "D:\\Transfer\\ToMove\\nodepack\\$newRandom"
+
+#     # Create the output directory if it doesn't exist
+#     if (-not (Test-Path -Path $outputDirectory -PathType Container)) {
+#         New-Item -Path $outputDirectory -ItemType Directory -Force
+#     }
+
+#     # Change the working directory to the output directory
+#     Set-Location -Path $outputDirectory
+
+#     npm i $_ --force --prefix "D:\\Transfer\\ToMove\\node\\$random" --registry https://registry.npmjs.org/
+
+#     # Get a list of packages and process each line
+#     npm list --all --parseable -l --prefix "D:\\Transfer\\ToMove\\node\\$random" --registry https://registry.npmjs.org/ | ForEach-Object {
+#         $packagePath = $_.Split(":")[2].Trim()
+        
+#         # Run npm pack for each package
+            # npm pack --registry https://registry.npmjs.org/ --pack-destination $outputDirectory $packagePath
+            #         # npm pack --registry https://registry.npmjs.org/ $packagePath
+#     }
+
+#     # Restore the original working directory
+#     # Set-Location -Path $PSScriptRoot
+#     Set-Location -Path "D:\\Transfer\\ToMove\\nodepack\\"
+#     Remove-Item -r -Force "D:\\Transfer\\ToMove\\node\\$random"
+#     [System.GC]::Collect()
+# }
+# ##################################################################################################################
+# ###
+# # $outputBaseDirectory = "D:\\Transfer\\ToMove\\nodepack"
+# # $npmBaseDirectory = "D:\\Transfer\\ToMove\\node"
+
+# $txtfiles = (gc C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\requests\\jspdf.txt)
+
+# $txtfiles | ForEach-Object -Parallel {
+#     $outputBaseDirectory = "D:\\Transfer\\ToMove\\nodepack"
+#     $npmBaseDirectory = "D:\\Transfer\\ToMove\\node"
+#     $random = Get-Random
+#     $outputDirectory = "$outputBaseDirectory\\$random"
+#     $npmDirectory = "$npmBaseDirectory\\$random"
+
+#     if (-not (Test-Path -Path $outputDirectory -PathType Container)) {
+#         New-Item -Path $outputDirectory -ItemType Directory -Force
+#     }
+
+#     npm i $_ --force --prefix $npmDirectory --registry https://registry.npmjs.org/
+
+#     npm list --all --parseable -l --prefix $npmDirectory --registry https://registry.npmjs.org/ | ForEach-Object {
+#         $packagePath = $_.Split(":")[2].Trim()
+#         #npm pack --registry https://registry.npmjs.org/ $packagePath
+#         npm pack --registry https://registry.npmjs.org/ --pack-destination $outputDirectory $packagePath
+
+#     }
+
+#     Remove-Item -r -Force $npmDirectory
+# }
+##################################################################################################################
+# TESTING!!!!!!!!!!!!
+    # $txtfiles = (gc C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\requests\\dotenv.txt)
+    # $txtfiles = (gc C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\packageLists\\pocketbase.txt)
+    # $txtfiles = (gc C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\requests\\gyp.txt)
+    # $txtfiles = (gc C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\packageLists\\fastify.txt)
+    # $txtfiles = (gc C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\packageLists\\Microsoft.txt)
+    # $txtfiles = (gc C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\requests\\react.txt)
+    # $txtfiles = (gc C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\requests\\faye.txt)
+    # $txtfiles = (gc C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\requests\\bun.txt)
+    # $txtfiles = (gc C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\requests\\vite.txt)
+    # $txtfiles = (gc C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\requests\\esbuild.txt)
+    # $txtfiles = (gc C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\requests\\firebase.txt)
+    # $txtfiles = (gc C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\requests\\babel.txt)
+    # $txtfiles = (gc C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\requests\\ripgrep.txt)
+    # $txtfiles = (gc C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\requests\\kevin.txt)
+    # $txtfiles = (gc C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\requests\\eslint.txt)
+    # $txtfiles = (gc C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\requests\\rails.txt)
+    # $txtfiles = (gc C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\requests\\typescript.txt)
+    # $txtfiles = (gc C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\requests\\kube.txt)
+    # $txtfiles = (gc C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\requests\\jspdf.txt)
+    # $txtfiles = (gc C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\requests\\bootstrap.txt)
+    # $txtfiles = (gc C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\requests\\uiw.txt)
+    # $txtfiles = (gc C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\requests\\mdxeditor.txt)
+    # $txtfiles = (gc C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\requests\\react-mde.txt)
+    # $txtfiles = (gc C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\packageLists\\datatables.txt)
+    # $txtfiles = (gc "C:\Users\$env:USERNAME\Downloads\gits\TheRum\npmPackageFiles\requests\idb.txt")
+    # $txtfiles = (gc C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\firstHalf.txt)
+    # $txtfiles = (gc C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\secondHalf.txt)
+
+
+Start-Transcript -Path "D:\Transfer\newlog_$(Get-Random).txt"
+$executionTime = Measure-Command {
+    
+    
+    $registry = "https://registry.npmjs.org/"
+    # $registry = "http://127.0.0.1:4873/"
+    
+    $txtfiles | ForEach-Object -Parallel {
+        $registry = $using:registry
+        $outputBaseDirectory = "D:\\Transfer\\ToMove\\nodepack"
+        $npmBaseDirectory = "D:\\Transfer\\ToMove\\node"
+        $random = Get-Random
+        $outputDirectory = "$outputBaseDirectory\\$random"
+        $npmDirectory = "$npmBaseDirectory\\$random"
+
+        if (-not (Test-Path -Path $outputDirectory -PathType Container)) {
+            New-Item -Path $outputDirectory -ItemType Directory -Force
+            New-Item -Path $npmDirectory -ItemType Directory -Force
+        }
+        # Set-Location -Path $outputDirectory
+        npm i $_ --force --prefix $npmDirectory --registry $registry
+
+        # npm list --all --parseable -l --prefix $npmDirectory --registry $registry | ForEach-Object {
+        npm list --all --parseable -l --prefix $npmDirectory --registry $registry | ForEach-Object -Parallel {
+            $registry = $using:registry
+            $outputDirectory = $using:outputDirectory
+            $packagePath = $_.Split(":")[2].Trim()
+            npm pack --registry $registry --pack-destination $outputDirectory $packagePath
+
+        }
+
+        Remove-Item -r -Force $npmDirectory
+    }
+
+}
+Stop-Transcript
+Write-Host "Total execution time: $($executionTime.TotalMilliseconds) ms"
+##################################################################################################################
+
+
+Start-Transcript -Path "D:\Transfer\newlog_$(Get-Random).txt"
+$executionTime = Measure-Command {
+    
+    
+    $registry = "https://registry.npmjs.org/"
+    # $registry = "http://127.0.0.1:4873/"
+    
+    $txtfiles | ForEach-Object -Parallel {
+        $registry = $using:registry
+        $outputBaseDirectory = "D:\\Transfer\\ToMove\\nodepack"
+        $npmBaseDirectory = "D:\\Transfer\\ToMove\\node"
+        $random = Get-Random
+        $outputDirectory = "$outputBaseDirectory\\$random"
+        $npmDirectory = "$npmBaseDirectory\\$random"
+
+        if (-not (Test-Path -Path $outputDirectory -PathType Container)) {
+            New-Item -Path $outputDirectory -ItemType Directory -Force
+            New-Item -Path $npmDirectory -ItemType Directory -Force
+        }
+        # Set-Location -Path $outputDirectory
+        npm i $_ --force --prefix $npmDirectory --registry $registry
+
+        # npm list --all --parseable -l --prefix $npmDirectory --registry $registry | ForEach-Object -Parallel {
+        #     $registry = $using:registry
+        #     $outputDirectory = $using:outputDirectory
+        #     $packagePath = $_.Split(":")[2].Trim()
+        #     npm pack --registry $registry --pack-destination $outputDirectory $packagePath
+        # }
+
+        Remove-Item -r -Force $npmDirectory
+    }
+
+}
+Stop-Transcript
+Write-Host "Total execution time: $($executionTime.TotalMilliseconds) ms"
+##################################################################################################################
+
+######################################
+
+
 # $outfile = "C:\\Users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\npmPackages.txt"
 # $searchterm = "svelte"
 # (npm search -p $searchterm).foreach({ ($_.split(" ")[0]).split("`t")[0] })
@@ -183,6 +398,20 @@ SimpleNPMDownload -PackageListTxtFile "C:\\users\\$env:USERNAME\\Downloads\\gits
 # SimpleNPMDownload -PackageListTxtFile "C:\\Users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\requests\\babel.txt" 
 # SimpleNPMDownload -PackageListTxtFile "C:\\Users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\requests\\vite.txt" 
 # SimpleNPMDownload -PackageListTxtFile "C:\\Users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\requests\\nettest.txt" 
+# SimpleNPMDownload -PackageListTxtFile "C:\\Users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\requests\\typescript.txt" 
+# SimpleNPMDownload -PackageListTxtFile "C:\\Users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\requests\\kube.txt" 
+# SimpleNPMDownload -PackageListTxtFile "C:\\Users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\requests\\iconify.txt" 
+# SimpleNPMDownload -PackageListTxtFile "C:\\Users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\requests\\font-awesome.txt" 
+# SimpleNPMDownload -PackageListTxtFile "C:\\Users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\requests\\axios.txt" 
+# SimpleNPMDownload -PackageListTxtFile "C:\\Users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\requests\\dotenv.txt" 
+# SimpleNPMDownload -PackageListTxtFile "C:\\Users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\requests\\faye.txt" 
+# SimpleNPMDownload -PackageListTxtFile "C:\\Users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\requests\\gyp.txt" 
+# SimpleNPMDownload -PackageListTxtFile "C:\\Users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\requests\\misc.txt" 
+# SimpleNPMDownload -PackageListTxtFile "C:\\Users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\requests\\redux.txt" 
+# SimpleNPMDownload -PackageListTxtFile "C:\\Users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\requests\\swagger.txt" 
+# SimpleNPMDownload -PackageListTxtFile "C:\\Users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\requests\\vsphere.txt" 
+# SimpleNPMDownload -PackageListTxtFile "C:\\Users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\requests\\uiw.txt" 
+# SimpleNPMDownload -PackageListTxtFile "C:\\Users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\requests\\mdxeditor.txt" 
 # SimpleNPMDownload -PackageListTxtFile "C:\\Users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\others\\needsUpdates.txt" 
 # SimpleNPMDownload -PackageListTxtFile "C:\\Users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\TopLists\\TopPackages20230227.txt" 
 # SimpleNPMDownload -InstallDirectory "D:\Transfer\Staging\node" -PackageListTxtFile "C:\\Users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\svelte.txt"
@@ -715,70 +944,43 @@ function Build-NPMList {
     # $(97..122).foreach({ Build-NPMList -PackageName "@vsphere/$([char]$_)" -OutputFile "C:\Users\$env:USERNAME\Downloads\gits\TheRum\npmPackageFiles\requests\vmware.txt" })
     # $(97..122).foreach({ Build-NPMList -PackageName "@babel/$([char]$_)" -OutputFile "C:\Users\$env:USERNAME\Downloads\gits\TheRum\npmPackageFiles\requests\babel.txt" })
     # $(97..122).foreach({ Build-NPMList -PackageName "@devcontainers/$([char]$_)" -OutputFile "C:\Users\$env:USERNAME\Downloads\gits\TheRum\npmPackageFiles\requests\devcontainers.txt" })
+    # $(97..122).foreach({ Build-NPMList -PackageName "react-mde-$([char]$_)" -OutputFile "C:\Users\$env:USERNAME\Downloads\gits\TheRum\npmPackageFiles\requests\react-mde.txt" })
     # Build-NPMList -PackageName "sveltejs" 
     # Add to and clean up a txt file
+    # Build-NPMList -PackageName "ripgrep" -OutputFile "C:\Users\$env:USERNAME\Downloads\gits\TheRum\npmPackageFiles\requests\ripgrep.txt"
     # Build-NPMList -PackageName "novnc" -OutputFile "C:\Users\$env:USERNAME\Downloads\gits\TheRum\npmPackageFiles\requests\novnc.txt"
     # Build-NPMList -PackageName "split-file" -OutputFile "C:\Users\$env:USERNAME\Downloads\gits\TheRum\npmPackageFiles\requests\split-file.txt"
     # Build-NPMList -PackageName "sveltejs" -OutputFile "C:\Users\$env:USERNAME\Downloads\gits\TheRum\npmPackageFiles\requests\svelte.txt"
     # Build-NPMList -PackageName "vcenter" -OutputFile "C:\Users\$env:USERNAME\Downloads\gits\TheRum\npmPackageFiles\requests\vcenter.txt"
     # Build-NPMList -PackageName "vsphere" -OutputFile "C:\Users\$env:USERNAME\Downloads\gits\TheRum\npmPackageFiles\requests\vsphere.txt"
     # Build-NPMList -PackageName "@babel/runtime" -OutputFile "C:\Users\$env:USERNAME\Downloads\gits\TheRum\npmPackageFiles\requests\babel.txt"
-    # Build-NPMList -PackageName "react" -OutputFile "C:\Users\$env:USERNAME\Downloads\gits\TheRum\npmPackageFiles\requests\react.txt"
+    # Build-NPMList -PackageName "react-useanimations" -OutputFile "C:\Users\$env:USERNAME\Downloads\gits\TheRum\npmPackageFiles\requests\react-useanimations.txt"
     # Build-NPMList -PackageName "react-" -OutputFile "C:\Users\$env:USERNAME\Downloads\gits\TheRum\npmPackageFiles\requests\react.txt"
     # Build-NPMList -PackageName "cra-template" -OutputFile "C:\Users\$env:USERNAME\Downloads\gits\TheRum\npmPackageFiles\requests\react.txt"
     # Build-NPMList -PackageName "cra-template-" -OutputFile "C:\Users\$env:USERNAME\Downloads\gits\TheRum\npmPackageFiles\requests\react.txt"
     # Build-NPMList -PackageName "jsdoc" -OutputFile "C:\Users\$env:USERNAME\Downloads\gits\TheRum\npmPackageFiles\requests\jsdoc.txt"
     # Build-NPMList -PackageName "faye" -OutputFile "C:\Users\$env:USERNAME\Downloads\gits\TheRum\npmPackageFiles\requests\faye.txt"
     # Build-NPMList -PackageName "font-awesome" -OutputFile "C:\Users\$env:USERNAME\Downloads\gits\TheRum\npmPackageFiles\requests\font-awesome.txt"
+    # Build-NPMList -PackageName "@uiw" -OutputFile "C:\Users\$env:USERNAME\Downloads\gits\TheRum\npmPackageFiles\requests\uiw.txt"
+    # Build-NPMList -PackageName "idb-kv-store" -OutputFile "C:\Users\$env:USERNAME\Downloads\gits\TheRum\npmPackageFiles\requests\idb.txt"
     # Add to and clean up a txt file based on an array of packages
     # Build-NPMList PackageArray $PackageArray -OutputFile "C:\Users\$env:USERNAME\Downloads\gits\TheRum\npmPackageFiles\packageLists\random.txt"
     param (
         [string]$PackageName,
         [System.Collections.ArrayList]$PackageArray,
         [string]$OutputFile,
-        # [int]$Iterations = 2,
         [string]$Registry = "https://registry.npmjs.org/"
     )
     $TempFile = "C:\Windows\Temp\npmFiles.txt"
     $null > $TempFile
-    # $count = 0
-    # $newfiles = New-Object System.Collections.ArrayList
     if ($PackageArray) {
         foreach ($PackageName in $PackageArray) { 
             (npm search -p $PackageName --registry $Registry).foreach({ ($_.split(" ")[0]).split("`t")[0] }) | Sort-Object -Unique >> $TempFile
-            # npm search and clean up
-            
-            # # New Test START
-            
-            # $files = (npm search -p $PackageName ).foreach({ $_.split(" ")[0].split("`t")[0] })
-            # while ($count -lt $Iterations) {
-            #     $count++
-            #     ($files |  Foreach-Object -ThrottleLimit 5 -Parallel {
-            #             $files += (npm search -p $_ ).foreach({ $_.split(" ")[0].split("`t")[0] })
-            #             $files | Sort-Object -Unique >> $TempFile
-            #         }
-            #     )    
-            # }
-
-            # # New Test END
             [System.GC]::Collect()
         }
     }
     elseif ($PackageName) {
         (npm search -p $PackageName --registry $Registry).foreach({ ($_.split(" ")[0]).split("`t")[0] }) | Sort-Object -Unique >> $TempFile
-        #  # New Test START
-            
-        #  $files = (npm search -p $PackageName ).foreach({ $_.split(" ")[0].split("`t")[0] })
-        #  while ($count -lt $Iterations) {
-        #      $count++
-        #      ($files |  Foreach-Object -ThrottleLimit 5 -Parallel {
-        #              $files += (npm search -p $_ ).foreach({ $_.split(" ")[0].split("`t")[0] })
-        #              $files | Sort-Object -Unique >> $TempFile
-        #          }
-        #      )    
-        #  }
-
-        #  # New Test END
         [System.GC]::Collect()
     }
     else {
@@ -796,7 +998,7 @@ function Build-NPMList {
     else {
         return $(Get-Content $TempFile | sort-Object -Unique )
     }
-    # Remove-Item -Force $TempFile
+
 }
 
 ################# 
@@ -924,6 +1126,7 @@ function NPMVersionsDownload {
     # NPMVersionsDownload -PackageListTxtFile "C:\\Users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\requests\\babel.txt" 
     # NPMVersionsDownload -PackageListTxtFile "C:\\Users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\requests\\nettest.txt" 
     # NPMVersionsDownload -PackageListTxtFile "C:\\Users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\requests\\faye.txt" 
+    # NPMVersionsDownload -PackageListTxtFile "C:\\Users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\requests\\idb.txt" 
     # SimpleNPMDownload -PackageListTxtFile "C:\\Users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\others\\needsUpdates.txt" 
     # SimpleNPMDownload -PackageListTxtFile "C:\\Users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\TopLists\\TopPackages20230227.txt" 
     # SimpleNPMDownload -InstallDirectory "D:\Transfer\Staging\node" -PackageListTxtFile "C:\\Users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\svelte.txt"

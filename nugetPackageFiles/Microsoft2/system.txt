@@ -5,6 +5,7 @@ System.AppDomain.NetCoreApp
 System.Async.Synchronization
 System.Ben
 System.Buffers
+System.ClientModel
 System.Clock
 System.CodeDom
 System.Collections
@@ -309,6 +310,7 @@ System.ServiceModel.PollingDuplex.SL
 System.ServiceModel.Primitives
 System.ServiceModel.Security
 System.ServiceModel.Syndication
+System.ServiceModel.UnixDomainSocket
 System.ServiceModel.Web
 System.ServiceProcess.ServiceController
 System.Shim

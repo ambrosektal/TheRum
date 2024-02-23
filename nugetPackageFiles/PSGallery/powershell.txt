@@ -28,11 +28,13 @@ Microsoft.Xrm.DevOps.Data.PowerShell
 Microsoft.Xrm.DevOps.Solutions.PowerShell
 Microsoft.Xrm.Tooling.CrmConnector.PowerShell
 Microsoft.Xrm.Tooling.PackageDeployment.Powershell
+OfflinePowerShellGetDeploy
 PowerShell.Azure.Data.Explorer
 PowerShell.AzureDevOps
 PowerShell.BRE
 PowerShell.BTDF
 Powershell.Chunks
+Powershell.Deployment
 PowerShell.DynamicBatch
 PowerShell.FileTransformations
 Powershell.Helper.Extension
@@ -49,9 +51,9 @@ PowerShell.PowerLibrary.RoboCopyExtension
 PowerShell.PowerLibrary.SqlDatabaseMaintenance
 PowerShell.PowerLibrary.SqlScripter
 PowerShell.ReleasesAPI
+PowerShell.ScriptedProvider
 PowerShell.SqlServer
 PowerShell.SqlServer.Modules
 PowerShell.X509Certificate.Utility
 PowerShellTools
 PowerShellTools.Interfaces
-OfflinePowerShellGetDeploy

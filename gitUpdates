@@ -1,8 +1,17 @@
 #!/bin/bash
 
+# Set the current directory to the directory of the script
+
+# This is necessary to make the script work when called from a different directory
+
+# The script will not work if called from a different directory without this line
+
+DIRECTORY=$(pwd)
+echo $DIRECTORY
+
 function gitUpdate() {
         #find "$HOME" -name \\.git | sed 's/\.git//' > "$HOME"/gits.list
-	gitList=$( find "$HOME" -name \\.git | sed 's/\.git//' )
+	gitList=$( find "$DIRECTORY" -name \\.git | sed 's/\.git//' )
 	for i in $gitList; do cd "$i" && git pull; done
 }
 

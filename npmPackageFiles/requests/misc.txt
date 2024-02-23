@@ -111,6 +111,9 @@ surrealdb.react
 surrealdb.ts
 surrealdb.vue
 surrealdb.worker
+tinycolor
+tinycolor2
+tinypool
 tinymce
 tinymce-a11y-checker
 tinymce-i18n

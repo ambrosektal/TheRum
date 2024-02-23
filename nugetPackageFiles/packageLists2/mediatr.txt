@@ -21,6 +21,7 @@ MediatR.Commands
 MediatR.Commands.AspnetCoreExtensions
 MediatR.Commands.Web
 MediatR.Contracts
+MediatR.Contracts.CQRS
 MediatR.Contrib.Http
 MediatR.Contrib.Http.Abstractions
 MediatR.Contrib.Http.AspNetCore
@@ -30,6 +31,7 @@ MediatR.CQRS
 MediatR.CQRS.Ninject
 MediatR.CQRS.Utils
 MediatR.Dynamic
+MediatR.Endpoints
 MediatR.EventAggregator
 MediatR.Extensions
 MediatR.Extensions.AttributedBehaviors
@@ -88,6 +90,11 @@ MediatR.Useful.Behavior
 MediaTrainer.Templating
 MediatRedux
 MediatREndPoints
+MediatREntityRepositor.Api
+MediatREntityRepository
 MediatRExt
+Mediatrix.Domain.IDM
+Mediatrix.DomainIDM
+MediatRLibrary
 MediatrPattern
 MediatRX

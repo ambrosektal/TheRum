@@ -23,13 +23,56 @@ npm create vite@latest my-svelte-ts-app -- --template svelte-ts -y
 npm create vite@latest my-svelte-app -- --template svelte -y
 
 
+#######################################
+# VERDACCIO!!!!!!!!!!
+
 $files = gci -Recurse -File -Filter "package.json"
 
-# $files | foreach-object{ cd $_.Directory && npm i && npm audit fix -force }
 $files | foreach-object -Parallel { 
-    cd $_.Directory && npm i && npm audit fix -force 
+    # cd $_.Directory && npm i && npm audit fix -force 
+    cd $_.Directory && npm i --registry http://127.0.0.1:4873 && npm audit fix -force --registry http://127.0.0.1:4873
+    }
+#######################################
+# Packing!!!
+
+$files = gci -Recurse -File -Filter "package.json"
+# $files = gci -File -Filter "package.json"
+
+$files | foreach-object -Parallel { 
+    cd $_.Directory
+
+    npm i --force --registry https://registry.npmjs.org/
+
+    npm list --all --parseable -l --registry https://registry.npmjs.org/ | ForEach-Object {
+        $packagePath = $_.Split(":")[2].Trim()
+        npm pack --registry https://registry.npmjs.org/ $packagePath
+    }
+}
+
+
+
+
+# Define source and destination directories
+$sourceDir = "D:\Transfer\ToMove\build"
+$destinationDir = "D:\Transfer\ToMove\buildDupe"
+
+# Get all .tgz files from the source directory
+$tgzFiles = Get-ChildItem -Path $sourceDir -Filter *.tgz -Recurse
+
+foreach ($file in $tgzFiles) {
+    $destinationPath = Join-Path -Path $destinationDir -ChildPath $file.Name
+
+    # Check if the file already exists in the destination
+    if (Test-Path -Path $destinationPath) {
+        # Generate a random string to prepend
+        # $randomString = -join ((48..57) + (65..90) + (97..122) | Get-Random | % {[char]$_})
+        $randomString = "$(Get-Random )"
+        $newFileName = $randomString + "_" + $file.Name
+        $destinationPath = Join-Path -Path $destinationDir -ChildPath $newFileName
     }
 
+    # Copy the file to the destination
+    Copy-Item -Path $file.FullName -Destination $destinationPath
+}
 
-
-
+Write-Host "Files copied successfully."

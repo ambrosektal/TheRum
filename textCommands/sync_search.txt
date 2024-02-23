@@ -16,6 +16,8 @@ python sync.py --extension-search "golang" --debug --logfile searchextensions_go
 python sync.py --extension-search "bun" --debug --logfile searchextensions_bun --artifacts /artifacts
 python sync.py --extension-search "rust" --debug --logfile searchextensions_rust --artifacts /artifacts
 
+python sync.py --extension-search "php" --debug --logfile searchextensions_php --artifacts /artifacts
+
 python sync.py --extension-search "blazor" --debug --logfile searchextensions_blazor --artifacts /artifacts
 python sync.py --extension-search "razor" --debug --logfile searchextensions_blazor --artifacts /artifacts
 
@@ -42,13 +44,28 @@ python sync.py --extension-search "ms-dot*" --debug --logfile searchextensions_M
 python sync.py --extension-search "ms-devlabs" --debug --logfile searchextensions_Microsoft --artifacts /artifacts
 python sync.py --extension-search "ms-ceintl" --debug --logfile searchextensions_Microsoft --artifacts /artifacts
 
-python sync.py --extension-search "php" --debug --logfile searchextensions_php --artifacts /artifacts
-
 python sync.py --extension-search "sourcegraph" --debug --logfile searchextensions_sourcegraph --artifacts /artifacts
 python sync.py --extension-search "svelte" --debug --logfile searchextensions_svelte --artifacts /artifacts
 python sync.py --extension-search "jsdoc" --debug --logfile searchextensions_jsdoc --artifacts /artifacts
 python sync.py --extension-search "bash" --debug --logfile searchextensions_bash --artifacts /artifacts
 python sync.py --extension-search "toml" --debug --logfile searchextensions_toml --artifacts /artifacts
+
+python sync.py --extension-search "postgres" --debug --logfile searchextensions_postgres --artifacts /artifacts
+python sync.py --extension-search "mariadb" --debug --logfile searchextensions_mariadb --artifacts /artifacts
+python sync.py --extension-search "mysql" --debug --logfile searchextensions_mysql --artifacts /artifacts
+
+python sync.py --extension-search "ror" --debug --logfile searchextensions_ruby --artifacts /artifacts
+python sync.py --extension-search "ruby" --debug --logfile searchextensions_ruby --artifacts /artifacts
+python sync.py --extension-search "rails" --debug --logfile searchextensions_ruby --artifacts /artifacts
+python sync.py --extension-search "faye" --debug --logfile searchextensions_ruby --artifacts /artifacts
+python sync.py --extension-search "gem" --debug --logfile searchextensions_ruby --artifacts /artifacts
+
+python sync.py --extension-search "docker" --debug --logfile searchextensions_docker --artifacts /artifacts
+python sync.py --extension-search "podman" --debug --logfile searchextensions_docker --artifacts /artifacts
+python sync.py --extension-search "containerd" --debug --logfile searchextensions_docker --artifacts /artifacts
+python sync.py --extension-search "kube" --debug --logfile searchextensions_docker --artifacts /artifacts
+python sync.py --extension-search "kubernetes" --debug --logfile searchextensions_docker --artifacts /artifacts
+python sync.py --extension-search "rancher" --debug --logfile searchextensions_docker --artifacts /artifacts
 
 
 # echo "" > cleanSearch
@@ -56,12 +73,19 @@ python sync.py --extension-search "toml" --debug --logfile searchextensions_toml
 # cat cleanSearch | sort -u | sort -u | sort -u > cleanSearch1
 # mv cleanSearch1 cleanSearch
 
+# wsl: 
 for i in searchextensions* ;
-	do cat "$i" | cut -d " " -f 6 >> cleanSearch ;
+	#do cat "$i" | cut -d " " -f 6 >> cleanSearch ;
+	do cat "$i" | cut -d " " -f 2 >> cleanSearch ;
 	cat cleanSearch | sort -u | sort -u | sort -u > cleanSearch1 ;
 	mv cleanSearch1 cleanSearch ;
-	mv cleanSearch /artifacts/"$i" ;
+	# mv cleanSearch /artifacts/"$i" ;
+	mv cleanSearch artifacts/"$i" ;
 done
+
+cat artifacts/searchextensions* >> cleanedFiles
+cat cleanedFiles | sort -u | sort -u | sort -u > cleanedFiles1
+mv cleanedFiles1 cleanedFiles
 
 
 #######################
@@ -107,3 +131,8 @@ foreach($osver in $osversions) {
 		invoke-webrequest $URL -OutFile "D:\Transfer\ToMove\vscode\$(Split-Path -Leaf $URL)" 
 		})    
 }
+
+
+
+python sync.py --check-recommended-extensions --check-specified-extensions --update-extensions --skip-binaries --artifacts /artifacts
+

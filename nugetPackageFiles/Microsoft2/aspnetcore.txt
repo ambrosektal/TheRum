@@ -1,7 +1,6 @@
 Microsoft.AspNetCore
 Microsoft.AspNetCore.All
 Microsoft.AspNetCore.Antiforgery
-Microsoft.AspNetCore.Antiforgery                                                                                        
 Microsoft.AspNetCore.ApiAuthorization.IdentityServer
 Microsoft.AspNetCore.ApiHelp
 Microsoft.AspNetCore.ApiHelp.Core
@@ -21,6 +20,7 @@ Microsoft.AspNetCore.App.Runtime.win-arm64
 Microsoft.AspNetCore.App.Runtime.win-x64
 Microsoft.AspNetCore.App.Runtime.win-x86
 Microsoft.AspNetCore.ApplicationInsights.HostingStartup
+Microsoft.AspNetCore.AsyncState
 Microsoft.AspNetCore.Authentication
 Microsoft.AspNetCore.Authentication.Abstractions
 Microsoft.AspNetCore.Authentication.ActiveDirectory
@@ -53,6 +53,8 @@ Microsoft.AspNetCore.Components.Analyzers
 Microsoft.AspNetCore.Components.Authorization
 Microsoft.AspNetCore.Components.CustomElements
 Microsoft.AspNetCore.Components.Forms
+Microsoft.AspNetCore.Components.QuickGrid
+Microsoft.AspNetCore.Components.QuickGrid.EntityFrameworkAdapter
 Microsoft.AspNetCore.Components.Web
 Microsoft.AspNetCore.Components.WebAssembly
 Microsoft.AspNetCore.Components.WebAssembly.Authentication
@@ -96,8 +98,10 @@ Microsoft.AspNetCore.Diagnostics.Abstractions
 Microsoft.AspNetCore.Diagnostics.Elm
 Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore
 Microsoft.AspNetCore.Diagnostics.HealthChecks
+Microsoft.AspNetCore.Diagnostics.Middleware
 Microsoft.AspNetCore.Grpc.JsonTranscoding
 Microsoft.AspNetCore.Grpc.Swagger
+Microsoft.AspNetCore.HeaderParsing
 Microsoft.AspNetCore.HeaderPropagation
 Microsoft.AspNetCore.HealthChecks
 Microsoft.AspNetCore.HostFiltering
@@ -158,6 +162,7 @@ Microsoft.AspNetCore.OData.Radzen
 Microsoft.AspNetCore.OData.Versioning
 Microsoft.AspNetCore.OData.Versioning.ApiExplorer
 Microsoft.AspNetCore.OpenApi
+Microsoft.AspNetCore.OutputCaching.StackExchangeRedis
 Microsoft.AspNetCore.Owin
 Microsoft.AspNetCore.Proxy
 Microsoft.AspNetCore.Razor
@@ -207,6 +212,7 @@ Microsoft.AspNetCore.SystemWebAdapters.Abstractions
 Microsoft.AspNetCore.SystemWebAdapters.CoreServices
 Microsoft.AspNetCore.SystemWebAdapters.FrameworkServices
 Microsoft.AspNetCore.TestHost
+Microsoft.AspNetCore.Testing
 Microsoft.AspNetCore.WebSockets
 Microsoft.AspNetCore.WebSockets.Protocol
 Microsoft.AspNetCore.WebSockets.Server

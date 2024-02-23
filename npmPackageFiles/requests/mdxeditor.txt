@@ -1,0 +1,6 @@
+@betty-blocks/mdxeditor
+@bosheski/mdxeditor-editor
+@lukaprsina/mdxeditor
+@mdxeditor/editor
+mdxeditor-editor-react17
+mdxeditor-editor-react18-development

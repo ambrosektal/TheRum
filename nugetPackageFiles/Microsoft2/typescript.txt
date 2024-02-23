@@ -1,0 +1,4 @@
+Microsoft.JSInterop
+Microsoft.JSInterop.WebAssembly
+Microsoft.TypeScript.Compiler
+Microsoft.TypeScript.MSBuild

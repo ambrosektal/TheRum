@@ -42,7 +42,9 @@ Microsoft.EntityFrameworkCore.Sqlite.Core
 Microsoft.EntityFrameworkCore.Sqlite.Design
 Microsoft.EntityFrameworkCore.Sqlite.NetTopologySuite
 Microsoft.EntityFrameworkCore.SqlServer
+Microsoft.EntityFrameworkCore.SqlServer.Abstractions
 Microsoft.EntityFrameworkCore.SqlServer.Design
+Microsoft.EntityFrameworkCore.SqlServer.HierarchyId
 Microsoft.EntityFrameworkCore.SqlServer.NetTopologySuite
 Microsoft.EntityFrameworkCore.Templates
 Microsoft.EntityFrameworkCore.Tools

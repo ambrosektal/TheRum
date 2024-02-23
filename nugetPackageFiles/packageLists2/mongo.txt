@@ -1,16 +1,3 @@
-AspNet.Identity.MongoDB
-AspNet.Identity.MongoDB-2
-AspNet.Identity3.MongoDB
-AspNetCore.Authentication.Cookies.MongoDb
-AspNetCore.DataProtection.MongoDb
-AspNetCore.HealthChecks.MongoDb
-AspNetCore.Identity.MongoDbCore
-AspNetCore.IdentityProvider.MongoDB
-AspNetCore.MongoDB
-AspNetCore.MongoDb.Repository
-AspNetCore.MongoDbIdentity
-log4net.Appender.MongoDbAppender
-Microsoft.AspNetCore.Identity.MongoDB
 MongoDB.Abstracts
 MongoDB.Analyzer
 MongoDB.ApplicationInsights
@@ -19,6 +6,7 @@ MongoDb.Asp.ConfigurationProvider
 MongoDB.AspNet.Identity
 mongodb.async
 MongoDb.Autofac
+MongoDB.AWSCDKResourcesMongoDBAtlas
 MongoDB.AzureFunctions.CoreDll
 MongoDB.Bson
 MongoDB.Bson.Dynamic
@@ -101,6 +89,7 @@ MongoDB.Messaging.NetCore
 MongoDB.Messaging.SignalR
 MongoDB.Migrations
 MongoDB.MongoNet
+MongoDB.MvcCore
 MongoDB.NetTopologySuite.Serialization
 MongoDB.OData
 MongoDB.Prime.Extensions

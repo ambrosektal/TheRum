@@ -14,18 +14,18 @@ $Sources = "https://api.nuget.org/v3/index.json",
 # "https://pkgs.dev.azure.com/dnceng/public/_packaging/myget-legacy%40Local/nuget/v3/index.json",
 # "https://pkgs.dev.azure.com/azure-public/vside/_packaging/msft_consumption/nuget/v3/index.json"
 
-$PackageList = gc  "C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\nugetPackageFiles\\Terminal\\all.txt"
-foreach ($Source in $Sources) {
-    Invoke-ParNugetDown -AllVersions -PackageList $PackageList
-}
+# $PackageList = gc  "C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\nugetPackageFiles\\Terminal\\all.txt"
+# foreach ($Source in $Sources) {
+#     Invoke-ParNugetDown -AllVersions -PackageList $PackageList
+# }
 
 
 
-foreach ($Source in $Sources) {
-    Invoke-ParNugetDown -Directory "C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\nugetPackageFiles\\Microsoft2" -Source $Source
-    Invoke-ParNugetDown -Directory "C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\nugetPackageFiles\\packageLists2" -Source $Source
-    Invoke-ParNugetDown -Directory "C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\nugetPackageFiles\\PSGallery" -Source $Source
-}
+# foreach ($Source in $Sources) {
+#     Invoke-ParNugetDown -Directory "C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\nugetPackageFiles\\Microsoft2" -Source $Source
+#     Invoke-ParNugetDown -Directory "C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\nugetPackageFiles\\packageLists2" -Source $Source
+#     Invoke-ParNugetDown -Directory "C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\nugetPackageFiles\\PSGallery" -Source $Source
+# }
 
 
 foreach ($Source in $Sources) {
@@ -39,6 +39,19 @@ foreach ($Source in $Sources) {
     Invoke-ParNugetDown -SecondHalf -Directory "C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\nugetPackageFiles\\Microsoft2" -Source $Source
     Invoke-ParNugetDown -SecondHalf -Directory "C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\nugetPackageFiles\\packageLists2" -Source $Source
     Invoke-ParNugetDown -SecondHalf -Directory "C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\nugetPackageFiles\\PSGallery" -Source $Source
+}
+
+
+foreach ($Source in $Sources) {
+    Invoke-ParNugetDown -AllVersions -FirstHalf -Directory "C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\nugetPackageFiles\\Microsoft2" -Source $Source
+    # Invoke-ParNugetDown -AllVersions -FirstHalf -Directory "C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\nugetPackageFiles\\packageLists2" -Source $Source
+    # Invoke-ParNugetDown -AllVersions -FirstHalf -Directory "C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\nugetPackageFiles\\PSGallery" -Source $Source
+}
+
+foreach ($Source in $Sources) {
+    Invoke-ParNugetDown -AllVersions -SecondHalf -Directory "C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\nugetPackageFiles\\Microsoft2" -Source $Source
+    # Invoke-ParNugetDown -AllVersions -SecondHalf -Directory "C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\nugetPackageFiles\\packageLists2" -Source $Source
+    # Invoke-ParNugetDown -AllVersions -SecondHalf -Directory "C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\nugetPackageFiles\\PSGallery" -Source $Source
 }
 
 
@@ -69,9 +82,15 @@ foreach ($Source in $Sources) {
     # $PackageList = gc  "C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\nugetPackageFiles\\Microsoft2\\System.txt"
     # $PackageList = gc  "C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\nugetPackageFiles\\Microsoft2\\runtime.txt"
     # $PackageList = gc  "C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\nugetPackageFiles\\Microsoft2\\aspnetcore.txt"
+    # $PackageList = gc  "C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\nugetPackageFiles\\Microsoft2\\microsoft.txt"
     # $PackageList = gc  "C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\nugetPackageFiles\\Microsoft2\\dotnetcore.txt"
     # $PackageList = gc  "C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\nugetPackageFiles\\Microsoft2\\upgrade.txt"
     # $PackageList = gc  "C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\nugetPackageFiles\\PSGallery\\packagerepos.txt"
+    # $PackageList = gc  "C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\nugetPackageFiles\\PSGallery\\vmware.txt"
+    # $PackageList = gc  "C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\nugetPackageFiles\\PSGallery\\powershell.txt"
+    # $PackageList = gc  "C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\nugetPackageFiles\\Microsoft2\\typescript.txt"
+    # $PackageList = gci "C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\nugetPackageFiles\\Microsoft2" -filter "*.txt" | gc | Sort-Object -Unique
+    # $PackageList = gci -Recurse "C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\nugetPackageFiles" -filter "*.txt" | gc | Sort-Object -Unique
     # Invoke-ParNugetDown -FirstHalf -PackageList $PackageList
     # Invoke-ParNugetDown -SecondHalf -PackageList $PackageList
     # Invoke-ParNugetDown -AllVersions -PackageList $PackageList
@@ -135,7 +154,7 @@ function Invoke-ParNugetDown {
                 if ($AllVersions) {
                     try {
                     (find-package "$_**") | foreach-object ({
-                                $(find-package -Name "$($_.Name)" -AllVersions -Source $Source) | Sort-Object Version -Desc | Select-Object -First 20 | foreach-object -Parallel {
+                                $(find-package -Name "$($_.Name)" -AllVersions -Source $Source) | Sort-Object Version -Desc | Select-Object -First 10 | foreach-object -Parallel {
                                     $Source = $using:Source
                                     $random = $using:random
                                     nuget install -OutputDirectory "D:\\Transfer\\ToMove\\nupkg\\$random" $($_.Name) -Version $($_.version) -Source $Source }
@@ -232,11 +251,15 @@ foreach ($tmpfile in $tmpfiles) {
 # $tmpfile = "C:\Users\$env:USERNAME\Downloads\gits\TheRum\nugetPackageFiles\Microsoft2\winappdriver.txt"
 # $tmpfile = "C:\Users\$env:USERNAME\Downloads\gits\TheRum\nugetPackageFiles\Microsoft2\calc.txt"
 $tmpfile = "C:\Users\$env:USERNAME\Downloads\gits\TheRum\nugetPackageFiles\PSGallery\packagerepos.txt"
+$tmpfile = "C:\Users\$env:USERNAME\Downloads\gits\TheRum\nugetPackageFiles\PSGallery\powershell.txt"
+$tmpfile = "C:\Users\$env:USERNAME\Downloads\gits\TheRum\nugetPackageFiles\PSGallery\vmware.txt"
 
 $SearchString = "microsoft.internal*"
 $SearchString = "microsoft.winappdriver*"
 $SearchString = "microsoft*calc*"
 $SearchString = "windows*calc*"
+$SearchString = "vmware.*"
+$SearchString = "powershell.*"
 
 foreach ($Source in $Sources) {
     BuildPackageList -PackageName "$SearchString" -OutputFile $tmpfile -SerachSource $Source
@@ -248,6 +271,8 @@ foreach ($Source in $Sources) {
 # BuildPackageList -PackageName "*vagrant*" -OutputFile "C:\Users\$env:USERNAME\Downloads\gits\TheRum\nugetPackageFiles\packageLists2\vagrant.txt"
 # BuildPackageList -PackageName "*ldap*" -OutputFile "C:\Users\$env:USERNAME\Downloads\gits\TheRum\nugetPackageFiles\packageLists2\ldap.txt"
 # BuildPackageList -PackageName "system.collections*" -OutputFile "C:\Users\$env:USERNAME\Downloads\gits\TheRum\nugetPackageFiles\Microsoft2\system.txt"
+# BuildPackageList -PackageName "system.*" -OutputFile "C:\Users\$env:USERNAME\Downloads\gits\TheRum\nugetPackageFiles\Microsoft2\system.txt"
+# BuildPackageList -PackageName "microsoft.*" -OutputFile "C:\Users\$env:USERNAME\Downloads\gits\TheRum\nugetPackageFiles\Microsoft2\microsoft.txt"
 # BuildPackageList -PackageName "mediatr*" -OutputFile "C:\Users\$env:USERNAME\Downloads\gits\TheRum\nugetPackageFiles\packageLists2\mediatr.txt"
 # BuildPackageList -PackageName "HotChocolate*" -OutputFile "C:\Users\$env:USERNAME\Downloads\gits\TheRum\nugetPackageFiles\packageLists2\HotChocolate.txt"
 # BuildPackageList -PackageName "Automapper*" -OutputFile "C:\Users\$env:USERNAME\Downloads\gits\TheRum\nugetPackageFiles\packageLists2\Automapper.txt"
@@ -282,6 +307,8 @@ foreach ($Source in $Sources) {
 # BuildPackageList -PackageName "microsoft.netCore*" -OutputFile "C:\Users\$env:USERNAME\Downloads\gits\TheRum\nugetPackageFiles\Microsoft2\dotnetcore.txt"
 # BuildPackageList -PackageName "microsoft.*blazor*" -OutputFile "C:\Users\$env:USERNAME\Downloads\gits\TheRum\nugetPackageFiles\Microsoft2\blazor.txt"
 # BuildPackageList -PackageName "blazor*" -OutputFile "C:\Users\$env:USERNAME\Downloads\gits\TheRum\nugetPackageFiles\packageLists2\blazor.txt"
+# BuildPackageList -PackageName "matblazor*" -OutputFile "C:\Users\$env:USERNAME\Downloads\gits\TheRum\nugetPackageFiles\packageLists2\blazor.txt"
+# BuildPackageList -PackageName "mudblazor*" -OutputFile "C:\Users\$env:USERNAME\Downloads\gits\TheRum\nugetPackageFiles\packageLists2\blazor.txt"
 # BuildPackageList -PackageName "runtime.*" -OutputFile "C:\Users\$env:USERNAME\Downloads\gits\TheRum\nugetPackageFiles\Microsoft2\runtime.txt"
 # BuildPackageList -PackageName "Microsoft.*runtime.*" -OutputFile "C:\Users\$env:USERNAME\Downloads\gits\TheRum\nugetPackageFiles\Microsoft2\runtime.txt"
 # BuildPackageList -PackageName "Microsoft.*" -OutputFile "C:\Users\$env:USERNAME\Downloads\gits\TheRum\nugetPackageFiles\Microsoft2\microsoft.txt"
@@ -300,7 +327,11 @@ foreach ($Source in $Sources) {
 # BuildPackageList -PackageName "powershell.*" -OutputFile "C:\Users\$env:USERNAME\Downloads\gits\TheRum\nugetPackageFiles\Microsoft2\powershell.txt"
 # BuildPackageList -PackageName "microsoft.*.signalr*" -OutputFile "C:\Users\$env:USERNAME\Downloads\gits\TheRum\nugetPackageFiles\Microsoft2\signalr.txt"
 # BuildPackageList -PackageName "signalr.*" -OutputFile "C:\Users\$env:USERNAME\Downloads\gits\TheRum\nugetPackageFiles\Microsoft2\signalr.txt"
+# BuildPackageList -PackageName "omnisharp.*" -OutputFile "C:\Users\$env:USERNAME\Downloads\gits\TheRum\nugetPackageFiles\packageLists2\omnisharp.txt"
 # BuildPackageList -PackageName "nuget.*" -OutputFile "C:\Users\$env:USERNAME\Downloads\gits\TheRum\nugetPackageFiles\Microsoft2\nuget.txt"
+# BuildPackageList -PackageName "microsoft.typescript*" -OutputFile "C:\Users\$env:USERNAME\Downloads\gits\TheRum\nugetPackageFiles\Microsoft2\typescript.txt"
+# BuildPackageList -PackageName "microsoft.*jsinterop*" -OutputFile "C:\Users\$env:USERNAME\Downloads\gits\TheRum\nugetPackageFiles\Microsoft2\typescript.txt"
+# BuildPackageList -PackageName "winget.*" -OutputFile "C:\Users\$env:USERNAME\Downloads\gits\TheRum\nugetPackageFiles\Microsoft2\winget.txt"
 # Add to and clean up a txt file based on an array of packages
 # BuildPackageList -PackageArray $PackageArray -OutputFile "C:\Users\$env:USERNAME\Downloads\gits\TheRum\nugetPackageFiles\packageLists2\system.txt"
 # Specify SearchSource
@@ -316,7 +347,7 @@ function BuildPackageList {
     # BuildPackageList -PackageName "Microsoft.*javascript*" -OutputFile "C:\Users\$env:USERNAME\Downloads\gits\TheRum\nugetPackageFiles\Microsoft2\javascript.txt"
     # BuildPackageList -PackageName "nuget.*" -OutputFile "C:\Users\$env:USERNAME\Downloads\gits\TheRum\nugetPackageFiles\Microsoft2\nuget.txt"
     # Add to and clean up a txt file based on an array of packages
-    # BuildPackageList -PackageArray $PackageArray -OutputFile "C:\Users\$env:USERNAME\Downloads\gits\TheRum\nugetPackageFiles\packageLists2\system.txt"
+    # BuildPackageList -PackageArray $PackageArray -OutputFile "C:\Users\$env:USERNAME\Downloads\gits\TheRum\nugetPackageFiles\Microsoft2\system.txt"
     # Specify SearchSource
     # BuildPackageList -PackageName "*vmware*" -SearchSource "BaGet_Posh" -OutputFile "C:\Users\$env:USERNAME\Downloads\gits\TheRum\nugetPackageFiles\PSGallery\vmware.txt"
     param (
@@ -506,7 +537,7 @@ function DeDupe-Nupkg() {
 
 
 
-$allFiles = "C:\Program Files (x86)\Microsoft SDKs", "C:\Users\$env:USERNAME\.nuget\packages", "D:\\Transfer\\ToMove\\nupkg", "D:\\Transfer\\ToMove\\gits", "C:\\Users\\$env:USERNAME\\AppData\\Local\\NuGet\\v3-cache", "C:\\Users\\$env:USERNAME\\source\\repos", "C:\\Users\\$env:USERNAME\\AppData\\Local\\PackageManagement\\NuGet\\Packages", "C:\\Program Files\\PackageManagement\\NuGet\\Packages"
+$allFiles = "C:\Program Files (x86)\Microsoft SDKs", "C:\Users\$env:USERNAME\.nuget\packages", "D:\\Transfer\\ToMove\\nupkg", "D:\\Transfer\\ToMove\\gits", "C:\\Users\\$env:USERNAME\\AppData\\Local\\NuGet\\v3-cache", "C:\\Users\\$env:USERNAME\\source\\repos", "C:\\Users\\$env:USERNAME\\AppData\\Local\\PackageManagement\\NuGet\\Packages", "C:\\Program Files\\PackageManagement\\NuGet\\Packages","C:\Users\\$env:USERNAME\\AppData\Local\NuGet\v3-cache","C:\packages","C:\Users\\$env:USERNAME\\AppData\Local\Temp\NuGetScratch","C:\Users\\$env:USERNAME\\AppData\Local\NuGet\plugins-cache"
 
 # Remove-Variable allFiles
 # DeDupe
@@ -605,10 +636,9 @@ function Prep-Nupkg() {
 
 
 
-Start-Sleep 3600
+# Start-Sleep 3600
 
-$allFiles = "C:\Program Files (x86)\Microsoft SDKs", "C:\Users\$env:USERNAME\.nuget\packages", "D:\\Transfer\\ToMove\\nupkg", "D:\\Transfer\\ToMove\\gits", "C:\\Users\\$env:USERNAME\\AppData\\Local\\NuGet\\v3-cache", "C:\\Users\\$env:USERNAME\\source\\repos", "C:\\Users\\$env:USERNAME\\AppData\\Local\\PackageManagement\\NuGet\\Packages", "C:\\Program Files\\PackageManagement\\NuGet\\Packages"
-
+$allFiles = "C:\Program Files (x86)\Microsoft SDKs", "C:\Users\$env:USERNAME\.nuget\packages", "D:\\Transfer\\ToMove\\nupkg", "D:\\Transfer\\ToMove\\gits", "C:\\Users\\$env:USERNAME\\AppData\\Local\\NuGet\\v3-cache", "C:\\Users\\$env:USERNAME\\source\\repos", "C:\\Users\\$env:USERNAME\\AppData\\Local\\PackageManagement\\NuGet\\Packages", "C:\\Program Files\\PackageManagement\\NuGet\\Packages","C:\Users\\$env:USERNAME\\AppData\Local\NuGet\v3-cache","C:\packages","C:\Users\\$env:USERNAME\\AppData\Local\Temp\NuGetScratch","C:\Users\\$env:USERNAME\\AppData\Local\NuGet\plugins-cache"
 
 # DeDupe-Nupkg -allFiles $allFiles
 Prep-Nupkg -allFiles $allFiles
@@ -682,6 +712,39 @@ gci "D:\Transfer\$(Get-Date -Format "yyyyMMdd")_nupkg.7z*" | foreach ({ mv $_ $g
 
 # Get-FileHash "*.7z*" | Format-List >> "PRE_DTA_HASH_$(Get-Date -Format "yyyyMMdd")_NAME.txt"
 Get-FileHash "$gdrive_destination\*.7z*" | Format-List >> "$shared_destination\PRE_DTA_HASH_$(Get-Date -Format "yyyyMMdd")_NAME.txt"
+
+################# 
+
+# $files = New-Object System.Collections.ArrayList
+# $files += gci -Recurse -File -Filter "*.sln"
+# $files += gci -Recurse -File -Filter "*.csproj"
+
+# $files | Foreach-Object {
+#     cd $_.Directory ;
+#     nuget restore ;
+#     dotnet restore ;
+#     dotnet build ;
+# }
+
+# cd D:\Transfer\ToMove\gits\blazorgits
+
+
+################# 
+################# 
+
+$files = New-Object System.Collections.ArrayList
+$files += gci -Recurse -File -Filter "*.sln"
+$files += gci -Recurse -File -Filter "*.csproj"
+
+$files | Foreach-Object {
+    cd $_.Directory ;
+    nuget restore $_.FullName;
+    dotnet restore $_.FullName;
+    # dotnet build $_.FullName;
+}
+# 
+cd D:\Transfer\ToMove\gits\blazorgits
+# cd D:\Transfer\ToMove\gits\blazorgits\testing
 
 ################# 
 ################# 

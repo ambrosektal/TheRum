@@ -66,6 +66,11 @@ docker run -it -v D:\Transfer\ToMove\repo\docker\el7:/opt/repo/docker  -v D:\Tra
 docker run -it -v D:\Transfer\ToMove\repo\docker\debian:/opt/repo/docker  -v D:\Transfer\ToMove\repo\opennms\el8:/opt/repo/opennms -v D:\Transfer\ToMove\repo\gitlab\el8:/opt/repo/gitlab -v D:\Transfer\ToMove\repo\depRepo\el8:/opt/repo/depRepo -v D:\Transfer\ToMove\repo\remi\el8:/opt/repo/remi -v D:\Transfer\ToMove\repo\configs\el8:/opt/repo/configs registry.access.redhat.com/ubi8/ubi:latest /bin/bash
 
 
+docker run -it -v D:\Transfer\ToMove\repo\debian\lens:/opt/repo/lens  -v D:\Transfer\ToMove\repo\debian\compass:/opt/repo/compass -v D:\Transfer\ToMove\repo\debian\mattermost:/opt/repo/mattermost debian:latest /bin/bash
+
+
+
+
 docker images
 # Find container name
 docker container ls
@@ -164,18 +169,55 @@ while ($true) {
 ###################                                                       ###################
 ###################                                                       ###################
 ###################################### Archive VSCSync ######################################
-## Fix for overcomplication...
+## Fix for overcomplication and 7z crc errors...
+
+
+# find /mnt/d/Transfer/software/vscodeoffline/artifacts -ctime -5 -type f -print0 | tar --null -czf - -T - | gpg --batch --passphrase YourPassphrase --symmetric --cipher-algo aes256 -o "/mnt/d/Transfer/Prep/$(date '+%Y%m%d')_vscodeoffline.tar.gz.gpg"
+
+# The "Inappropriate ioctl for device" and "Operation cancelled" errors related to GPG often occur when GPG is trying to interact with a terminal that it doesn't have access to. To resolve these issues, you can try the following:
+
+# 1. **Use `--batch` and `--passphrase` options:** Add the `--batch` option to the `gpg` command to run it in batch mode, and specify the passphrase using the `--passphrase` option. This will prevent GPG from attempting to interact with a terminal:
+
+# ```bash
+# find /mnt/d/Transfer/software/vscodeoffline/artifacts -ctime -5 -type f -print0 | tar --null -czf - -T - | gpg --batch --passphrase YourPassphrase --symmetric --cipher-algo aes256 -o "/mnt/d/Transfer/Prep/$(date '+%Y%m%d')_vscodeoffline.tar.gz.gpg"
+# ```
+
+# Replace `YourPassphrase` with your actual passphrase.
+
+# 2. **Start the GPG agent:** If you're still facing issues, you can try starting the GPG agent before running the command. You can start the agent by running:
+
+# ```bash
+# gpg-agent --daemon
+# ```
+
+# Then, run your original command with the GPG agent running.
+
+# 3. **Ensure GPG agent is properly configured:** Make sure that your GPG agent is properly configured, and you have the necessary permissions to use it. You may need to adjust your GPG configuration settings to work in your specific environment.
+
+# Additionally, ensure that you have the necessary permissions to read the files in the `find` command and write to the output directory specified in the `tar` and `gpg` commands.
+
+# If these steps do not resolve the issue, please provide more information about your system environment, GPG configuration, and any specific constraints you're working under so that I can offer more targeted advice.
+
+
+
 
 vscodedate=$(date '+%Y%m%d')
 
-# find /mnt/d/Transfer/software/vscodeoffline/artifacts -ctime -5 -type f -print0  | tar czf /mnt/d/Transfer/Prep/$(echo $vscodedate)_vscodeoffline.tar.gz --files-from=- 
-find /mnt/d/Transfer/software/vscodeoffline/artifacts -ctime -5 -type f -print0  | tar zf /mnt/d/Transfer/Prep/$(echo $vscodedate)_vscodeoffline.tar --files-from=-
+find /mnt/d/Transfer/software/vscodeoffline/artifacts -ctime -4 -type f -print0  | tar czf /mnt/d/Transfer/Prep/$(echo $vscodedate)_vscodeoffline.tar.gz --files-from=- 
+# find /mnt/d/Transfer/software/vscodeoffline/artifacts -ctime -5 -type f -print0  | tar cf /mnt/d/Transfer/Prep/$(echo $vscodedate)_vscodeoffline.tar --files-from=-
+
+# find /mnt/d/Transfer/software/vscodeoffline/artifacts -ctime -5 -type f -print0 | tar --null -czf - -T - | gpg --batch --passphrase YourPassphrase --symmetric --cipher-algo aes256 -o "/mnt/d/Transfer/Prep/$(date '+%Y%m%d')_vscodeoffline.tar.gz.gpg"
+
+# tar czvpf - file1.txt file2.pdf file3.jpg | gpg --symmetric --cipher-algo aes256 -o myarchive.tar.gz
 
 # Create folders in case the system throws errors about now folders
 mkdir -p /mnt/d/Transfer/$(echo $vscodedate)
 
+
+
 # Sets it to the DVD size
 7za a -v8128M -psimnet1 /mnt/d/Transfer/$(echo $vscodedate)/$(echo $vscodedate)_vscodeoffline.tar.7z /mnt/d/Transfer/Prep/$(echo $vscodedate)_vscodeoffline.tar.gz
+# 7za a -v8128M -psimnet1 /mnt/d/Transfer/$(echo $vscodedate)/$(echo $vscodedate)_vscodeoffline.tar.7z /mnt/d/Transfer/Prep/$(echo $vscodedate)_vscodeoffline.tar
 
 # Sets it to the 700M size
 # 7za a -v700M -psimnet1 /mnt/d/Transfer/$(echo $vscodedate)/$(echo $vscodedate)_vscodeoffline.tar.7z /mnt/d/Transfer/Prep/$(echo $vscodedate)_vscodeoffline.tar.gz

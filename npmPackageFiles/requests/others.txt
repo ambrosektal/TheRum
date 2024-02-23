@@ -6,3 +6,4 @@ font-awesome
 @fortawesome/fontawesome-free
 bootstrap-icons
 @iconify/svelte
+tinypool

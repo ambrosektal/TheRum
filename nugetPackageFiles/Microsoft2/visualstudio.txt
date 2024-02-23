@@ -55,6 +55,7 @@ Microsoft.VisualStudio.LanguageServer.Client
 Microsoft.VisualStudio.LanguageServer.Protocol
 Microsoft.VisualStudio.LanguageServer.Protocol.Extensions
 Microsoft.VisualStudio.LanguageServices
+Microsoft.VisualStudio.Linux.ConnectionManager.Store
 Microsoft.VisualStudio.LiveShare
 Microsoft.VisualStudio.LiveShare.LanguageServices
 Microsoft.VisualStudio.ManagedInterfaces

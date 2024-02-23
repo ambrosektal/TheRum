@@ -1,4 +1,7 @@
+Azure.ResourceManager.ConnectedVMwarevSphere
 Cisco.HXPowerCLI
+Google.Apis.VMwareEngine.v1
+Google.Cloud.VmwareEngine.V1
 Poshbot.VMware
 PowerCLI.SessionManager
 VMware.CDS.Community
