@@ -30,7 +30,7 @@ mkdir -p /mnt/d/Transfer/$(echo $npmdate)
 # # New test that removes package.json
 # # npmdate=$(date '+%Y%m%d')
 # # sudo find /mnt/d/Transfer/software/verdaccio/storage ! -name "package.json" -ctime -15 -type f -print0  | tar czf /mnt/d/Transfer/Prep/$(echo $npmdate)_storage_nopack_45.tar.gz --null --files-from=- 
-find /mnt/d/Transfer/software/verdaccio/storage ! -name "package.json" -ctime -10 -type f -print0  | tar czf /mnt/d/Transfer/Prep/$(echo $npmdate)_storage_nopack_45.tar.gz --null --files-from=- 
+find /mnt/d/Transfer/software/verdaccio/storage ! -name "package.json" -ctime -7 -type f -print0  | tar czf /mnt/d/Transfer/Prep/$(echo $npmdate)_storage_nopack_45.tar.gz --null --files-from=- 
 find /mnt/d/Transfer/ToMove/npmcache -ctime -7 -type f -print0 | tar czf /mnt/d/Transfer/Prep/$(echo $npmdate)_npmcache.tar.gz --null --files-from=- 
 find /mnt/d/Transfer/ToMove/nodepack -ctime -7 -type f -print0 | tar czf /mnt/d/Transfer/Prep/$(echo $npmdate)_nodepack.tar.gz --null --files-from=- 
 # find /mnt/d/.pnpm-store/v3 -ctime -7 -type f -print0 | tar czf /mnt/d/Transfer/Prep/$(echo $npmdate)_pnpm.tar.gz --null --files-from=- 
