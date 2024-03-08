@@ -412,7 +412,9 @@ SimpleNPMDownload -PackageListTxtFile "C:\\users\\$env:USERNAME\\Downloads\\gits
 # SimpleNPMDownload -PackageListTxtFile "C:\\Users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\requests\\vsphere.txt" 
 # SimpleNPMDownload -PackageListTxtFile "C:\\Users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\requests\\uiw.txt" 
 # SimpleNPMDownload -PackageListTxtFile "C:\\Users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\requests\\mdxeditor.txt" 
+# SimpleNPMDownload -PackageListTxtFile "C:\\Users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\requests\\rehyperemark.txt" 
 # SimpleNPMDownload -PackageListTxtFile "C:\\Users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\others\\needsUpdates.txt" 
+# SimpleNPMDownload -PackageListTxtFile "C:\\Users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\requests\\testing.txt" 
 # SimpleNPMDownload -PackageListTxtFile "C:\\Users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\TopLists\\TopPackages20230227.txt" 
 # SimpleNPMDownload -InstallDirectory "D:\Transfer\Staging\node" -PackageListTxtFile "C:\\Users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\svelte.txt"
 # SimpleNPMDownload -InstallDirectory "D:\Transfer\Moved\node" -PackageListTxtFile "C:\\Users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\packageLists\\requests.txt" 
@@ -1198,7 +1200,7 @@ function NPMVersionsDownload {
                     $package = npm info $_ --json | convertFrom-json
                     # $package.versions[$($($package.versions).count/2)..$($($package.versions).count)]
                     # $package.versions | Foreach-Object -Parallel {
-                    $package.versions | Foreach-Object {
+                    $package.versions | Sort-Object Version -Desc | Select-Object -First 10 | Foreach-Object {
                     # $package.versions[$($($package.versions).count/2)..$($($package.versions).count)] | Foreach-Object -Parallel {
                     # $package.versions[$($($package.versions).count/2)..$($($package.versions).count)] | Foreach-Object {
                         # $package=$using:package
