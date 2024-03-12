@@ -179,7 +179,6 @@ babel-preset-miaoxing
 babel-preset-o
 babel-preset-o-app
 babel-preset-o-module
-babel-preset-preact
 babel-preset-primavera
 babel-preset-u-scripts
 babel-preset-vca-jsx

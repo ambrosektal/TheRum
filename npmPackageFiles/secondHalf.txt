@@ -914,8 +914,6 @@ postcss-selector-parser
 postcss-svgo
 postcss-unique-selectors
 postcss-value-parser
-preact-r-dom
-preact-ssr-prepass
 precharts
 precompile-intl-runtime
 prelude-ls

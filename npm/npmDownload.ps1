@@ -112,97 +112,8 @@ Stop-Transcript
 Write-Host "Total execution time: $($executionTime.TotalMilliseconds) ms"
 ##################################################################################################################
 
-######################################
-
-
-# $outfile = "C:\\Users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\npmPackages.txt"
-# $searchterm = "svelte"
-# (npm search -p $searchterm).foreach({ ($_.split(" ")[0]).split("`t")[0] })
-
-# # Pulling all previously downloaded packages
-# ## Yes I know I am doing more operations than needed. Leave me alone. I'm sick of these things failing and starting the process over.
-# (gci -recurse -Directory "D:\Transfer\ToMove\software\verdaccio\storage\data\").FullName.Trim('D:\Transfer\ToMove\software\verdaccio\storage\data\').TrimEnd("-").TrimStart("-").Replace("\","/") > D:\Transfer\packagenames.txt
-# $checkfiles = gc D:\Transfer\packagenames.txt | Sort-Object -Unique
-# Install-NpmPackages -PackageArray $checkfiles -AllLatest
-# Install-NpmPackages -PackageArray $($files | Select-String mui) -AllLatest
-#
-## Another window:::
-# while($true){ 
-# rm -Force D:\Transfer\ToMove\node\package* ; 
-# rm -Force D:\Transfer\Staging\node\package* ; 
-# rm -Force D:\Transfer\Moved\node\package* ; 
-# Start-Sleep 120
-# }
-
-# Finding files modified only in the last X days
-# gci -Recurse -Filter "*.tgz" | Where{$($_.GetType().Name -eq "FileInfo") -and $($_.LastWriteTime -ge (Get-Date).AddDays(-4))}
-
-# Powershell backup new and cleanup
-# UNTESTED!!!
-# $dirs = (gci -Recurse | Where{$($_.GetType().Name -eq "DirectoryInfo") -and $($_.LastWriteTime -ge (Get-Date).AddDays(-1))})
-# $dirs.foreach({cp -recurse $_ D:\Transfer\ToMove\software\verdaccio\backup\ })
-# gci -Recurse -Filter "*.tgz" | Where{$($_.GetType().Name -eq "FileInfo") -and $($_.LastWriteTime -ge (Get-Date).AddDays(+4))} | remove-item -force
-
-
-# # Splitting up the packages in 3rds
-# $files = get-content "C:\\Users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\npmPackages.txt"
-# $totalFiles = $files.count
-# $split3rdFiles = $totalFiles / 3
-# $1splitFiles = $($files[1..$($totalFiles - ($split3rdFiles*2))])
-# $2splitFiles = $($files[$split3rdFiles..($totalFiles - $split3rdFiles)])
-# $3splitFiles = $($files[($split3rdFiles * 2)..$totalFiles])
-
-# Clean list from git up
-# $topfiles = (gc C:\Users\$env:USERNAME\Documents\npm.txt).foreach({$_.split('[').split(']')[1]})
-# $topfiles = $topfiles | sort-object -unique
-# $topfiles > C:\Users\$env:USERNAME\Downloads\gits\TheRum\npmPackageFiles\TopPackages.txt
-
-# pull a bunch of github repos from a list
-# $gits = gc ..\..\..\gits\TheRum\npmPackageFiles\github\svelte.txt
-# $gits.foreach({git clone --recurse $_})
-
-# Git Repo cycle through:
-# $files = gci . -Recurse -Filter package.json
-# $files.foreach({cd $_.Directory && npm i --force && npm audit fix --force})
-## $files.foreach({cd $_.Parent && npm i --force && npm audit fix --force})
-
-# $reactFiles = $(97..122).foreach({ npm search -p "react-$([char]$_)" })
-# $reactFiles.foreach({npm install --force $($_.split("`t")[0])})
-
-# $(npm search react ).foreach({npm install --force $($_.split("`t")[0])})
-
-# # Basic Download
-# $files = gc "C:\\Users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\react.txt"
-# $files = $files | Sort-Object | Get-unique
-# $files.foreach({npm i $_ --force ; npm audit fix ; npm audit fix --force ;  rm -r -Force "D:\Transfer\Moved\node\*"})
-
-# # crazy way of getting all listed packages
-# ## really think this will be stupid....
-# ## Seems to work, but need to test out garbage collection.
-####TODO Breaks at some point. Need to look into this.
-# //?
-# //!
-# cd "D:\Transfer\ToMove\node\"
-# $txtfiles = (gci -recurse C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\*.txt)
-# foreach($file in $txtfiles){$(gc $file | Sort-Object -Unique ).Foreach({
-#     npm i $_ --force ; npm audit fix ; npm audit fix --force ; rm -r -Force "D:\Transfer\ToMove\node\*"
-#     [System.GC]::Collect()
-#     })
-# }
-### Alternative method
-$txtfiles = (gci -recurse C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\react.txt)
-
-$txtfiles = (gci -recurse C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\bun.txt)
-$txtfiles = (gci -recurse C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\mantine.txt)
-$txtfiles = (gci -recurse C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\svelte.txt)
-$txtfiles = (gci -recurse C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\express.txt)
-$txtfiles = (gci -recurse C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\firebase.txt)
-$txtfiles = (gci -recurse C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\packageLists\\mattermost.txt)
-$txtfiles = (gci -recurse C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\packageLists\\requests.txt)
-$txtfiles = (gci -recurse C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\requests\\createapps.txt)
-
-
-############################
+# <EXAMPLE 3>
+## Build text files of all the npm packages to download
 
 $txtfiles = (gci -recurse C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\ -Filter "*.txt")
 # $txtfiles = (gci -recurse C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\requests\\ -Filter "*.txt")
@@ -315,8 +226,10 @@ SimpleNPMDownload -PackageListTxtFile "C:\\users\\$env:USERNAME\\Downloads\\gits
 # SimpleNPMDownload -PackageListTxtFile "C:\\Users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\others\\needsUpdates.txt" 
 # SimpleNPMDownload -PackageListTxtFile "C:\\Users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\requests\\testing.txt" 
 # SimpleNPMDownload -PackageListTxtFile "C:\\Users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\TopLists\\TopPackages20230227.txt" 
+
 # SimpleNPMDownload -InstallDirectory "D:\Transfer\Staging\node" -PackageListTxtFile "C:\\Users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\svelte.txt"
 # SimpleNPMDownload -InstallDirectory "D:\Transfer\Moved\node" -PackageListTxtFile "C:\\Users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\packageLists\\requests.txt" 
+
 # SimpleNPMDownload -DirectoryOfPackageListTxtFiles "C:\\Users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\requests"
 # SimpleNPMDownload -DirectoryOfPackageListTxtFiles "C:\\Users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\others"
 # SimpleNPMDownload -DirectoryOfPackageListTxtFiles "C:\\Users\\$env:USERNAME\\Downloads\\gits\\TheRum\\npmPackageFiles\\TopLists"

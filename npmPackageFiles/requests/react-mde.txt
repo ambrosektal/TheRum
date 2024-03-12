@@ -9,7 +9,6 @@ fc-mde
 hakim-react-mde
 itk-react-mde
 mde-react
-preact-mde
 react-headless-mde
 react-mde
 react-mde-amir

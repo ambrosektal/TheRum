@@ -707,7 +707,6 @@ postcss-normalize
 postcss-preset-env
 postcss-safe-parser
 pouchdb
-preact
 prettier
 pretty-bytes
 pretty-error
