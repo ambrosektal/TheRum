@@ -1063,7 +1063,7 @@ function Prep-NpmJson() {
         $toDeDupeCopy = $allFiles | foreach-object -Parallel ({ Get-ChildItem "*.tgz" -Recurse -Path $_ })
     }
         # Comparing file list with actual file names
-        $outputdir = "C:\\Users\\$env:USERNAME\\Downloads\\"
+        $outputdir = "C:\\Users\\$env:USERNAME\\Downloads\\gits\\TheRum"
 
         if (Test-Path "$outputdir\npmOutput.json") {
             $files = gc "$outputdir\npmOutput.json" | convertfrom-json
