@@ -58,7 +58,7 @@
 # docker save $(echo ${pulled}) | gzip --stdout > ${images}
 
 
-$list= gc "images.txt"
+$list= Get-Content "images.txt"
 $images="images.tar.gz"
 
 $pulled = New-Object System.Collections.ArrayList

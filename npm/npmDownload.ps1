@@ -1048,3 +1048,65 @@ function NPMVersionsDownload {
     }
     # Remove-Item -r -Force "$InstallDirectory\*"
 }
+
+
+
+function Prep-NpmJson() {
+    param(
+        [System.Collections.Arraylist]$allFiles
+    )
+
+    if (!$allFiles) {
+        $toDeDupeCopy = Get-ChildItem -Filter "*.tgz" -Recurse -Path "D:\\Transfer\\software\\verdaccio\\storage\\data" | Where-Object { $($_.GetType().Name -eq "FileInfo") }
+    }
+    else {
+        $toDeDupeCopy = $allFiles | foreach-object -Parallel ({ Get-ChildItem "*.tgz" -Recurse -Path $_ })
+    }
+        # Comparing file list with actual file names
+        $outputdir = "C:\\Users\\$env:USERNAME\\Downloads\\"
+
+        if (Test-Path "$outputdir\npmOutput.json") {
+            $files = gc "$outputdir\npmOutput.json" | convertfrom-json
+            $files += Get-ChildItem -Recurse -Path 'D:\Transfer\software\verdaccio\storage\data' -Filter "*.tgz" | Select-Object Name, FullName, CreationTime, LastWriteTime, Length 
+        }
+        else {
+            $files += Get-ChildItem -Recurse -Path 'D:\Transfer\software\verdaccio\storage\data' -Filter "*.tgz" | Select-Object Name, FullName, CreationTime, LastWriteTime, Length 
+        }
+
+        # Use a hashtable to remember which names have been seen
+        $seenNames = @{}
+
+        # Create an array to store the objects with unique names
+        $uniqueObjects = @()
+
+        $files.count
+
+        # Loop through each object in the original array
+        foreach ($object in $files) {
+            # Check if the name has been seen before
+            if (-not $seenNames.ContainsKey($object.name)) {
+                # Add the name to the hashtable
+                $seenNames[$object.name] = $true
+
+                # Add the object to the array of unique objects
+                $uniqueObjects += $object
+            }
+        }
+
+        $files = $uniqueObjects
+
+        $files.count
+
+        Write-Host "Creating new output file..."
+
+        $files | ConvertTo-Json | Out-File "$outputdir\$(Get-Date -Format "yyyyMMdd")_npmOutput.json"
+
+        Write-Host "Copying new output file..."
+
+        Copy-Item -Force "$outputdir\$(Get-Date -Format "yyyyMMdd")_npmOutput.json" "$outputdir\npmOutput.json"
+
+        Write-Host "Gathering ToMove Files..."
+
+        [system.gc]::collect()
+
+}
