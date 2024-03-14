@@ -18,7 +18,9 @@ foreach($directory in $directories){
 # (gc latest.json | convertfrom-json).statistics.GetValue(0).value
 # (gci -Recurse -Filter "latest.json" | where-object {(gc $_ | convertfrom-json).statistics.GetValue(0).value -lt 10000 }).Directory | rm -r -force
 (((gci -Recurse -Filter "latest.json" | where-object {(gc $_ | convertfrom-json).statistics.GetValue(0).value -lt 5000 }).Directory) | Where-Object {($_.Name -notlike "ms-*") -and ($_.Name -notlike "*svelte*")}).count
-# (((gci -Recurse -Filter "latest.json" | where-object {(gc $_ | convertfrom-json).statistics.GetValue(0).value -lt 5000 }).Directory) | Where-Object {($_.Name -notlike "ms-*") -and ($_.Name -notlike "*svelte*")}) | rm -r -Force
+$removeMe = (((gci -Recurse -Filter "latest.json" | where-object {(gc $_ | convertfrom-json).statistics.GetValue(0).value -lt 1000 }).Directory) | Where-Object {($_.Name -notlike "ms-*") -and ($_.Name -notlike "*svelte*")})
+$keepMe = (((gci -Recurse -Filter "latest.json" | where-object {(gc $_ | convertfrom-json).statistics.GetValue(0).value -gt 5000 }).Directory) )
+# (((gci -Recurse -Filter "latest.json" | where-object {(gc $_ | convertfrom-json).statistics.GetValue(0).value -lt 2000 }).Directory) | Where-Object {($_.Name -notlike "ms-*") -and ($_.Name -notlike "*svelte*")}) | rm -r -Force
 
 
 # clean up specified.json

@@ -228,12 +228,6 @@ babel-plugin-recharts
 babel-plugin-transform-import
 babel-plugin-transform-imports
 babel-preset-react-app
-bizcharts
-bizcharts-ios15
-bizcharts-mobile
-bizcharts-plugin-slider
-bizcharts-plugin-slier
-bizcharts-venn
 chartjs-2-react
 chartjs-plugin-doughnut-innertext
 chartjs-plugin-lineheight-annotation-forked
