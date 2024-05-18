@@ -30,14 +30,14 @@ $Sources = "https://api.nuget.org/v3/index.json",
 
 foreach ($Source in $Sources) {
     Invoke-ParNugetDown -FirstHalf -Directory "C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\nugetPackageFiles\\Microsoft2" -Source $Source
-    Invoke-ParNugetDown -FirstHalf -Directory "C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\nugetPackageFiles\\packageLists2" -Source $Source
+    # Invoke-ParNugetDown -FirstHalf -Directory "C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\nugetPackageFiles\\packageLists2" -Source $Source
     Invoke-ParNugetDown -FirstHalf -Directory "C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\nugetPackageFiles\\PSGallery" -Source $Source
 }
 
 
 foreach ($Source in $Sources) {
     Invoke-ParNugetDown -SecondHalf -Directory "C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\nugetPackageFiles\\Microsoft2" -Source $Source
-    Invoke-ParNugetDown -SecondHalf -Directory "C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\nugetPackageFiles\\packageLists2" -Source $Source
+    # Invoke-ParNugetDown -SecondHalf -Directory "C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\nugetPackageFiles\\packageLists2" -Source $Source
     Invoke-ParNugetDown -SecondHalf -Directory "C:\\users\\$env:USERNAME\\Downloads\\gits\\TheRum\\nugetPackageFiles\\PSGallery" -Source $Source
 }
 
@@ -537,7 +537,8 @@ function DeDupe-Nupkg() {
 
 
 
-$allFiles = "C:\Program Files (x86)\Microsoft SDKs", "C:\Users\$env:USERNAME\.nuget\packages", "D:\\Transfer\\ToMove\\nupkg", "D:\\Transfer\\ToMove\\gits", "C:\\Users\\$env:USERNAME\\AppData\\Local\\NuGet\\v3-cache", "C:\\Users\\$env:USERNAME\\source\\repos", "C:\\Users\\$env:USERNAME\\AppData\\Local\\PackageManagement\\NuGet\\Packages", "C:\\Program Files\\PackageManagement\\NuGet\\Packages","C:\Users\\$env:USERNAME\\AppData\Local\NuGet\v3-cache","C:\packages","C:\Users\\$env:USERNAME\\AppData\Local\Temp\NuGetScratch","C:\Users\\$env:USERNAME\\AppData\Local\NuGet\plugins-cache"
+$allFiles = "C:\Program Files (x86)\Microsoft SDKs", "C:\Users\$env:USERNAME\.nuget\packages", "D:\\Transfer\\ToMove\\nupkg", "D:\\Transfer\\ToMove\\gits", "C:\\Users\\$env:USERNAME\\AppData\\Local\\NuGet\\v3-cache", "C:\\Users\\$env:USERNAME\\source\\repos", "C:\\Users\\$env:USERNAME\\AppData\\Local\\PackageManagement\\NuGet\\Packages", "C:\\Program Files\\PackageManagement\\NuGet\\Packages","C:\Users\\$env:USERNAME\\AppData\Local\NuGet\v3-cache","C:\packages","C:\Users\\$env:USERNAME\\AppData\Local\Temp\NuGetScratch","C:\Users\\$env:USERNAME\\AppData\Local\NuGet\plugins-cache", "C:\\Program Files\\dotnet\\library-packs", "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\"
+
 
 # Remove-Variable allFiles
 # DeDupe
@@ -638,7 +639,7 @@ function Prep-Nupkg() {
 
 # Start-Sleep 3600
 
-$allFiles = "C:\Program Files (x86)\Microsoft SDKs", "C:\Users\$env:USERNAME\.nuget\packages", "D:\\Transfer\\ToMove\\nupkg", "D:\\Transfer\\ToMove\\gits", "C:\\Users\\$env:USERNAME\\AppData\\Local\\NuGet\\v3-cache", "C:\\Users\\$env:USERNAME\\source\\repos", "C:\\Users\\$env:USERNAME\\AppData\\Local\\PackageManagement\\NuGet\\Packages", "C:\\Program Files\\PackageManagement\\NuGet\\Packages","C:\Users\\$env:USERNAME\\AppData\Local\NuGet\v3-cache","C:\packages","C:\Users\\$env:USERNAME\\AppData\Local\Temp\NuGetScratch","C:\Users\\$env:USERNAME\\AppData\Local\NuGet\plugins-cache"
+$allFiles = "C:\Program Files (x86)\Microsoft SDKs", "C:\Users\$env:USERNAME\.nuget\packages", "D:\\Transfer\\ToMove\\nupkg", "D:\\Transfer\\ToMove\\gits", "C:\\Users\\$env:USERNAME\\AppData\\Local\\NuGet\\v3-cache", "C:\\Users\\$env:USERNAME\\source\\repos", "C:\\Users\\$env:USERNAME\\AppData\\Local\\PackageManagement\\NuGet\\Packages", "C:\\Program Files\\PackageManagement\\NuGet\\Packages","C:\Users\\$env:USERNAME\\AppData\Local\NuGet\v3-cache","C:\packages","C:\Users\\$env:USERNAME\\AppData\Local\Temp\NuGetScratch","C:\Users\\$env:USERNAME\\AppData\Local\NuGet\plugins-cache", "C:\\Program Files\\dotnet\\library-packs"
 
 # DeDupe-Nupkg -allFiles $allFiles
 Prep-Nupkg -allFiles $allFiles
@@ -738,7 +739,17 @@ $files += gci -Recurse -File -Filter "*.csproj"
 
 $files | Foreach-Object {
     cd $_.Directory ;
-    nuget restore $_.FullName;
+    # nuget restore $_.FullName;
+    dotnet workload restore ;
+    dotnet restore $_.FullName;
+    # dotnet build $_.FullName;
+}
+
+# Linux
+## Use pwsh
+
+$files | Foreach-Object {
+    cd $_.Directory ;
     dotnet restore $_.FullName;
     # dotnet build $_.FullName;
 }

@@ -1,0 +1,14 @@
+npm
+npm-cli
+typescript
+tslint
+eslint
+prettier
+react
+vite
+svelte
+rollup
+moment
+axios
+socket.io
+nodemon

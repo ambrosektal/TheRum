@@ -203,7 +203,7 @@ while ($true) {
 
 vscodedate=$(date '+%Y%m%d')
 
-find /mnt/d/Transfer/software/vscodeoffline/artifacts -ctime -4 -type f -print0  | tar czf /mnt/d/Transfer/Prep/$(echo $vscodedate)_vscodeoffline.tar.gz --files-from=- 
+find /mnt/d/Transfer/software/vscodeoffline/artifacts -ctime -10 -type f -print0  | tar czf /mnt/d/Transfer/Prep/$(echo $vscodedate)_vscodeoffline.tar.gz --files-from=- 
 # find /mnt/d/Transfer/software/vscodeoffline/artifacts -ctime -5 -type f -print0  | tar cf /mnt/d/Transfer/Prep/$(echo $vscodedate)_vscodeoffline.tar --files-from=-
 
 # find /mnt/d/Transfer/software/vscodeoffline/artifacts -ctime -5 -type f -print0 | tar --null -czf - -T - | gpg --batch --passphrase YourPassphrase --symmetric --cipher-algo aes256 -o "/mnt/d/Transfer/Prep/$(date '+%Y%m%d')_vscodeoffline.tar.gz.gpg"

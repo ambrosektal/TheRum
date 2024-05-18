@@ -1,0 +1,26 @@
+# Use the official Golang image as the base image
+FROM golang:latest
+
+# Set the working directory inside the container
+WORKDIR /app
+
+# Install Node.js and npm
+# RUN apt-get update && apt-get install -y curl \
+#     && curl -sL https://deb.nodesource.com/setup_14.x | bash - \
+#     && apt-get install -y nodejs \
+#     && npm install -g npm
+RUN apt-get update && apt-get install -y curl \
+    && apt-get install -y npm 
+# Install TypeScript globally
+RUN npm install -g typescript
+
+# Verify the installations
+RUN go version
+RUN node -v
+RUN npm -v
+RUN tsc -v
+
+RUN mkdir -p /root/.vscode-server/extensions
+
+# Set the default command
+CMD ["bash"]

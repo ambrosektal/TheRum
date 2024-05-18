@@ -1,9 +1,12 @@
 Azure.ResourceManager.ConnectedVMwarevSphere
 Cisco.HXPowerCLI
+dotnet-dpz3-vdisk
+Egg.VirtualDisk
 Google.Apis.VMwareEngine.v1
 Google.Cloud.VmwareEngine.V1
 Poshbot.VMware
 PowerCLI.SessionManager
+Vanara.VirtualDisk
 VMware.CDS.Community
 VMware.CfgMax
 VMware.Cloud.Director.Community

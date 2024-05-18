@@ -4,6 +4,7 @@ easyvc
 node-vsphere-soap
 ts-vcenter
 vcenter-client
+vcenter-rest-client
 velocity-parser
 vikashpr
 vmware_vcenter_converter_standalone_v4_0_1_portable_11_dwq

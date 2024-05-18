@@ -1,0 +1,71 @@
+# Using the Docker Command Line
+# 
+# Step 1: Create a network
+# 
+
+docker network create moodle-network
+
+# 
+# Step 2: Create a volume for MariaDB persistence and create a MariaDB container
+# 
+
+docker volume create --name mariadb_data
+
+# 
+
+# docker run -d --name mariadb \
+#   --env ALLOW_EMPTY_PASSWORD=yes \
+#   --env MARIADB_USER=bn_moodle \
+#   --env MARIADB_PASSWORD=bitnami \
+#   --env MARIADB_DATABASE=bitnami_moodle \
+#   --network moodle-network \
+#   --volume mariadb_data:/bitnami/mariadb \
+#   bitnami/mariadb:latest
+
+docker run -d --name mariadb `
+  --env ALLOW_EMPTY_PASSWORD=yes `
+  --env MARIADB_USER=bn_moodle `
+  --env MARIADB_PASSWORD=bitnami `
+  --env MARIADB_DATABASE=bitnami_moodle `
+  --volume mariadb_data:/bitnami/mariadb `
+  --network moodle-network `
+  bitnami/mariadb:latest
+
+# Create the database users and schema
+
+
+
+# 
+# Step 3: Create volumes for Moodle™ persistence and launch the container
+# 
+
+docker volume create --name moodle_data
+# 
+
+# docker run -d --name moodle \
+#   -p 8080:8080 -p 8443:8443 \
+#   --env ALLOW_EMPTY_PASSWORD=yes \
+#   --env MOODLE_DATABASE_USER=bn_moodle \
+#   --env MOODLE_DATABASE_PASSWORD=bitnami \
+#   --env MOODLE_DATABASE_NAME=bitnami_moodle \
+#   --network moodle-network \
+#   --volume moodle_data:/bitnami/moodle \
+#   --volume moodledata_data:/bitnami/moodledata \
+#   bitnami/moodle:latest
+
+docker run -d --name moodle `
+  -p 8080:8080 -p 8443:8443 `
+  --env ALLOW_EMPTY_PASSWORD=yes `
+  --env MOODLE_DATABASE_USER=bn_moodle `
+  --env MOODLE_DATABASE_PASSWORD=bitnami `
+  --env MOODLE_DATABASE_NAME=bitnami_moodle `
+  --volume moodledata_data:/bitnami/moodledata `
+  --network moodle-network `
+  bitnami/moodle:latest
+
+
+
+# Docker command to start ambrosektal/golang-dev:20240515 with volumes mounted at /app, and /root/.vscode-server/extensions
+docker run -d -it --rm -v D:\\Volumes\\golang\\Projects:/app -v D:\\Volumes\\golang\\vscode-server\\extensions:/root/.vscode-server/extensions ambrosektal/golang-dev:20240515
+
+

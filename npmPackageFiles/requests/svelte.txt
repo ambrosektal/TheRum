@@ -155,6 +155,7 @@ icon-pack-svelte-heroicons
 language-svelte
 material-svelte
 myui-qiangliar
+plantir-uikit
 plexion-designs
 qei-components
 react-daisyui
@@ -197,6 +198,7 @@ svelte-fa
 svelte-favicon-badge
 svelte-filerouter
 svelte-flex
+svelte-floating-ui
 svelte-fluent
 svelte-form-validation
 svelte-form-zod
@@ -255,6 +257,7 @@ svelte-material-ui
 svelte-meta-tags
 svelte-modal-z
 svelte-moveable
+svelte-multi-theme
 svelte-native-drag-drop
 svelte-navaid
 svelte-navigation
@@ -276,6 +279,7 @@ svelte-q
 svelte-radio-checkbox-z
 svelte-reactive-form
 svelte-redux-toolkit
+svelte-render
 svelte-render-md
 svelte-resize
 svelte-rodry-common
