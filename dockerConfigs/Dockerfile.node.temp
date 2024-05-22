@@ -1,0 +1,27 @@
+# Use the official Golang image as the base image
+FROM node:latest
+
+RUN mkdir -p /root/tempnode
+
+# Set the working directory inside the container
+WORKDIR /root/tempnode
+
+# Install Node.js and npm
+# RUN apt-get update && apt-get install -y curl \
+#     && apt-get install -y npm 
+RUN apt-get update && apt-get install -y curl 
+
+# Install TypeScript globally
+RUN npm install -g typescript
+
+# Verify the installations
+RUN node -v
+RUN npm -v
+RUN tsc -v
+
+RUN mkdir -p /root/.vscode-server/extensions
+
+RUN npm config set registry=http://192.168.0.40:4873
+
+# Set the default command
+CMD ["bash"]
