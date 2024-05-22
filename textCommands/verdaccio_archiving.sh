@@ -33,9 +33,12 @@ find /verdaccio/storage ! -name "package.json" -ctime -14 -type f -print0  | tar
 # Linux Version of Docker Verdaccio
 sudo su
 npmdate=$(date '+%Y%m%d')
-mkdir -p /opt/transfer/$(echo $npmdate)
-find /opt/verdaccio/storage ! -name "package.json" -ctime -14 -type f -print0  | tar czf /opt/transfer/$(echo $npmdate)/$(echo $npmdate)_storage_nopack.tar.gz --files-from=- 
+# mkdir -p /opt/transfer/$(echo $npmdate)
+mkdir -p /opt/verdaccio/transfer/$(echo $npmdate)
+find /verdaccio/storage ! -name "package.json" -ctime -14 -type f -print0  | tar czf /opt/verdaccio/transfer/$(echo $npmdate)/$(echo $npmdate)_storage_nopack.tar.gz --files-from=- 
+7z -psimnet1 a /opt/verdaccio/transfer/$(echo $npmdate)/$(echo $npmdate)_storage_nopack.tar.7z /opt/verdaccio/transfer/$(echo $npmdate)/
 
+rm -f /opt/verdaccio/transfer/$(echo $npmdate)/$(echo $npmdate)_storage_nopack.tar.gz
 
 # find /mnt/d/Transfer/ToMove/nodepack -ctime -7 -type f -print0 | tar czf /mnt/d/Transfer/Prep/$(echo $npmdate)_nodepack.tar.gz --null --files-from=- 
 # find /mnt/d/.pnpm-store/v3 -ctime -7 -type f -print0 | tar czf /mnt/d/Transfer/Prep/$(echo $npmdate)_pnpm.tar.gz --null --files-from=- 
