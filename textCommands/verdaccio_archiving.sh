@@ -30,6 +30,12 @@ find /mnt/d/Transfer/ToMove/npmcache -ctime -14 -type f -print0 | tar czf /mnt/d
 # SingleVerdaccio
 find /verdaccio/storage ! -name "package.json" -ctime -14 -type f -print0  | tar czf /opt/$(echo $npmdate)_storage_nopack_45.tar.gz --files-from=- 
 
+# Linux Version of Docker Verdaccio
+sudo su
+npmdate=$(date '+%Y%m%d')
+mkdir -p /opt/transfer/$(echo $npmdate)
+find /opt/verdaccio/storage ! -name "package.json" -ctime -14 -type f -print0  | tar czf /opt/transfer/$(echo $npmdate)/$(echo $npmdate)_storage_nopack.tar.gz --files-from=- 
+
 
 # find /mnt/d/Transfer/ToMove/nodepack -ctime -7 -type f -print0 | tar czf /mnt/d/Transfer/Prep/$(echo $npmdate)_nodepack.tar.gz --null --files-from=- 
 # find /mnt/d/.pnpm-store/v3 -ctime -7 -type f -print0 | tar czf /mnt/d/Transfer/Prep/$(echo $npmdate)_pnpm.tar.gz --null --files-from=- 
