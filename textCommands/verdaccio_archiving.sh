@@ -8,37 +8,41 @@
 ###################                                                       ###################
 ###################################### Archive Verdaccio ####################################
 
-sudo su
+# sudo su
 
-npmdate=$(date '+%Y%m%d')
-mkdir -p /mnt/d/Transfer/$(echo $npmdate)
+# npmdate=$(date '+%Y%m%d')
+# mkdir -p /mnt/d/Transfer/$(echo $npmdate)
 
-# ### Grab the files from the verdaccio container and gpg encrypt them
-# find /mnt/d/Transfer/software/verdaccio/storage ! -name "package.json" -ctime -5 -type f -print0 | tar --null -czf - -T - | gpg --batch --passphrase YourPassphrase --symmetric --cipher-algo aes256 -o "/mnt/d/Transfer/Prep/$(date '+%Y%m%d')_storage_nopack_45.tar.gz.gpg"
+# # ### Grab the files from the verdaccio container and gpg encrypt them
+# # find /mnt/d/Transfer/software/verdaccio/storage ! -name "package.json" -ctime -5 -type f -print0 | tar --null -czf - -T - | gpg --batch --passphrase YourPassphrase --symmetric --cipher-algo aes256 -o "/mnt/d/Transfer/Prep/$(date '+%Y%m%d')_storage_nopack_45.tar.gz.gpg"
 
-# ### Grab the files from the npm cache and gpg encrypt them
-# find /mnt/d/Transfer/ToMove/npmcache -ctime -5 -type f -print0 | tar --null -czf - -T - | gpg --batch --passphrase YourPassphrase --symmetric --cipher-algo aes256 -o "/mnt/d/Transfer/Prep/$(date '+%Y%m%d')_npm_cache.tar.gz.gpg"
+# # ### Grab the files from the npm cache and gpg encrypt them
+# # find /mnt/d/Transfer/ToMove/npmcache -ctime -5 -type f -print0 | tar --null -czf - -T - | gpg --batch --passphrase YourPassphrase --symmetric --cipher-algo aes256 -o "/mnt/d/Transfer/Prep/$(date '+%Y%m%d')_npm_cache.tar.gz.gpg"
 
 
-# ### Grab the files from the nodepack folder and gpg encrypt them
-# find /mnt/d/Transfer/ToMove/nodepack -ctime -5 -type f -print0 | tar --null -czf - -T - | gpg --batch --passphrase YourPassphrase --symmetric --cipher-algo aes256 -o "/mnt/d/Transfer/Prep/$(date '+%Y%m%d')_nodepack.tar.gz.gpg"
+# # ### Grab the files from the nodepack folder and gpg encrypt them
+# # find /mnt/d/Transfer/ToMove/nodepack -ctime -5 -type f -print0 | tar --null -czf - -T - | gpg --batch --passphrase YourPassphrase --symmetric --cipher-algo aes256 -o "/mnt/d/Transfer/Prep/$(date '+%Y%m%d')_nodepack.tar.gz.gpg"
 
-find /mnt/d/Transfer/software/verdaccio/storage ! -name "package.json" -ctime -14 -type f -print0  | tar czf /mnt/d/Transfer/Prep/$(echo $npmdate)_storage_nopack_45.tar.gz --null --files-from=- 
+# find /mnt/d/Transfer/software/verdaccio/storage ! -name "package.json" -ctime -14 -type f -print0  | tar czf /mnt/d/Transfer/Prep/$(echo $npmdate)_storage_nopack_45.tar.gz --null --files-from=- 
 
-find /mnt/d/Transfer/ToMove/npmcache -ctime -14 -type f -print0 | tar czf /mnt/d/Transfer/Prep/$(echo $npmdate)_npmcache.tar.gz --null --files-from=- 
+# find /mnt/d/Transfer/ToMove/npmcache -ctime -14 -type f -print0 | tar czf /mnt/d/Transfer/Prep/$(echo $npmdate)_npmcache.tar.gz --null --files-from=- 
 
-# SingleVerdaccio
-find /verdaccio/storage ! -name "package.json" -ctime -14 -type f -print0  | tar czf /opt/$(echo $npmdate)_storage_nopack_45.tar.gz --files-from=- 
+# # SingleVerdaccio
+# find /verdaccio/storage ! -name "package.json" -ctime -14 -type f -print0  | tar czf /opt/$(echo $npmdate)_storage_nopack_45.tar.gz --files-from=- 
 
 # Linux Version of Docker Verdaccio
 sudo su
 npmdate=$(date '+%Y%m%d')
 # mkdir -p /opt/transfer/$(echo $npmdate)
-mkdir -p /opt/verdaccio/transfer/$(echo $npmdate)
-find /verdaccio/storage ! -name "package.json" -ctime -14 -type f -print0  | tar czf /opt/verdaccio/transfer/$(echo $npmdate)/$(echo $npmdate)_storage_nopack.tar.gz --files-from=- 
-7z -psimnet1 a /opt/verdaccio/transfer/$(echo $npmdate)/$(echo $npmdate)_storage_nopack.tar.7z /opt/verdaccio/transfer/$(echo $npmdate)/
+mkdir -p /opt/transfer/$(echo $npmdate)
+find /opt/verdaccio/storage ! -name "package.json" -ctime -4 -type f -print0  | tar czf /opt/transfer/$(echo $npmdate)/$(echo $npmdate)_storage_nopack.tar.gz --files-from=- 
+7z -psimnet1 a /opt/transfer/$(echo $npmdate)/$(echo $npmdate)_storage_nopack.tar.7z /opt/transfer/$(echo $npmdate)/
 
-rm -f /opt/verdaccio/transfer/$(echo $npmdate)/$(echo $npmdate)_storage_nopack.tar.gz
+# rm -f /opt/transfer/$(echo $npmdate)/$(echo $npmdate)_storage_nopack.tar.gz
+
+docker run --name golang_dev -it golang_dev:20240531 bash
+
+docker cp /opt/transfer/$(echo $npmdate)/$(echo $npmdate)_storage_nopack.tar.7z golang_dev:/opt/transfer
 
 # find /mnt/d/Transfer/ToMove/nodepack -ctime -7 -type f -print0 | tar czf /mnt/d/Transfer/Prep/$(echo $npmdate)_nodepack.tar.gz --null --files-from=- 
 # find /mnt/d/.pnpm-store/v3 -ctime -7 -type f -print0 | tar czf /mnt/d/Transfer/Prep/$(echo $npmdate)_pnpm.tar.gz --null --files-from=- 

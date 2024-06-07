@@ -2,7 +2,7 @@
 FROM golang:latest
 
 # Set the working directory inside the container
-WORKDIR /app
+WORKDIR /
 
 # Install Node.js and npm
 # RUN apt-get update && apt-get install -y curl \
@@ -11,6 +11,11 @@ WORKDIR /app
 #     && npm install -g npm
 RUN apt-get update && apt-get install -y curl \
     && apt-get install -y npm 
+# RUN apt-get update && apt-get install -y curl 
+
+# RUN wget https://nodejs.org/dist/v20.14.0/node-v20.14.0-linux-x64.tar.xz -O /root/node-linux-x64.tar.xz && tar --strip 1 -xvf /root/node-linux-x64.tar.xz -C /usr/
+# RUN tar --strip 1 -xvf /tmp/node-linux-x64.tar.xz -C /usr/
+
 # Install TypeScript globally
 RUN npm install -g typescript
 
@@ -21,6 +26,9 @@ RUN npm -v
 RUN tsc -v
 
 RUN mkdir -p /root/.vscode-server/extensions
+
+# Set the working directory inside the container
+WORKDIR /app
 
 # Set the default command
 CMD ["bash"]

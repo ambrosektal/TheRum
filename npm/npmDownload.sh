@@ -1,5 +1,6 @@
 #!/bin/bash
 
+# SimpleNPMDownload -f "/root/TheRum/npmPackageFiles/others/g_test.txt" 
 # SimpleNPMDownload -f "/root/TheRum/npmPackageFiles/requests/vmware.txt"
 # SimpleNPMDownload -f "/root/TheRum/npmPackageFiles/requests/react.txt"
 # SimpleNPMDownload -f "/root/TheRum/npmPackageFiles/requests/svelte.txt"
@@ -32,7 +33,6 @@
 # SimpleNPMDownload -f "/root/TheRum/npmPackageFiles/requests/mdxeditor.txt" 
 # SimpleNPMDownload -f "/root/TheRum/npmPackageFiles/requests/rehyperemark.txt" 
 # SimpleNPMDownload -f "/root/TheRum/npmPackageFiles/others/needsUpdates.txt" 
-# SimpleNPMDownload -f "/root/TheRum/npmPackageFiles/others/g_test.txt" 
 # SimpleNPMDownload -f "/root/TheRum/npmPackageFiles/requests/testing.txt" 
 # SimpleNPMDownload -f "/root/TheRum/npmPackageFiles/TopLists/TopPackages20230227.txt" 
 
@@ -50,12 +50,18 @@
 # IT FINALLY WORKS!!!!!!!!!! IT WAS A HIDDEN RETURN CHARACTER IN THE TEXT FILES!!!!!!!!!!!!
 
 
+# "/root/TheRum/npmPackageFiles/others/g_test.txt" 
+# "/root/TheRum/npmPackageFiles/requests/svelte.txt"
+# "/root/TheRum/npmPackageFiles/requests/bun.txt" 
+# "/root/TheRum/npmPackageFiles/requests/vite.txt" 
+# "/root/TheRum/npmPackageFiles/requests/vitejs.txt" 
+# SimpleNPMDownload -f "/root/TheRum/npmPackageFiles/requests/nettest.txt" 
+
 function SimpleNPMDownload() {
     local InstallDirectory="/root/tempnode"
     local Registry="http://192.168.0.40:4873/"
     local PackageListTxtFile=""
     local DirectoryOfPackageListTxtFiles=""
-
     # Parse named arguments
     while getopts ":f:d:i:r:" opt; do
         case $opt in
@@ -68,32 +74,24 @@ function SimpleNPMDownload() {
         esac
     done
     shift $((OPTIND-1))
-
     local txtfiles=()
-
     if [ -n "$PackageListTxtFile" ]; then
         txtfiles=("$PackageListTxtFile")
     elif [ -n "$DirectoryOfPackageListTxtFiles" ]; then
         readarray -t txtfiles < <(find "$DirectoryOfPackageListTxtFiles" -maxdepth 1 -type f)
     fi
-
     if [ ${#txtfiles[@]} -eq 0 ]; then
         echo "Must provide a package list file or a directory of text files." >&2
         return 1
     fi
-
     echo "Number of txtfiles: ${#txtfiles[@]}"
     echo "Text Files: ${txtfiles[*]}"
-
     InstallDirectory="${InstallDirectory%/}"
     mkdir -p "$InstallDirectory" || { echo "Could not create directory $InstallDirectory"; return 1; }
     cd "$InstallDirectory" || { echo "Failed to change directory"; return 1; }
-
     unclean_packages=$(cat "${txtfiles[@]}" | tr '\\' '/' | sed 's/[^a-zA-Z0-9@/-]//g')
     clean_packages=$(echo "$unclean_packages" | sort -u)
-
     echo "In the correct directory: $(pwd)"
-
     # Prepare npm install function
     npm_install() {
         local package=$1
@@ -106,7 +104,6 @@ function SimpleNPMDownload() {
             echo "Directory creation failed: $temp_dir" >&2
             return 1
         fi
-
         pushd "$temp_dir" > /dev/null 2>&1
         npm install "$package@latest" --force --registry "$Registry" --prefix "$temp_dir" &&
         rm -rf "$temp_dir/node_modules" &&
@@ -115,17 +112,13 @@ function SimpleNPMDownload() {
             npm audit fix --force --registry "$Registry"
         }
         popd > /dev/null 2>&1
-
         rm -rf "$temp_dir"
     }
-
     export -f npm_install
     export InstallDirectory
     export Registry
-
     # Use xargs to run npm installations in parallel
     echo "$clean_packages" | xargs -P 10 -I {} bash -c 'npm_install "$@"' _ {}
-
     # Unset exported functions and variables
     unset -f npm_install
     # unset InstallDirectory Registry PackageListTxtFile DirectoryOfPackageListTxtFiles
