@@ -73,16 +73,29 @@ docker run -d -it --rm -v D:\\Volumes\\golang\\Projects:/app -v D:\\Volumes\\gol
 # Linux
 
 # Docker command to start ambrosektal/golang-dev:20240515 with volumes mounted at /app, and /root/.vscode-server/extensions
-docker run -d --name golang_dev -it --rm -v /home/ambrose/volumes/golang/Projects:/app -v /home/ambrose/volumes/golang/Projects/vscode-server/extensions:/root/.vscode-server/extensions ambrosektal/golang-dev:20240522
+docker run -d --name golang_dev -it --rm `
+  -v /home/ambrose/volumes/golang/Projects:/app `
+  -v /home/ambrose/volumes/golang/vscode-server/extensions:/root/.vscode-server/extensions `
+  ambrosektal/golang-dev:20240522
 
 # Docker command to start node with volumes mounted at /app, and /root/.vscode-server/extensions
-docker run -d -it --rm -v ~/volumes/node/Projects:/app -v ~/volumes/node/Projects/vscode-server/extensions:/root/.vscode-server/extensions node:latest
+docker run -d -it --rm \
+  -v ~/volumes/node/Projects:/app \
+  -v ~/volumes/node/vscode-server/extensions:/root/.vscode-server/extensions \
+  node:latest
 
 
 
 # Docker command to start ambrosektal/node@latest for pulling updated node packages from local verdaccio
 # docker run -d -it --rm ambrosektal/nodetemp:latest bash
 docker run -it --rm -v ~/TheRum:/root/TheRum ambrosektal/nodetemp:latest bash
+
+
+# Docker command to start mcr.microsoft.com/dotnet/sdk:latest with volumes mounted at /app, and /root/.vscode-server/extensions
+docker run -d --name dotnet_dev -it --rm \
+  -v /home/ambrose/volumes/dotnet/Projects:/app \
+  -v /home/ambrose/volumes/dotnet/vscode-server/extensions:/root/.vscode-server/extensions \
+  mcr.microsoft.com/dotnet/sdk:latest
 
 
 
