@@ -638,3 +638,37 @@ ruby 2.7.8
 gem install rails -v 5.2.2 --path '/opt/repo'
 nodejs >= 18
 @rails/webpacker ^5.4.4
+
+
+
+##################################################
+##
+##            DOCKER OLLAMA
+##
+##################################################
+
+# docker pull ollama/ollama
+# docker pull nvidia/cuda:12.5.0-devel-ubuntu22.04
+
+# docker run -it --gpus all nvidia/cuda:12.5.0-devel-ubuntu20.04 nvidia-smi
+# docker run -d -v ollama:/root/.ollama -p 11434:11434 --name ollama ollama/ollama
+
+# docker run --rm -d -v ollama:/root/.ollama -p 11434:11434 --gpus all --name ollama ollama/ollama
+# docker run --rm -d -v ollama:/root/.ollama -p 11434:11434 --gpus all --name ollama nvidia/cuda:12.5.0-devel-ubuntu22.04
+# docker run --rm -d -v ollama:/root/.ollama -p 11434:11434 --gpus all --name ollama nvidia/cuda:12.5.0-devel-ubuntu22.04
+
+# docker run --rm -d --gpus=all -v ollama:/root/.ollama -p 11434:11434 --name ollama ollama/ollama
+
+# docker run --rm -d --device /dev/kfd --device /dev/dri -v ollama:/root/.ollama -p 11434:11434 --name ollama ollama/ollama:rocm
+# docker run --rm --gpus all -d --device /dev/kfd --device /dev/dri -v ollama:/root/.ollama -p 11434:11434 --name ollama ollama/ollama:rocm
+# docker run --rm --gpus all -d -v ollama:/root/.ollama -p 11434:11434 --name ollama ollama/ollama:rocm
+docker run -it -d -v ollama:/root/.ollama -p 11434:11434 --name ollama ollama/ollama
+
+
+# docker exec -it ollama ollama run llama3
+docker exec -it ollama ollama run qwen2
+
+# docker exec -it ollama bash
+
+
+
